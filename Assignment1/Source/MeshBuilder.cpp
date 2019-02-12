@@ -183,7 +183,7 @@ Mesh* MeshBuilder::GenerateSphere(const std::string &meshName, Color color, GLfl
 
 Mesh* MeshBuilder::GenerateOBJ(const std::string &meshName, const bool rigidBody)
 {
-	std::string obj = "OBJ//" + meshName + ".obj";
+	std::string obj = "Object//" + meshName + ".obj";
 	// std::string tex = "Image//" + meshName + ".tga";
 
 	std::vector<Position> vertices;

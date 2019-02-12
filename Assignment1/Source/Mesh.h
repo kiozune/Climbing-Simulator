@@ -31,7 +31,7 @@ class Mesh
 	unsigned colorBuffer;
 	unsigned indexBuffer;
 	unsigned textureBuffer;
-
+	
 	unsigned indexSize;
 
 	// name of model
