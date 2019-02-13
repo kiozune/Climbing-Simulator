@@ -28,6 +28,9 @@
     <Filter Include="Camera&amp;Lighting">
       <UniqueIdentifier>{576789d4-1608-4d58-86b0-8239b59943fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Physics">
+      <UniqueIdentifier>{3cc4098a-b3ed-41c0-954b-34b7cf1a6d78}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Camera.cpp">
@@ -69,6 +72,21 @@
     <ClCompile Include="Source\shader.cpp">
       <Filter>Utlity</Filter>
     </ClCompile>
+    <ClCompile Include="Source\PhysicsManager.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Object.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Bone.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Joint.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+PartsRender.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Light.h">
@@ -109,6 +127,18 @@
     </ClInclude>
     <ClInclude Include="Source\shader.hpp">
       <Filter>Utlity</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PhysicsManager.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Object.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Bone.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Joint.h">
+      <Filter>Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

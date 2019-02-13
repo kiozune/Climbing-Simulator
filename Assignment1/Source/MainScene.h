@@ -4,6 +4,7 @@
 #define LSPEED 10.0f
 
 #include "Scene.h"
+#include "PhysicsManager.h"
 
 #define LIGHT_COUNT 1
 
@@ -14,6 +15,8 @@ class MainScene : public Scene
 		TEXT,
 		LIGHT,
 		SKY_BOX,
+
+		CUBE,
 
 		NUM_GEOMETRY,
 	};
@@ -42,6 +45,7 @@ class MainScene : public Scene
 	float elapseTime = 0;
 	float bounceTime; // for key press inputs
 
+	PhysicsManager* manager = PhysicsManager::getInstance();
 
 	// applies material to geometry selected
 	void applyMaterial(Mesh*);
@@ -52,6 +56,9 @@ class MainScene : public Scene
 	void initText();
 	void renderText(Mesh* mesh, const std::string text, Color color);
 	void renderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
+
+	void renderBone(Bone*);
+	void renderJoint(Joint*);
 
 public:
 
