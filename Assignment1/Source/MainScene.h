@@ -36,6 +36,11 @@ class MainScene : public Scene
 	Camera camera; // stationary
 
 	Mesh* models[NUM_GEOMETRY];
+	unsigned int frameBuffer;
+	unsigned int renderedTexture;
+	unsigned int renderBufferObject;
+	unsigned int quadVAO, quadVBO;
+	unsigned int frameBufferShader;
 
 	MS modelStack, viewStack, projectionStack;
 
