@@ -1,5 +1,5 @@
 #ifndef JOINT_H
-#define JOINT_h
+#define JOINT_H
 
 #include "Vector3.h"
 
@@ -22,6 +22,8 @@ public:
 	void setCurrent(Vector3);
 	
 	Vector3 getPrevious();
+
+	Vector3 getMomentum();
 
 	void move(Vector3 = Vector3());
 

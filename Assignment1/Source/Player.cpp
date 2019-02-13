@@ -15,3 +15,6 @@ Joint * Player::getRightHand() { return this->rightHand; }
 void Player::setRightHand(Joint* joint) { this->rightHand = joint; }
 void Player::grabRight() { this->rightHand->setFixed(true); }
 void Player::releaseRight() { this->rightHand->setFixed(false); }
+
+Object* Player::getBody() { return this->body; }
+void Player::setBody(Object* obj) { this->body = obj; }

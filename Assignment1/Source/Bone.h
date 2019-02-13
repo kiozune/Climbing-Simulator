@@ -27,6 +27,7 @@ public:
 
 	void constraint();
 	void accelerate(Vector3, float);
+
 };
 
 #endif

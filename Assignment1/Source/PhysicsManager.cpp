@@ -17,14 +17,22 @@ void PhysicsManager::updateObjects()
 		obj->getBone()->constraint();
 }
 
+void PhysicsManager::addSpring(Spring* spr) { this->springs.push_back(spr); }
+
+void PhysicsManager::updateSprings()
+{
+	for (Spring* spr : this->springs)
+		spr->constraint();
+}
+
 void PhysicsManager::applyGravity(float dt) 
 {  
 	for (Object* obj : this->objects) 
-		obj->getBone()->accelerate(Vector3(0, -9.8, 0), dt);
+		obj->getBone()->accelerate(Vector3(0, -g, 0), dt);
 }
 
 void PhysicsManager::applyImpulse(Object* obj, Vector3 force, float dt)
 {
-	obj->applyImpulse(force, dt);
+	obj->applyImpulse( force, dt);
 	this->updateObjects();
 }

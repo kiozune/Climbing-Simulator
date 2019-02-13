@@ -28,6 +28,9 @@ public:
 	void grabRight();
 	void releaseRight();
 
+	Object* getBody();
+	void setBody(Object*);
+
 };
 
 #endif

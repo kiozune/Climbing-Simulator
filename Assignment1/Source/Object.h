@@ -8,11 +8,13 @@ class Object {
 private:
 
 	Bone* bone;
+	const float mass;
 
 public:
 
+	Object(float, Bone* = nullptr);
+
 	Bone * getBone();
-	void setBone(Bone*);
 
 	void applyImpulse(Vector3 force, float dt);
 

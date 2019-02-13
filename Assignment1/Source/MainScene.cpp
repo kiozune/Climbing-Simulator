@@ -18,7 +18,7 @@ void MainScene::Init()
 	projectionStack.LoadMatrix(projection);
 
 	// clear screen and fill with white
-	glClearColor(0.25, 0.25, 0.25, 0);
+	glClearColor(0, 0, 0, 0);
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
@@ -79,25 +79,54 @@ void MainScene::Init()
 	models[CUBE] = MeshBuilder::GenerateCube("CUBE", Color(1, 1, 1), 1, 1, 1);
 	applyMaterial(models[CUBE]);
 
-	camera.Init(Vector3(0, 0, -50), Vector3(0, 1, 0), 0, 90, 10, 10);
+	camera.Init(Vector3(0, 0, -100), Vector3(0, 1, 0), 0, 90, 10, 10);
 
-	Joint* a = new Joint(Vector3(0, 0, 0), true);
-	Joint* b = new Joint(Vector3(5, -5, 5));
-	Joint* c = new Joint(Vector3(10, 0, 5));
+	Joint* chest	 = new Joint(Vector3(0, 0, 0));
+	Joint* leftHand	 = new Joint(Vector3(12, 0, 0));
+	Joint* rightHand = new Joint(Vector3(-12, 0, 0));
+	Joint* head		 = new Joint(Vector3(0, 5, 0));
+	Joint* pelvis	 = new Joint(Vector3(0, -10, 0));
+	Joint* leftFeet  = new Joint(Vector3(5, -20, 0));
+	Joint* rightFeet = new Joint(Vector3(-5, -20, 0));
 
-	p.setLeftHand(a);
-	p.setRightHand(c);
+	p.setLeftHand(leftHand);
+	p.setRightHand(rightHand);
 
-	Bone* bone1 = new Bone(a, b);
-	Bone* bone2 = new Bone(b, c);
-	Object* obj1 = new Object; obj1->setBone(bone1);
-	Object* obj2 = new Object; obj2->setBone(bone2);
-	
-	p.setLeftArm(obj1);
-	p.setRightArm(obj2);
+	Object* leftArm  = new Object(25, new Bone(chest, leftHand));
+	Object* rightArm = new Object(25, new Bone(chest, rightHand));
+	Object* neck	 = new Object(25, new Bone(chest, head));
+	Object* body	 = new Object(25, new Bone(chest, pelvis));
+	Object* leftLeg  = new Object(25, new Bone(pelvis, leftFeet));
+	Object* rightLeg = new Object(25, new Bone(pelvis, rightFeet));
 
-	manager->addObject(obj1);
-	manager->addObject(obj2);
+	p.setLeftArm(leftArm);
+	p.setRightArm(rightArm);	
+	p.setBody(body);
+
+	manager->addObject(leftArm);
+	manager->addObject(rightArm);
+	manager->addObject(neck);
+	manager->addObject(body);
+	manager->addObject(leftLeg);
+	manager->addObject(rightLeg);
+
+	Spring* topLeft = new Spring(head, leftHand, 0.2, 1.5, 0.2);
+	Spring* topRight = new Spring(head, rightHand, 0.2, 1.5, 0.2);
+	Spring* mid = new Spring(head, pelvis, 1, 1, 0.2);
+	Spring* midLeft = new Spring(pelvis, leftHand, 0.2, 1.5, 0.2);
+	Spring* midRight = new Spring(pelvis, rightHand, 0.2, 1.5, 0.2);
+	Spring* bottom = new Spring(leftFeet, rightFeet, 0.2, 1, 0.2);
+	Spring* bottomLeft = new Spring(chest, leftFeet, 0.6, 1, 0.2);
+	Spring* bottomRight = new Spring(chest, rightFeet, 0.6, 1, 0.2);
+
+	manager->addSpring(topLeft);
+	manager->addSpring(topRight);
+	manager->addSpring(mid);
+	manager->addSpring(midLeft);
+	manager->addSpring(midRight);
+	manager->addSpring(bottom);
+	manager->addSpring(bottomLeft);
+	manager->addSpring(bottomRight);
 }
 
 void MainScene::Update(double dt)
@@ -140,7 +169,7 @@ void MainScene::Update(double dt)
 	Vector3 diff = prevMousePosition - curr;
 	prevMousePosition = curr;
 
-	Vector3 impulse = Vector3(diff.x / 20.0, 0, diff.y / 20.0);
+	Vector3 impulse = Vector3(diff.x, diff.Length(), diff.y);
 
 	if (p.getLeftHand()->isFixed())
 		manager->applyImpulse(p.getRightArm(), impulse, dt);
@@ -150,6 +179,8 @@ void MainScene::Update(double dt)
 
 	//if (Application::IsKeyPressed('G'))
 	manager->applyGravity(dt);
+	manager->updateObjects();
+	manager->updateSprings();
 
 	camera.move(dt);
 }

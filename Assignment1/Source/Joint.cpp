@@ -7,12 +7,20 @@ Joint::Joint(Vector3 position, bool fixed)
 }
 
 bool Joint::isFixed() { return this->fixed; }
-void Joint::setFixed(bool b) { this->fixed = b; }
+
+void Joint::setFixed(bool b) 
+{ 
+	if (fixed != b)
+		this->previous = this->current;
+	this->fixed = b; 
+}
 
 Vector3 Joint::getCurrent() { return this->current; }
 void Joint::setCurrent(Vector3 position) { this->current = position; }
 
 Vector3 Joint::getPrevious() { return this->previous; }
+
+Vector3 Joint::getMomentum() { return this->current - this->previous; }
 
 void Joint::move(Vector3 offset)
 {

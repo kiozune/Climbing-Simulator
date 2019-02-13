@@ -1,4 +1,5 @@
 #include "Bone.h"
+
 #include "Utility.h"
 
 void Bone::update()
@@ -7,13 +8,7 @@ void Bone::update()
 	Vector3 diff = a - b;
 	this->rotation.x = diff.y == 0 ? 0 : atan(diff.z / diff.y);
 	this->rotation.y = rad(180) - (diff.x == 0 ? 0 : atan(diff.z / diff.x));
-	this->rotation.z = rad(90)  + (diff.y == 0 ? 0 : atan(diff.x / diff.y));
-
-	std::cout << a.x << ' ' << a.y << ' ' << a.z << '\n';
-	std::cout << b.x << ' ' << b.y << ' ' << b.z << '\n';
-	std::cout << deg(rotation.x) << ' ' << deg(rotation.y) << ' ' << deg(rotation.z) << "\n\n";
-
-	//std::cout << diff.x << ' ' << diff.y << ' ' << diff.z << std::endl;
+	this->rotation.z = rad(90)  + (diff.y == 0 ? rad(90) : atan(diff.x / diff.y));
 
 	this->center.x = a.x - diff.x / 2.0;
 	this->center.y = a.y - diff.y / 2.0;

@@ -93,6 +93,9 @@
     <ClCompile Include="Source\MainScene+PartsRender.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Spring.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Light.h">
@@ -148,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="Source\Player.h">
       <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Spring.h">
+      <Filter>Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
