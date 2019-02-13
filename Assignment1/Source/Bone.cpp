@@ -63,7 +63,7 @@ void Bone::constraint()
 		end->setCurrent(end->getCurrent() + diff);
 	}
 	
-
+	this->update();
 }
 
 void Bone::accelerate(Vector3 a, float dt)
@@ -71,5 +71,4 @@ void Bone::accelerate(Vector3 a, float dt)
 	if (!start->isFixed()) start->move(a * dt);
 	if (!end->isFixed()) end->move(a * dt);
 	this->constraint();
-	this->update();
 }

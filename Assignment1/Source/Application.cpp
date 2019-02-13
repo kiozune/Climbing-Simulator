@@ -13,8 +13,6 @@ GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
 
-double mouseX, mouseY;
-
 //Define an error callback
 static void error_callback(int error, const char* description)
 {
@@ -37,6 +35,13 @@ void resize_callback(GLFWwindow* window, int w, int h)
 bool Application::IsKeyPressed(unsigned short key)
 {
     return ((GetAsyncKeyState(key) & 0x8001) != 0);
+}
+
+Vector3 Application::GetMousePosition()
+{
+	double mouseX, mouseY;
+	glfwGetCursorPos(m_window, &mouseX, &mouseY);
+	return Vector3(mouseX, mouseY);
 }
 
 Application::Application()
@@ -108,8 +113,6 @@ void Application::Run()
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{
 		scene->Update(m_timer.getElapsedTime());
-		glfwGetCursorPos(m_window, &mouseX, &mouseY);
-		scene->getCamera().lookAround(mouseX, mouseY);
 		scene->Render();
 		//Swap buffers
 		glfwSwapBuffers(m_window);

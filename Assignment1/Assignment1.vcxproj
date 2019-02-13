@@ -150,6 +150,7 @@
     <ClCompile Include="Source\Object.cpp" />
     <ClCompile Include="Source\PhysicsManager.cpp" />
     <ClCompile Include="Source\Joint.cpp" />
+    <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\Scene.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="Source\Object.h" />
     <ClInclude Include="Source\PhysicsManager.h" />
     <ClInclude Include="Source\Joint.h" />
+    <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\Utility.h" />

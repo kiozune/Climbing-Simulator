@@ -31,6 +31,9 @@
     <Filter Include="Physics">
       <UniqueIdentifier>{3cc4098a-b3ed-41c0-954b-34b7cf1a6d78}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects">
+      <UniqueIdentifier>{2bc44770-dd21-437f-9bb9-465bb9c9f556}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Camera.cpp">
@@ -84,8 +87,11 @@
     <ClCompile Include="Source\Joint.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Player.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
     <ClCompile Include="Source\MainScene+PartsRender.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="Source\Joint.h">
       <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player.h">
+      <Filter>GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

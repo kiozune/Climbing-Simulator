@@ -18,7 +18,7 @@ void MainScene::renderBone(Bone* bone)
 		modelStack.PushMatrix(); 
 		{
 			modelStack.Scale(bone->getLength(), 0.5, 0.5);
-			renderMesh(models[CUBE]);
+			renderMesh(models[CUBE], true);
 		}
 		modelStack.PopMatrix();
 	}
@@ -32,7 +32,7 @@ void MainScene::renderJoint(Joint* joint)
 	{
 		modelStack.Translate(position.x, position.y, position.z);
 		modelStack.Scale(1.5, 1.5, 1.5);
-		renderMesh(models[CUBE]);
+		renderMesh(models[CUBE], true);
 	}
 	modelStack.PopMatrix();
 }

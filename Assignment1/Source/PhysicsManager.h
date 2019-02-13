@@ -12,17 +12,19 @@ private:
 
 	static PhysicsManager* instance;
 
-	std::vector<Object> objects;
+	std::vector<Object*> objects;
 
 public:
 
 	
 	static PhysicsManager * getInstance();
 
-	std::vector<Object> getObjects();
-	void addObject(Object);
+	std::vector<Object*> getObjects();
+	void addObject(Object*);
+	void updateObjects();
 
 	void applyGravity(float);
+	void applyImpulse(Object*, Vector3, float);
 };
 
 #endif

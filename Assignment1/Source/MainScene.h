@@ -6,6 +6,8 @@
 #include "Scene.h"
 #include "PhysicsManager.h"
 
+#include "Player.h"
+
 #define LIGHT_COUNT 1
 
 class MainScene : public Scene
@@ -46,6 +48,10 @@ class MainScene : public Scene
 	float bounceTime; // for key press inputs
 
 	PhysicsManager* manager = PhysicsManager::getInstance();
+
+	Vector3 prevMousePosition;
+
+	Player p;
 
 	// applies material to geometry selected
 	void applyMaterial(Mesh*);

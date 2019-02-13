@@ -16,6 +16,7 @@ public:
 	Joint(Vector3 = Vector3(), bool = false);
 
 	bool isFixed();
+	void setFixed(bool);
 
 	Vector3 getCurrent();
 	void setCurrent(Vector3);

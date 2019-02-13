@@ -14,6 +14,8 @@ public:
 	Bone * getBone();
 	void setBone(Bone*);
 
+	void applyImpulse(Vector3 force, float dt);
+
 };
 
 #endif
