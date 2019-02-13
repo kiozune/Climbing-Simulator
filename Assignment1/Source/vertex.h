@@ -26,7 +26,7 @@ struct TexCoord
 
 struct Vertex 
 { 
-	Position pos;
+	Position position;
 	Color color; 
 	Vector3 normal;
 	TexCoord texCoord;

@@ -42,9 +42,9 @@ Camera::~Camera() {}
 		turnSpeed
 
 */
-void Camera::Init(const Vector3& pos, const Vector3& worldUp, const GLfloat startPitch, const GLfloat startYaw, const GLfloat moveSpeed, const GLfloat turnSpeed)
+void Camera::Init(const Vector3& position, const Vector3& worldUp, const GLfloat startPitch, const GLfloat startYaw, const GLfloat moveSpeed, const GLfloat turnSpeed)
 {
-	this->position = pos;
+	this->position = position;
 	this->worldUp = worldUp;
 
 	this->moveSpeed = moveSpeed;
@@ -65,9 +65,9 @@ void Camera::Init(const Vector3& pos, const Vector3& worldUp, const GLfloat star
 		target : point that camera is facing
 
 */
-void Camera::Init(const Vector3& pos, const Vector3& worldUp, const Vector3& target)
+void Camera::Init(const Vector3& position, const Vector3& worldUp, const Vector3& target)
 {
-	this->position = pos;
+	this->position = position;
 	this->worldUp = this->up = worldUp;
 	this->target = target;
 
@@ -93,8 +93,8 @@ void Camera::setTarget(Vector3 target) {
 	this->target = target;
 }
 
-void Camera::setPosition(Vector3 pos) {
-	this->position = pos;
+void Camera::setPosition(Vector3 position) {
+	this->position = position;
 }
 
 void Camera::move(const double dt) {
