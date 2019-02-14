@@ -13,12 +13,9 @@ void MainScene::renderObject(Object* obj)
 		modelStack.Rotate(deg(r.y), 0, 1, 0);
 		modelStack.Rotate(deg(r.z), 0, 0, 1);
 
-		modelStack.PushMatrix(); 
-		{
-			modelStack.Scale(obj->getLength(), 2, 2);
-			renderMesh(models[CUBE], true);
-		}
-		modelStack.PopMatrix();
+		Vector3 s = obj->getScale();
+		modelStack.Scale(s.x, s.y, s.z);
+		renderMesh(models[CUBE], true);
 	}
 	modelStack.PopMatrix();
 }

@@ -23,18 +23,34 @@ Object::Object(Joint* start, Joint* end, float mass)
 	this->start = start;
 	this->end = end;
 
+	this->mass = mass;
 	this->length = (end->getCurrent() - start->getCurrent()).Length();
+	this->scale = Vector3(this->length, 2, 2);
 	
 	this->bb.setVertces(Vector3(0.5, 0.5, 0.5), Vector3(-0.5, -0.5, -0.5));
-	this->bb.setScale(this->length, 2, 2);
+	this->bb.setScale(this->scale.x, this->scale.y, this->scale.z);
 	
+	this->update();
+}
+
+Object::Object(float x, float y, float z, float mass)
+{
+	this->start = nullptr;
+	this->end = nullptr;
+
 	this->mass = mass;
+	this->length = 0;
+	this->scale = Vector3(x, y, z);
+
+	this->bb.setVertces(Vector3(0.5, 0.5, 0.5), Vector3(-0.5, -0.5, -0.5));
+	this->bb.setScale(x, y, z);
+
 	this->update();
 }
 
 Joint* Object::getStart() { return this->start; }
 Joint* Object::getEnd() { return this->end; }
-float Object::getLength() { return this->length; }
+Vector3 Object::getScale() { return this->scale; }
 Vector3 Object::getRotation() { return this->rotation; }
 Vector3 Object::getCenter() { return this->center; }
 BoundingBox Object::getBoundingBox() { return this->bb; }
@@ -46,7 +62,7 @@ void Object::constraint()
 
 	Vector3 diff = b - a;
 	float ll = diff.Length();
-	float fr = ((length - ll) / ll) / 2.0;
+	float fr = ((this->length - ll) / ll) / 2.0;
 
 	diff = diff * fr;
 
