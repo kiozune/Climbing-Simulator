@@ -5,28 +5,45 @@
 BoundingBox* BoundingBox::update()
 {
 	for (int i = 0; i < raw.size(); ++i)
-		transformed[i] = rotation * scale * translation * raw[i];
+		transformed[i] = translation *  rotation * scale * raw[i];
 
 	return this;
 }
 
-BoundingBox::BoundingBox(std::vector<Vector3> v)
+BoundingBox::BoundingBox()
 {
-	this->raw = v;
-	this->transformed = v;
-
 	this->rotation.SetToIdentity();
 	this->scale.SetToIdentity();
 	this->translation.SetToIdentity();
 }
 
-BoundingBox* BoundingBox::setRotation(float x, float y, float z)
+void BoundingBox::setVertces(Vector3 min, Vector3 max)
 {
-	Mtx44 roll; roll.SetToRotation(x, 1, 0, 0);
-	Mtx44 yaw; yaw.SetToRotation(y, 0, 1, 0);
-	Mtx44 pitch; pitch.SetToRotation(z, 0, 0, 1);
+	for (int x = 0; x < 2; ++x)
+	{
+		float xVal = x % 2 ? min.x : max.x;
+		for (int y = 0; y < 2; ++y)
+		{
+			float yVal = y % 2 ? min.y : max.y;
+			for (int z = 0; z < 2; ++z)
+			{
+				float zVal = z % 2 ? min.z : max.z;
+				this->raw.push_back(Vector3(xVal, yVal, zVal));
+				this->transformed.push_back(Vector3(xVal, yVal, zVal));
+			}
+		}
+	}
+	this->update();
+}
 
-	this->rotation = roll * yaw * pitch;
+std::vector<Vector3> BoundingBox::getVertices() { return this->transformed; }
+
+BoundingBox* BoundingBox::setRotation(float y, float z)
+{
+	Mtx44 yaw; yaw.SetToRotation(deg(y), 0, 1, 0);
+	Mtx44 pitch; pitch.SetToRotation(deg(z), 0, 0, 1);
+
+	this->rotation = yaw * pitch;
 
 	return this->update();
 }

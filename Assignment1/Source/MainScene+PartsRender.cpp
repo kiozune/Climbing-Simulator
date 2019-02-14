@@ -12,8 +12,6 @@ void MainScene::renderObject(Object* obj)
 
 		modelStack.Rotate(deg(r.y), 0, 1, 0);
 		modelStack.Rotate(deg(r.z), 0, 0, 1);
-		//modelStack.Rotate(deg(r.x), 1, 0, 0);
-		//modelStack.Rotate(90, 0, 0, 1);
 
 		modelStack.PushMatrix(); 
 		{
@@ -35,4 +33,15 @@ void MainScene::renderJoint(Joint* joint)
 		renderMesh(models[CUBE], true);
 	}
 	modelStack.PopMatrix();
+}
+
+void MainScene::renderBoundingBox(BoundingBox bb) 
+{
+	for (Vector3 v : bb.getVertices())
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(v.x, v.y, v.z);
+		renderMesh(models[CUBE]);
+		modelStack.PopMatrix();
+	}
 }

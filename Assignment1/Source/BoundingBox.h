@@ -20,9 +20,12 @@ private:
 
 public:
 
-	BoundingBox(std::vector<Vector3>);
+	BoundingBox();
+
+	void setVertces(Vector3, Vector3);
+	std::vector<Vector3> getVertices();
 	
-	BoundingBox* setRotation(float, float, float);
+	BoundingBox* setRotation(float, float);
 	BoundingBox* setScale(float, float, float);
 	BoundingBox* setTranslation(float, float, float);
 

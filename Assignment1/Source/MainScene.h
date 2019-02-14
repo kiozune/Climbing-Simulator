@@ -65,6 +65,7 @@ class MainScene : public Scene
 
 	void renderObject(Object*);
 	void renderJoint(Joint*);
+	void renderBoundingBox(BoundingBox);
 
 public:
 

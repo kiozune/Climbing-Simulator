@@ -250,8 +250,7 @@ void MainScene::Render()
 	modelStack.Scale(0.5, 0.5, 0.5);
 	for (Object* obj : manager->getObjects()) {
 		renderObject(obj);
-		//renderJoint(obj->getStart());
-		//renderJoint(obj->getEnd());
+		renderBoundingBox(obj->getBoundingBox());
 	}
 }
 
