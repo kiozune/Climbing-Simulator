@@ -60,8 +60,8 @@ void MainScene::renderBlocks()
 		block* temp = current->getNext();
 		modelStack.PushMatrix();
 		{
-			modelStack.Translate(temp->getVector3().x, temp->getVector3().y, temp->getVector3().z);
-			renderMesh(temp->getMesh());
+			modelStack.Translate(current->getVector3().x, current->getVector3().y, current->getVector3().z);
+			renderMesh(current->getMesh());
 		}
 		modelStack.PopMatrix();
 		current = temp;

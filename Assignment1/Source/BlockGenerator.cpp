@@ -27,7 +27,6 @@ void BlockGenerator::generateBlocks(Vector3 startCoord, int maxHeight, int offse
 	{
 		head = temp;
 		tail = temp;
-		delete temp;
 	}
 	block *newTemp = new block;
 	currentPos.y += offsetPos;
