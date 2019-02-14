@@ -57,6 +57,7 @@ Joint* Object::getEnd() { return this->end; }
 Vector3 Object::getScale() { return this->scale; }
 Vector3 Object::getRotation() { return this->rotation; }
 Vector3 Object::getCenter() { return this->center; }
+Vector3 Object::getMomentum() { return this->velocity * this->mass; };
 BoundingBox& Object::getBoundingBox() { return this->bb; }
 bool Object::isAffectByGravity() { return this->affectByGravity; }
 
@@ -108,11 +109,13 @@ void Object::accelerate(Vector3 a, float dt)
 		if (!end->isFixed()) end->move(a * dt);
 		this->constraint();
 	}
+
+	this->velocity += a * dt;
 }
 
-void Object::applyImpulse(Vector3 force, float dt)
+void Object::applyImpulse(Vector3 impulse, float dt)
 {
 	if (mass == 0) return;
-	Vector3 a = Vector3(force.x / mass, force.y / mass, force.z / mass);
+	Vector3 a = Vector3(impulse.x / mass, impulse.y / mass, impulse.z / mass);
 	this->accelerate(a, dt);
 }

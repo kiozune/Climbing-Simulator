@@ -15,8 +15,10 @@ private:
 
 	static PhysicsManager* instance;
 
+	std::vector<Object*> others;
 	std::vector<Object*> environment;
 	std::vector<Object*> objects;
+
 	std::vector<Spring*> springs;
 
 public:	
@@ -25,7 +27,7 @@ public:
 
 	std::vector<Object*> getObjects();
 	void addObject(Object*);
-	void updateObjects();
+	void updateObjects(float);
 
 	std::vector<Object*> getEnvironment();
 	void addToEnvironment(Object*);

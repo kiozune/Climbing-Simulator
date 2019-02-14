@@ -13,6 +13,8 @@ private:
 	float mass, length;
 	Vector3 scale, rotation, center;
 
+	Vector3 velocity;
+
 	BoundingBox bb;
 
 	bool affectByGravity;
@@ -29,12 +31,13 @@ public:
 	Vector3 getScale();
 	Vector3 getRotation();
 	Vector3 getCenter();
+	Vector3 getMomentum();
 	BoundingBox& getBoundingBox();
 	bool isAffectByGravity();
 
 	void constraint();
 	void accelerate(Vector3, float);
-	void applyImpulse(Vector3 force, float dt);
+	void applyImpulse(Vector3, float);
 
 };
 

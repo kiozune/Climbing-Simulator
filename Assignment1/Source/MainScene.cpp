@@ -79,7 +79,7 @@ void MainScene::Init()
 	models[CUBE] = MeshBuilder::GenerateCube("CUBE", Color(1, 1, 1), 1, 1, 1);
 	applyMaterial(models[CUBE]);
 
-	camera.Init(Vector3(0, 0, -200), Vector3(0, 1, 0), 0, 90, 10, 10);
+	camera.Init(Vector3(0, 0, -200), Vector3(0, 1, 0), Vector3());
 
 	Joint* chest = new Joint(Vector3(0, 0, 0));
 	Joint* leftWrist = new Joint(Vector3(10, 0, 0));
@@ -94,7 +94,16 @@ void MainScene::Init()
 	p.setLeftFingers(leftFingers);
 	p.setRightFingers(rightFingers);
 
-	float mass = 30, size = 2;
+	std::vector<Joint*> hinges;
+	hinges.push_back(new Joint(Vector3(0, 60, 0), true));
+	for (int i = 1; i < 10; ++i)
+	{
+		hinges.push_back(new Joint(Vector3(0, 60 - i * 10, 0)));
+		Object* chain = new Object(hinges[i - 1], hinges[i], 10, 3);
+		manager->addToEnvironment(chain);
+	}
+
+	float mass = 15, size = 2;
 
 	Object* leftHand = new Object(leftFingers, leftWrist, mass, size + 1);
 	Object* leftArm = new Object(chest, leftWrist, mass, size);
@@ -125,6 +134,9 @@ void MainScene::Init()
 		Object* box = new Object(Vector3(10, 10, 100), Vector3(11 + i * 20, -5 + i * 5, 0), 0, false);
 		manager->addToEnvironment(box);
 	}
+
+	Object* platform = new Object(Vector3(100, 10, 100), Vector3(0, -50, 0), 0, false);
+	//manager->addToEnvironment(platform);
 
 	Spring* topLeft = new Spring(head, leftWrist, 0.2, 1.5, 0.2);
 	Spring* topRight = new Spring(head, rightWrist, 0.2, 1.5, 0.2);
@@ -185,7 +197,7 @@ void MainScene::Update(double dt)
 
 	//if (Application::IsKeyPressed('G'))
 	manager->applyGravity(dt);
-	manager->updateObjects();
+	manager->updateObjects(dt);
 	manager->updateSprings();
 
 	if (Application::IsKeyPressed('Q'))
@@ -203,7 +215,7 @@ void MainScene::Update(double dt)
 	{
 		p.releaseLeft();
 	}
-
+	
 	if (Application::IsKeyPressed('E'))
 	{
 		for (Object* obj : manager->getEnvironment())
@@ -220,7 +232,16 @@ void MainScene::Update(double dt)
 		p.releaseRight();
 	}
 
-	camera.move(dt);
+	Vector3 center = p.getBody()->getCenter();
+	Vector3 offset;
+	if (p.isLeftGrabbing())
+		offset = p.getRightArm()->getCenter() - center;
+	else if (p.isRightGrabbing())
+		offset = p.getLeftArm()->getCenter() - center;
+
+	//camera.move(dt);
+	camera.moveTo(center + Vector3(0, 0, -200) + offset * 10, dt);
+	camera.setTarget(center);
 }
 
 void MainScene::Render()

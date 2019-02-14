@@ -56,6 +56,8 @@ public:
 	void setTarget(Vector3 target);
 	void setPosition(Vector3 pos);
 
+	void moveTo(Vector3, float);
+
 	// move camera based on key events and delta time
 	void move(const double dt);
 	// move camera facing direction base on mouse position

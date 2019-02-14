@@ -5,6 +5,7 @@
 
 class Player 
 {
+
 private:
 
 	Object *leftHand, *rightHand;
@@ -20,6 +21,7 @@ public:
 	void setLeftArm(Object*);
 
 	bool isLeftGrabbing();
+	Joint* getLeftFingers();
 	void setLeftFingers(Joint*);
 	void grabLeft();
 	void releaseLeft();
@@ -31,6 +33,7 @@ public:
 	void setRightArm(Object*);
 
 	bool isRightGrabbing();
+	Joint* getRightFingers();
 	void setRightFingers(Joint*);
 	void grabRight();
 	void releaseRight();

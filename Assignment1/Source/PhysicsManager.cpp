@@ -9,10 +9,26 @@ PhysicsManager* PhysicsManager::getInstance()
 }
 
 std::vector<Object*> PhysicsManager::getObjects() { return this->objects; }
-void PhysicsManager::addObject(Object* obj) { this->objects.push_back(obj); }
 
-void PhysicsManager::updateObjects() 
+void PhysicsManager::addObject(Object* obj) 
+{ 
+	this->objects.push_back(obj); 
+	this->others.push_back(obj);
+}
+
+void PhysicsManager::updateObjects(float dt) 
 {
+	for (Object* obj : others)
+	{
+		for (Object* env : environment)
+		{
+			if (obj->getBoundingBox().didCollideWith(env->getBoundingBox()))
+			{
+				//obj->applyImpulse(-obj->getMomentum(), dt);
+			}
+		}
+	}
+
 	for (Object* obj : this->objects)
 		obj->constraint();
 }
@@ -42,6 +58,6 @@ void PhysicsManager::applyGravity(float dt)
 
 void PhysicsManager::applyImpulse(Object* obj, Vector3 force, float dt)
 {
-	obj->applyImpulse( force, dt);
-	this->updateObjects();
+	obj->applyImpulse(force, dt);
+	this->updateObjects(dt);
 }

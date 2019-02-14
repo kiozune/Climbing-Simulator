@@ -97,6 +97,10 @@ void Camera::setPosition(Vector3 pos) {
 	this->position = pos;
 }
 
+void Camera::moveTo(Vector3 pos, float dt) {
+	this->position += (pos - this->position) * dt;
+}
+
 void Camera::move(const double dt) {
 	GLfloat velocity = moveSpeed * dt;
 
