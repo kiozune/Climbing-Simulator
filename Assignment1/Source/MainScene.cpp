@@ -81,40 +81,46 @@ void MainScene::Init()
 
 	camera.Init(Vector3(0, 0, -100), Vector3(0, 1, 0), 0, 90, 10, 10);
 
-	Joint* chest	 = new Joint(Vector3(0, 0, 0));
-	Joint* leftHand	 = new Joint(Vector3(12, 0, 0));
-	Joint* rightHand = new Joint(Vector3(-12, 0, 0));
-	Joint* head		 = new Joint(Vector3(0, 5, 0));
-	Joint* pelvis	 = new Joint(Vector3(0, -10, 0));
-	Joint* leftFeet  = new Joint(Vector3(5, -20, 0));
+	Joint* chest = new Joint(Vector3(0, 0, 0));
+	Joint* leftWrist = new Joint(Vector3(10, 0, 0));
+	Joint* leftFingers = new Joint(Vector3(12, 0, 0));
+	Joint* rightWrist = new Joint(Vector3(-10, 0, 0));
+	Joint* rightFingers = new Joint(Vector3(-12, 0, 0));
+	Joint* head = new Joint(Vector3(0, 5, 0));
+	Joint* pelvis = new Joint(Vector3(0, -10, 0));
+	Joint* leftFeet = new Joint(Vector3(5, -20, 0));
 	Joint* rightFeet = new Joint(Vector3(-5, -20, 0));
 
-	p.setLeftHand(leftHand);
-	p.setRightHand(rightHand);
+	p.setLeftFingers(leftFingers);
+	p.setRightFingers(rightFingers);
 
-	Object* leftArm  = new Object(25, new Bone(chest, leftHand));
-	Object* rightArm = new Object(25, new Bone(chest, rightHand));
-	Object* neck	 = new Object(25, new Bone(chest, head));
-	Object* body	 = new Object(25, new Bone(chest, pelvis));
-	Object* leftLeg  = new Object(25, new Bone(pelvis, leftFeet));
-	Object* rightLeg = new Object(25, new Bone(pelvis, rightFeet));
+	Object* leftHand = new Object(leftFingers, leftWrist, 25);
+	Object* leftArm = new Object(chest, leftWrist, 25);
+	Object* rightHand = new Object(rightFingers, rightWrist, 25);
+	Object* rightArm = new Object(chest, rightWrist, 25);
+	Object* neck = new Object(chest, head, 25);
+	Object* body = new Object(chest, pelvis, 25);
+	Object* leftLeg = new Object(pelvis, leftFeet, 25);
+	Object* rightLeg = new Object(pelvis, rightFeet, 25);
 
 	p.setLeftArm(leftArm);
 	p.setRightArm(rightArm);	
 	p.setBody(body);
 
+	manager->addObject(leftHand);
 	manager->addObject(leftArm);
+	manager->addObject(rightHand);
 	manager->addObject(rightArm);
 	manager->addObject(neck);
 	manager->addObject(body);
 	manager->addObject(leftLeg);
 	manager->addObject(rightLeg);
 
-	Spring* topLeft = new Spring(head, leftHand, 0.2, 1.5, 0.2);
-	Spring* topRight = new Spring(head, rightHand, 0.2, 1.5, 0.2);
+	Spring* topLeft = new Spring(head, leftWrist, 0.2, 1.5, 0.2);
+	Spring* topRight = new Spring(head, rightWrist, 0.2, 1.5, 0.2);
 	Spring* mid = new Spring(head, pelvis, 1, 1, 0.2);
-	Spring* midLeft = new Spring(pelvis, leftHand, 0.2, 1.5, 0.2);
-	Spring* midRight = new Spring(pelvis, rightHand, 0.2, 1.5, 0.2);
+	Spring* midLeft = new Spring(pelvis, leftWrist , 0.2, 1.5, 0.2);
+	Spring* midRight = new Spring(pelvis, rightWrist, 0.2, 1.5, 0.2);
 	Spring* bottom = new Spring(leftFeet, rightFeet, 0.2, 1, 0.2);
 	Spring* bottomLeft = new Spring(chest, leftFeet, 0.6, 1, 0.2);
 	Spring* bottomRight = new Spring(chest, rightFeet, 0.6, 1, 0.2);
@@ -171,10 +177,10 @@ void MainScene::Update(double dt)
 
 	Vector3 impulse = Vector3(diff.x, diff.Length(), diff.y);
 
-	if (p.getLeftHand()->isFixed())
+	if (p.isLeftGrabbing())
 		manager->applyImpulse(p.getRightArm(), impulse, dt);
 
-	if (p.getRightHand()->isFixed())
+	if (p.isRightGrabbing())
 		manager->applyImpulse(p.getLeftArm(), impulse, dt);
 
 	//if (Application::IsKeyPressed('G'))
@@ -243,24 +249,9 @@ void MainScene::Render()
 
 	modelStack.Scale(0.5, 0.5, 0.5);
 	for (Object* obj : manager->getObjects()) {
-		Bone* bone = obj->getBone();
-		renderBone(bone);
-		renderJoint(bone->getStart());
-		renderJoint(bone->getEnd());
-	}
-
-	if (Application::IsKeyPressed('P'))
-	{
-		Bone* bone = manager->getObjects()[0]->getBone();
-		Vector3 r = bone->getRotation();
-		std::string content = "Angle : " + std::to_string(r.x) + "/" + std::to_string(r.y) + "/" + std::to_string(r.z) + "\n";
-		content += "Length : " + std::to_string(bone-> getLength()) + "\n";
-		Vector3 c = bone->getCenter();
-		content += "Center : " + std::to_string((float)c.x) + "/" + std::to_string((float)c.y) + "/" + std::to_string((float)c.z) + "\n";
-		Vector3 a = bone->getStart()->getCurrent(), b = bone->getEnd()->getCurrent();
-		content += "Start  : " + std::to_string((float)a.x) + "/" + std::to_string((float)a.y) + "/" + std::to_string((float)a.z) + "\n";
-		content += "End    : " + std::to_string((float)b.x) + "/" + std::to_string((float)b.y) + "/" + std::to_string((float)b.z);
-		renderTextOnScreen(models[TEXT], content, Color(1, 1, 1), 2, 2, 2);
+		renderObject(obj);
+		//renderJoint(obj->getStart());
+		//renderJoint(obj->getEnd());
 	}
 }
 

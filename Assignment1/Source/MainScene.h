@@ -63,7 +63,7 @@ class MainScene : public Scene
 	void renderText(Mesh* mesh, const std::string text, Color color);
 	void renderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 
-	void renderBone(Bone*);
+	void renderObject(Object*);
 	void renderJoint(Joint*);
 
 public:

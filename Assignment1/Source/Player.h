@@ -8,23 +8,23 @@ class Player
 private:
 
 	Object *leftArm, *rightArm, *body;
-	Joint *leftHand, *rightHand;
+	Joint *leftFingers, *righFingers;
 
 public:
 
 	Object* getLeftArm();
 	void setLeftArm(Object*);
 
-	Joint * getLeftHand();
-	void setLeftHand(Joint*);
+	bool isLeftGrabbing();
+	void setLeftFingers(Joint*);
 	void grabLeft();
 	void releaseLeft();
 
 	Object* getRightArm();
 	void setRightArm(Object*);
 
-	Joint * getRightHand();
-	void setRightHand(Joint*);
+	bool isRightGrabbing();
+	void setRightFingers(Joint*);
 	void grabRight();
 	void releaseRight();
 

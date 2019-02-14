@@ -1,10 +1,10 @@
 #include "MainScene.h"
 #include "Utility.h"
 
-void MainScene::renderBone(Bone* bone) 
+void MainScene::renderObject(Object* obj) 
 {
-	Vector3 r = bone->getRotation();
-	Vector3 c = bone->getCenter();
+	Vector3 r = obj->getRotation();
+	Vector3 c = obj->getCenter();
 
 	modelStack.PushMatrix();
 	{
@@ -17,7 +17,7 @@ void MainScene::renderBone(Bone* bone)
 
 		modelStack.PushMatrix(); 
 		{
-			modelStack.Scale(bone->getLength(), 2, 2);
+			modelStack.Scale(obj->getLength(), 2, 2);
 			renderMesh(models[CUBE], true);
 		}
 		modelStack.PopMatrix();

@@ -81,9 +81,6 @@
     <ClCompile Include="Source\Object.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Bone.cpp">
-      <Filter>Physics</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Joint.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
@@ -144,9 +141,6 @@
       <Filter>Physics</Filter>
     </ClInclude>
     <ClInclude Include="Source\Object.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Bone.h">
       <Filter>Physics</Filter>
     </ClInclude>
     <ClInclude Include="Source\Joint.h">
