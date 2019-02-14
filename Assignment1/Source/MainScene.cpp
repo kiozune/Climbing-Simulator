@@ -76,8 +76,9 @@ void MainScene::Init()
 	models[SKY_BOX]->applyTexture("Image//skybox.tga");
 	applyMaterial(models[SKY_BOX]);
 
-	camera.Init(Vector3(), Vector3(0, 1, 0), 0, 0, 10, 10);
+	camera.Init(Vector3(0,0,0), Vector3(0, 1, 0), 0, 0, 10, 10);
 
+	blockGen->generateBlocks(Vector3(0, 0, 0), 10, 1, 10);
 }
 
 void MainScene::Update(double dt)
@@ -161,6 +162,8 @@ void MainScene::Render()
 	}
 
 	renderMesh(models[SKY_BOX]);
+	
+	renderBlocks();
 }
 
 void MainScene::Exit()

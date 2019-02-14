@@ -72,10 +72,10 @@
     <ClCompile Include="Source\shader.cpp">
       <Filter>Utlity</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Level.cpp">
+    <ClCompile Include="Source\block.cpp">
       <Filter>LevelGenerator</Filter>
     </ClCompile>
-    <ClCompile Include="Source\LevelGenerator.cpp">
+    <ClCompile Include="Source\BlockGenerator.cpp">
       <Filter>LevelGenerator</Filter>
     </ClCompile>
   </ItemGroup>
@@ -119,10 +119,10 @@
     <ClInclude Include="Source\shader.hpp">
       <Filter>Utlity</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Level.h">
+    <ClInclude Include="Source\block.h">
       <Filter>LevelGenerator</Filter>
     </ClInclude>
-    <ClInclude Include="Source\LevelGenerator.h">
+    <ClInclude Include="Source\BlockGenerator.h">
       <Filter>LevelGenerator</Filter>
     </ClInclude>
   </ItemGroup>

@@ -51,6 +51,24 @@ void MainScene::renderMesh(Mesh* model, bool enableLight) {
 	}
 }
 
+void MainScene::renderBlocks()
+{
+	block* current = blockGen->getHead();
+
+	while (current != blockGen->getTail())
+	{
+		block* temp = current->getNext();
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(temp->getVector3().x, temp->getVector3().y, temp->getVector3().z);
+			renderMesh(temp->getMesh());
+		}
+		modelStack.PopMatrix();
+		current = temp;
+	}
+	
+}
+
 void MainScene::initText() {
 	models[TEXT] = MeshBuilder::GenerateText("TEXT", 16, 16);
 	models[TEXT]->applyTexture("Image//calibri.tga");
