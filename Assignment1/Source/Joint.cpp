@@ -24,7 +24,7 @@ Vector3 Joint::getMomentum() { return this->current - this->previous; }
 
 void Joint::move(Vector3 offset)
 {
-	Vector3 diff = (current - previous + offset) * 0.999;
+	Vector3 diff = (current - previous + offset) * 0.99;
 	this->previous = this->current;
 	this->current += diff;
 }

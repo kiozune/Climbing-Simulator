@@ -19,8 +19,7 @@ private:
 	std::vector<Object*> objects;
 	std::vector<Spring*> springs;
 
-public:
-
+public:	
 	
 	static PhysicsManager * getInstance();
 

@@ -79,13 +79,13 @@ void MainScene::Init()
 	models[CUBE] = MeshBuilder::GenerateCube("CUBE", Color(1, 1, 1), 1, 1, 1);
 	applyMaterial(models[CUBE]);
 
-	camera.Init(Vector3(0, 0, -100), Vector3(0, 1, 0), 0, 90, 10, 10);
+	camera.Init(Vector3(0, 0, -200), Vector3(0, 1, 0), 0, 90, 10, 10);
 
 	Joint* chest = new Joint(Vector3(0, 0, 0));
 	Joint* leftWrist = new Joint(Vector3(10, 0, 0));
-	Joint* leftFingers = new Joint(Vector3(12, 0, 0));
+	Joint* leftFingers = new Joint(Vector3(13, 0, 0));
 	Joint* rightWrist = new Joint(Vector3(-10, 0, 0));
-	Joint* rightFingers = new Joint(Vector3(-12, 0, 0));
+	Joint* rightFingers = new Joint(Vector3(-13, 0, 0));
 	Joint* head = new Joint(Vector3(0, 5, 0));
 	Joint* pelvis = new Joint(Vector3(0, -10, 0));
 	Joint* leftFeet = new Joint(Vector3(5, -20, 0));
@@ -94,16 +94,16 @@ void MainScene::Init()
 	p.setLeftFingers(leftFingers);
 	p.setRightFingers(rightFingers);
 
-	Object* leftHand = new Object(leftFingers, leftWrist, 25);
-	Object* leftArm = new Object(chest, leftWrist, 25);
-	Object* rightHand = new Object(rightFingers, rightWrist, 25);
-	Object* rightArm = new Object(chest, rightWrist, 25);
-	Object* neck = new Object(chest, head, 25);
-	Object* body = new Object(chest, pelvis, 25);
-	Object* leftLeg = new Object(pelvis, leftFeet, 25);
-	Object* rightLeg = new Object(pelvis, rightFeet, 25);
+	float mass = 30, size = 2;
 
-	Object* box = new Object(Vector3(5, 5, 5), Vector3(0, 10, 0), 0, false);
+	Object* leftHand = new Object(leftFingers, leftWrist, mass, size + 1);
+	Object* leftArm = new Object(chest, leftWrist, mass, size);
+	Object* rightHand = new Object(rightFingers, rightWrist, mass, size);
+	Object* rightArm = new Object(chest, rightWrist, mass, size);
+	Object* neck = new Object(chest, head, mass, size);
+	Object* body = new Object(chest, pelvis, mass, size);
+	Object* leftLeg = new Object(pelvis, leftFeet, mass, size);
+	Object* rightLeg = new Object(pelvis, rightFeet, mass, size);
 
 	p.setLeftHand(leftHand);
 	p.setLeftArm(leftArm);
@@ -120,7 +120,11 @@ void MainScene::Init()
 	manager->addObject(leftLeg);
 	manager->addObject(rightLeg);
 
-	manager->addToEnvironment(box);
+	for (int i = 0; i < 5; ++i)
+	{
+		Object* box = new Object(Vector3(10, 10, 100), Vector3(11 + i * 20, -5 + i * 5, 0), 0, false);
+		manager->addToEnvironment(box);
+	}
 
 	Spring* topLeft = new Spring(head, leftWrist, 0.2, 1.5, 0.2);
 	Spring* topRight = new Spring(head, rightWrist, 0.2, 1.5, 0.2);
@@ -167,16 +171,6 @@ void MainScene::Update(double dt)
 	if (Application::IsKeyPressed('9'))
 		dt /= 10;
 
-	p.releaseLeft();
-	p.releaseRight();
-
-	//if (Application::IsKeyPressed('Q'))
-		p.grabLeft();
-
-	if (Application::IsKeyPressed('E'))
-		p.grabRight();
-
-
 	Vector3 curr = Application::GetMousePosition();
 	Vector3 diff = prevMousePosition - curr;
 	prevMousePosition = curr;
@@ -193,6 +187,38 @@ void MainScene::Update(double dt)
 	manager->applyGravity(dt);
 	manager->updateObjects();
 	manager->updateSprings();
+
+	if (Application::IsKeyPressed('Q'))
+	{
+		for (Object* obj : manager->getEnvironment())
+		{
+			if (p.getLeftHand()->getBoundingBox().didCollideWith(obj->getBoundingBox()))
+			{
+				p.grabLeft();
+				break;
+			}
+		}
+	}
+	else
+	{
+		p.releaseLeft();
+	}
+
+	if (Application::IsKeyPressed('E'))
+	{
+		for (Object* obj : manager->getEnvironment())
+		{
+			if (p.getRightHand()->getBoundingBox().didCollideWith(obj->getBoundingBox()))
+			{
+				p.grabRight();
+				break;
+			}
+		}
+	}
+	else
+	{
+		p.releaseRight();
+	}
 
 	camera.move(dt);
 }
@@ -253,16 +279,10 @@ void MainScene::Render()
 	//renderMesh(models[SKY_BOX]);
 	modelStack.PopMatrix();
 
-	modelStack.Scale(0.5, 0.5, 0.5);
 	for (Object* obj : manager->getObjects()) {
 		renderObject(obj);
-		renderBoundingBox(obj->getBoundingBox());
+		//renderBoundingBox(obj->getBoundingBox());
 	}
-
-	BoundingBox& rightHand = p.getRightHand()->getBoundingBox();
-	BoundingBox& box = manager->getEnvironment()[0]->getBoundingBox();
-
-	renderTextOnScreen(models[TEXT], rightHand.didCollideWith(box) ? "YES" : "NO", Color(1, 1, 1), 2, 2, 2);
 }
 
 void MainScene::Exit()

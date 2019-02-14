@@ -21,7 +21,7 @@ private:
 
 public:
 
-	Object(Joint* = nullptr, Joint* = nullptr, float = 0, bool = true);
+	Object(Joint* = nullptr, Joint* = nullptr, float = 0, float = 2);
 	Object(Vector3, Vector3, float = 0, bool = true);
 
 	Joint* getStart();

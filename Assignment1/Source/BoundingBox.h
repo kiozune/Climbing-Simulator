@@ -14,6 +14,10 @@ private:
 	std::vector<Vector3> raw;
 	std::vector<Vector3> transformed;
 
+	Vector3 P, X, Y, Z;
+	float rawW, rawH, rawD;
+	float W, H, D;
+
 	Mtx44 rotation, scale, translation;
 
 	BoundingBox* update();
@@ -22,7 +26,7 @@ public:
 
 	BoundingBox();
 
-	void setVertces(Vector3, Vector3);
+	void setVertices(Vector3, Vector3);
 	std::vector<Vector3> getVertices();
 	
 	BoundingBox* setRotation(float, float);

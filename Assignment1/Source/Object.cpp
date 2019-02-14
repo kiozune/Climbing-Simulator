@@ -13,26 +13,26 @@ void Object::update()
 	this->center.x = a.x - diff.x / 2.0;
 	this->center.y = a.y - diff.y / 2.0;
 	this->center.z = a.z - diff.z / 2.0;
-
+	
 	this->bb.setRotation(this->rotation.y, this->rotation.z);
 	this->bb.setTranslation(this->center);
 }
 
-Object::Object(Joint* start, Joint* end, float mass, bool g)
+Object::Object(Joint* start, Joint* end, float mass, float size)
 {
 	this->start = start;
 	this->end = end;
 
 	this->mass = mass;
 	this->length = (end->getCurrent() - start->getCurrent()).Length();
-	this->scale = Vector3(this->length, 2, 2);
+	this->scale = Vector3(this->length, size, size);
 	
+	this->bb.setVertices(Vector3(0.5, 0.5, 0.5), Vector3(-0.5, -0.5, -0.5));
 	this->bb.setScale(this->scale);
-	this->bb.setVertces(Vector3(0.5, 0.5, 0.5), Vector3(-0.5, -0.5, -0.5));
 
 	this->update();
 
-	this->affectByGravity = g;
+	this->affectByGravity = true;
 }
 
 Object::Object(Vector3 scale, Vector3 center, float mass, bool g)
@@ -45,7 +45,7 @@ Object::Object(Vector3 scale, Vector3 center, float mass, bool g)
 	this->scale = scale;
 	this->center = center;
 
-	this->bb.setVertces(Vector3(0.5, 0.5, 0.5), Vector3(-0.5, -0.5, -0.5));
+	this->bb.setVertices(Vector3(0.5, 0.5, 0.5), Vector3(-0.5, -0.5, -0.5));
 	this->bb.setScale(this->scale);
 	this->bb.setTranslation(this->center);
 
