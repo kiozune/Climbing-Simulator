@@ -96,6 +96,9 @@
     <ClCompile Include="Source\Spring.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
+    <ClCompile Include="Source\BoundingBox.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Light.h">
@@ -154,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="Source\Spring.h">
       <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BoundingBox.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
