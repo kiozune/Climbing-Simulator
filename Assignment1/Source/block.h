@@ -16,10 +16,10 @@ public:
 	Mesh *getMesh();
 
 	void setNext(block *val);
-	void setPervious(block *val);
+	void setPrevious(block *val);
 
 	block *getNext();
-	block *getPervious();
+	block *getPrevious();
 
 	int getMaxTemplate();
 
@@ -30,7 +30,7 @@ public:
 	~block();
 private:
 	block *next;
-	block *pervious;
+	block *previous;
 
 	Mesh* mesh;
 	

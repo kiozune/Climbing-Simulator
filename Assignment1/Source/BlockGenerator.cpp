@@ -22,37 +22,36 @@ void BlockGenerator::generateBlocks(Vector3 startCoord, int maxHeight, int offse
 	block *temp = new block;
 	temp->setVector3(currentPos);
 	temp->setMesh((rand() % NUM_TEMPLATE) + 1);
-	temp->setPervious(nullptr); // starting block doesn't have a pervious block 
+	temp->setPrevious(nullptr); // starting block doesn't have a pervious block 
 	if (head == nullptr)
 	{
 		head = temp;
 		tail = temp;
 		delete temp;
 	}
-	temp = new block;
+	block *newTemp = new block;
 	currentPos.y += offsetPos;
-	temp->setVector3(currentPos);
-	temp->setMesh((rand() % NUM_TEMPLATE) + 1);
-	tail->setNext(temp);
-	temp->setPervious(tail);
-	tail = temp;
-	delete temp;
+	newTemp->setVector3(currentPos);
+	newTemp->setMesh((rand() % NUM_TEMPLATE) + 1);
+	tail->setNext(newTemp);
+	newTemp->setPrevious(tail);
+	tail = newTemp;
 	while (currentPos.y != maxHeight)
 	{
 		if (currentPos.y >= maxHeight) // safety check
 			break;
-		temp = new block;
+		block *temp = new block;
 		switch (int direction = (rand() % 5) + 1) // 1 left 2 right 3 forwad 4 backward 5 upward
 		{
 		case 1: // left
 			// x- 
-			if ((currentPos.x >= -boundary && currentPos.x <= boundary) && currentPos.x != tail->getVector3().x)
+			if ((currentPos.x >= -boundary && currentPos.x <= boundary) && currentPos.x - 1 != tail->getPrevious()->getVector3().x)
 			{
 				currentPos.x -= offsetPos;
 				tail->setNext(temp);
 				temp->setMesh((rand() % NUM_TEMPLATE) + 1);
 				temp->setVector3(currentPos);
-				temp->setPervious(tail);
+				temp->setPrevious(tail);
 				tail = temp;
 			}
 			else
@@ -61,19 +60,19 @@ void BlockGenerator::generateBlocks(Vector3 startCoord, int maxHeight, int offse
 				tail->setNext(temp);
 				temp->setMesh((rand() % NUM_TEMPLATE) + 1);
 				temp->setVector3(currentPos);
-				temp->setPervious(tail);
+				temp->setPrevious(tail);
 				tail = temp;
 			}
 			break;
 		case 2: // right
 			// x +
-			if ( (currentPos.x >= -boundary && currentPos.x <= boundary) && currentPos.x != tail->getVector3().x)
+			if ( (currentPos.x >= -boundary && currentPos.x <= boundary) && currentPos.x + 1 != tail->getPrevious()->getVector3().x)
 			{
 				currentPos.x += offsetPos;
 				tail->setNext(temp);
 				temp->setMesh((rand() % NUM_TEMPLATE) + 1);
 				temp->setVector3(currentPos);
-				temp->setPervious(tail);
+				temp->setPrevious(tail);
 				tail = temp;
 			}
 			else
@@ -82,19 +81,19 @@ void BlockGenerator::generateBlocks(Vector3 startCoord, int maxHeight, int offse
 				tail->setNext(temp);
 				temp->setMesh((rand() % NUM_TEMPLATE) + 1);
 				temp->setVector3(currentPos);
-				temp->setPervious(tail);
+				temp->setPrevious(tail);
 				tail = temp;
 			}
 			break;
 		case 3: // forward
 			// + z
-			if ( (currentPos.z >= -boundary && currentPos.z <= boundary) && currentPos.z != tail->getVector3().z)
+			if ( (currentPos.z >= -boundary && currentPos.z <= boundary) && currentPos.z + 1 != tail->getPrevious()->getVector3().z)
 			{
 				currentPos.z += offsetPos;
 				tail->setNext(temp);
 				temp->setMesh((rand() % NUM_TEMPLATE) + 1);
 				temp->setVector3(currentPos);
-				temp->setPervious(tail);
+				temp->setPrevious(tail);
 				tail = temp;
 			}
 			else
@@ -103,19 +102,19 @@ void BlockGenerator::generateBlocks(Vector3 startCoord, int maxHeight, int offse
 				tail->setNext(temp);
 				temp->setMesh((rand() % NUM_TEMPLATE) + 1);
 				temp->setVector3(currentPos);
-				temp->setPervious(tail);
+				temp->setPrevious(tail);
 				tail = temp;
 			}
 			break;
 		case 4: // backward
 			// - z
-			if ( (currentPos.z >= -boundary && currentPos.z <= boundary) && currentPos.z != tail->getVector3().z )
+			if ( (currentPos.z >= -boundary && currentPos.z <= boundary) && currentPos.z - 1 != tail->getPrevious()->getVector3().z)
 			{
 				currentPos.z -= offsetPos;
 				tail->setNext(temp);
 				temp->setMesh((rand() % NUM_TEMPLATE) + 1);
 				temp->setVector3(currentPos);
-				temp->setPervious(tail);
+				temp->setPrevious(tail);
 				tail = temp;
 			}
 			else
@@ -124,7 +123,7 @@ void BlockGenerator::generateBlocks(Vector3 startCoord, int maxHeight, int offse
 				tail->setNext(temp);
 				temp->setMesh((rand() % NUM_TEMPLATE) + 1);
 				temp->setVector3(currentPos);
-				temp->setPervious(tail);
+				temp->setPrevious(tail);
 				tail = temp;
 			}
 			break;
@@ -134,7 +133,7 @@ void BlockGenerator::generateBlocks(Vector3 startCoord, int maxHeight, int offse
 			tail->setNext(temp);
 			temp->setMesh((rand() % NUM_TEMPLATE) + 1);
 			temp->setVector3(currentPos);
-			temp->setPervious(tail);
+			temp->setPrevious(tail);
 			tail = temp;
 			break;
 		default:

@@ -3,7 +3,7 @@
 block::block()
 {
 	next = nullptr;
-	pervious = nullptr;
+	previous = nullptr;
 
 	mesh = nullptr;
 
@@ -33,9 +33,9 @@ void block::setNext(block * val)
 	next = val;
 }
 
-void block::setPervious(block * val)
+void block::setPrevious(block * val)
 {
-	pervious = val;
+	previous = val;
 }
 
 block * block::getNext()
@@ -43,9 +43,9 @@ block * block::getNext()
 	return next;
 }
 
-block * block::getPervious()
+block * block::getPrevious()
 {
-	return pervious;
+	return previous;
 }
 
 int block::getMaxTemplate()
