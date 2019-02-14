@@ -26,8 +26,10 @@ public:
 	std::vector<Vector3> getVertices();
 	
 	BoundingBox* setRotation(float, float);
-	BoundingBox* setScale(float, float, float);
-	BoundingBox* setTranslation(float, float, float);
+	BoundingBox* setScale(Vector3);
+	BoundingBox* setTranslation(Vector3);
+
+	bool didCollideWith(BoundingBox&);
 
 };
 

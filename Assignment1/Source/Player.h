@@ -7,10 +7,14 @@ class Player
 {
 private:
 
+	Object *leftHand, *rightHand;
 	Object *leftArm, *rightArm, *body;
 	Joint *leftFingers, *righFingers;
 
 public:
+
+	Object* getLeftHand();
+	void setLeftHand(Object*);
 
 	Object* getLeftArm();
 	void setLeftArm(Object*);
@@ -19,6 +23,9 @@ public:
 	void setLeftFingers(Joint*);
 	void grabLeft();
 	void releaseLeft();
+
+	Object* getRightHand();
+	void setRightHand(Object*);
 
 	Object* getRightArm();
 	void setRightArm(Object*);

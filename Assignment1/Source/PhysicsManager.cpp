@@ -17,6 +17,14 @@ void PhysicsManager::updateObjects()
 		obj->constraint();
 }
 
+std::vector<Object*> PhysicsManager::getEnvironment() { return this->environment; }
+
+void PhysicsManager::addToEnvironment(Object* obj)
+{
+	this->environment.push_back(obj);
+	this->objects.push_back(obj);
+}
+
 void PhysicsManager::addSpring(Spring* spr) { this->springs.push_back(spr); }
 
 void PhysicsManager::updateSprings()
@@ -27,8 +35,9 @@ void PhysicsManager::updateSprings()
 
 void PhysicsManager::applyGravity(float dt) 
 {  
-	for (Object* obj : this->objects) 
-		obj->accelerate(Vector3(0, -g, 0), dt);
+	for (Object* obj : this->objects)
+		if (obj->isAffectByGravity())
+			obj->accelerate(Vector3(0, -g, 0), dt);
 }
 
 void PhysicsManager::applyImpulse(Object* obj, Vector3 force, float dt)

@@ -15,6 +15,7 @@ private:
 
 	static PhysicsManager* instance;
 
+	std::vector<Object*> environment;
 	std::vector<Object*> objects;
 	std::vector<Spring*> springs;
 
@@ -26,6 +27,9 @@ public:
 	std::vector<Object*> getObjects();
 	void addObject(Object*);
 	void updateObjects();
+
+	std::vector<Object*> getEnvironment();
+	void addToEnvironment(Object*);
 
 	void addSpring(Spring*);
 	void updateSprings();

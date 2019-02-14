@@ -103,8 +103,12 @@ void MainScene::Init()
 	Object* leftLeg = new Object(pelvis, leftFeet, 25);
 	Object* rightLeg = new Object(pelvis, rightFeet, 25);
 
+	Object* box = new Object(Vector3(5, 5, 5), Vector3(0, 10, 0), 0, false);
+
+	p.setLeftHand(leftHand);
 	p.setLeftArm(leftArm);
-	p.setRightArm(rightArm);	
+	p.setRightHand(rightHand);
+	p.setRightArm(rightArm);
 	p.setBody(body);
 
 	manager->addObject(leftHand);
@@ -115,6 +119,8 @@ void MainScene::Init()
 	manager->addObject(body);
 	manager->addObject(leftLeg);
 	manager->addObject(rightLeg);
+
+	manager->addToEnvironment(box);
 
 	Spring* topLeft = new Spring(head, leftWrist, 0.2, 1.5, 0.2);
 	Spring* topRight = new Spring(head, rightWrist, 0.2, 1.5, 0.2);
@@ -164,7 +170,7 @@ void MainScene::Update(double dt)
 	p.releaseLeft();
 	p.releaseRight();
 
-	if (Application::IsKeyPressed('Q'))
+	//if (Application::IsKeyPressed('Q'))
 		p.grabLeft();
 
 	if (Application::IsKeyPressed('E'))
@@ -252,6 +258,11 @@ void MainScene::Render()
 		renderObject(obj);
 		renderBoundingBox(obj->getBoundingBox());
 	}
+
+	BoundingBox& rightHand = p.getRightHand()->getBoundingBox();
+	BoundingBox& box = manager->getEnvironment()[0]->getBoundingBox();
+
+	renderTextOnScreen(models[TEXT], rightHand.didCollideWith(box) ? "YES" : "NO", Color(1, 1, 1), 2, 2, 2);
 }
 
 void MainScene::Exit()

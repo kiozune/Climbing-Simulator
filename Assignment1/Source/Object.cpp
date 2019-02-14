@@ -14,11 +14,11 @@ void Object::update()
 	this->center.y = a.y - diff.y / 2.0;
 	this->center.z = a.z - diff.z / 2.0;
 
-	bb.setRotation(rotation.y, rotation.z);
-	bb.setTranslation(center.x, center.y, center.z);
+	this->bb.setRotation(this->rotation.y, this->rotation.z);
+	this->bb.setTranslation(this->center);
 }
 
-Object::Object(Joint* start, Joint* end, float mass)
+Object::Object(Joint* start, Joint* end, float mass, bool g)
 {
 	this->start = start;
 	this->end = end;
@@ -27,25 +27,29 @@ Object::Object(Joint* start, Joint* end, float mass)
 	this->length = (end->getCurrent() - start->getCurrent()).Length();
 	this->scale = Vector3(this->length, 2, 2);
 	
+	this->bb.setScale(this->scale);
 	this->bb.setVertces(Vector3(0.5, 0.5, 0.5), Vector3(-0.5, -0.5, -0.5));
-	this->bb.setScale(this->scale.x, this->scale.y, this->scale.z);
-	
+
 	this->update();
+
+	this->affectByGravity = g;
 }
 
-Object::Object(float x, float y, float z, float mass)
+Object::Object(Vector3 scale, Vector3 center, float mass, bool g)
 {
 	this->start = nullptr;
 	this->end = nullptr;
 
 	this->mass = mass;
 	this->length = 0;
-	this->scale = Vector3(x, y, z);
+	this->scale = scale;
+	this->center = center;
 
 	this->bb.setVertces(Vector3(0.5, 0.5, 0.5), Vector3(-0.5, -0.5, -0.5));
-	this->bb.setScale(x, y, z);
+	this->bb.setScale(this->scale);
+	this->bb.setTranslation(this->center);
 
-	this->update();
+	this->affectByGravity = g;
 }
 
 Joint* Object::getStart() { return this->start; }
@@ -53,10 +57,12 @@ Joint* Object::getEnd() { return this->end; }
 Vector3 Object::getScale() { return this->scale; }
 Vector3 Object::getRotation() { return this->rotation; }
 Vector3 Object::getCenter() { return this->center; }
-BoundingBox Object::getBoundingBox() { return this->bb; }
+BoundingBox& Object::getBoundingBox() { return this->bb; }
+bool Object::isAffectByGravity() { return this->affectByGravity; }
 
 void Object::constraint()
 {
+	if (this->start == nullptr) return;
 	Vector3 a = this->start->getCurrent();
 	Vector3 b = this->end->getCurrent();
 
@@ -91,9 +97,17 @@ void Object::constraint()
 
 void Object::accelerate(Vector3 a, float dt)
 {
-	if (!start->isFixed()) start->move(a * dt);
-	if (!end->isFixed()) end->move(a * dt);
-	this->constraint();
+	if (start == nullptr)
+	{
+		this->center += a * dt;
+		this->bb.setTranslation(this->center);
+	}
+	else
+	{
+		if (!start->isFixed()) start->move(a * dt);
+		if (!end->isFixed()) end->move(a * dt);
+		this->constraint();
+	}
 }
 
 void Object::applyImpulse(Vector3 force, float dt)

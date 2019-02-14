@@ -48,17 +48,21 @@ BoundingBox* BoundingBox::setRotation(float y, float z)
 	return this->update();
 }
 
-BoundingBox* BoundingBox::setScale(float x, float y, float z)
+BoundingBox* BoundingBox::setScale(Vector3 s)
 {
-	this->scale.SetToScale(x, y, z);
+	this->scale.SetToScale(s.x, s.y, s.z);
 
 	return this->update();
 }
 
-BoundingBox* BoundingBox::setTranslation(float x, float y, float z)
+BoundingBox* BoundingBox::setTranslation(Vector3 t)
 {
-	this->translation.SetToTranslation(x, y, z);
+	this->translation.SetToTranslation(t.x, t.y, t.z);
 
 	return this->update();
 }
 
+bool BoundingBox::didCollideWith(BoundingBox& bb) 
+{
+	return false;
+}
