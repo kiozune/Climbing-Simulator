@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include "Object.h"
+#include "Spring.h"
 
 class Player 
 {
@@ -10,7 +11,9 @@ private:
 
 	Object *leftHand, *rightHand;
 	Object *leftArm, *rightArm, *body;
+
 	Joint *leftFingers, *righFingers;
+	Spring *leftSpring, *rightSpring;
 
 public:
 
@@ -20,10 +23,12 @@ public:
 	Object* getLeftArm();
 	void setLeftArm(Object*);
 
-	bool isLeftGrabbing();
 	Joint* getLeftFingers();
 	void setLeftFingers(Joint*);
-	void grabLeft();
+
+	Spring** getLeftSpring();
+	bool isLeftGrabbing();
+	void leftGrab(Joint* = nullptr);
 	void releaseLeft();
 
 	Object* getRightHand();
@@ -32,10 +37,12 @@ public:
 	Object* getRightArm();
 	void setRightArm(Object*);
 
-	bool isRightGrabbing();
 	Joint* getRightFingers();
 	void setRightFingers(Joint*);
-	void grabRight();
+
+	Spring** getRightSpring();
+	bool isRightGrabbing();
+	void rightGrab(Joint* = nullptr);
 	void releaseRight();
 
 	Object* getBody();

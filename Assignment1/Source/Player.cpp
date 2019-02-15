@@ -6,11 +6,39 @@ void Player::setLeftHand(Object* obj) { this->leftHand = obj; }
 Object * Player::getLeftArm() { return this->leftArm; }
 void Player::setLeftArm(Object* obj) { this->leftArm = obj; }
 
-bool Player::isLeftGrabbing() { return this->leftFingers->isFixed(); }
 Joint* Player::getLeftFingers() { return this->leftFingers; }
-void Player::setLeftFingers(Joint* joint) { this->leftFingers = joint; }
-void Player::grabLeft() { this->leftFingers->setFixed(true); }
-void Player::releaseLeft() { this->leftFingers->setFixed(false); }
+
+void Player::setLeftFingers(Joint* joint) 
+{ 
+	this->leftFingers = joint; 
+	this->leftSpring = new Spring(this->leftFingers, this->leftFingers, 1, 1, 1);
+	this->leftSpring->disable();
+}
+
+
+
+Spring** Player::getLeftSpring() { return &this->leftSpring; }
+bool Player::isLeftGrabbing() { return this->leftSpring && this->leftSpring->isEnabled(); }
+
+void Player::leftGrab(Joint* joint) 
+{ 
+	if (joint == nullptr)
+	{
+		Joint* fixed = new Joint(*(this->leftFingers));
+		fixed->setFixed(true);
+		this->leftSpring->changeEnd(fixed);
+	}
+	else
+	{
+		this->leftSpring->changeEnd(joint);
+	}
+
+	this->leftSpring->enable();
+}
+
+void Player::releaseLeft() { this->leftSpring->disable(); }
+
+
 
 Object* Player::getRightHand() { return this->rightHand; }
 void Player::setRightHand(Object* obj) { this->rightHand = obj; }
@@ -18,11 +46,39 @@ void Player::setRightHand(Object* obj) { this->rightHand = obj; }
 Object * Player::getRightArm() { return this->rightArm; }
 void Player::setRightArm(Object* obj) { this->rightArm = obj; }
 
-bool Player::isRightGrabbing() { return this->righFingers->isFixed(); }
 Joint* Player::getRightFingers() { return this->righFingers; }
-void Player::setRightFingers(Joint* joint) { this->righFingers = joint; }
-void Player::grabRight() { this->righFingers->setFixed(true); }
-void Player::releaseRight() { this->righFingers->setFixed(false); }
+
+void Player::setRightFingers(Joint* joint) 
+{ 
+	this->righFingers = joint; 
+	this->rightSpring = new Spring(this->righFingers, this->righFingers, 0, 0, 1);
+	this->rightSpring->disable();
+}
+
+
+
+Spring** Player::getRightSpring() { return &this->rightSpring; }
+bool Player::isRightGrabbing() { return this->rightSpring && this->rightSpring->isEnabled(); }
+
+void Player::rightGrab(Joint* joint) 
+{ 
+	if (joint == nullptr)
+	{
+		Joint* fixed = new Joint(*(this->righFingers));
+		fixed->setFixed(true);
+		this->rightSpring->changeEnd(fixed);
+	}
+	else
+	{
+		this->rightSpring->changeEnd(joint);
+	}
+
+	this->rightSpring->enable();
+}
+
+void Player::releaseRight() { this->rightSpring->disable(); }
+
+
 
 Object* Player::getBody() { return this->body; }
 void Player::setBody(Object* obj) { this->body = obj; }

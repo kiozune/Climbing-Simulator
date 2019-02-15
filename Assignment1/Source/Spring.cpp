@@ -8,11 +8,13 @@ Spring::Spring(Joint* start, Joint* end, float min, float max, float c)
 	this->minLength = this->length * min;
 	this->maxLength = this->length * max;
 	this->coef = c;
+	this->enabled = true;
 }
 
 void Spring::constraint() 
 {
-	Vector3 a = start->getCurrent(), b = end->getCurrent();
+	if (!enabled) return;
+ 	Vector3 a = start->getCurrent(), b = end->getCurrent();
 	Vector3 diff = b - a;
 	float ll = diff.Length();
 
@@ -47,3 +49,9 @@ void Spring::constraint()
 		end->setCurrent(end->getCurrent() + diff);
 	}
 }
+
+void Spring::changeEnd(Joint* joint) { this->end = joint; }
+
+void Spring::enable() { this->enabled = true; }
+void Spring::disable() { this->enabled = false; }
+bool Spring::isEnabled() { return this->enabled; }

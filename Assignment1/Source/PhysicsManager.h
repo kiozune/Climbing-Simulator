@@ -21,6 +21,7 @@ private:
 	std::vector<Object*> objects;
 
 	std::vector<Spring*> springs;
+	std::vector<Spring**> externalSprings;
 
 public:	
 	
@@ -34,6 +35,7 @@ public:
 	void addToEnvironment(Object*);
 
 	void addSpring(Spring*);
+	void addExternalSpring(Spring**);
 	void updateSprings();
 
 	void applyGravity(float);

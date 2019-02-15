@@ -42,11 +42,15 @@ void PhysicsManager::addToEnvironment(Object* obj)
 }
 
 void PhysicsManager::addSpring(Spring* spr) { this->springs.push_back(spr); }
+void PhysicsManager::addExternalSpring(Spring** spr) { this->externalSprings.push_back(spr); }
 
 void PhysicsManager::updateSprings()
 {
 	for (Spring* spr : this->springs)
 		spr->constraint();
+
+	for (Spring** spr : this->externalSprings)
+		(*spr)->constraint();
 }
 
 void PhysicsManager::applyGravity(float dt) 

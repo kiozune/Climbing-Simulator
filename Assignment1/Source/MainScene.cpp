@@ -100,7 +100,7 @@ void MainScene::Init()
 	{
 		hinges.push_back(new Joint(Vector3(0, 60 - i * 10, 0)));
 		Object* chain = new Object(hinges[i - 1], hinges[i], 10, 3);
-		//manager->addToEnvironment(chain);
+		manager->addToEnvironment(chain);
 	}
 
 	float mass = 15, size = 2;
@@ -155,6 +155,9 @@ void MainScene::Init()
 	manager->addSpring(bottom);
 	manager->addSpring(bottomLeft);
 	manager->addSpring(bottomRight);
+
+	manager->addExternalSpring(p.getLeftSpring());
+	manager->addExternalSpring(p.getRightSpring());
 }
 
 void MainScene::Update(double dt)
@@ -230,7 +233,7 @@ void MainScene::Update(double dt)
 		{
 			if (p.getLeftHand()->getBoundingBox().didCollideWith(obj->getBoundingBox()))
 			{
-				p.grabLeft();
+				p.leftGrab(obj->getEnd());
 				break;
 			}
 		}
@@ -246,7 +249,7 @@ void MainScene::Update(double dt)
 		{
 			if (p.getRightHand()->getBoundingBox().didCollideWith(obj->getBoundingBox()))
 			{
-				p.grabRight();
+				p.rightGrab(obj->getEnd());
 				break;
 			}
 		}
