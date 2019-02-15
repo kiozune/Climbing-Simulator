@@ -98,7 +98,16 @@ void MainScene::Init()
 	hinges.push_back(new Joint(Vector3(0, 60, 0), true));
 	for (int i = 1; i < 10; ++i)
 	{
-		hinges.push_back(new Joint(Vector3(0, 60 - i * 10, 0)));
+		hinges.push_back(new Joint(Vector3(0, 60 - i * 15, 0)));
+		Object* chain = new Object(hinges[i - 1], hinges[i], 10, 3);
+		manager->addToEnvironment(chain);
+	}
+
+	hinges.clear();
+	hinges.push_back(new Joint(Vector3(-50, 60, 0), true));
+	for (int i = 1; i < 10; ++i)
+	{
+		hinges.push_back(new Joint(Vector3(-50, 60 - i * 15, 0)));
 		Object* chain = new Object(hinges[i - 1], hinges[i], 10, 3);
 		manager->addToEnvironment(chain);
 	}
@@ -135,7 +144,7 @@ void MainScene::Init()
 		manager->addToEnvironment(box);
 	}
 
-	Object* platform = new Object(Vector3(100, 10, 100), Vector3(0, -50, 0), 0, false);
+	Object* platform = new Object(Vector3(100, 10, 100), Vector3(0, -70, 0), 0, false);
 	manager->addToEnvironment(platform);
 
 	Spring* topLeft = new Spring(head, leftWrist, 0.2, 1.5, 0.2);
@@ -229,12 +238,15 @@ void MainScene::Update(double dt)
 
 	if (Application::IsKeyPressed('Q') || analog[4] > 0)
 	{
-		for (Object* obj : manager->getEnvironment())
+		if (!p.isLeftGrabbing())
 		{
-			if (p.getLeftHand()->getBoundingBox().didCollideWith(obj->getBoundingBox()))
+			for (Object* obj : manager->getEnvironment())
 			{
-				p.leftGrab(obj->getEnd());
-				break;
+				if (p.getLeftHand()->getBoundingBox().didCollideWith(obj->getBoundingBox()))
+				{
+					p.leftGrab(obj->getEnd());
+					break;
+				}
 			}
 		}
 	}
@@ -245,12 +257,15 @@ void MainScene::Update(double dt)
 
 	if (Application::IsKeyPressed('E') || analog[5] > 0)
 	{
-		for (Object* obj : manager->getEnvironment())
+		if (!p.isRightGrabbing())
 		{
-			if (p.getRightHand()->getBoundingBox().didCollideWith(obj->getBoundingBox()))
+			for (Object* obj : manager->getEnvironment())
 			{
-				p.rightGrab(obj->getEnd());
-				break;
+				if (p.getRightHand()->getBoundingBox().didCollideWith(obj->getBoundingBox()))
+				{
+					p.rightGrab(obj->getEnd());
+					break;
+				}
 			}
 		}
 	}
