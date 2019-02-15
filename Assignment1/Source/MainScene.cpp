@@ -100,7 +100,7 @@ void MainScene::Init()
 	{
 		hinges.push_back(new Joint(Vector3(0, 60 - i * 10, 0)));
 		Object* chain = new Object(hinges[i - 1], hinges[i], 10, 3);
-		manager->addToEnvironment(chain);
+		//manager->addToEnvironment(chain);
 	}
 
 	float mass = 15, size = 2;
@@ -136,7 +136,7 @@ void MainScene::Init()
 	}
 
 	Object* platform = new Object(Vector3(100, 10, 100), Vector3(0, -50, 0), 0, false);
-	//manager->addToEnvironment(platform);
+	manager->addToEnvironment(platform);
 
 	Spring* topLeft = new Spring(head, leftWrist, 0.2, 1.5, 0.2);
 	Spring* topRight = new Spring(head, rightWrist, 0.2, 1.5, 0.2);
@@ -181,13 +181,36 @@ void MainScene::Update(double dt)
 		lightingEnabled = true;
 
 	if (Application::IsKeyPressed('9'))
-		dt /= 10;
+		dt /= 100;
+
+	if (Application::IsControllerPressed(GLFW_JOYSTICK_1) && elapseTime > bounceTime)
+	{
+		camera.setAuto(!camera.isAuto());
+		bounceTime = elapseTime + 0.2;
+	}
+
+	const float* analog = Application::getControllerAnalog();
+
+
+
+
+
+	// Player swing
 
 	Vector3 curr = Application::GetMousePosition();
 	Vector3 diff = prevMousePosition - curr;
+	if (analog[0] || analog[1]) diff = Vector3(analog[0], analog[1], 0) * 200;
 	prevMousePosition = curr;
 
-	Vector3 impulse = Vector3(diff.x, diff.Length(), diff.y);
+	Vector3 center = p.getBody()->getCenter();
+	Vector3 dir = center - camera.position;
+	std::cout << dir.x << ' ' << dir.z << std::endl;
+	float yaw = atan(dir.x / dir.z);
+	dir.z /= abs(dir.z);
+	Mtx44 rotation; rotation.SetToRotation(deg(yaw), 0, 1, 0);
+
+	Vector3 impulse = rotation * Vector3(diff.x * -dir.z, diff.Length() * 1.5, diff.y * dir.z);
+
 
 	if (p.isLeftGrabbing())
 		manager->applyImpulse(p.getRightArm(), impulse, dt);
@@ -195,12 +218,13 @@ void MainScene::Update(double dt)
 	if (p.isRightGrabbing())
 		manager->applyImpulse(p.getLeftArm(), impulse, dt);
 
-	//if (Application::IsKeyPressed('G'))
-	manager->applyGravity(dt);
-	manager->updateObjects(dt);
-	manager->updateSprings();
 
-	if (Application::IsKeyPressed('Q'))
+
+
+
+	// grabbing
+
+	if (Application::IsKeyPressed('Q') || analog[4] > 0)
 	{
 		for (Object* obj : manager->getEnvironment())
 		{
@@ -215,8 +239,8 @@ void MainScene::Update(double dt)
 	{
 		p.releaseLeft();
 	}
-	
-	if (Application::IsKeyPressed('E'))
+
+	if (Application::IsKeyPressed('E') || analog[5] > 0)
 	{
 		for (Object* obj : manager->getEnvironment())
 		{
@@ -232,15 +256,45 @@ void MainScene::Update(double dt)
 		p.releaseRight();
 	}
 
-	Vector3 center = p.getBody()->getCenter();
-	Vector3 offset;
-	if (p.isLeftGrabbing())
-		offset = p.getRightArm()->getCenter() - center;
-	else if (p.isRightGrabbing())
-		offset = p.getLeftArm()->getCenter() - center;
+
+
+
+
+	// general physics
+
+	//if (Application::IsKeyPressed('G'))
+	manager->applyGravity(dt);
+	manager->updateObjects(dt);
+	manager->updateSprings();
+
+
+
+
+
+	// camera
+
+	float x = analog[2], y = analog[3];
+
+	if (x || y)
+	{
+		camera.moveTo(center + Vector3(-x, 0, y).Normalized() * 200, dt * 2);
+		camera.setAuto(false);
+	}
+	else if (camera.isAuto())
+	{
+		Vector3 offset, d;
+		if (p.isLeftGrabbing())
+			offset = p.getRightArm()->getCenter() - center;
+		else if (p.isRightGrabbing())
+			offset = p.getLeftArm()->getCenter() - center;
+
+		d = Vector3(fabs(offset.z), -1, fabs(offset.x)).Normalized();
+		d.x *= 200; d.y = -50;  d.z *= 200;
+
+		camera.moveTo(center + d + offset * 10, dt);
+	}
 
 	//camera.move(dt);
-	camera.moveTo(center + Vector3(0, 0, -200) + offset * 10, dt);
 	camera.setTarget(center);
 }
 
@@ -304,6 +358,10 @@ void MainScene::Render()
 		renderObject(obj);
 		//renderBoundingBox(obj->getBoundingBox());
 	}
+
+	std::string text = "AUTO CAM : ";
+	text += (camera.isAuto() ? "YES" : "NO");
+	renderTextOnScreen(models[TEXT], text, Color(1, 1, 1), 2, 2, 2);
 }
 
 void MainScene::Exit()

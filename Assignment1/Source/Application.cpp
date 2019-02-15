@@ -13,6 +13,8 @@ GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
 
+bool Application::keys[GLFW_KEY_LAST] = {};
+
 //Define an error callback
 static void error_callback(int error, const char* description)
 {
@@ -21,10 +23,12 @@ static void error_callback(int error, const char* description)
 }
 
 //Define the key input callback
-static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void Application::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
+	std::cout << "Pressed : " << key << std::endl;
+	keys[key] = action == GLFW_PRESS;
 }
 
 void resize_callback(GLFWwindow* window, int w, int h)
@@ -35,6 +39,22 @@ void resize_callback(GLFWwindow* window, int w, int h)
 bool Application::IsKeyPressed(unsigned short key)
 {
     return ((GetAsyncKeyState(key) & 0x8001) != 0);
+}
+
+bool Application::IsControllerPressed(unsigned short key)
+{
+	//std::cout << key << " : " << keys[key] << std::endl;
+	int count;
+	const unsigned char* axes = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &count);
+	return axes[key];
+}
+
+const float* Application::getControllerAnalog()
+{
+	int count;
+	const float* a = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &count);
+	//std::cout << a[0] << ' ' << a[1] << ' ' << a[2] << ' ' << a[3] << ' ' << a[4] << std::endl;
+	return a;
 }
 
 Vector3 Application::GetMousePosition()
@@ -74,6 +94,8 @@ void Application::Init()
 	//Create a window and create its OpenGL context
 	m_window = glfwCreateWindow(1600, 900, "Driving Sim", NULL, NULL);
 	glfwSetWindowSizeCallback(m_window, resize_callback);
+
+	glfwSetKeyCallback(m_window, key_callback);
 
 	glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 

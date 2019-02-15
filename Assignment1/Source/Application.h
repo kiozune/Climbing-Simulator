@@ -16,9 +16,15 @@ public:
 	void Run();
 	void Exit();
 	static bool IsKeyPressed(unsigned short key);
+	static bool IsControllerPressed(unsigned short key);
+	static const float* getControllerAnalog();
 	static Vector3 GetMousePosition();
 
 private:
+
+	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod);
+
+	static bool keys[GLFW_KEY_LAST];
 
 	//Declare a window object
 	StopWatch m_timer;

@@ -7,6 +7,7 @@
 #include <vector>
 
 #define g 3.2
+#define fr 1
 
 class PhysicsManager 
 {

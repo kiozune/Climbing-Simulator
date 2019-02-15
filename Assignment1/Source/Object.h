@@ -28,6 +28,7 @@ public:
 
 	Joint* getStart();
 	Joint* getEnd();
+	float getMass();
 	Vector3 getScale();
 	Vector3 getRotation();
 	Vector3 getCenter();
@@ -38,6 +39,7 @@ public:
 	void constraint();
 	void accelerate(Vector3, float);
 	void applyImpulse(Vector3, float);
+	void applyCircularImpulse(Vector3, float);
 
 };
 

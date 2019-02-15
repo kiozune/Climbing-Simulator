@@ -31,6 +31,8 @@ private:
 	*/
 	Vector3 target;
 
+	bool automatic;
+
 	// update the vectors based on yaw and pitch
 	void update();
 
@@ -62,6 +64,9 @@ public:
 	void move(const double dt);
 	// move camera facing direction base on mouse position
 	void lookAround(GLfloat xDiff, GLfloat yDiff);
+
+	void setAuto(bool);
+	bool isAuto();
 };
 
 #endif

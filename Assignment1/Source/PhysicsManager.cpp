@@ -24,7 +24,7 @@ void PhysicsManager::updateObjects(float dt)
 		{
 			if (obj->getBoundingBox().didCollideWith(env->getBoundingBox()))
 			{
-				//obj->applyImpulse(-obj->getMomentum(), dt);
+				//obj->applyImpulse(-obj->getMomentum() * fr - Vector3(0, g * obj->getMass(), 0) , 1);
 			}
 		}
 	}

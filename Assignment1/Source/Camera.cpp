@@ -141,3 +141,6 @@ void Camera::lookAround(GLfloat xPos, GLfloat yPos) {
 	// update vectors
 	update();
 }
+
+void Camera::setAuto(bool b) { this->automatic = b; }
+bool Camera::isAuto() { return this->automatic; }

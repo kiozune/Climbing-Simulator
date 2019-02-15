@@ -54,6 +54,7 @@ Object::Object(Vector3 scale, Vector3 center, float mass, bool g)
 
 Joint* Object::getStart() { return this->start; }
 Joint* Object::getEnd() { return this->end; }
+float Object::getMass() { return this->mass; }
 Vector3 Object::getScale() { return this->scale; }
 Vector3 Object::getRotation() { return this->rotation; }
 Vector3 Object::getCenter() { return this->center; }
@@ -118,4 +119,13 @@ void Object::applyImpulse(Vector3 impulse, float dt)
 	if (mass == 0) return;
 	Vector3 a = Vector3(impulse.x / mass, impulse.y / mass, impulse.z / mass);
 	this->accelerate(a, dt);
+}
+
+void Object::applyCircularImpulse(Vector3 impulse, float dt)
+{
+	if (mass == 0) return;
+	Vector3 a = Vector3(impulse.x / mass, impulse.y / mass, impulse.z / mass);
+	if (!start->isFixed()) start->move(a * dt);
+	if (!end->isFixed()) end->move(a * dt);
+	this->constraint();
 }
