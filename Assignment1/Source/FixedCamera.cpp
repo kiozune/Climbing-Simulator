@@ -21,7 +21,8 @@ void FixedCamera::update()
 
 void FixedCamera::Init(const Vector3& target, const GLfloat radius, const GLfloat speed)
 {
-	this->pitch = this->yaw = 0;
+	this->pitch = 0;
+	this->yaw = 90;
 	this->radius = radius;	
 	this->turnSpeed = speed;
 	this->worldUp = Vector3(0, 1, 0);

@@ -41,8 +41,14 @@ bool Application::IsKeyPressed(unsigned short key)
     return ((GetAsyncKeyState(key) & 0x8001) != 0);
 }
 
+bool Application::isControllerPresent() 
+{ 
+	return glfwJoystickPresent(GLFW_JOYSTICK_1);
+}
+
 bool Application::IsControllerPressed(unsigned short key)
 {
+	if (!isControllerPresent()) return false;
 	//std::cout << key << " : " << keys[key] << std::endl;
 	int count;
 	const unsigned char* axes = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &count);

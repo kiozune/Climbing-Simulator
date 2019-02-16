@@ -99,19 +99,27 @@ void Object::constraint()
 
 void Object::accelerate(Vector3 a, float dt)
 {
+	this->velocity += a * dt;
 	if (start == nullptr)
 	{
-		this->center += a * dt;
+		this->center += velocity * dt;
 		this->bb.setTranslation(this->center);
 	}
 	else
 	{
-		if (!start->isFixed()) start->move(a * dt);
-		if (!end->isFixed()) end->move(a * dt);
+		if (!start->isFixed())
+		{
+			start->move(a * dt);
+		}
+
+		if (!end->isFixed())
+		{
+			end->move(a * dt);
+		}
+
 		this->constraint();
 	}
 
-	this->velocity += a * dt;
 }
 
 void Object::applyImpulse(Vector3 impulse, float dt)

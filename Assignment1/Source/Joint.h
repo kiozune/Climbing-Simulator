@@ -3,9 +3,9 @@
 
 #include "Vector3.h"
 
-class Joint 
+class Joint
 {
-	
+
 private:
 
 	Vector3 current, previous;
@@ -20,7 +20,7 @@ public:
 
 	Vector3 getCurrent();
 	void setCurrent(Vector3);
-	
+
 	Vector3 getPrevious();
 
 	Vector3 getMomentum();

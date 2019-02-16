@@ -94,6 +94,7 @@ void MainScene::Init()
 	p.setLeftFingers(leftFingers);
 	p.setRightFingers(rightFingers);
 
+	
 	std::vector<Joint*> hinges;
 	hinges.push_back(new Joint(Vector3(0, 60, 0), true));
 	for (int i = 1; i < 10; ++i)
@@ -138,13 +139,22 @@ void MainScene::Init()
 	manager->addObject(leftLeg);
 	manager->addObject(rightLeg);
 
-	for (int i = 0; i < 5; ++i)
+	int x, y, z;
+	x = y = z = 0;
+	for (int i = 0; i < 50; ++i)
 	{
-		Object* box = new Object(Vector3(10, 10, 100), Vector3(11 + i * 20, -5 + i * 5, 0), 0, false);
+		int d = (rand() % 2) * 2 - 1;
+		int r = rand() % 3;
+		if (r == 2) x += d * rand() % 25 + 20;
+		else if (r == 1) y += d * rand() % 25 + 20;
+		else z += d * rand() % 25 + 20;
+
+ 
+		Object* box = new Object(Vector3(10, 10, 10), Vector3(11 + x, -5 + y, z), 0, false);
 		manager->addToEnvironment(box);
 	}
 
-	Object* platform = new Object(Vector3(100, 10, 100), Vector3(0, -70, 0), 0, false);
+	Object* platform = new Object(Vector3(100, 10, 100), Vector3(0, 0, 0), 0, false);
 	manager->addToEnvironment(platform);
 
 	Spring* topLeft = new Spring(head, leftWrist, 0.2, 1.5, 0.2);
@@ -201,16 +211,23 @@ void MainScene::Update(double dt)
 		bounceTime = elapseTime + 0.2;
 	}
 
-	const float* analog = Application::getControllerAnalog();
-	float swingX = analog[0], swingY = analog[1];
-	float LT = analog[4], RT = analog[5];
-	float camX = analog[2], camY = analog[3];
+	const float* analog;
+	float swingX, swingY, LT, RT, camX, camY;
+	swingX = swingY = LT = RT = camX = camY = 0;
 
-	if (!isXboxController) 
+	if (Application::isControllerPresent())
 	{
-		swingX = analog[0], swingY = -analog[1];
-		LT = analog[3] + 1, RT = analog[4] + 1;
-		camX = -analog[2], camY = analog[5];
+		analog = Application::getControllerAnalog();
+		swingX = analog[0], swingY = analog[1];
+		LT = analog[4], RT = analog[5];
+		camX = analog[2], camY = analog[3];
+
+		if (!isXboxController)
+		{
+			swingX = analog[0], swingY = -analog[1];
+			LT = analog[3] + 1, RT = analog[4] + 1;
+			camX = -analog[2], camY = analog[5];
+		}
 	}
 
 
@@ -382,10 +399,6 @@ void MainScene::Render()
 		renderObject(obj);
 		//renderBoundingBox(obj->getBoundingBox());
 	}
-
-	std::string text = "AUTO CAM : ";
-	text += (camera.isAuto() ? "YES" : "NO");
-	renderTextOnScreen(models[TEXT], text, Color(1, 1, 1), 2, 2, 2);
 }
 
 void MainScene::Exit()
