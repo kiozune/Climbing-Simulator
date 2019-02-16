@@ -10,7 +10,7 @@ private:
 
 	// to store standard values
 	GLfloat pitch, yaw, radius;
-	GLfloat turnSpeed;
+	GLfloat moveSpeed, turnSpeed;
 
 	bool automatic;
 
@@ -18,7 +18,10 @@ private:
 
 public:
 
-	void Init(const Vector3&, const GLfloat, const GLfloat);
+	void Init(const Vector3&, const GLfloat, const GLfloat, const GLfloat);
+	
+	void zoomIn(float);
+	void zoomOut(float);
 
 	void changeYaw(float, float);
 	void changePitch(float, float);

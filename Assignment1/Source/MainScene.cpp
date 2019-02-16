@@ -59,7 +59,7 @@ void MainScene::Init()
 	glUseProgram(m_programID);
 
 	lights[0].type = Light::SPOT;
-	lights[0].position.Set(0, 10, 0);
+	lights[0].color = Color(1, 0, 0);
 	lights[0].setUniform();
 
 	glUniform1i(m_parameters[U_NUMLIGHTS], LIGHT_COUNT);
@@ -79,7 +79,7 @@ void MainScene::Init()
 	models[CUBE] = MeshBuilder::GenerateCube("CUBE", Color(1, 1, 1), 1, 1, 1);
 	applyMaterial(models[CUBE]);
 
-	camera.Init(Vector3(0, 0, 0), 200, 180);
+	camera.Init(Vector3(0, 0, 0), 200, 100, 180);
 
 	Joint* chest = new Joint(Vector3(0, 0, 0));
 	Joint* leftWrist = new Joint(Vector3(10, 0, 0));
@@ -93,25 +93,6 @@ void MainScene::Init()
 
 	p.setLeftFingers(leftFingers);
 	p.setRightFingers(rightFingers);
-
-	
-	std::vector<Joint*> hinges;
-	hinges.push_back(new Joint(Vector3(0, 60, 0), true));
-	for (int i = 1; i < 10; ++i)
-	{
-		hinges.push_back(new Joint(Vector3(0, 60 - i * 15, 0)));
-		Object* chain = new Object(hinges[i - 1], hinges[i], 10, 3);
-		manager->addToEnvironment(chain);
-	}
-
-	hinges.clear();
-	hinges.push_back(new Joint(Vector3(-50, 60, 0), true));
-	for (int i = 1; i < 10; ++i)
-	{
-		hinges.push_back(new Joint(Vector3(-50, 60 - i * 15, 0)));
-		Object* chain = new Object(hinges[i - 1], hinges[i], 10, 3);
-		manager->addToEnvironment(chain);
-	}
 
 	float mass = 15, size = 2;
 
@@ -140,22 +121,40 @@ void MainScene::Init()
 	manager->addObject(rightLeg);
 
 	int x, y, z;
+	int w, h, d;
 	x = y = z = 0;
-	for (int i = 0; i < 50; ++i)
+	for (int i = 0; i < 100; ++i)
 	{
-		int d = (rand() % 2) * 2 - 1;
-		int r = rand() % 3;
-		if (r == 2) x += d * rand() % 25 + 20;
-		else if (r == 1) y += d * rand() % 25 + 20;
-		else z += d * rand() % 25 + 20;
+		w = rand() % 25 + 5;
+		h = rand() % 25 + 5;
+		d = rand() % 25 + 5;
+		int dir = (rand() % 2) * 2 - 1;
+		if (rand() % 2) x += dir * (rand() % 5 + 20 + w / 2.0);
+		else z += dir * (rand() % 5 + 20 + d / 2.0);
 
- 
-		Object* box = new Object(Vector3(10, 10, 10), Vector3(11 + x, -5 + y, z), 0, false);
-		manager->addToEnvironment(box);
+		if (rand() % 2) y += dir * (rand() % 15 + 5 + h / 2.0);
+
+		if (rand() % 5)
+		{
+			Object* box = new Object(Vector3(w, h, d), Vector3(x, y, z), 0, false);
+			manager->addToEnvironment(box);
+		}
+		else
+		{
+			std::vector<Joint*> hinges;
+			hinges.push_back(new Joint(Vector3(x, 60 + y, z), true));
+			for (int i = 1; i < rand() % 10 + 5; ++i)
+			{
+				hinges.push_back(new Joint(Vector3(x, 60 + y - i * 15, z)));
+				Object* chain = new Object(hinges[i - 1], hinges[i], 10, 3);
+				manager->addToEnvironment(chain);
+			}
+		}
+		
 	}
 
 	Object* platform = new Object(Vector3(100, 10, 100), Vector3(0, 0, 0), 0, false);
-	manager->addToEnvironment(platform);
+	//manager->addToEnvironment(platform);
 
 	Spring* topLeft = new Spring(head, leftWrist, 0.2, 1.5, 0.2);
 	Spring* topRight = new Spring(head, rightWrist, 0.2, 1.5, 0.2);
@@ -210,6 +209,12 @@ void MainScene::Update(double dt)
 		camera.setAuto(!camera.isAuto());
 		bounceTime = elapseTime + 0.2;
 	}
+
+	if (Application::IsControllerPressed(GLFW_JOYSTICK_2))
+		camera.zoomIn(dt);
+
+	if (Application::IsControllerPressed(GLFW_JOYSTICK_3))
+		camera.zoomOut(dt);
 
 	const float* analog;
 	float swingX, swingY, LT, RT, camX, camY;
@@ -311,6 +316,10 @@ void MainScene::Update(double dt)
 
 
 
+
+	// lighting
+
+	lights[0].position.Set(center.x, center.y, center.z);
 
 	// camera
 

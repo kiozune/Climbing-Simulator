@@ -19,16 +19,27 @@ void FixedCamera::update()
 	this->up = this->right.Cross(this->front).Normalize();
 }
 
-void FixedCamera::Init(const Vector3& target, const GLfloat radius, const GLfloat speed)
+void FixedCamera::Init(const Vector3& target, const GLfloat radius, const GLfloat moveSpeed, const GLfloat turnSpeed)
 {
 	this->pitch = 0;
 	this->yaw = 90;
 	this->radius = radius;	
-	this->turnSpeed = speed;
+	this->moveSpeed = moveSpeed;
+	this->turnSpeed = turnSpeed;
 	this->worldUp = Vector3(0, 1, 0);
 	this->setTarget(target);
 
 	this->update();
+}
+
+void FixedCamera::zoomIn(float dt)
+{
+	this->radius -= moveSpeed * dt;
+}
+
+void FixedCamera::zoomOut(float dt)
+{
+	this->radius += moveSpeed * dt;
 }
 
 void FixedCamera::changeYaw(float r, float dt)

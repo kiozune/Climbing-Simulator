@@ -2,7 +2,7 @@
 #include "Utility.h"
 
 void MainScene::applyMaterial(Mesh* model) {
-	model->material.kAmbient.Set(0.15f, 0.15f, 0.15f);
+	model->material.kAmbient.Set(0.1f, 0.1f, 0.1f);
 	model->material.kDiffuse.Set(0.5f, 0.5f, 0.5f);
 	model->material.kSpecular.Set(0.0f, 0.0f, 0.0f);
 	model->material.kShininess = 1.0f;
