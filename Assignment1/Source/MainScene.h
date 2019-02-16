@@ -4,6 +4,8 @@
 #define LSPEED 10.0f
 
 #include "Scene.h"
+#include "FixedCamera.h"
+
 #include "PhysicsManager.h"
 
 #include "Player.h"
@@ -38,7 +40,7 @@ class MainScene : public Scene
 
 	bool pause;
 
-	Camera camera; // stationary
+	FixedCamera camera; // stationary
 
 	Mesh* models[NUM_GEOMETRY];
 
@@ -51,6 +53,7 @@ class MainScene : public Scene
 
 	Vector3 prevMousePosition;
 
+	bool isXboxController = false;
 	Player p;
 
 	// applies material to geometry selected

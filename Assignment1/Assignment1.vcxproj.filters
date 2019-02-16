@@ -34,12 +34,12 @@
     <Filter Include="GameObjects">
       <UniqueIdentifier>{2bc44770-dd21-437f-9bb9-465bb9c9f556}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Lighting">
+      <UniqueIdentifier>{4637f3ee-ef21-4503-b948-f6d7048eaf80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Camera.cpp">
-      <Filter>Camera&amp;Lighting</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Light.cpp">
       <Filter>Camera&amp;Lighting</Filter>
     </ClCompile>
     <ClCompile Include="Source\MainScene+Render.cpp">
@@ -96,14 +96,17 @@
     <ClCompile Include="Source\BoundingBox.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Light.cpp">
+      <Filter>Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MovableCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FixedCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Light.h">
-      <Filter>Camera&amp;Lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Camera.h">
-      <Filter>Camera&amp;Lighting</Filter>
-    </ClInclude>
     <ClInclude Include="Source\MainScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
@@ -154,6 +157,18 @@
     </ClInclude>
     <ClInclude Include="Source\BoundingBox.h">
       <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Camera.h">
+      <Filter>Camera&amp;Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Light.h">
+      <Filter>Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MovableCamera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FixedCamera.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

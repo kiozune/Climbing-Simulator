@@ -53,7 +53,11 @@ const float* Application::getControllerAnalog()
 {
 	int count;
 	const float* a = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &count);
-	//std::cout << a[0] << ' ' << a[1] << ' ' << a[2] << ' ' << a[3] << ' ' << a[4] << std::endl;
+	
+	for (int i = 0; i < 7; ++i)
+		std::cout << a[i] << '\t';
+	std::cout << std::endl;
+
 	return a;
 }
 

@@ -138,6 +138,7 @@
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\BoundingBox.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
+    <ClCompile Include="Source\FixedCamera.cpp" />
     <ClCompile Include="Source\Light.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
     <ClCompile Include="Source\LoadTGA.cpp" />
@@ -147,6 +148,7 @@
     <ClCompile Include="Source\MainScene.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\MeshBuilder.cpp" />
+    <ClCompile Include="Source\MovableCamera.cpp" />
     <ClCompile Include="Source\Object.cpp" />
     <ClCompile Include="Source\PhysicsManager.cpp" />
     <ClCompile Include="Source\Joint.cpp" />
@@ -160,6 +162,7 @@
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\BoundingBox.h" />
     <ClInclude Include="Source\Camera.h" />
+    <ClInclude Include="Source\FixedCamera.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
     <ClInclude Include="Source\LoadTGA.h" />
@@ -167,6 +170,7 @@
     <ClInclude Include="Source\Material.h" />
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\MeshBuilder.h" />
+    <ClInclude Include="Source\MovableCamera.h" />
     <ClInclude Include="Source\Object.h" />
     <ClInclude Include="Source\PhysicsManager.h" />
     <ClInclude Include="Source\Joint.h" />

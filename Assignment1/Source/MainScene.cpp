@@ -79,7 +79,7 @@ void MainScene::Init()
 	models[CUBE] = MeshBuilder::GenerateCube("CUBE", Color(1, 1, 1), 1, 1, 1);
 	applyMaterial(models[CUBE]);
 
-	camera.Init(Vector3(0, 0, -200), Vector3(0, 1, 0), Vector3());
+	camera.Init(Vector3(0, 0, 0), 200, 180);
 
 	Joint* chest = new Joint(Vector3(0, 0, 0));
 	Joint* leftWrist = new Joint(Vector3(10, 0, 0));
@@ -202,8 +202,16 @@ void MainScene::Update(double dt)
 	}
 
 	const float* analog = Application::getControllerAnalog();
+	float swingX = analog[0], swingY = analog[1];
+	float LT = analog[4], RT = analog[5];
+	float camX = analog[2], camY = analog[3];
 
-
+	if (!isXboxController) 
+	{
+		swingX = analog[0], swingY = -analog[1];
+		LT = analog[3] + 1, RT = analog[4] + 1;
+		camX = -analog[2], camY = analog[5];
+	}
 
 
 
@@ -211,18 +219,16 @@ void MainScene::Update(double dt)
 
 	Vector3 curr = Application::GetMousePosition();
 	Vector3 diff = prevMousePosition - curr;
-	if (analog[0] || analog[1]) diff = Vector3(analog[0], analog[1], 0) * 200;
+	if (swingX || swingY) diff = Vector3(swingX, swingY, 0) * 200;
 	prevMousePosition = curr;
 
 	Vector3 center = p.getBody()->getCenter();
-	Vector3 dir = center - camera.position;
-	std::cout << dir.x << ' ' << dir.z << std::endl;
+	Vector3 dir = center - camera.getPosition();
 	float yaw = atan(dir.x / dir.z);
 	dir.z /= abs(dir.z);
 	Mtx44 rotation; rotation.SetToRotation(deg(yaw), 0, 1, 0);
 
 	Vector3 impulse = rotation * Vector3(diff.x * -dir.z, diff.Length() * 1.5, diff.y * dir.z);
-
 
 	if (p.isLeftGrabbing())
 		manager->applyImpulse(p.getRightArm(), impulse, dt);
@@ -236,7 +242,7 @@ void MainScene::Update(double dt)
 
 	// grabbing
 
-	if (Application::IsKeyPressed('Q') || analog[4] > 0)
+	if (Application::IsKeyPressed('Q') || LT > 0)
 	{
 		if (!p.isLeftGrabbing())
 		{
@@ -255,7 +261,7 @@ void MainScene::Update(double dt)
 		p.releaseLeft();
 	}
 
-	if (Application::IsKeyPressed('E') || analog[5] > 0)
+	if (Application::IsKeyPressed('E') || RT > 0)
 	{
 		if (!p.isRightGrabbing())
 		{
@@ -291,11 +297,10 @@ void MainScene::Update(double dt)
 
 	// camera
 
-	float x = analog[2], y = analog[3];
-
-	if (x || y)
+	if (camX || camY)
 	{
-		camera.moveTo(center + Vector3(-x, 0, y).Normalized() * 200, dt * 2);
+		camera.changeYaw(camX, dt);
+		camera.changePitch(camY, dt);
 		camera.setAuto(false);
 	}
 	else if (camera.isAuto())
@@ -309,7 +314,7 @@ void MainScene::Update(double dt)
 		d = Vector3(fabs(offset.z), -1, fabs(offset.x)).Normalized();
 		d.x *= 200; d.y = -50;  d.z *= 200;
 
-		camera.moveTo(center + d + offset * 10, dt);
+		// camera.moveTo(center + d + offset * 10, dt);
 	}
 
 	//camera.move(dt);
@@ -322,12 +327,13 @@ void MainScene::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// get reference to camera based on state
+	Vector3 position = camera.getPosition();
 	Vector3 target = camera.getTarget();
 	Vector3 up = camera.getUp();
 
 	viewStack.LoadIdentity(); 
 	viewStack.LookAt(
-		camera.position.x, camera.position.y, camera.position.z,
+		position.x, position.y, position.z,
 		target.x, target.y, target.z,
 		up.x, up.y, up.z
 	);
