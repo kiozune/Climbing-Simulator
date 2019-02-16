@@ -25,9 +25,6 @@
     <Filter Include="Mesh">
       <UniqueIdentifier>{74d4675b-2615-4697-8f24-ef2a909e59db}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Camera&amp;Lighting">
-      <UniqueIdentifier>{576789d4-1608-4d58-86b0-8239b59943fd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Physics">
       <UniqueIdentifier>{3cc4098a-b3ed-41c0-954b-34b7cf1a6d78}</UniqueIdentifier>
     </Filter>
@@ -37,10 +34,13 @@
     <Filter Include="Lighting">
       <UniqueIdentifier>{4637f3ee-ef21-4503-b948-f6d7048eaf80}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{576789d4-1608-4d58-86b0-8239b59943fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Camera.cpp">
-      <Filter>Camera&amp;Lighting</Filter>
+      <Filter>Camera</Filter>
     </ClCompile>
     <ClCompile Include="Source\MainScene+Render.cpp">
       <Filter>Scenes</Filter>
@@ -99,11 +99,11 @@
     <ClCompile Include="Source\Light.cpp">
       <Filter>Lighting</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MovableCamera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\FixedCamera.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MovableCamera.cpp">
+      <Filter>Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -159,16 +159,16 @@
       <Filter>Physics</Filter>
     </ClInclude>
     <ClInclude Include="Source\Camera.h">
-      <Filter>Camera&amp;Lighting</Filter>
+      <Filter>Camera</Filter>
     </ClInclude>
     <ClInclude Include="Source\Light.h">
       <Filter>Lighting</Filter>
     </ClInclude>
-    <ClInclude Include="Source\MovableCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\FixedCamera.h">
-      <Filter>Header Files</Filter>
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MovableCamera.h">
+      <Filter>Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
