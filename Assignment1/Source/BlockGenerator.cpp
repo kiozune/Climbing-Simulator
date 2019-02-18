@@ -1,10 +1,12 @@
 #include "BlockGenerator.h"
 /*
-Rule for PCG sp2 walker algorithm (Distribution method)
+Rule for PCG sp2 walker algorithm
 Rule 1 - Doesn't go back the same way it came from and the same direction it is heading to
 Rule 2 - Choose a random length from maximum allowed length and draw it at given direction
 Rule 3 - Avoids the edges of the map
 Rule 4 - Spawn block till it runs out
+Rule 5 - Check with world space if object is there
+Rule 6 - 
 */
 
 BlockGenerator* BlockGenerator::instance = 0;
@@ -46,8 +48,8 @@ void BlockGenerator::generateBlocks(int valBlocks, int maxHeight, int maxLength,
 		{
 			int randomHeight = rand() % maxHeight + 1;
 			while (randomHeight) // rule 2
-			{ // rule 3 doesn't applied to height
-				if (blockTemp == 0)
+			{ // rule 3 & 5 doesn't applied to height
+				if (blockTemp == 0) // rule 4
 					break;
 				block* temp = new block;
 				currentPos.y += offsetPos;
@@ -67,9 +69,11 @@ void BlockGenerator::generateBlocks(int valBlocks, int maxHeight, int maxLength,
 			int randomLength = rand() % maxLength + 1; 
 			while (randomLength) // rule 2
 			{
-				if (currentPos.x == boundary) // rule 3
+				if (checkWorldSpace(currentPos)) // rule 5
 					break;
-				else if (blockTemp == 0)
+				else if (currentPos.x <= -boundary) // rule 3
+					break;
+				else if (blockTemp == 0) // rule 4
 					break;
 				block* temp = new block;
 				currentPos.x -= offsetPos;
@@ -89,9 +93,11 @@ void BlockGenerator::generateBlocks(int valBlocks, int maxHeight, int maxLength,
 			int randomLength = rand() % maxLength + 1;
 			while (randomLength) // rule 2
 			{
-				if (currentPos.x == boundary) // rule 3
+				if (checkWorldSpace(currentPos)) // rule 5
 					break;
-				else if (blockTemp == 0)
+				else if (currentPos.x >= boundary) // rule 3
+					break;
+				else if (blockTemp == 0) // rule 4
 					break;
 				block* temp = new block;
 				currentPos.x += offsetPos;
@@ -111,9 +117,11 @@ void BlockGenerator::generateBlocks(int valBlocks, int maxHeight, int maxLength,
 			int randomLength = rand() % maxLength + 1;
 			while (randomLength) // rule 2
 			{
-				if (currentPos.z == boundary) // rule 3
+				if (checkWorldSpace(currentPos)) // rule 5
 					break;
-				else if (blockTemp == 0)
+				else if (currentPos.z >= boundary) // rule 3
+					break;
+				else if (blockTemp == 0) // rule 4
 					break;
 				block * temp = new block;
 				currentPos.z += offsetPos;
@@ -133,9 +141,11 @@ void BlockGenerator::generateBlocks(int valBlocks, int maxHeight, int maxLength,
 			int randomLength = rand() % maxLength + 1;
 			while (randomLength) // rule 2
 			{
-				if (currentPos.z == boundary) // rule 3
+				if (checkWorldSpace(currentPos)) // rule 5
 					break;
-				else if (blockTemp == 0)
+				else if (currentPos.z <= boundary) // rule 3
+					break;
+				else if (blockTemp == 0) // rule 4
 					break;
 				block * temp = new block;
 				currentPos.z -= offsetPos;
@@ -154,6 +164,7 @@ void BlockGenerator::generateBlocks(int valBlocks, int maxHeight, int maxLength,
 			printf("ERROR at switch case > blockGenerator.cpp > generateblocks function");
 			break;
 		}
+		printf("%d\n",lastDirection);
 	}
 }
 
@@ -190,6 +201,20 @@ int BlockGenerator::randomDirection(int lastDir)
 	} while (temp == lastDir || temp == oppDir); // Rule 1
 
 	return temp;
+}
+
+bool BlockGenerator::checkWorldSpace(Vector3 pos)
+{
+	block* current = head;
+
+	while (current != tail)
+	{
+		block* temp = current->getNext();
+		if (current->getVector3() == pos)
+			return true;
+		current = temp;
+	}
+	return false;
 }
 
 block * BlockGenerator::getHead()

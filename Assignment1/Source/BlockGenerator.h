@@ -10,6 +10,7 @@ public:
 	static BlockGenerator* GetInstance();
 	void generateBlocks(int block, int maxHeight, int maxLength, int offsetPos, int boundary);
 	int randomDirection(int lastDir);
+	bool checkWorldSpace(Vector3 pos);
 	block *getHead();
 	block *getTail();
 private:
