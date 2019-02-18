@@ -90,11 +90,11 @@ CollisionResult BoundingBox::getCollisionResultWith(BoundingBox& b)
 	float bz = fabs(T.Dot(b.Z)) - (fabs(W * X.Dot(b.Z)) + fabs(H * Y.Dot(b.Z)) + fabs(D * Z.Dot(b.Z)) + b.D);
 
 	if (bx > by && bx > bz) 
-		result.displacement = Vector3(-bx, 0, 0);
+		result.displacement = Vector3(bx * T.x / fabs(T.x), 0, 0);
 	else if (by > bz)
-		result.displacement = Vector3(0, -by, 0);
+		result.displacement = Vector3(0, by * T.y / fabs(T.y), 0);
 	else
-		result.displacement = Vector3(0, 0, -bz);
+		result.displacement = Vector3(0, 0, bz * T.z / fabs(T.z));
 
 	//result.displacement *= 0.99;
 

@@ -6,9 +6,10 @@ void Object::update()
 {
 	Vector3 a = start->getCurrent(), b = end->getCurrent();
 	Vector3 diff = a - b;
-	// this->rotation.x = diff.y == 0 ? 0 : atan(diff.z / diff.y);
-	this->rotation.y = rad(180) - (diff.x == 0 ? 0 : atan(diff.z / diff.x));
-	this->rotation.z = rad(90) + (diff.y == 0 ? rad(90) : atan(diff.x / diff.y));
+	float hyp = sqrt(pow(diff.z, 2) + pow(diff.x, 2));
+	if (diff.x != 0) hyp *= diff.x / fabs(diff.x);
+	this->rotation.y = diff.x == 0 ? 0 : atan(-diff.z / diff.x);
+	this->rotation.z = atan(diff.y / hyp);
 
 	this->center.x = a.x - diff.x / 2.0;
 	this->center.y = a.y - diff.y / 2.0;

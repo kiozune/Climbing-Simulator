@@ -51,7 +51,7 @@ Joint* Player::getRightFingers() { return this->righFingers; }
 void Player::setRightFingers(Joint* joint) 
 { 
 	this->righFingers = joint; 
-	this->rightSpring = new Spring(this->righFingers, this->righFingers, 0, 0, 1);
+	this->rightSpring = new Spring(this->righFingers, this->righFingers, 1, 1, 1);
 	this->rightSpring->disable();
 }
 

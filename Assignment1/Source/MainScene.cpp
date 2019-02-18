@@ -146,6 +146,7 @@ void MainScene::Init()
 		{
 			Object* box = new Object(Vector3(w, h, d), Vector3(x, y, z), 0, false);
 			box->setColour(Vector3(0.5, 0.5, 0.5));
+			//box->setClipping(true);
 			manager->addToEnvironment(box);
 		}
 		else
@@ -157,7 +158,7 @@ void MainScene::Init()
 				hinges.push_back(new Joint(Vector3(x, 60 + y - i * 15, z)));
 				Object* chain = new Object(hinges[i - 1], hinges[i], 10, 3);
 				chain->setColour(Vector3(0.2, 0.6, 0.5));
-				chain->setClipping(true);
+				chain->setClipping(true);	
 				manager->addToEnvironment(chain);
 			}
 		}
@@ -281,6 +282,7 @@ void MainScene::Update(double dt)
 
 
 
+	manager->resolveCollisions();
 
 	// grabbing
 
@@ -323,7 +325,7 @@ void MainScene::Update(double dt)
 	// general physics
 
 	//if (Application::IsKeyPressed('G'))
-	manager->resolveCollisions();
+	//manager->resolveCollisions();
 	manager->updateObjects();
 	manager->updateSprings();
 
@@ -422,6 +424,11 @@ void MainScene::Render()
 		renderObject(obj);
 		//renderBoundingBox(obj->getBoundingBox());
 	}
+
+	Vector3 center = p.getBody()->getCenter();
+	std::string content;
+	content += std::to_string((int)center.x) + " / " + std::to_string((int)center.y) + " / " + std::to_string((int)center.z);
+	renderTextOnScreen(models[TEXT], content, Color(0, 0, 0), 2, 2, 2);
 }
 
 void MainScene::Exit()
