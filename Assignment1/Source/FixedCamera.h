@@ -31,7 +31,7 @@ public:
 	void setAuto(bool);
 	bool isAuto();
 
-	virtual void setTarget(Vector3 target);
+	virtual void setTarget(Vector3);
 
 };
 

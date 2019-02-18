@@ -27,7 +27,6 @@ void Application::key_callback(GLFWwindow* window, int key, int scancode, int ac
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
-	std::cout << "Pressed : " << key << std::endl;
 	keys[key] = action == GLFW_PRESS;
 }
 

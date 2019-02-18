@@ -27,7 +27,7 @@ void FixedCamera::Init(const Vector3& target, const GLfloat radius, const GLfloa
 	this->moveSpeed = moveSpeed;
 	this->turnSpeed = turnSpeed;
 	this->worldUp = Vector3(0, 1, 0);
-	this->setTarget(target);
+	this->target = target;
 
 	this->update();
 }
@@ -68,8 +68,9 @@ void FixedCamera::moveTo(float dt)
 void FixedCamera::setAuto(bool b) { this->automatic = b; }
 bool FixedCamera::isAuto() { return this->automatic; }
 
-void FixedCamera::setTarget(Vector3 target)
+void FixedCamera::setTarget(Vector3 v)
 {
-	this->target = target;
+	Vector3 d = v - this->target;
+	this->target += d * 0.01;
 	this->update();
 }

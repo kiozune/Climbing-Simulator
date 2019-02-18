@@ -81,14 +81,16 @@ void MainScene::Init()
 	camera.Init(Vector3(0, 0, 0), 200, 100, 180);
 
 	Joint* chest = new Joint(Vector3(0, 0, 0));
-	Joint* leftWrist = new Joint(Vector3(10, 0, 0));
 	Joint* leftFingers = new Joint(Vector3(13, 0, 0));
-	Joint* rightWrist = new Joint(Vector3(-10, 0, 0));
+	Joint* leftWrist = new Joint(Vector3(10, 0, 0));
+	Joint* leftElbow = new Joint(Vector3(5, 0, 0));
 	Joint* rightFingers = new Joint(Vector3(-13, 0, 0));
-	Joint* head = new Joint(Vector3(0, 5, 0));
-	Joint* pelvis = new Joint(Vector3(0, -10, 0));
-	Joint* leftFeet = new Joint(Vector3(5, -20, 0));
-	Joint* rightFeet = new Joint(Vector3(-5, -20, 0));
+	Joint* rightWrist = new Joint(Vector3(-10, 0, 0));
+	Joint* rightElbow = new Joint(Vector3(-5, 0, 0));
+	Joint* head = new Joint(Vector3(0, 0, 5));
+	Joint* pelvis = new Joint(Vector3(0, 0, -10));
+	Joint* leftFeet = new Joint(Vector3(5, 0, -20));
+	Joint* rightFeet = new Joint(Vector3(-5, 0, -20));
 
 	p.setLeftFingers(leftFingers);
 	p.setRightFingers(rightFingers);
@@ -96,19 +98,29 @@ void MainScene::Init()
 	float mass = 15, size = 2;
 
 	Object* leftHand = new Object(leftFingers, leftWrist, mass, size + 1);
-	Object* leftArm = new Object(chest, leftWrist, mass, size);
+	Object* leftArm = new Object(leftElbow, leftWrist, mass, size);
+	Object* leftBicep = new Object(chest, leftElbow, mass, size);
+
 	Object* rightHand = new Object(rightFingers, rightWrist, mass, size);
-	Object* rightArm = new Object(chest, rightWrist, mass, size);
+	Object* rightArm = new Object(rightElbow, rightWrist, mass, size);
+	Object* rightBicep = new Object(chest, rightElbow, mass, size);
+
 	Object* neck = new Object(chest, head, mass, size);
 	Object* body = new Object(chest, pelvis, mass, size);
+
 	Object* leftLeg = new Object(pelvis, leftFeet, mass, size);
 	Object* rightLeg = new Object(pelvis, rightFeet, mass, size);
 
 	leftHand->setColour(Vector3(0.9, 0.9, 0));
 	leftArm->setColour(Vector3(0.0, 0.2, 0.5));
-	rightHand->setColour(Vector3(0.9, 0.9, 0));
+	leftBicep->setColour(Vector3(0.0, 0.2, 0.5));
+
+	rightHand->setColour(Vector3(0.0, 0.9, 0.9));
 	rightArm->setColour(Vector3(0.0, 0.2, 0.5));
+	rightBicep->setColour(Vector3(0.0, 0.2, 0.5));
+	
 	neck->setColour(Vector3(0.0, 0.2, 0.5));
+	
 	body->setColour(Vector3(0.0, 0.2, 0.5));
 	leftLeg->setColour(Vector3(0.0, 0.2, 0.5));
 	rightLeg->setColour(Vector3(0.0, 0.2, 0.5));
@@ -121,10 +133,15 @@ void MainScene::Init()
 
 	manager->addObject(leftHand);
 	manager->addObject(leftArm);
+	manager->addObject(leftBicep);
+
 	manager->addObject(rightHand);
 	manager->addObject(rightArm);
+	manager->addObject(rightBicep);
+
 	manager->addObject(neck);	
 	manager->addObject(body);
+
 	manager->addObject(leftLeg);
 	manager->addObject(rightLeg);
 
@@ -156,7 +173,7 @@ void MainScene::Init()
 			for (int i = 1; i < rand() % 10 + 5; ++i)
 			{
 				hinges.push_back(new Joint(Vector3(x, 60 + y - i * 15, z)));
-				Object* chain = new Object(hinges[i - 1], hinges[i], 10, 3);
+				Object* chain = new Object(hinges[i - 1], hinges[i], 10, 5);
 				chain->setColour(Vector3(0.2, 0.6, 0.5));
 				chain->setClipping(true);	
 				manager->addToEnvironment(chain);
@@ -244,8 +261,9 @@ void MainScene::Update(double dt)
 		{
 			swingX = analog[0], swingY = -analog[1];
 			LT = analog[3] + 1, RT = analog[4] + 1;
-			camX = -analog[2], camY = analog[5];
+			camX = -int(analog[2] * 10) / 10.0, camY = int(analog[5] * 10) / 10.0;
 		}
+		std::cout << camX << ' ' << camY << std::endl;
 	}
 
 
@@ -359,8 +377,18 @@ void MainScene::Update(double dt)
 		// camera.moveTo(center + d + offset * 10, dt);
 	}
 
+	if (Application::IsKeyPressed(VK_UP))
+		camera.changePitch(-1, dt);
+	if (Application::IsKeyPressed(VK_DOWN))
+		camera.changePitch(1, dt);
+	if (Application::IsKeyPressed(VK_LEFT))
+		camera.changeYaw(1, dt);
+	if (Application::IsKeyPressed(VK_RIGHT))
+		camera.changeYaw(-1, dt);
+
 	//camera.move(dt);
-	camera.setTarget(center);
+	Vector3 target = Vector3(int(center.x / 5) * 5, int(center.y / 5) * 5, int(center.z / 5) * 5);
+	camera.setTarget(target);
 }
 
 void MainScene::Render()
@@ -420,7 +448,8 @@ void MainScene::Render()
 	//renderMesh(models[SKY_BOX]);
 	modelStack.PopMatrix();
 
-	for (Object* obj : manager->getObjects()) {
+	for (Object* obj : manager->getObjects()) 
+	{
 		renderObject(obj);
 		//renderBoundingBox(obj->getBoundingBox());
 	}
