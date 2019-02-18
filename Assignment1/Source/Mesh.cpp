@@ -42,6 +42,7 @@ Mesh::Mesh(const std::string &meshName)
 	glGenBuffers(1, &colorBuffer);
 	glGenBuffers(1, &indexBuffer);
 	textureBuffer = 0;
+
 }
 
 /******************************************************************************/
@@ -168,6 +169,11 @@ void Mesh::render(unsigned offset, unsigned count) {
 
 void Mesh::applyTexture(const char* path) {
 	this->textureBuffer = LoadTGA(path);
+}
+
+void Mesh::getShadowTexture(GLuint texture)
+{
+	this->textureBuffer = f_Shadows.getTexture();
 }
 
 bool Mesh::isTextured() {
