@@ -3,7 +3,7 @@
 
 #include "Object.h"
 #include "Spring.h"
-#include "CollisionResult.h"
+#include "CollisionDetails.h"
 
 #include <vector>
 
@@ -30,12 +30,13 @@ public:
 
 	std::vector<Object*> getObjects();
 	void addObject(Object*);
-	void updateObjects(float);
+	void updateObjects();
 
 	std::vector<Object*> getEnvironment();
 	void addToEnvironment(Object*);
 
-	CollisionResult getEnviromentalCollision(Object*);
+	CollisionDetails getEnviromentalCollision(Object*);
+	void resolveCollisions();
 
 	void addSpring(Spring*);
 	void addExternalSpring(Spring**);

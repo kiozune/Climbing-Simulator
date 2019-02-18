@@ -123,7 +123,7 @@ void MainScene::Init()
 	manager->addObject(leftArm);
 	manager->addObject(rightHand);
 	manager->addObject(rightArm);
-	manager->addObject(neck);
+	manager->addObject(neck);	
 	manager->addObject(body);
 	manager->addObject(leftLeg);
 	manager->addObject(rightLeg);
@@ -157,13 +157,14 @@ void MainScene::Init()
 				hinges.push_back(new Joint(Vector3(x, 60 + y - i * 15, z)));
 				Object* chain = new Object(hinges[i - 1], hinges[i], 10, 3);
 				chain->setColour(Vector3(0.2, 0.6, 0.5));
+				chain->setClipping(true);
 				manager->addToEnvironment(chain);
 			}
 		}
-		
 	}
+	
 
-	Object* platform = new Object(Vector3(100, 10, 100), Vector3(0, 0, 0), 0, false);
+	Object* platform = new Object(Vector3(100, 10, 100), Vector3(0, -20, 0), 0, false);
 	platform->setColour(Vector3(0.5, 0.5, 0.5));
 	manager->addToEnvironment(platform);
 
@@ -248,6 +249,14 @@ void MainScene::Update(double dt)
 
 
 
+
+
+	manager->applyGravity(dt);
+
+
+
+
+
 	// Player swing
 
 	Vector3 curr = Application::GetMousePosition();
@@ -279,10 +288,10 @@ void MainScene::Update(double dt)
 	{
 		if (!p.isLeftGrabbing())
 		{
-			CollisionResult result = manager->getEnviromentalCollision(p.getLeftHand());
-			if (result.object)
+			CollisionDetails details = manager->getEnviromentalCollision(p.getLeftHand());
+			if (details.result.collided)
 			{
-				p.leftGrab(result.object->getEnd());
+				p.leftGrab(details.object->getEnd());
 			}
 		}
 	}
@@ -295,10 +304,10 @@ void MainScene::Update(double dt)
 	{
 		if (!p.isRightGrabbing())
 		{
-			CollisionResult result = manager->getEnviromentalCollision(p.getRightHand());
-			if (result.object)
+			CollisionDetails details = manager->getEnviromentalCollision(p.getRightHand());
+			if (details.result.collided)
 			{
-				p.rightGrab(result.object->getEnd());
+				p.rightGrab(details.object->getEnd());
 			}
 		}
 	}
@@ -314,8 +323,8 @@ void MainScene::Update(double dt)
 	// general physics
 
 	//if (Application::IsKeyPressed('G'))
-	manager->applyGravity(dt);
-	manager->updateObjects(dt);
+	manager->resolveCollisions();
+	manager->updateObjects();
 	manager->updateSprings();
 
 

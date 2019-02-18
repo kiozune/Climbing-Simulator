@@ -17,7 +17,7 @@ private:
 
 	BoundingBox bb;
 
-	bool affectByGravity;
+	bool clippingEnabled, affectByGravity;
 
 	void update();
 
@@ -35,6 +35,9 @@ public:
 	Vector3 getMomentum();
 	BoundingBox& getBoundingBox();
 	bool isAffectByGravity();
+
+	bool isClippingEnabled();
+	void setClipping(bool);
 
 	Vector3 getColour();
 	void setColour(Vector3);

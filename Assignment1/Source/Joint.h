@@ -18,6 +18,8 @@ public:
 	bool isFixed();
 	void setFixed(bool);
 
+	void displace(Vector3);
+	
 	Vector3 getCurrent();
 	void setCurrent(Vector3);
 

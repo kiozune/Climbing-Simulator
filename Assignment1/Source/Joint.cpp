@@ -15,6 +15,12 @@ void Joint::setFixed(bool b)
 	this->fixed = b; 
 }
 
+void Joint::displace(Vector3 d)
+{
+	this->current += d;
+	this->previous = this->current;
+}
+
 Vector3 Joint::getCurrent() { return this->current; }
 void Joint::setCurrent(Vector3 position) { this->current = position; }
 

@@ -33,6 +33,7 @@ Object::Object(Joint* start, Joint* end, float mass, float size)
 	this->update();
 
 	this->affectByGravity = true;
+	this->clippingEnabled = false;
 }
 
 Object::Object(Vector3 scale, Vector3 center, float mass, bool g)
@@ -50,6 +51,7 @@ Object::Object(Vector3 scale, Vector3 center, float mass, bool g)
 	this->bb.setTranslation(this->center);
 
 	this->affectByGravity = g;
+	this->clippingEnabled = false;
 }
 
 Joint* Object::getStart() { return this->start; }
@@ -61,6 +63,9 @@ Vector3 Object::getCenter() { return this->center; }
 Vector3 Object::getMomentum() { return this->velocity * this->mass; };
 BoundingBox& Object::getBoundingBox() { return this->bb; }
 bool Object::isAffectByGravity() { return this->affectByGravity; }
+
+bool Object::isClippingEnabled() { return this->clippingEnabled; }
+void Object::setClipping(bool b) { this->clippingEnabled = b; }
 
 Vector3 Object::getColour() { return this->colour; }
 void Object::setColour(Vector3 v) { this->colour = v; }

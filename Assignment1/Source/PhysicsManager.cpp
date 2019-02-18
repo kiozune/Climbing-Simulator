@@ -16,7 +16,7 @@ void PhysicsManager::addObject(Object* obj)
 	this->others.push_back(obj);
 }
 
-void PhysicsManager::updateObjects(float dt) 
+void PhysicsManager::updateObjects() 
 {
 	for (Object* obj : this->objects)
 		obj->constraint();
@@ -30,18 +30,36 @@ void PhysicsManager::addToEnvironment(Object* obj)
 	this->objects.push_back(obj);
 }
 
-CollisionResult PhysicsManager::getEnviromentalCollision(Object* obj)
+CollisionDetails PhysicsManager::getEnviromentalCollision(Object* obj)
 {
-	CollisionResult result;
+	CollisionDetails details;
 	for (Object* env : environment)
 	{
-		if (obj->getBoundingBox().didCollideWith(env->getBoundingBox()))
-		{
-			result.object = env;
+		details.result = obj->getBoundingBox().getCollisionResultWith(env->getBoundingBox());
+		details.object = env;
+		if (details.result.collided)
 			break;
+	}
+	return details;
+}
+
+void PhysicsManager::resolveCollisions()
+{
+	CollisionResult result;
+	for (Object* obj : others)
+	{
+		for (Object* env : environment)
+		{
+			if (env->isClippingEnabled()) continue;
+			result = obj->getBoundingBox().getCollisionResultWith(env->getBoundingBox());
+			if (result.collided)
+			{
+				Vector3 displacement = result.displacement;
+				obj->getStart()->displace(displacement);
+				obj->getEnd()->displace(displacement);
+			}
 		}
 	}
-	return result;
 }
 
 void PhysicsManager::addSpring(Spring* spr) { this->springs.push_back(spr); }
@@ -66,5 +84,5 @@ void PhysicsManager::applyGravity(float dt)
 void PhysicsManager::applyImpulse(Object* obj, Vector3 force, float dt)
 {
 	obj->applyImpulse(force, dt);
-	this->updateObjects(dt);
+	this->updateObjects();
 }

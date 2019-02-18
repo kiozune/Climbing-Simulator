@@ -5,6 +5,7 @@
 
 #include "Vector3.h"
 #include "Mtx44.h"
+#include "CollisionResult.h"
 
 class BoundingBox 
 {
@@ -33,7 +34,7 @@ public:
 	BoundingBox* setScale(Vector3);
 	BoundingBox* setTranslation(Vector3);
 
-	bool didCollideWith(BoundingBox&);
+	CollisionResult getCollisionResultWith(BoundingBox&);
 
 };
 

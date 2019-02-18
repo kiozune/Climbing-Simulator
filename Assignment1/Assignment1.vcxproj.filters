@@ -173,6 +173,9 @@
     <ClInclude Include="Source\CollisionResult.h">
       <Filter>Physics</Filter>
     </ClInclude>
+    <ClInclude Include="Source\CollisionDetails.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\Texture.fragmentshader">

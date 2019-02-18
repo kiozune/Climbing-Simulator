@@ -75,18 +75,33 @@ BoundingBox* BoundingBox::setTranslation(Vector3 t)
 	return this->update();
 }
 
-bool BoundingBox::didCollideWith(BoundingBox& b) 
+CollisionResult BoundingBox::getCollisionResultWith(BoundingBox& b)
 {
+	CollisionResult result;
+
 	Vector3 T = b.P - P;
 
-	return !(
-		fabs(T.Dot(X)) > W + fabs(b.W * X.Dot(b.X)) + fabs(b.H * X.Dot(b.Y)) + fabs(b.D * X.Dot(b.Z)) ||
-		fabs(T.Dot(Y)) > H + fabs(b.W * Y.Dot(b.X)) + fabs(b.H * Y.Dot(b.Y)) + fabs(b.D * Y.Dot(b.Z)) ||
-		fabs(T.Dot(Z)) > D + fabs(b.W * Z.Dot(b.X)) + fabs(b.H * Z.Dot(b.Y)) + fabs(b.D * Z.Dot(b.Z)) ||
+	float x = fabs(T.Dot(X)) - (W + fabs(b.W * X.Dot(b.X)) + fabs(b.H * X.Dot(b.Y)) + fabs(b.D * X.Dot(b.Z)));
+	float y = fabs(T.Dot(Y)) - (H + fabs(b.W * Y.Dot(b.X)) + fabs(b.H * Y.Dot(b.Y)) + fabs(b.D * Y.Dot(b.Z)));
+	float z = fabs(T.Dot(Z)) - (D + fabs(b.W * Z.Dot(b.X)) + fabs(b.H * Z.Dot(b.Y)) + fabs(b.D * Z.Dot(b.Z)));
 
-		fabs(T.Dot(b.X)) > fabs(W * X.Dot(b.X)) + fabs(H * Y.Dot(b.X)) + fabs(D * Z.Dot(b.X)) + b.W ||
-		fabs(T.Dot(b.Y)) > fabs(W * X.Dot(b.Y)) + fabs(H * Y.Dot(b.Y)) + fabs(D * Z.Dot(b.Y)) + b.H ||
-		fabs(T.Dot(b.Z)) > fabs(W * X.Dot(b.Z)) + fabs(H * Y.Dot(b.Z)) + fabs(D * Z.Dot(b.Z)) + b.D ||
+	float bx = fabs(T.Dot(b.X)) - (fabs(W * X.Dot(b.X)) + fabs(H * Y.Dot(b.X)) + fabs(D * Z.Dot(b.X)) + b.W);
+	float by = fabs(T.Dot(b.Y)) - (fabs(W * X.Dot(b.Y)) + fabs(H * Y.Dot(b.Y)) + fabs(D * Z.Dot(b.Y)) + b.H);
+	float bz = fabs(T.Dot(b.Z)) - (fabs(W * X.Dot(b.Z)) + fabs(H * Y.Dot(b.Z)) + fabs(D * Z.Dot(b.Z)) + b.D);
+
+	if (bx > by && bx > bz) 
+		result.displacement = Vector3(-bx, 0, 0);
+	else if (by > bz)
+		result.displacement = Vector3(0, -by, 0);
+	else
+		result.displacement = Vector3(0, 0, -bz);
+
+	//result.displacement *= 0.99;
+
+	result.collided = !(
+		x > 0 || y > 0 || z > 0 ||
+
+		bx > 0 || by > 0 || bz > 0 ||
 
 		fabs(T.Dot(X.Cross(b.X))) > fabs(H * Z.Dot(b.X)) + fabs(D * Y.Dot(b.X)) + fabs(b.H * X.Dot(b.Z)) + fabs(b.D * X.Dot(b.Y)) ||
 		fabs(T.Dot(X.Cross(b.Y))) > fabs(H * Z.Dot(b.Y)) + fabs(D * Y.Dot(b.Y)) + fabs(b.W * X.Dot(b.Z)) + fabs(b.D * X.Dot(b.X)) ||
@@ -100,4 +115,7 @@ bool BoundingBox::didCollideWith(BoundingBox& b)
 		fabs(T.Dot(Z.Cross(b.Y))) > fabs(W * Y.Dot(b.Y)) + fabs(H * X.Dot(b.Y)) + fabs(b.W * Z.Dot(b.Z)) + fabs(b.D * Z.Dot(b.X)) ||
 		fabs(T.Dot(Z.Cross(b.Z))) > fabs(W * Y.Dot(b.Z)) + fabs(H * X.Dot(b.Z)) + fabs(b.W * Z.Dot(b.Y)) + fabs(b.H * Z.Dot(b.X))
 	);
+
+
+	return result;
 }

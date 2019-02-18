@@ -1,11 +1,12 @@
 #ifndef COLLISION_RESULT_H
 #define COLLISION_RESULT_H
 
-#include "Object.h"
+#include "Vector3.h"
 
 struct CollisionResult
 {
-	Object* object = nullptr;
+	bool collided = false;
+	Vector3 displacement;
 };
 
 #endif
