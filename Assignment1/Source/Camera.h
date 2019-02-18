@@ -17,18 +17,19 @@ private:
 	// previous mouse position
 	GLfloat prevX, prevY;
 
-	Vector3 worldUp;
-
-	/*to be used for player camera
-	where the camera is just facing one position
-	*/
-	Vector3 target;
 	/*
-	store different values of directions
-	front - facing direciton
-	forward - movement direction
+		store different values of directions
+		front - facing direciton
+		forward - movement direction
 	*/
 	Vector3 front, right, up, forward;
+	Vector3 worldUp;
+
+	/*
+		to be used for player camera
+		where the camera is just facing one position
+	*/
+	Vector3 target;
 
 	// update the vectors based on yaw and pitch
 	void update();

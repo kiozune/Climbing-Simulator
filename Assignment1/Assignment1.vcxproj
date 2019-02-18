@@ -135,7 +135,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="FrameBufferObject.cpp" />
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\Light.cpp" />
@@ -151,7 +150,6 @@
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FrameBufferObject.h" />
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Light.h" />
@@ -167,14 +165,8 @@
     <ClInclude Include="Source\vertex.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shader\DepthTexture.fs" />
-    <None Include="Shader\DepthTexture.vertexshader" />
-    <None Include="Shader\Shadow.fragmentshader" />
-    <None Include="Shader\Shadow.vertexshader" />
-    <None Include="Shader\SimpleShaderFrag.fs" />
     <None Include="Shader\Texture.fragmentshader" />
     <None Include="Shader\Texture.vertexshader" />
-    <None Include="Shader\VertexShader.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

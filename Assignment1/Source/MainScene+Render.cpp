@@ -8,54 +8,22 @@ void MainScene::applyMaterial(Mesh* model) {
 	model->material.kShininess = 1.0f;
 }
 
-void MainScene::renderMesh(Mesh* model, bool enableLight) 
-{
+void MainScene::renderMesh(Mesh* model, bool enableLight) {
 	Mtx44 modelView, modelView_inverse_transpose;
 
-	//Check if its the first Pass
-	if (e_phase == FIRST_PASS)
-	{
-		Mtx44 lightDepthMVP = lightProjection * lightView * modelStack.Top();
-		glUniformMatrix4fv(m_parameters[U_LIGHT_DEPTH_MVP_FIRSTPASS], 1, GL_FALSE, &lightDepthMVP.a[0]);
-
-		for (int i = 0;i < Mesh::i_Max; ++i)
-		{
-			if (model->textureArray[i] > 0)
-			{
-				glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED + i], 1);
-				glActiveTexture(GL_TEXTURE0 + i);
-				glBindTexture(GL_TEXTURE_2D, model->textureArray[i]);
-				glUniform1i(m_parameters[U_SHADOW_ENABLED + i], i);
-			}
-			else
-			{
-				glUniform1i(m_parameters[U_SHADOW_ENABLED + i], 0);
-			}
-		}
-		model->render();
-		return;
-	}
-
 	Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top(); // Remember, matrix multiplication is the other way around
+
 	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]); //update the shader with new MVP
 	Mtx44 mTop = modelStack.Top();
 	Mtx44 vTop = viewStack.Top();
-		
+
 	modelView = viewStack.Top() * modelStack.Top();
 	glUniformMatrix4fv(m_parameters[U_MODELVIEW], 1, GL_FALSE, &modelView.a[0]);
-
-	modelView_inverse_transpose = modelView.GetInverse().GetTranspose();
-	glUniformMatrix4fv(m_parameters[U_MODELVIEW_INVERSE_TRANSPOSE], 1, GL_FALSE, &modelView.a[0]);
-
 	if (enableLight && lightingEnabled)
 	{
 		glUniform1i(m_parameters[U_LIGHTENABLED], 1);
 		modelView_inverse_transpose = modelView.GetInverse().GetTranspose();
 		glUniformMatrix4fv(m_parameters[U_MODELVIEW_INVERSE_TRANSPOSE], 1, GL_FALSE, &modelView_inverse_transpose.a[0]);
-
-		Mtx44 lightDepthMVP = lightProjection * lightView * modelStack.Top();
-		glUniformMatrix4fv(m_parameters[U_LIGHT_DEPTH_MVP], 1, GL_FALSE, &lightDepthMVP.a[0]);
-
 		//load material
 		glUniform3fv(m_parameters[U_MATERIAL_AMBIENT], 1, &model->material.kAmbient.r);
 		glUniform3fv(m_parameters[U_MATERIAL_DIFFUSE], 1, &model->material.kDiffuse.r);
@@ -67,39 +35,19 @@ void MainScene::renderMesh(Mesh* model, bool enableLight)
 		glUniform1i(m_parameters[U_LIGHTENABLED], 0);
 	}
 
-	for (int i = 0; i < Mesh::i_Max;++i)
-	{
-		if (model->textureArray[i] > 0)
-		{
-			//Render Texture
-			glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED + i], 1);
-			glActiveTexture(GL_TEXTURE0 + i);
-			glBindTexture(GL_TEXTURE_2D, model->textureArray[i]);
-			glUniform1i(m_parameters[U_COLOR_TEXTURE + i], i);
-		}
-		else
-		{
-			//No texture
-			glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED + i], 0);
-		}
-	}
-
-
-	/*
-	if (model->isTextured()) {
+	if (model ->isTextured()) {
 		glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, model->getTextureID());
 		glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
-	}
-	else {
+	} else {
 		glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 0);
 	}
-	*/
+
 	model->render();
 
-		if (model->isTextured()) {
-			glBindTexture(GL_TEXTURE_2D, 0);
+	if (model->isTextured()) {
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 }
 
