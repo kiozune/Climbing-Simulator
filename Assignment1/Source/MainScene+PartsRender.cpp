@@ -15,6 +15,9 @@ void MainScene::renderObject(Object* obj)
 
 		Vector3 s = obj->getScale();
 		modelStack.Scale(s.x, s.y, s.z);
+		
+		Vector3 colour = obj->getColour();
+		models[CUBE]->material.kAmbient.Set(colour.x, colour.y, colour.z);
 		renderMesh(models[CUBE], true);
 	}
 	modelStack.PopMatrix();

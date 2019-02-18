@@ -18,17 +18,6 @@ void PhysicsManager::addObject(Object* obj)
 
 void PhysicsManager::updateObjects(float dt) 
 {
-	for (Object* obj : others)
-	{
-		for (Object* env : environment)
-		{
-			if (obj->getBoundingBox().didCollideWith(env->getBoundingBox()))
-			{
-				//obj->applyImpulse(-obj->getMomentum() * obj->getMass() * fr, 1);
-			}
-		}
-	}
-
 	for (Object* obj : this->objects)
 		obj->constraint();
 }
@@ -39,6 +28,20 @@ void PhysicsManager::addToEnvironment(Object* obj)
 {
 	this->environment.push_back(obj);
 	this->objects.push_back(obj);
+}
+
+CollisionResult PhysicsManager::getEnviromentalCollision(Object* obj)
+{
+	CollisionResult result;
+	for (Object* env : environment)
+	{
+		if (obj->getBoundingBox().didCollideWith(env->getBoundingBox()))
+		{
+			result.object = env;
+			break;
+		}
+	}
+	return result;
 }
 
 void PhysicsManager::addSpring(Spring* spr) { this->springs.push_back(spr); }

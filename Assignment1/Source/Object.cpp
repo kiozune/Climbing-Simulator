@@ -62,6 +62,9 @@ Vector3 Object::getMomentum() { return this->velocity * this->mass; };
 BoundingBox& Object::getBoundingBox() { return this->bb; }
 bool Object::isAffectByGravity() { return this->affectByGravity; }
 
+Vector3 Object::getColour() { return this->colour; }
+void Object::setColour(Vector3 v) { this->colour = v; }
+
 void Object::constraint()
 {
 	if (this->start == nullptr) return;

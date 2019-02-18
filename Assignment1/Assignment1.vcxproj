@@ -162,6 +162,7 @@
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\BoundingBox.h" />
     <ClInclude Include="Source\Camera.h" />
+    <ClInclude Include="Source\CollisionResult.h" />
     <ClInclude Include="Source\FixedCamera.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />

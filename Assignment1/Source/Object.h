@@ -11,7 +11,7 @@ private:
 	Joint * start, *end;
 	
 	float mass, length;
-	Vector3 scale, rotation, center;
+	Vector3 scale, rotation, center, colour;
 
 	Vector3 velocity;
 
@@ -35,6 +35,9 @@ public:
 	Vector3 getMomentum();
 	BoundingBox& getBoundingBox();
 	bool isAffectByGravity();
+
+	Vector3 getColour();
+	void setColour(Vector3);
 
 	void constraint();
 	void accelerate(Vector3, float);

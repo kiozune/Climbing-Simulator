@@ -59,7 +59,6 @@ void MainScene::Init()
 	glUseProgram(m_programID);
 
 	lights[0].type = Light::SPOT;
-	lights[0].color = Color(1, 0, 0);
 	lights[0].setUniform();
 
 	glUniform1i(m_parameters[U_NUMLIGHTS], LIGHT_COUNT);
@@ -105,6 +104,15 @@ void MainScene::Init()
 	Object* leftLeg = new Object(pelvis, leftFeet, mass, size);
 	Object* rightLeg = new Object(pelvis, rightFeet, mass, size);
 
+	leftHand->setColour(Vector3(0.9, 0.9, 0));
+	leftArm->setColour(Vector3(0.0, 0.2, 0.5));
+	rightHand->setColour(Vector3(0.9, 0.9, 0));
+	rightArm->setColour(Vector3(0.0, 0.2, 0.5));
+	neck->setColour(Vector3(0.0, 0.2, 0.5));
+	body->setColour(Vector3(0.0, 0.2, 0.5));
+	leftLeg->setColour(Vector3(0.0, 0.2, 0.5));
+	rightLeg->setColour(Vector3(0.0, 0.2, 0.5));
+
 	p.setLeftHand(leftHand);
 	p.setLeftArm(leftArm);
 	p.setRightHand(rightHand);
@@ -137,6 +145,7 @@ void MainScene::Init()
 		if (rand() % 5)
 		{
 			Object* box = new Object(Vector3(w, h, d), Vector3(x, y, z), 0, false);
+			box->setColour(Vector3(0.5, 0.5, 0.5));
 			manager->addToEnvironment(box);
 		}
 		else
@@ -147,6 +156,7 @@ void MainScene::Init()
 			{
 				hinges.push_back(new Joint(Vector3(x, 60 + y - i * 15, z)));
 				Object* chain = new Object(hinges[i - 1], hinges[i], 10, 3);
+				chain->setColour(Vector3(0.2, 0.6, 0.5));
 				manager->addToEnvironment(chain);
 			}
 		}
@@ -154,7 +164,8 @@ void MainScene::Init()
 	}
 
 	Object* platform = new Object(Vector3(100, 10, 100), Vector3(0, 0, 0), 0, false);
-	//manager->addToEnvironment(platform);
+	platform->setColour(Vector3(0.5, 0.5, 0.5));
+	manager->addToEnvironment(platform);
 
 	Spring* topLeft = new Spring(head, leftWrist, 0.2, 1.5, 0.2);
 	Spring* topRight = new Spring(head, rightWrist, 0.2, 1.5, 0.2);
@@ -268,13 +279,10 @@ void MainScene::Update(double dt)
 	{
 		if (!p.isLeftGrabbing())
 		{
-			for (Object* obj : manager->getEnvironment())
+			CollisionResult result = manager->getEnviromentalCollision(p.getLeftHand());
+			if (result.object)
 			{
-				if (p.getLeftHand()->getBoundingBox().didCollideWith(obj->getBoundingBox()))
-				{
-					p.leftGrab(obj->getEnd());
-					break;
-				}
+				p.leftGrab(result.object->getEnd());
 			}
 		}
 	}
@@ -287,13 +295,10 @@ void MainScene::Update(double dt)
 	{
 		if (!p.isRightGrabbing())
 		{
-			for (Object* obj : manager->getEnvironment())
+			CollisionResult result = manager->getEnviromentalCollision(p.getRightHand());
+			if (result.object)
 			{
-				if (p.getRightHand()->getBoundingBox().didCollideWith(obj->getBoundingBox()))
-				{
-					p.rightGrab(obj->getEnd());
-					break;
-				}
+				p.rightGrab(result.object->getEnd());
 			}
 		}
 	}

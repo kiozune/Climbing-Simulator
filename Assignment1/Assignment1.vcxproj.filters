@@ -170,6 +170,9 @@
     <ClInclude Include="Source\MovableCamera.h">
       <Filter>Camera</Filter>
     </ClInclude>
+    <ClInclude Include="Source\CollisionResult.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\Texture.fragmentshader">
