@@ -1,4 +1,11 @@
 #include "BlockGenerator.h"
+/*
+Rule for PCG sp2 walker algorithm (Distribution method)
+Rule 1 - Doesn't go back the same way it came from and the same direction it is heading to
+Rule 2 - Choose a random length from maximum allowed length and draw it at given direction
+Rule 3 - Avoids the edges of the map
+Rule 4 - Spawn block till it runs out
+*/
 
 BlockGenerator* BlockGenerator::instance = 0;
 
@@ -6,7 +13,7 @@ BlockGenerator::BlockGenerator()
 {
 	head = nullptr;
 	tail = nullptr;
-	currentPos = Vector3(0, 0, 0);
+	lastDirection = 0;
 }
 
 BlockGenerator * BlockGenerator::GetInstance()
@@ -16,130 +23,173 @@ BlockGenerator * BlockGenerator::GetInstance()
 	return instance;
 }
 
-void BlockGenerator::generateBlocks(Vector3 startCoord, int maxHeight, int offsetPos, int boundary)
+void BlockGenerator::generateBlocks(int valBlocks, int maxHeight, int maxLength, int offsetPos, int boundary)
 {
-	currentPos = startCoord;
-	block *temp = new block;
-	temp->setVector3(currentPos);
-	temp->setMesh((rand() % NUM_TEMPLATE) + 1);
-	temp->setPrevious(nullptr); // starting block doesn't have a pervious block 
-	if (head == nullptr)
+	Vector3 currentPos = { 0,0,0 };
+	int blockTemp = valBlocks; // blockTemp val will need to decrease during whileloop
+	
+	// first block
 	{
+		block *temp = new block;
+		temp->setVector3(currentPos);
+		temp->setMesh();
+		temp->setPrevious(nullptr); // starting block doesn't have a pervious block
 		head = temp;
 		tail = temp;
 	}
-	block *newTemp = new block;
-	currentPos.y += offsetPos;
-	newTemp->setVector3(currentPos);
-	newTemp->setMesh((rand() % NUM_TEMPLATE) + 1);
-	tail->setNext(newTemp);
-	newTemp->setPrevious(tail);
-	tail = newTemp;
-	while (currentPos.y != maxHeight)
+	
+	while (blockTemp) // Rule 4 | loop till there is no more blocks to build
 	{
-		if (currentPos.y >= maxHeight) // safety check
-			break;
-		block *temp = new block;
-		switch (int direction = (rand() % 5) + 1) // 1 left 2 right 3 forwad 4 backward 5 upward
+		switch (randomDirection(lastDirection))
 		{
-		case 1: // left
-			// x- 
-			if ((currentPos.x >= -boundary && currentPos.x <= boundary) && currentPos.x - 1 != tail->getPrevious()->getVector3().x)
+		case UP:
+		{
+			int randomHeight = rand() % maxHeight + 1;
+			while (randomHeight) // rule 2
+			{ // rule 3 doesn't applied to height
+				if (blockTemp == 0)
+					break;
+				block* temp = new block;
+				currentPos.y += offsetPos;
+				temp->setVector3(currentPos);
+				temp->setMesh();
+				tail->setNext(temp);
+				temp->setPrevious(tail);
+				tail = temp;
+				--blockTemp;
+				--randomHeight;
+			}
+			lastDirection = UP;
+		}
+		break;
+		case LEFT:
+		{
+			int randomLength = rand() % maxLength + 1; 
+			while (randomLength) // rule 2
 			{
+				if (currentPos.x == boundary) // rule 3
+					break;
+				else if (blockTemp == 0)
+					break;
+				block* temp = new block;
 				currentPos.x -= offsetPos;
-				tail->setNext(temp);
-				temp->setMesh((rand() % NUM_TEMPLATE) + 1);
 				temp->setVector3(currentPos);
+				temp->setMesh();
+				tail->setNext(temp);
 				temp->setPrevious(tail);
 				tail = temp;
+				--blockTemp;
+				--randomLength;
 			}
-			else
+			lastDirection = LEFT;
+		}
+		break;
+		case RIGHT:
+		{
+			int randomLength = rand() % maxLength + 1;
+			while (randomLength) // rule 2
 			{
-				currentPos.y += offsetPos;
-				tail->setNext(temp);
-				temp->setMesh((rand() % NUM_TEMPLATE) + 1);
-				temp->setVector3(currentPos);
-				temp->setPrevious(tail);
-				tail = temp;
-			}
-			break;
-		case 2: // right
-			// x +
-			if ( (currentPos.x >= -boundary && currentPos.x <= boundary) && currentPos.x + 1 != tail->getPrevious()->getVector3().x)
-			{
+				if (currentPos.x == boundary) // rule 3
+					break;
+				else if (blockTemp == 0)
+					break;
+				block* temp = new block;
 				currentPos.x += offsetPos;
-				tail->setNext(temp);
-				temp->setMesh((rand() % NUM_TEMPLATE) + 1);
 				temp->setVector3(currentPos);
+				temp->setMesh();
+				tail->setNext(temp);
 				temp->setPrevious(tail);
 				tail = temp;
+				--blockTemp;
+				--randomLength;
 			}
-			else
+			lastDirection = RIGHT;
+		}
+		break;
+		case FORWARD:
+		{
+			int randomLength = rand() % maxLength + 1;
+			while (randomLength) // rule 2
 			{
-				currentPos.y += offsetPos;
-				tail->setNext(temp);
-				temp->setMesh((rand() % NUM_TEMPLATE) + 1);
-				temp->setVector3(currentPos);
-				temp->setPrevious(tail);
-				tail = temp;
-			}
-			break;
-		case 3: // forward
-			// + z
-			if ( (currentPos.z >= -boundary && currentPos.z <= boundary) && currentPos.z + 1 != tail->getPrevious()->getVector3().z)
-			{
+				if (currentPos.z == boundary) // rule 3
+					break;
+				else if (blockTemp == 0)
+					break;
+				block * temp = new block;
 				currentPos.z += offsetPos;
-				tail->setNext(temp);
-				temp->setMesh((rand() % NUM_TEMPLATE) + 1);
 				temp->setVector3(currentPos);
+				temp->setMesh();
+				tail->setNext(temp);
 				temp->setPrevious(tail);
 				tail = temp;
+				--blockTemp;
+				--randomLength;
 			}
-			else
+			lastDirection = FORWARD;
+		}
+		break;
+		case BACKWARD:
+		{
+			int randomLength = rand() % maxLength + 1;
+			while (randomLength) // rule 2
 			{
-				currentPos.y += offsetPos;
-				tail->setNext(temp);
-				temp->setMesh((rand() % NUM_TEMPLATE) + 1);
-				temp->setVector3(currentPos);
-				temp->setPrevious(tail);
-				tail = temp;
-			}
-			break;
-		case 4: // backward
-			// - z
-			if ( (currentPos.z >= -boundary && currentPos.z <= boundary) && currentPos.z - 1 != tail->getPrevious()->getVector3().z)
-			{
+				if (currentPos.z == boundary) // rule 3
+					break;
+				else if (blockTemp == 0)
+					break;
+				block * temp = new block;
 				currentPos.z -= offsetPos;
-				tail->setNext(temp);
-				temp->setMesh((rand() % NUM_TEMPLATE) + 1);
 				temp->setVector3(currentPos);
+				temp->setMesh();
+				tail->setNext(temp);
 				temp->setPrevious(tail);
 				tail = temp;
+				--blockTemp;
+				--randomLength;
 			}
-			else
-			{
-				currentPos.y += offsetPos;
-				tail->setNext(temp);
-				temp->setMesh((rand() % NUM_TEMPLATE) + 1);
-				temp->setVector3(currentPos);
-				temp->setPrevious(tail);
-				tail = temp;
-			}
-			break;
-		case 5: // upwards
-			// + y
-			currentPos.y += offsetPos;
-			tail->setNext(temp);
-			temp->setMesh((rand() % NUM_TEMPLATE) + 1);
-			temp->setVector3(currentPos);
-			temp->setPrevious(tail);
-			tail = temp;
-			break;
+			lastDirection = BACKWARD;
+		}
+		break;
 		default:
-			printf("Error at BlockGenerator / generateBlocks() switch case");
+			printf("ERROR at switch case > blockGenerator.cpp > generateblocks function");
 			break;
 		}
 	}
+}
+
+int BlockGenerator::randomDirection(int lastDir)
+{
+	int temp = 0;
+	int oppDir = 0;
+
+	switch (lastDir) // flip the direction
+	{
+	case UP:
+		oppDir = 0; // blank
+		break;
+	case LEFT:
+		oppDir = RIGHT;
+		break;
+	case RIGHT:
+		oppDir = LEFT;
+		break;
+	case FORWARD:
+		oppDir = BACKWARD;
+		break;
+	case BACKWARD:
+		oppDir = FORWARD;
+		break;
+	default:
+		printf("ERROR at switch case > blockGenerator.cpp > randomDirection function");
+		break;
+	}
+
+	do
+	{
+		temp = rand() % NUM_DIRECTION; // 0 to 4
+	} while (temp == lastDir || temp == oppDir); // Rule 1
+
+	return temp;
 }
 
 block * BlockGenerator::getHead()

@@ -12,6 +12,7 @@ class block
 {
 public:
 	block();
+	void setMesh();
 	void setMesh(int val);
 	Mesh *getMesh();
 

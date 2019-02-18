@@ -10,6 +10,11 @@ block::block()
 	position = Vector3(0, 0, 0);
 }
 
+void block::setMesh()
+{
+	mesh = MeshBuilder::GenerateCube("cube", Color(1, 1, 1), 1, 1, 1);
+}
+
 void block::setMesh(int val)
 {
 	switch (val)
