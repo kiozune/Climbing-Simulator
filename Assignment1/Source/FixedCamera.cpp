@@ -32,21 +32,16 @@ void FixedCamera::Init(const Vector3& target, const GLfloat radius, const GLfloa
 	this->update();
 }
 
-void FixedCamera::zoomIn(float dt)
-{
-	this->radius -= moveSpeed * dt;
-}
-
-void FixedCamera::zoomOut(float dt)
-{
-	this->radius += moveSpeed * dt;
-}
+void FixedCamera::zoomIn(float dt) { this->radius -= moveSpeed * dt; }
+void FixedCamera::zoomOut(float dt) { this->radius += moveSpeed * dt; }
 
 void FixedCamera::changeYaw(float r, float dt)
 {
 	this->yaw += this->turnSpeed * r * dt;
 	this->update();
 }
+
+GLfloat FixedCamera::getYaw() { return this->yaw; }
 
 void FixedCamera::changePitch(float r, float dt)
 {
@@ -60,10 +55,7 @@ void FixedCamera::changePitch(float r, float dt)
 	this->update();
 }
 
-void FixedCamera::moveTo(float dt)
-{
-	
-}
+GLfloat FixedCamera::getPitch() { return this->pitch; }
 
 void FixedCamera::setAuto(bool b) { this->automatic = b; }
 bool FixedCamera::isAuto() { return this->automatic; }

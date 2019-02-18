@@ -59,6 +59,7 @@ void MainScene::Init()
 	glUseProgram(m_programID);
 
 	lights[0].type = Light::SPOT;
+	lights[0].position.Set(0, 300, 0);
 	lights[0].setUniform();
 
 	glUniform1i(m_parameters[U_NUMLIGHTS], LIGHT_COUNT);
@@ -263,7 +264,6 @@ void MainScene::Update(double dt)
 			LT = analog[3] + 1, RT = analog[4] + 1;
 			camX = -int(analog[2] * 10) / 10.0, camY = int(analog[5] * 10) / 10.0;
 		}
-		std::cout << camX << ' ' << camY << std::endl;
 	}
 
 
@@ -349,11 +349,6 @@ void MainScene::Update(double dt)
 
 
 
-
-
-	// lighting
-
-	lights[0].position.Set(center.x, center.y, center.z);
 
 	// camera
 
@@ -454,10 +449,44 @@ void MainScene::Render()
 		//renderBoundingBox(obj->getBoundingBox());
 	}
 
+	Vector3 left  = p.getLeftHand()->getCenter();
+	Vector3 right = p.getRightHand()->getCenter();
+	float yaw = camera.getYaw();
+	float pitch = camera.getPitch();
+
+	modelStack.PushMatrix();
+	{
+		modelStack.Translate(left.x, left.y + 5, left.z);
+
+		modelStack.Rotate(270 - yaw, 0, 1, 0);
+		modelStack.Rotate(pitch, 1, 0, 0);
+
+		modelStack.Scale(3, 3, 3);
+
+		Color color = p.isLeftGrabbing() ? Color(.9, .9, 0) : Color(1, 1, 1);
+		renderText(models[TEXT], "LT", color);
+	}
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	{
+		modelStack.Translate(right.x, right.y + 5, right.z);
+
+		modelStack.Rotate(270 - yaw, 0, 1, 0);
+		modelStack.Rotate(pitch, 1, 0, 0);
+
+		modelStack.Scale(3, 3, 3);
+
+		Color color = p.isRightGrabbing() ? Color(0, .9, .9) : Color(1, 1, 1);
+		renderText(models[TEXT], "RT", color);
+	}
+	modelStack.PopMatrix();
+
 	Vector3 center = p.getBody()->getCenter();
 	std::string content;
-	content += std::to_string((int)center.x) + " / " + std::to_string((int)center.y) + " / " + std::to_string((int)center.z);
-	renderTextOnScreen(models[TEXT], content, Color(0, 0, 0), 2, 2, 2);
+	content += std::to_string((int)center.x) + " / " + std::to_string((int)center.y) + " / " + std::to_string((int)center.z) + "\n";
+	content += std::to_string(yaw) + " / " + std::to_string(pitch);
+	renderTextOnScreen(models[TEXT], content, Color(0, 1, 0), 1, 2, 2);
 }
 
 void MainScene::Exit()

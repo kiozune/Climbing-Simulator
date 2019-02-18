@@ -48,6 +48,7 @@ void PhysicsManager::resolveCollisions()
 	CollisionResult result;
 	for (Object* obj : others)
 	{
+		if (obj->isClippingEnabled()) continue;
 		for (Object* env : environment)
 		{
 			if (env->isClippingEnabled()) continue;

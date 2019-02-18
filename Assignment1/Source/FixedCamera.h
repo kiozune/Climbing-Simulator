@@ -24,9 +24,10 @@ public:
 	void zoomOut(float);
 
 	void changeYaw(float, float);
-	void changePitch(float, float);
+	GLfloat getYaw();
 
-	void moveTo(float);
+	void changePitch(float, float);
+	GLfloat getPitch();
 
 	void setAuto(bool);
 	bool isAuto();
