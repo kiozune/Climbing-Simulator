@@ -18,13 +18,13 @@ void ControllerManager::getInput()
 
 Vector3 ControllerManager::getLeftJoystick() 
 { 
-	return Vector3(this->analog[0], this->analog[1], 0); 
+	return Vector3(this->analog[0], -this->analog[1], 0); 
 }
 
 Vector3 ControllerManager::getRightJoystick() 
 { 
 	const float x = -int(this->analog[2] * 10) / 10.0;
-	const float y = -int(this->analog[5] * 10) / 10.0;
+	const float y = int(this->analog[5] * 10) / 10.0;
 	return Vector3(x, y, 0); 
 }
 

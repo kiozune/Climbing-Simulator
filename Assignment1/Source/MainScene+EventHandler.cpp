@@ -43,7 +43,7 @@ void MainScene::joystickEvents(double& dt)
 
 	if (Application::IsControllerPressed(GLFW_JOYSTICK_3))
 		camera.zoomOut(dt);
-
+	
 	// camera
 	Vector3 rightJS = controller->getRightJoystick();
 	camera.changeYaw(rightJS.x, dt);
