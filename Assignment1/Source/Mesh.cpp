@@ -174,6 +174,11 @@ bool Mesh::isTextured() {
 	return this->textureBuffer;
 }
 
+void Mesh::setTexture(unsigned int textureID)
+{
+	this->textureBuffer = textureID;
+}
+
 unsigned Mesh::getTextureID() {
 	return this->textureBuffer;
 }
