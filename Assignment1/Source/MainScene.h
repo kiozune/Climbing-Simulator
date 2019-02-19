@@ -4,6 +4,7 @@
 #define LSPEED 10.0f
 
 #include "Scene.h"
+#include "BlockGenerator.h"
 
 #define LIGHT_COUNT 1
 
@@ -39,6 +40,8 @@ class MainScene : public Scene
 
 	MS modelStack, viewStack, projectionStack;
 
+	BlockGenerator* blockGen = BlockGenerator::GetInstance();
+	
 	float elapseTime = 0;
 	float bounceTime; // for key press inputs
 
@@ -48,6 +51,9 @@ class MainScene : public Scene
 
 	// renders gemotry
 	void renderMesh(Mesh* model, bool enableLight = false);
+	
+	// render blocks
+	void renderBlocks();
 
 	void initText();
 	void renderText(Mesh* mesh, const std::string text, Color color);

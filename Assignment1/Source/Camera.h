@@ -43,9 +43,9 @@ public:
 	~Camera();
 
 	// initialisation for moveable camera
-	void Init(const Vector3& pos, const Vector3& worldUp, const GLfloat startPitch, const GLfloat startYaw, const GLfloat moveSpeed, const GLfloat turnSpeed);
+	void Init(const Vector3& position, const Vector3& worldUp, const GLfloat startPitch, const GLfloat startYaw, const GLfloat moveSpeed, const GLfloat turnSpeed);
 	// initialisation for stationary camera
-	void Init(const Vector3& pos, const Vector3& worldUp, const Vector3& target);
+	void Init(const Vector3& position, const Vector3& worldUp, const Vector3& target);
 
 	// getters
 	Vector3 getTarget();
@@ -54,7 +54,7 @@ public:
 
 	// setter
 	void setTarget(Vector3 target);
-	void setPosition(Vector3 pos);
+	void setPosition(Vector3 position);
 
 	// move camera based on key events and delta time
 	void move(const double dt);

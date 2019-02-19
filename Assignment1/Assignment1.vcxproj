@@ -136,6 +136,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp" />
+    <ClCompile Include="Source\block.cpp" />
+    <ClCompile Include="Source\BlockGenerator.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\Light.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
@@ -151,6 +153,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h" />
+    <ClInclude Include="Source\block.h" />
+    <ClInclude Include="Source\BlockGenerator.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />

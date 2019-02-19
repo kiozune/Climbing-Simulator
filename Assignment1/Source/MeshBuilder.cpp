@@ -8,7 +8,7 @@ void MeshBuilder::add(std::vector<Vertex> &data, const float x, const float y, c
 	Vector3 normal = Vector3(x, y, z).Normalize();
 	Vertex vert;
 
-	vert.pos.Set(x, y, z);
+	vert.position.Set(x, y, z);
 	vert.normal.Set(normal.x, normal.y, normal.z);
 	vert.color.Set(color.r, color.g, color.b);
 	vert.texCoord.Set(u, v);
@@ -22,27 +22,27 @@ Mesh* MeshBuilder::GenerateAxes(const std::string &meshName, Position len)
 	
 	len = Position(len.x / 2 , len.y / 2, len.z / 2);
 	
-	v.pos.Set(-len.x, 0, 0);
+	v.position.Set(-len.x, 0, 0);
 	v.color.Set(1, 0, 0);
 	vertex_buffer_data.push_back(v);
 
-	v.pos.Set(len.x, 0, 0);
+	v.position.Set(len.x, 0, 0);
 	v.color.Set(1, 0, 0);
 	vertex_buffer_data.push_back(v);
 	
-	v.pos.Set(0, -len.y, 0);
+	v.position.Set(0, -len.y, 0);
 	v.color.Set(0, 1, 0);
 	vertex_buffer_data.push_back(v);
 
-	v.pos.Set(0, len.y, 0);
+	v.position.Set(0, len.y, 0);
 	v.color.Set(0, 1, 0);
 	vertex_buffer_data.push_back(v);
 		
-	v.pos.Set(0, 0, -len.z);
+	v.position.Set(0, 0, -len.z);
 	v.color.Set(0, 0, 1);
 	vertex_buffer_data.push_back(v);
 
-	v.pos.Set(0, 0, len.z);
+	v.position.Set(0, 0, len.z);
 	v.color.Set(0, 0, 1);
 	vertex_buffer_data.push_back(v);
 
@@ -62,28 +62,28 @@ Mesh* MeshBuilder::GenerateCube(const std::string &meshName, Color color, float 
 	// An array of 3 vectors which represents 3 vertices
 	Vertex v;
 	std::vector<Vertex> vertex_buffer_data;
-	v.pos.Set(-0.5f, -0.5f, -0.5f); v.color = color;
+	v.position.Set(-0.5f, -0.5f, -0.5f); v.color = color;
 	v.normal.Set(-0.5f, -0.5f, -0.5f);
 	vertex_buffer_data.push_back(v);
-	v.pos.Set(0.5f, -0.5f, -0.5f); v.color = color;
+	v.position.Set(0.5f, -0.5f, -0.5f); v.color = color;
 	v.normal.Set(0.5f, -0.5f, -0.5f);
 	vertex_buffer_data.push_back(v);
-	v.pos.Set(0.5f, 0.5f, -0.5f); v.color = color;
+	v.position.Set(0.5f, 0.5f, -0.5f); v.color = color;
 	v.normal.Set(0.5f, 0.5f, -0.5f);
 	vertex_buffer_data.push_back(v);
-	v.pos.Set(-0.5f, 0.5f, -0.5f); v.color = color;
+	v.position.Set(-0.5f, 0.5f, -0.5f); v.color = color;
 	v.normal.Set(-0.5f, 0.5f, -0.5f);
 	vertex_buffer_data.push_back(v);
-	v.pos.Set(-0.5f, -0.5f, 0.5f); v.color = color;
+	v.position.Set(-0.5f, -0.5f, 0.5f); v.color = color;
 	v.normal.Set(-0.5f, -0.5f, 0.5f);
 	vertex_buffer_data.push_back(v);
-	v.pos.Set(0.5f, -0.5f, 0.5f); v.color = color;
+	v.position.Set(0.5f, -0.5f, 0.5f); v.color = color;
 	v.normal.Set(0.5f, -0.5f, 0.5f);
 	vertex_buffer_data.push_back(v);
-	v.pos.Set(0.5f, 0.5f, 0.5f); v.color = color;
+	v.position.Set(0.5f, 0.5f, 0.5f); v.color = color;
 	v.normal.Set(0.5f, 0.5f, 0.5f);
 	vertex_buffer_data.push_back(v);
-	v.pos.Set(-0.5f, 0.5f, 0.5f); v.color = color;
+	v.position.Set(-0.5f, 0.5f, 0.5f); v.color = color;
 	v.normal.Set(-0.5f, 0.5f, 0.5f);
 	vertex_buffer_data.push_back(v);
 
@@ -220,19 +220,19 @@ Mesh* MeshBuilder::GenerateText(const std::string &meshName, unsigned numRow, un
 		{
 			float u1 = j * width;
 			float v1 = 1.f - height - i * height;
-			v.pos.Set(-0.5, -0.5, 0);
+			v.position.Set(-0.5, -0.5, 0);
 			v.texCoord.Set(u1, v1);
 			vertex_buffer_data.push_back(v);
 
-			v.pos.Set(0.5, -0.5, 0);
+			v.position.Set(0.5, -0.5, 0);
 			v.texCoord.Set(u1 + width, v1);
 			vertex_buffer_data.push_back(v);
 
-			v.pos.Set(0.5, 0.5, 0);
+			v.position.Set(0.5, 0.5, 0);
 			v.texCoord.Set(u1 + width, v1 + height);
 			vertex_buffer_data.push_back(v);
 
-			v.pos.Set(-0.5, 0.5, 0);
+			v.position.Set(-0.5, 0.5, 0);
 			v.texCoord.Set(u1, v1 + height);
 			vertex_buffer_data.push_back(v);
 

@@ -78,6 +78,7 @@ void MainScene::Init()
 
 	camera.Init(Vector3(), Vector3(0, 1, 0), 0, 0, 10, 10);
 
+	blockGen->generateBlocks(50, 3, 7, 1, 10);
 }
 
 void MainScene::Update(double dt)
@@ -161,6 +162,8 @@ void MainScene::Render()
 	}
 
 	renderMesh(models[SKY_BOX]);
+	
+	renderBlocks();
 }
 
 void MainScene::Exit()

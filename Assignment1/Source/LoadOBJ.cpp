@@ -177,7 +177,7 @@ void IndexVBO(
 		{ 
 			// If not, it needs to be added in the output data.
 			Vertex v;
-			v.pos.Set(in_vertices[i].x, in_vertices[i].y, in_vertices[i].z);
+			v.position.Set(in_vertices[i].x, in_vertices[i].y, in_vertices[i].z);
 			v.texCoord.Set(in_uvs[i].u, in_uvs[i].v);
 			v.normal.Set(in_normals[i].x, in_normals[i].y, in_normals[i].z);
 			v.color.Set(1, 1, 1);

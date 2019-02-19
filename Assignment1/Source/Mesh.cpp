@@ -8,12 +8,12 @@ void Mesh::calculateBB(std::vector<Vertex> data) {
 	double maxX, minX, maxZ, minZ;
 	maxX = minX = maxZ = minZ = -1;
 	for (Vertex& v : data) {
-		Position pos = v.pos;
-		if (pos.x < minX || minX == -1) minX = pos.x;
-		else if (pos.x > maxX || maxX == -1) maxX = pos.x;
+		Position position = v.position;
+		if (position.x < minX || minX == -1) minX = position.x;
+		else if (position.x > maxX || maxX == -1) maxX = position.x;
 
-		if (pos.z < minZ || minZ == -1) minZ = pos.z;
-		else if (pos.z > maxZ || minZ == -1) maxZ = pos.z;
+		if (position.z < minZ || minZ == -1) minZ = position.z;
+		else if (position.z > maxZ || minZ == -1) maxZ = position.z;
 	}
 
 	std::vector<Vector3> vertices = {
