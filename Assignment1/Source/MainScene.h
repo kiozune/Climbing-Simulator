@@ -12,7 +12,7 @@
 #include "Player.h"
 
 #define LIGHT_COUNT 1
-#define PLAYER_COUNT 3
+#define PLAYER_COUNT 2
 
 class MainScene : public Scene
 {

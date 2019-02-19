@@ -203,11 +203,11 @@ void MainScene::Update(double dt)
 		{
 			p.releaseRight();
 		}
-	}
 
-	// general physics
-	manager->updateObjects();
-	manager->updateSprings();
+		// general physics
+		manager->updateObjects();
+		manager->updateSprings();
+	}
 
 
 
