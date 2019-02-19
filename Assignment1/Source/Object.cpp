@@ -68,8 +68,8 @@ bool Object::isAffectByGravity() { return this->affectByGravity; }
 bool Object::isClippingEnabled() { return this->clippingEnabled; }
 void Object::setClipping(bool b) { this->clippingEnabled = b; }
 
-Vector3 Object::getColour() { return this->colour; }
-void Object::setColour(Vector3 v) { this->colour = v; }
+Color Object::getColour() { return this->color; }
+void Object::setColour(Color c) { this->color = c; }
 
 void Object::constraint()
 {

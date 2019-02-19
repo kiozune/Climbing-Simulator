@@ -7,7 +7,7 @@
 
 #include <vector>
 
-#define g 2
+#define grav 2
 #define fr 0.5
 
 class PhysicsManager 
@@ -36,7 +36,9 @@ public:
 	void addToEnvironment(Object*);
 
 	CollisionDetails getEnviromentalCollision(Object*);
+	CollisionDetails getCollisionDetails(Object*, std::vector<Object*>);
 	void resolveCollisions();
+
 
 	void addSpring(Spring*);
 	void addExternalSpring(Spring**);

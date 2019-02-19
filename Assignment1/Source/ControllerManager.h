@@ -16,7 +16,7 @@ public:
 
 	static ControllerManager * getInstance();
 
-	void getInput();
+	void getInput(int);
 
 	Vector3 getLeftJoystick();
 	Vector3 getRightJoystick();

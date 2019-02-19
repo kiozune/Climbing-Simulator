@@ -111,11 +111,11 @@
     <ClCompile Include="Source\MainScene+Init.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MainScene+EventHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ControllerManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Controller Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+EventHandler.cpp">
+      <Filter>Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -12,6 +12,8 @@ private:
 	Object *leftHand, *rightHand;
 	Object *leftArm, *rightArm, *body;
 
+	std::vector<Object*> parts;
+
 	Joint *leftFingers, *righFingers;
 	Spring *leftSpring, *rightSpring;
 
@@ -47,6 +49,9 @@ public:
 
 	Object* getBody();
 	void setBody(Object*);
+
+	void setParts(std::vector<Object*>);
+	std::vector<Object*> getParts();
 
 };
 

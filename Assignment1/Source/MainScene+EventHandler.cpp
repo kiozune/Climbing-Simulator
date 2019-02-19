@@ -32,16 +32,16 @@ void MainScene::keyboardEvents(double& dt)
 
 void MainScene::joystickEvents(double& dt)
 {
-	if (!Application::isControllerPresent()) return;
+	if (!Application::isControllerPresent(GLFW_JOYSTICK_1)) return;
 
 	//swingX = analog[0], swingY = analog[1];
 	//LT = analog[4], RT = analog[5];
 	//camX = analog[2], camY = analog[3];
 
-	if (Application::IsControllerPressed(GLFW_JOYSTICK_2))
+	if (Application::IsControllerPressed(GLFW_JOYSTICK_1, 1))
 		camera.zoomIn(dt);
 
-	if (Application::IsControllerPressed(GLFW_JOYSTICK_3))
+	if (Application::IsControllerPressed(GLFW_JOYSTICK_2, 2))
 		camera.zoomOut(dt);
 	
 	// camera

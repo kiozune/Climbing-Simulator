@@ -12,6 +12,7 @@
 #include "Player.h"
 
 #define LIGHT_COUNT 1
+#define PLAYER_COUNT 3
 
 class MainScene : public Scene
 {
@@ -56,7 +57,8 @@ class MainScene : public Scene
 	Vector3 prevMousePosition;
 
 	bool isXboxController = false;
-	Player p;
+
+	Player players[PLAYER_COUNT];
 
 	// applies material to geometry selected
 	void applyMaterial(Mesh*);
@@ -72,7 +74,7 @@ class MainScene : public Scene
 	void renderJoint(Joint*);
 	void renderBoundingBox(BoundingBox);
 
-	void initPlayer();
+	void initPlayer(Player&, Vector3);
 	void initMap();
 
 	void keyboardEvents(double&);

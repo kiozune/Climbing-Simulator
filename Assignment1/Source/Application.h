@@ -16,9 +16,9 @@ public:
 	void Run();
 	void Exit();
 	static bool IsKeyPressed(unsigned short key);
-	static bool isControllerPresent();
-	static bool IsControllerPressed(unsigned short key);
-	static const float* getControllerAnalog();
+	static bool isControllerPresent(int joy);
+	static bool IsControllerPressed(int joy, unsigned short key);
+	static const float* getControllerAnalog(int joy);
 	static Vector3 GetMousePosition();
 
 private:

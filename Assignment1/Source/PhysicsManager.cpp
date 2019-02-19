@@ -43,6 +43,19 @@ CollisionDetails PhysicsManager::getEnviromentalCollision(Object* obj)
 	return details;
 }
 
+CollisionDetails PhysicsManager::getCollisionDetails(Object* main, std::vector<Object*> objects)
+{
+	CollisionDetails details;
+	for (Object* obj : objects)
+	{
+		details.result = main->getBoundingBox().getCollisionResultWith(obj->getBoundingBox());
+		details.object = obj;
+		if (details.result.collided)
+			break;
+	}
+	return details;
+}
+
 void PhysicsManager::resolveCollisions()
 {
 	CollisionResult result;
@@ -79,7 +92,7 @@ void PhysicsManager::applyGravity(float dt)
 {  
 	for (Object* obj : this->objects)
 		if (obj->isAffectByGravity())
-			obj->accelerate(Vector3(0, -g, 0), dt);
+			obj->accelerate(Vector3(0, -grav, 0), dt);
 }
 
 void PhysicsManager::applyImpulse(Object* obj, Vector3 force, float dt)

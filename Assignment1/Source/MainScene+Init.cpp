@@ -6,19 +6,19 @@ void MainScene::initText()
 	models[TEXT]->applyTexture("Image//calibri.tga");
 }
 
-void MainScene::initPlayer() 
+void MainScene::initPlayer(Player& p, Vector3 offset)
 {
-	Joint* chest = new Joint(Vector3(0, 0, 0));
-	Joint* leftFingers = new Joint(Vector3(13, 0, 0));
-	Joint* leftWrist = new Joint(Vector3(10, 0, 0));
-	Joint* leftElbow = new Joint(Vector3(5, 0, 0));
-	Joint* rightFingers = new Joint(Vector3(-13, 0, 0));
-	Joint* rightWrist = new Joint(Vector3(-10, 0, 0));
-	Joint* rightElbow = new Joint(Vector3(-5, 0, 0));
-	Joint* head = new Joint(Vector3(0, 0, 5));
-	Joint* pelvis = new Joint(Vector3(0, 0, -10));
-	Joint* leftFeet = new Joint(Vector3(5, 0, -20));
-	Joint* rightFeet = new Joint(Vector3(-5, 0, -20));
+	Joint* chest = new Joint(Vector3(0, 0, 0) + offset);
+	Joint* leftFingers = new Joint(Vector3(13, 0, 0) + offset);
+	Joint* leftWrist = new Joint(Vector3(10, 0, 0) + offset);
+	Joint* leftElbow = new Joint(Vector3(5, 0, 0) + offset);
+	Joint* rightFingers = new Joint(Vector3(-13, 0, 0) + offset);
+	Joint* rightWrist = new Joint(Vector3(-10, 0, 0) + offset);
+	Joint* rightElbow = new Joint(Vector3(-5, 0, 0) + offset);
+	Joint* head = new Joint(Vector3(0, 0, 5) + offset);
+	Joint* pelvis = new Joint(Vector3(0, 0, -10) + offset);
+	Joint* leftFeet = new Joint(Vector3(5, 0, -20) + offset);
+	Joint* rightFeet = new Joint(Vector3(-5, 0, -20) + offset);
 
 	p.setLeftFingers(leftFingers);
 	p.setRightFingers(rightFingers);
@@ -39,25 +39,34 @@ void MainScene::initPlayer()
 	Object* leftLeg = new Object(pelvis, leftFeet, mass, size);
 	Object* rightLeg = new Object(pelvis, rightFeet, mass, size);
 
-	leftHand->setColour(Vector3(0.9, 0.9, 0));
-	leftArm->setColour(Vector3(0.0, 0.2, 0.5));
-	leftBicep->setColour(Vector3(0.0, 0.2, 0.5));
+	Color primary = Color(rand() % 255 / 255.0, rand() % 255 / 255.0, rand() % 255 / 255.0);
 
-	rightHand->setColour(Vector3(0.0, 0.9, 0.9));
-	rightArm->setColour(Vector3(0.0, 0.2, 0.5));
-	rightBicep->setColour(Vector3(0.0, 0.2, 0.5));
+	leftHand->setColour(Color(0.9, 0.9, 0));
+	leftArm->setColour(primary);
+	leftBicep->setColour(primary);
 
-	neck->setColour(Vector3(0.0, 0.2, 0.5));
+	rightHand->setColour(Color(0.0, 0.9, 0.9));
+	rightArm->setColour(primary);
+	rightBicep->setColour(primary);
 
-	body->setColour(Vector3(0.0, 0.2, 0.5));
-	leftLeg->setColour(Vector3(0.0, 0.2, 0.5));
-	rightLeg->setColour(Vector3(0.0, 0.2, 0.5));
+	neck->setColour(primary);
+
+	body->setColour(primary);
+	leftLeg->setColour(primary);
+	rightLeg->setColour(primary);
 
 	p.setLeftHand(leftHand);
 	p.setLeftArm(leftArm);
 	p.setRightHand(rightHand);
 	p.setRightArm(rightArm);
 	p.setBody(body);
+
+	p.setParts({
+		leftHand, leftArm, leftBicep,
+		rightHand, rightArm, rightBicep,
+		neck, body,
+		leftLeg, rightLeg
+	});
 
 	manager->addObject(leftHand);
 	manager->addObject(leftArm);
@@ -114,7 +123,7 @@ void MainScene::initMap()
 		if (rand() % 5)
 		{
 			Object* box = new Object(Vector3(w, h, d), Vector3(x, y, z), 0, false);
-			box->setColour(Vector3(0.5, 0.5, 0.5));
+			box->setColour(Color(0.5, 0.5, 0.5));
 			//box->setClipping(true);
 			manager->addToEnvironment(box);
 		}
@@ -126,7 +135,7 @@ void MainScene::initMap()
 			{
 				hinges.push_back(new Joint(Vector3(x, 60 + y - i * 15, z)));
 				Object* chain = new Object(hinges[i - 1], hinges[i], 10, 5);
-				chain->setColour(Vector3(0.2, 0.6, 0.5));
+				chain->setColour(Color(0.2, 0.6, 0.5));
 				chain->setClipping(true);
 				manager->addToEnvironment(chain);
 			}
@@ -135,6 +144,6 @@ void MainScene::initMap()
 
 
 	Object* platform = new Object(Vector3(100, 10, 100), Vector3(0, -20, 0), 0, false);
-	platform->setColour(Vector3(0.5, 0.5, 0.5));
+	platform->setColour(Color(0.5, 0.5, 0.5));
 	manager->addToEnvironment(platform);
 }

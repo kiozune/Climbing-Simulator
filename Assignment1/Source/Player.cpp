@@ -83,3 +83,5 @@ void Player::releaseRight() { this->rightSpring->disable(); }
 Object* Player::getBody() { return this->body; }
 void Player::setBody(Object* obj) { this->body = obj; }
 
+void Player::setParts(std::vector<Object*> v) {  this->parts = v; }
+std::vector<Object*> Player::getParts() { return this->parts; }

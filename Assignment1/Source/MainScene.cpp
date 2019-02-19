@@ -81,7 +81,9 @@ void MainScene::Init()
 
 	camera.Init(Vector3(0, 0, 0), 200, 100, 180);
 
-	initPlayer();
+	for (int i = 0; i < PLAYER_COUNT; ++i) 
+		initPlayer(players[i], Vector3(0, 0, i * 10));
+
 	initMap();
 }
 
@@ -94,75 +96,114 @@ void MainScene::Update(double dt)
 	// standard controls
 	keyboardEvents(dt);
 
-	controller->getInput();
-	joystickEvents(dt);
 
 	manager->applyGravity(dt);
 
 
-
-	// Player swing
-
-	Vector3 curr = Application::GetMousePosition();
-	Vector3 diff = prevMousePosition - curr;
-	prevMousePosition = curr;
-
-	Vector3 leftJS = controller->getLeftJoystick();
-	if (leftJS.x || leftJS.y) diff = Vector3(leftJS.x, leftJS.y, 0) * 200;
-
-	Vector3 center = p.getBody()->getCenter();
-	Vector3 dir = center - camera.getPosition();
-	float yaw = atan(dir.x / dir.z);
-	dir.z /= abs(dir.z);
-	Mtx44 rotation; rotation.SetToRotation(deg(yaw), 0, 1, 0);
-
-	Vector3 impulse = rotation * Vector3(diff.x * -dir.z, diff.Length() * 1.5, diff.y * dir.z);
-
-	if (p.isLeftGrabbing())
-		manager->applyImpulse(p.getRightArm(), impulse, dt);
-
-	if (p.isRightGrabbing())
-		manager->applyImpulse(p.getLeftArm(), impulse, dt);
-
-	manager->resolveCollisions();
-
-
-
-	// grabbing
-
-	if (Application::IsKeyPressed('Q') || controller->getLT() > 0)
+	for (int i = 0; i < PLAYER_COUNT; ++i)
 	{
-		if (!p.isLeftGrabbing())
+		Player& p = players[i];
+
+		controller->getInput(GLFW_JOYSTICK_1 + i);
+		joystickEvents(dt);
+
+		// Player swing
+
+		Vector3 curr = Application::GetMousePosition();
+		Vector3 diff = prevMousePosition - curr;
+		prevMousePosition = curr;
+
+		Vector3 leftJS = controller->getLeftJoystick();
+		if (leftJS.x || leftJS.y) diff = Vector3(leftJS.x, leftJS.y, 0) * 200;
+
+		Vector3 center = p.getBody()->getCenter();
+		Vector3 dir = center - camera.getPosition();
+		float yaw = atan(dir.x / dir.z);
+		dir.z /= abs(dir.z);
+		Mtx44 rotation; rotation.SetToRotation(deg(yaw), 0, 1, 0);
+
+		Vector3 impulse = rotation * Vector3(diff.x * -dir.z, diff.Length() * 1.5, diff.y * dir.z);
+
+		if (p.isLeftGrabbing())
+			manager->applyImpulse(p.getRightArm(), impulse, dt);
+		
+		if (p.isRightGrabbing())
+			manager->applyImpulse(p.getLeftArm(), impulse, dt);
+
+		manager->resolveCollisions();
+
+
+
+		// grabbing
+
+		if (Application::IsKeyPressed('Q') || controller->getLT() > 0)
 		{
-			CollisionDetails details = manager->getEnviromentalCollision(p.getLeftHand());
-			if (details.result.collided)
+			if (!p.isLeftGrabbing())
 			{
-				p.leftGrab(details.object->getEnd());
+				Object* leftHand = p.getLeftHand();
+
+				CollisionDetails details;
+				for (int j = 0; j < PLAYER_COUNT; ++j)
+				{
+					if (i == j) continue;
+					details = manager->getCollisionDetails(leftHand, players[j].getParts());
+
+					if (details.result.collided) break;
+				}
+
+				if (details.result.collided)
+				{
+					p.leftGrab(details.object->getEnd());
+				}
+				else
+				{
+					details = manager->getEnviromentalCollision(leftHand);
+					if (details.result.collided)
+					{
+						p.leftGrab(details.object->getEnd());
+					}
+				}
 			}
 		}
-	}
-	else
-	{
-		p.releaseLeft();
-	}
-
-	if (Application::IsKeyPressed('E') || controller->getRT() > 0)
-	{
-		if (!p.isRightGrabbing())
+		else
 		{
-			CollisionDetails details = manager->getEnviromentalCollision(p.getRightHand());
-			if (details.result.collided)
+			p.releaseLeft();
+		}
+
+		if (Application::IsKeyPressed('E') || controller->getRT() > 0)
+		{
+			if (!p.isRightGrabbing())
 			{
-				p.rightGrab(details.object->getEnd());
+				Object* rightHand = p.getRightHand();
+
+				CollisionDetails details;
+				for (int j = 0; j < PLAYER_COUNT; ++j)
+				{
+					if (i == j) continue;
+					details = manager->getCollisionDetails(rightHand, players[j].getParts());
+
+					if (details.result.collided) break;
+				}
+				
+				if (details.result.collided)
+				{
+					p.rightGrab(details.object->getEnd());
+				}
+				else
+				{
+					details = manager->getEnviromentalCollision(rightHand);
+					if (details.result.collided)
+					{
+						p.rightGrab(details.object->getEnd());
+					}
+				}
 			}
 		}
+		else
+		{
+			p.releaseRight();
+		}
 	}
-	else
-	{
-		p.releaseRight();
-	}
-
-
 
 	// general physics
 	manager->updateObjects();
@@ -171,6 +212,7 @@ void MainScene::Update(double dt)
 
 
 	//camera.move(dt);
+	Vector3 center = players[0].getBody()->getCenter();
 	Vector3 target = Vector3(int(center.x / 5) * 5, int(center.y / 5) * 5, int(center.z / 5) * 5);
 	camera.setTarget(target);
 }
@@ -238,44 +280,41 @@ void MainScene::Render()
 		//renderBoundingBox(obj->getBoundingBox());
 	}
 
-	Vector3 left  = p.getLeftHand()->getCenter();
-	Vector3 right = p.getRightHand()->getCenter();
 	float yaw = camera.getYaw();
 	float pitch = camera.getPitch();
 
-	modelStack.PushMatrix();
+	for (Player& p : players)
 	{
-		modelStack.Translate(left.x, left.y + 5, left.z);
+		Vector3 left  = p.getLeftHand()->getCenter();
+		Vector3 right = p.getRightHand()->getCenter();
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(left.x, left.y + 5, left.z);
 
-		modelStack.Rotate(270 - yaw, 0, 1, 0);
-		modelStack.Rotate(pitch, 1, 0, 0);
+			modelStack.Rotate(270 - yaw, 0, 1, 0);
+			modelStack.Rotate(pitch, 1, 0, 0);
 
-		modelStack.Scale(3, 3, 3);
+			modelStack.Scale(3, 3, 3);
 
-		Color color = p.isLeftGrabbing() ? Color(.9, .9, 0) : Color(1, 1, 1);
-		renderText(models[TEXT], "LT", color);
+			Color color = p.isLeftGrabbing() ? Color(.9, .9, 0) : Color(1, 1, 1);
+			renderText(models[TEXT], "LT", color);
+		}
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(right.x, right.y + 5, right.z);
+
+			modelStack.Rotate(270 - yaw, 0, 1, 0);
+			modelStack.Rotate(pitch, 1, 0, 0);
+
+			modelStack.Scale(3, 3, 3);
+
+			Color color = p.isRightGrabbing() ? Color(0, .9, .9) : Color(1, 1, 1);
+			renderText(models[TEXT], "RT", color);
+		}
+		modelStack.PopMatrix();
 	}
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	{
-		modelStack.Translate(right.x, right.y + 5, right.z);
-
-		modelStack.Rotate(270 - yaw, 0, 1, 0);
-		modelStack.Rotate(pitch, 1, 0, 0);
-
-		modelStack.Scale(3, 3, 3);
-
-		Color color = p.isRightGrabbing() ? Color(0, .9, .9) : Color(1, 1, 1);
-		renderText(models[TEXT], "RT", color);
-	}
-	modelStack.PopMatrix();
-
-	Vector3 center = p.getBody()->getCenter();
-	std::string content;
-	content += std::to_string((int)center.x) + " / " + std::to_string((int)center.y) + " / " + std::to_string((int)center.z) + "\n";
-	content += std::to_string(yaw) + " / " + std::to_string(pitch);
-	renderTextOnScreen(models[TEXT], content, Color(0, 1, 0), 1, 2, 2);
 }
 
 void MainScene::Exit()

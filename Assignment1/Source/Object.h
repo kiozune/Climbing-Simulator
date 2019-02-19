@@ -1,6 +1,8 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
+#include "vertex.h"
+
 #include "Joint.h"
 #include "BoundingBox.h"
 
@@ -11,7 +13,8 @@ private:
 	Joint * start, *end;
 	
 	float mass, length;
-	Vector3 scale, rotation, center, colour;
+	Vector3 scale, rotation, center;
+	Color color;
 
 	Vector3 velocity;
 
@@ -39,8 +42,8 @@ public:
 	bool isClippingEnabled();
 	void setClipping(bool);
 
-	Vector3 getColour();
-	void setColour(Vector3);
+	Color getColour();
+	void setColour(Color);
 
 	void constraint();
 	void accelerate(Vector3, float);

@@ -40,30 +40,24 @@ bool Application::IsKeyPressed(unsigned short key)
     return ((GetAsyncKeyState(key) & 0x8001) != 0);
 }
 
-bool Application::isControllerPresent() 
+bool Application::isControllerPresent(int joy)
 { 
-	return glfwJoystickPresent(GLFW_JOYSTICK_1);
+	return glfwJoystickPresent(joy);
 }
 
-bool Application::IsControllerPressed(unsigned short key)
+bool Application::IsControllerPressed(int joy, unsigned short key)
 {
-	if (!isControllerPresent()) return false;
+	if (!isControllerPresent(joy)) return false;
 	//std::cout << key << " : " << keys[key] << std::endl;
 	int count;
-	const unsigned char* axes = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &count);
+	const unsigned char* axes = glfwGetJoystickButtons(joy, &count);
 	return axes[key];
 }
 
-const float* Application::getControllerAnalog()
+const float* Application::getControllerAnalog(int joy)
 {
 	int count;
-	const float* a = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &count);
-	
-	/*
-	for (int i = 0; i < 7; ++i)
-		std::cout << a[i] << '\t';
-	std::cout << std::endl;
-	*/
+	const float* a = glfwGetJoystickAxes(joy, &count);
 
 	return a;
 }

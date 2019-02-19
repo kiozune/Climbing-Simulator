@@ -10,10 +10,10 @@ ControllerManager* ControllerManager::getInstance()
 	return instance;
 }
 
-void ControllerManager::getInput()
+void ControllerManager::getInput(int joy)
 {
-	if (Application::isControllerPresent())
-		this->analog = Application::getControllerAnalog();
+	if (Application::isControllerPresent(joy))
+		this->analog = Application::getControllerAnalog(joy);
 }
 
 Vector3 ControllerManager::getLeftJoystick() 
