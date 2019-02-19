@@ -67,7 +67,7 @@ void Application::Init()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //We don't want the old OpenGL 
 
 	//Create a window and create its OpenGL context
-	m_window = glfwCreateWindow(1600, 900, "Driving Sim", NULL, NULL);
+	m_window = glfwCreateWindow(window_Width, window_Height, "Climbing Simulator", NULL, NULL);
 	glfwSetWindowSizeCallback(m_window, resize_callback);
 
 	glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -128,4 +128,14 @@ void Application::Exit()
 	glfwDestroyWindow(m_window);
 	//Finalize and clean up GLFW
 	glfwTerminate();
+}
+
+int Application::getWindowHeight()
+{
+	return window_Height;
+}
+
+int Application::getWindowWidth()
+{
+	return window_Width;
 }
