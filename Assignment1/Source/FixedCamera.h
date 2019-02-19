@@ -12,8 +12,6 @@ private:
 	GLfloat pitch, yaw, radius;
 	GLfloat moveSpeed, turnSpeed;
 
-	bool automatic;
-
 	virtual void update();
 
 public:
@@ -28,9 +26,6 @@ public:
 
 	void changePitch(float, float);
 	GLfloat getPitch();
-
-	void setAuto(bool);
-	bool isAuto();
 
 	virtual void setTarget(Vector3);
 

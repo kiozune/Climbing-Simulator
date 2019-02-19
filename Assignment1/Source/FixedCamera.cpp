@@ -57,9 +57,6 @@ void FixedCamera::changePitch(float r, float dt)
 
 GLfloat FixedCamera::getPitch() { return this->pitch; }
 
-void FixedCamera::setAuto(bool b) { this->automatic = b; }
-bool FixedCamera::isAuto() { return this->automatic; }
-
 void FixedCamera::setTarget(Vector3 v)
 {
 	Vector3 d = v - this->target;

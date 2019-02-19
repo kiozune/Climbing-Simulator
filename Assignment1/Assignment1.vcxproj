@@ -138,11 +138,14 @@
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\BoundingBox.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
+    <ClCompile Include="Source\ControllerManager.cpp" />
     <ClCompile Include="Source\FixedCamera.cpp" />
     <ClCompile Include="Source\Light.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
     <ClCompile Include="Source\LoadTGA.cpp" />
     <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\MainScene+EventHandler.cpp" />
+    <ClCompile Include="Source\MainScene+Init.cpp" />
     <ClCompile Include="Source\MainScene+PartsRender.cpp" />
     <ClCompile Include="Source\MainScene+Render.cpp" />
     <ClCompile Include="Source\MainScene.cpp" />
@@ -164,6 +167,7 @@
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\CollisionDetails.h" />
     <ClInclude Include="Source\CollisionResult.h" />
+    <ClInclude Include="Source\ControllerManager.h" />
     <ClInclude Include="Source\FixedCamera.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />

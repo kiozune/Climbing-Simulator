@@ -37,6 +37,9 @@
     <Filter Include="Camera">
       <UniqueIdentifier>{576789d4-1608-4d58-86b0-8239b59943fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Controller Manager">
+      <UniqueIdentifier>{23a9af86-ebaa-481a-9c33-4bbf8e3fb56d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Camera.cpp">
@@ -104,6 +107,15 @@
     </ClCompile>
     <ClCompile Include="Source\MovableCamera.cpp">
       <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+Init.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+EventHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ControllerManager.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +187,9 @@
     </ClInclude>
     <ClInclude Include="Source\CollisionDetails.h">
       <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ControllerManager.h">
+      <Filter>Controller Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

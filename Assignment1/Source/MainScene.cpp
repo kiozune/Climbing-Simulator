@@ -81,132 +81,8 @@ void MainScene::Init()
 
 	camera.Init(Vector3(0, 0, 0), 200, 100, 180);
 
-	Joint* chest = new Joint(Vector3(0, 0, 0));
-	Joint* leftFingers = new Joint(Vector3(13, 0, 0));
-	Joint* leftWrist = new Joint(Vector3(10, 0, 0));
-	Joint* leftElbow = new Joint(Vector3(5, 0, 0));
-	Joint* rightFingers = new Joint(Vector3(-13, 0, 0));
-	Joint* rightWrist = new Joint(Vector3(-10, 0, 0));
-	Joint* rightElbow = new Joint(Vector3(-5, 0, 0));
-	Joint* head = new Joint(Vector3(0, 0, 5));
-	Joint* pelvis = new Joint(Vector3(0, 0, -10));
-	Joint* leftFeet = new Joint(Vector3(5, 0, -20));
-	Joint* rightFeet = new Joint(Vector3(-5, 0, -20));
-
-	p.setLeftFingers(leftFingers);
-	p.setRightFingers(rightFingers);
-
-	float mass = 15, size = 2;
-
-	Object* leftHand = new Object(leftFingers, leftWrist, mass, size + 1);
-	Object* leftArm = new Object(leftElbow, leftWrist, mass, size);
-	Object* leftBicep = new Object(chest, leftElbow, mass, size);
-
-	Object* rightHand = new Object(rightFingers, rightWrist, mass, size);
-	Object* rightArm = new Object(rightElbow, rightWrist, mass, size);
-	Object* rightBicep = new Object(chest, rightElbow, mass, size);
-
-	Object* neck = new Object(chest, head, mass, size);
-	Object* body = new Object(chest, pelvis, mass, size);
-
-	Object* leftLeg = new Object(pelvis, leftFeet, mass, size);
-	Object* rightLeg = new Object(pelvis, rightFeet, mass, size);
-
-	leftHand->setColour(Vector3(0.9, 0.9, 0));
-	leftArm->setColour(Vector3(0.0, 0.2, 0.5));
-	leftBicep->setColour(Vector3(0.0, 0.2, 0.5));
-
-	rightHand->setColour(Vector3(0.0, 0.9, 0.9));
-	rightArm->setColour(Vector3(0.0, 0.2, 0.5));
-	rightBicep->setColour(Vector3(0.0, 0.2, 0.5));
-	
-	neck->setColour(Vector3(0.0, 0.2, 0.5));
-	
-	body->setColour(Vector3(0.0, 0.2, 0.5));
-	leftLeg->setColour(Vector3(0.0, 0.2, 0.5));
-	rightLeg->setColour(Vector3(0.0, 0.2, 0.5));
-
-	p.setLeftHand(leftHand);
-	p.setLeftArm(leftArm);
-	p.setRightHand(rightHand);
-	p.setRightArm(rightArm);
-	p.setBody(body);
-
-	manager->addObject(leftHand);
-	manager->addObject(leftArm);
-	manager->addObject(leftBicep);
-
-	manager->addObject(rightHand);
-	manager->addObject(rightArm);
-	manager->addObject(rightBicep);
-
-	manager->addObject(neck);	
-	manager->addObject(body);
-
-	manager->addObject(leftLeg);
-	manager->addObject(rightLeg);
-
-	int x, y, z;
-	int w, h, d;
-	x = y = z = 0;
-	for (int i = 0; i < 100; ++i)
-	{
-		w = rand() % 25 + 5;
-		h = rand() % 25 + 5;
-		d = rand() % 25 + 5;
-		int dir = (rand() % 2) * 2 - 1;
-		if (rand() % 2) x += dir * (rand() % 5 + 20 + w / 2.0);
-		else z += dir * (rand() % 5 + 20 + d / 2.0);
-
-		if (rand() % 2) y += dir * (rand() % 15 + 5 + h / 2.0);
-
-		if (rand() % 5)
-		{
-			Object* box = new Object(Vector3(w, h, d), Vector3(x, y, z), 0, false);
-			box->setColour(Vector3(0.5, 0.5, 0.5));
-			//box->setClipping(true);
-			manager->addToEnvironment(box);
-		}
-		else
-		{
-			std::vector<Joint*> hinges;
-			hinges.push_back(new Joint(Vector3(x, 60 + y, z), true));
-			for (int i = 1; i < rand() % 10 + 5; ++i)
-			{
-				hinges.push_back(new Joint(Vector3(x, 60 + y - i * 15, z)));
-				Object* chain = new Object(hinges[i - 1], hinges[i], 10, 5);
-				chain->setColour(Vector3(0.2, 0.6, 0.5));
-				chain->setClipping(true);	
-				manager->addToEnvironment(chain);
-			}
-		}
-	}
-	
-
-	Object* platform = new Object(Vector3(100, 10, 100), Vector3(0, -20, 0), 0, false);
-	platform->setColour(Vector3(0.5, 0.5, 0.5));
-	manager->addToEnvironment(platform);
-
-	Spring* topLeft = new Spring(head, leftWrist, 0.2, 1.5, 0.2);
-	Spring* topRight = new Spring(head, rightWrist, 0.2, 1.5, 0.2);
-	Spring* mid = new Spring(head, pelvis, 1, 1, 0.2);
-	Spring* midLeft = new Spring(pelvis, leftWrist , 0.2, 1.5, 0.2);
-	Spring* midRight = new Spring(pelvis, rightWrist, 0.2, 1.5, 0.2);
-	Spring* bottom = new Spring(leftFeet, rightFeet, 0.2, 1, 0.2);
-	Spring* bottomLeft = new Spring(chest, leftFeet, 0.6, 1, 0.2);
-	Spring* bottomRight = new Spring(chest, rightFeet, 0.6, 1, 0.2);
-
-	manager->addSpring(topLeft);
-	manager->addSpring(topRight);
-	manager->addSpring(mid);
-	manager->addSpring(midLeft);
-	manager->addSpring(midRight);
-	manager->addSpring(bottom);
-	manager->addSpring(bottomLeft);
-	manager->addSpring(bottomRight);
-
-	manager->addExternalSpring(p.getLeftSpring());
-	manager->addExternalSpring(p.getRightSpring());
+	initPlayer();
+	initMap();
 }
 
 void MainScene::Update(double dt)
@@ -216,63 +92,12 @@ void MainScene::Update(double dt)
 	fps = 1 / dt;
 
 	// standard controls
+	keyboardEvents(dt);
 
-	if (Application::IsKeyPressed('1'))
-		glEnable(GL_CULL_FACE);
-	if (Application::IsKeyPressed('2'))
-		glDisable(GL_CULL_FACE);
-
-	if (Application::IsKeyPressed('3'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); //default fill mode
-	if (Application::IsKeyPressed('4'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //wireframe mode
-
-	if (Application::IsKeyPressed('7'))
-		lightingEnabled = false;
-	if (Application::IsKeyPressed('8'))
-		lightingEnabled = true;
-
-	if (Application::IsKeyPressed('9'))
-		dt /= 100;
-
-	if (Application::IsControllerPressed(GLFW_JOYSTICK_1) && elapseTime > bounceTime)
-	{
-		camera.setAuto(!camera.isAuto());
-		bounceTime = elapseTime + 0.2;
-	}
-
-	if (Application::IsControllerPressed(GLFW_JOYSTICK_2))
-		camera.zoomIn(dt);
-
-	if (Application::IsControllerPressed(GLFW_JOYSTICK_3))
-		camera.zoomOut(dt);
-
-	const float* analog;
-	float swingX, swingY, LT, RT, camX, camY;
-	swingX = swingY = LT = RT = camX = camY = 0;
-
-	if (Application::isControllerPresent())
-	{
-		analog = Application::getControllerAnalog();
-		swingX = analog[0], swingY = analog[1];
-		LT = analog[4], RT = analog[5];
-		camX = analog[2], camY = analog[3];
-
-		if (!isXboxController)
-		{
-			swingX = analog[0], swingY = -analog[1];
-			LT = analog[3] + 1, RT = analog[4] + 1;
-			camX = -int(analog[2] * 10) / 10.0, camY = int(analog[5] * 10) / 10.0;
-		}
-	}
-
-
-
-
+	controller->getInput();
+	joystickEvents(dt);
 
 	manager->applyGravity(dt);
-
-
 
 
 
@@ -280,8 +105,10 @@ void MainScene::Update(double dt)
 
 	Vector3 curr = Application::GetMousePosition();
 	Vector3 diff = prevMousePosition - curr;
-	if (swingX || swingY) diff = Vector3(swingX, swingY, 0) * 200;
 	prevMousePosition = curr;
+
+	Vector3 leftJS = controller->getLeftJoystick();
+	if (leftJS.x || leftJS.y) diff = Vector3(leftJS.x, leftJS.y, 0) * 200;
 
 	Vector3 center = p.getBody()->getCenter();
 	Vector3 dir = center - camera.getPosition();
@@ -297,14 +124,13 @@ void MainScene::Update(double dt)
 	if (p.isRightGrabbing())
 		manager->applyImpulse(p.getLeftArm(), impulse, dt);
 
-
-
-
 	manager->resolveCollisions();
+
+
 
 	// grabbing
 
-	if (Application::IsKeyPressed('Q') || LT > 0)
+	if (Application::IsKeyPressed('Q') || controller->getLT() > 0)
 	{
 		if (!p.isLeftGrabbing())
 		{
@@ -320,7 +146,7 @@ void MainScene::Update(double dt)
 		p.releaseLeft();
 	}
 
-	if (Application::IsKeyPressed('E') || RT > 0)
+	if (Application::IsKeyPressed('E') || controller->getRT() > 0)
 	{
 		if (!p.isRightGrabbing())
 		{
@@ -338,48 +164,11 @@ void MainScene::Update(double dt)
 
 
 
-
-
 	// general physics
-
-	//if (Application::IsKeyPressed('G'))
-	//manager->resolveCollisions();
 	manager->updateObjects();
 	manager->updateSprings();
 
 
-
-
-	// camera
-
-	if (camX || camY)
-	{
-		camera.changeYaw(camX, dt);
-		camera.changePitch(camY, dt);
-		camera.setAuto(false);
-	}
-	else if (camera.isAuto())
-	{
-		Vector3 offset, d;
-		if (p.isLeftGrabbing())
-			offset = p.getRightArm()->getCenter() - center;
-		else if (p.isRightGrabbing())
-			offset = p.getLeftArm()->getCenter() - center;
-
-		d = Vector3(fabs(offset.z), -1, fabs(offset.x)).Normalized();
-		d.x *= 200; d.y = -50;  d.z *= 200;
-
-		// camera.moveTo(center + d + offset * 10, dt);
-	}
-
-	if (Application::IsKeyPressed(VK_UP))
-		camera.changePitch(-1, dt);
-	if (Application::IsKeyPressed(VK_DOWN))
-		camera.changePitch(1, dt);
-	if (Application::IsKeyPressed(VK_LEFT))
-		camera.changeYaw(1, dt);
-	if (Application::IsKeyPressed(VK_RIGHT))
-		camera.changeYaw(-1, dt);
 
 	//camera.move(dt);
 	Vector3 target = Vector3(int(center.x / 5) * 5, int(center.y / 5) * 5, int(center.z / 5) * 5);

@@ -1,14 +1,16 @@
 #include "MainScene.h"
 #include "Utility.h"
 
-void MainScene::applyMaterial(Mesh* model) {
+void MainScene::applyMaterial(Mesh* model) 
+{
 	model->material.kAmbient.Set(0.1f, 0.1f, 0.1f);
 	model->material.kDiffuse.Set(0.5f, 0.5f, 0.5f);
 	model->material.kSpecular.Set(0.0f, 0.0f, 0.0f);
 	model->material.kShininess = 1.0f;
 }
 
-void MainScene::renderMesh(Mesh* model, bool enableLight) {
+void MainScene::renderMesh(Mesh* model, bool enableLight) 
+{
 	Mtx44 modelView, modelView_inverse_transpose;
 
 	Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top(); // Remember, matrix multiplication is the other way around
@@ -51,12 +53,8 @@ void MainScene::renderMesh(Mesh* model, bool enableLight) {
 	}
 }
 
-void MainScene::initText() {
-	models[TEXT] = MeshBuilder::GenerateText("TEXT", 16, 16);
-	models[TEXT]->applyTexture("Image//calibri.tga");
-}
-
-void MainScene::renderText(Mesh* mesh, const std::string text, Color color) {
+void MainScene::renderText(Mesh* mesh, const std::string text, Color color) 
+{
 	if (!mesh || mesh->getTextureID() <= 0) //Proper error check
 		return;
 

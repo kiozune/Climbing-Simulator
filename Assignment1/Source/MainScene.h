@@ -7,6 +7,7 @@
 #include "FixedCamera.h"
 
 #include "PhysicsManager.h"
+#include "ControllerManager.h"
 
 #include "Player.h"
 
@@ -50,6 +51,7 @@ class MainScene : public Scene
 	float bounceTime; // for key press inputs
 
 	PhysicsManager* manager = PhysicsManager::getInstance();
+	ControllerManager* controller = ControllerManager::getInstance();
 
 	Vector3 prevMousePosition;
 
@@ -69,6 +71,12 @@ class MainScene : public Scene
 	void renderObject(Object*);
 	void renderJoint(Joint*);
 	void renderBoundingBox(BoundingBox);
+
+	void initPlayer();
+	void initMap();
+
+	void keyboardEvents(double&);
+	void joystickEvents(double&);
 
 public:
 
