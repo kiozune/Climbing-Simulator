@@ -79,7 +79,7 @@ void MainScene::Init()
 
 	camera.Init(Vector3(), Vector3(0, 1, 0), 0, 0, 10, 10);
 
-	blockGen->generateBlocks(50, 3, 5, 1, 10);
+	blockGen->generateBlocks(1);
 }
 
 void MainScene::Update(double dt)

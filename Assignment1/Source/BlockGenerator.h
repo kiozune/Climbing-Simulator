@@ -9,8 +9,7 @@ class BlockGenerator
 {
 public:
 	static BlockGenerator* GetInstance();
-	void generateBlocks();
-	void generateBlocks(int block, int maxHeight, int maxLength, int offsetPos, int boundary);
+	void generateBlocks(int offsetPos);
 	block *getHead();
 	block *getTail();
 private:
@@ -20,18 +19,20 @@ private:
 		RIGHT,
 		FORWARD,
 		BACKWARD,
+		UPWARD,
 		NUM_DIRECTION
 	};
-	
+	enum LEVEL
+	{
+		STANDARD,
+		INCLINE,
+		ROUNDABOUT,
+		NUM_LEVEL
+	};
 	BlockGenerator();
 	static BlockGenerator *instance;
 
-	int randomDirection(int lastDir);
-	bool checkWorldSpace(Vector3 pos);
-	void getLevelData();
-
-	int *level;
-	int sizeX, sizeY;
+	void getLevelData(std::string val, Vector3 pos, int offset);
 
 	block *head, *tail;
 	int oppDirection;
