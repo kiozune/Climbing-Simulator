@@ -31,7 +31,7 @@ void MainScene::Init()
 	m_programID = LoadShaders("Shader//Shadow.vertexshader", "Shader//Shadow.fragmentshader");
 
 	m_parameters[U_LIGHT_DEPTH_MVP] = glGetUniformLocation(m_programID, "lightDepthMVP");
-	m_parameters[U_SHADOWMAP] = glGetUniformLocation(m_programID,"shadowMap");
+	m_parameters[U_SHADOWMAP] = glGetUniformLocation(m_programID, "shadowMap");
 
 	// Get a handle for our "MVP" uniform
 
@@ -47,31 +47,30 @@ void MainScene::Init()
 	m_parameters[U_NUMLIGHTS] = glGetUniformLocation(m_programID, "numLights");
 	m_parameters[U_LIGHTENABLED] = glGetUniformLocation(m_programID, "lightEnabled");
 
-	m_parameters[U_LIGHT0_TYPE] = glGetUniformLocation(m_programID, "lights[0].type");
-	m_parameters[U_LIGHT0_POSITION] = glGetUniformLocation(m_programID, "lights[0].position_cameraspace");
-	m_parameters[U_LIGHT0_COLOR] = glGetUniformLocation(m_programID, "lights[0].color");
-	m_parameters[U_LIGHT0_POWER] = glGetUniformLocation(m_programID, "lights[0].power");
-	m_parameters[U_LIGHT0_KC] = glGetUniformLocation(m_programID, "lights[0].kC");
-	m_parameters[U_LIGHT0_KL] = glGetUniformLocation(m_programID, "lights[0].kL");
-	m_parameters[U_LIGHT0_KQ] = glGetUniformLocation(m_programID, "lights[0].kQ");
-	m_parameters[U_LIGHT0_SPOTDIRECTION] = glGetUniformLocation(m_programID, "lights[0].spotDirection");
-	m_parameters[U_LIGHT0_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[0].cosCutoff");
-	m_parameters[U_LIGHT0_COSINNER] = glGetUniformLocation(m_programID, "lights[0].cosInner");
-	m_parameters[U_LIGHT0_EXPONENT] = glGetUniformLocation(m_programID, "lights[0].exponent");
-
-	m_parameters[U_COLOR_TEXTURE_ENABLED] = glGetUniformLocation(m_programID, "colorTextureEnabled[0]");
-	m_parameters[U_COLOR_TEXTURE] = glGetUniformLocation(m_programID, "colorTexture[0]");
+	m_parameters[U_COLOR_TEXTURE_ENABLED] = glGetUniformLocation(m_programID, "colorTextureEnabled");
+	m_parameters[U_COLOR_TEXTURE] = glGetUniformLocation(m_programID, "colorTexture");
 
 	m_parameters[U_TEXT_ENABLED] = glGetUniformLocation(m_programID, "textEnabled");
 	m_parameters[U_TEXT_COLOR] = glGetUniformLocation(m_programID, "textColor");
-
-	m_parameters[U_SHADOW_ENABLED] = glGetUniformLocation(shadowShader, "colorTextureEnabled[0]");
-	m_parameters[U_SHADOW_COLOR] = glGetUniformLocation(shadowShader, "colorTexture[0]");
 	for (int i = 0; i < LIGHT_COUNT; ++i)
 		lights[i].getUniformLocation(m_programID);
 	// Use our shader
 	glUseProgram(m_programID);
 
+	lights[0].type = Light::SPOT;
+	lights[0].position.Set(0, 5, 0);
+	lights[0].color.Set(1, 0.8, 0.8);
+	lights[0].power = 10.f;
+	lights[0].kC = 1.f;
+	lights[0].kL = 0.01f;
+	lights[0].kQ = 0.001f;
+	lights[0].cosCutoff = cos(Math::DegreeToRadian(45));
+	lights[0].cosInner = cos(Math::DegreeToRadian(45));
+	lights[0].exponent = 3.f;
+	lights[0].spotDirection.Set(1.f, 1.f, 0.f);
+	lights[0].setUniform();
+
+	glUniform1i(m_parameters[U_NUMLIGHTS], LIGHT_COUNT);
 
 	glUniform1i(m_parameters[U_LIGHT0_TYPE], lights[0].type);
 	glUniform3fv(m_parameters[U_LIGHT0_COLOR], 1, &lights[0].color.r);
@@ -82,22 +81,6 @@ void MainScene::Init()
 	glUniform1f(m_parameters[U_LIGHT0_COSCUTOFF], lights[0].cosCutoff);
 	glUniform1f(m_parameters[U_LIGHT0_COSINNER], lights[0].cosInner);
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], lights[0].exponent);
-
-	lights[0].type = Light::SPOT;
-	lights[0].position.Set(3, 10, 0);
-	lights[0].setUniform();
-	lights[0].color.Set(1, 1.0, 1.0);
-	lights[0].power = 0.5f;
-	lights[0].kC = 1.f;
-	lights[0].kL = 0.01f;
-	lights[0].kQ = 0.001f;
-	lights[0].cosCutoff = cos(Math::DegreeToRadian(45));
-	lights[0].cosInner = cos(Math::DegreeToRadian(45));
-	lights[0].exponent = 3.f;
-	lights[0].spotDirection.Set(0.f, 1.f, 0.f);
-
-	glUniform1i(m_parameters[U_NUMLIGHTS], LIGHT_COUNT);
-
 
 	//Camera Init
 	camera.Init(Vector3(), Vector3(0, 1, 0), 0, 0, 10, 10);
@@ -117,9 +100,11 @@ void MainScene::Init()
 	models[SKY_BOX] = MeshBuilder::GenerateOBJ("skybox");
 	models[SKY_BOX]->applyTexture("Image//skybox.tga");
 	applyMaterial(models[SKY_BOX]);
-
+	models[TEST_OBJ] = MeshBuilder::GenerateOBJ("test");
+	models[TEST_OBJ]->applyTexture("Image//TnT.tga");
+	applyMaterial(models[TEST_OBJ]);
 	models[SHADOW_QUAD] = MeshBuilder::GenerateQuad("Shadow_Quad", Color(1, 1, 1), 1.f);
-	models[SHADOW_QUAD]->texArray[0] = shadowFBO.getTexture();
+	models[SHADOW_QUAD]->getShadowTexture(shadowFBO.getTexture());
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 }
@@ -260,6 +245,7 @@ void MainScene::RenderScene()
 	modelStack.Scale(100, 100, 100);
 	renderMesh(models[SKY_BOX]);
 	modelStack.PopMatrix();
+	renderMesh(models[TEST_OBJ],true);
 }
 
 void MainScene::Exit()
