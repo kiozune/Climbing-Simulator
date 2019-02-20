@@ -7,7 +7,7 @@
 
 #include <vector>
 
-#define grav 2
+#define grav 5
 #define fr 0.5
 
 class PhysicsManager 

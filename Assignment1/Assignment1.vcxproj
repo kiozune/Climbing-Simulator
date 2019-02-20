@@ -147,6 +147,7 @@
     <ClCompile Include="Source\MainScene+EventHandler.cpp" />
     <ClCompile Include="Source\MainScene+Init.cpp" />
     <ClCompile Include="Source\MainScene+PartsRender.cpp" />
+    <ClCompile Include="Source\MainScene+PlayerActions.cpp" />
     <ClCompile Include="Source\MainScene+Render.cpp" />
     <ClCompile Include="Source\MainScene.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />

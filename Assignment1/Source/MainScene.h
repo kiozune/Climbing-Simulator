@@ -77,6 +77,8 @@ class MainScene : public Scene
 	void initPlayer(Player&, Vector3);
 	void initMap();
 
+	void updatePlayer(int, double&);
+
 	void keyboardEvents(double&);
 	void joystickEvents(double&);
 
