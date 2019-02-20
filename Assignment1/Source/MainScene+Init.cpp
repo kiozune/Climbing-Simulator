@@ -109,7 +109,7 @@ void MainScene::initMap()
 	int x, y, z;
 	int w, h, d;
 	x = y = z = 0;
-	for (int i = 0; i < 100; ++i)
+	for (int i = 0; i < MAP_SIZE; ++i)
 	{
 		w = rand() % 25 + 5;
 		h = rand() % 25 + 5;
@@ -143,7 +143,7 @@ void MainScene::initMap()
 	}
 
 
-	Object* platform = new Object(Vector3(100, 10, 100), Vector3(0, -20, 0), 0, false);
+	Object* platform = new Object(Vector3(100, 10, 100), Vector3(0, -30, 0), 0, false);
 	platform->setColour(Color(0.5, 0.5, 0.5));
 	manager->addToEnvironment(platform);
 }

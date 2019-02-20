@@ -10,9 +10,11 @@
 #include "ControllerManager.h"
 
 #include "Player.h"
+#include "RemotePlayer.h"
 
 #define LIGHT_COUNT 1
-#define PLAYER_COUNT 2
+#define PLAYER_COUNT 1
+#define MAP_SIZE 100
 
 class MainScene : public Scene
 {
@@ -59,6 +61,7 @@ class MainScene : public Scene
 	bool isXboxController = false;
 
 	Player players[PLAYER_COUNT];
+	RemotePlayer remotePlayers[1];
 
 	// applies material to geometry selected
 	void applyMaterial(Mesh*);

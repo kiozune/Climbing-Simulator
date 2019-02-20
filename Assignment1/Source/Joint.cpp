@@ -15,8 +15,12 @@ void Joint::setFixed(bool b)
 	this->fixed = b; 
 }
 
+void Joint::resetResolve() { this->isResolved = false; }
+
 void Joint::displace(Vector3 d)
 {
+	if (this->isResolved) return;
+	this->isResolved = true;
 	this->current += d;
 	this->previous = this->current;
 }

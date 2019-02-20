@@ -82,7 +82,7 @@ void MainScene::Init()
 	camera.Init(Vector3(0, 0, 0), 200, 100, 180);
 
 	for (int i = 0; i < PLAYER_COUNT; ++i) 
-		initPlayer(players[i], Vector3(0, 0, i * 10));
+		initPlayer(players[i], Vector3(0, 20, i * 10));
 
 	initMap();
 }
@@ -98,13 +98,15 @@ void MainScene::Update(double dt)
 
 
 
-	manager->applyGravity(dt);
 
 	for (int i = 0; i < PLAYER_COUNT; ++i)
 		updatePlayer(i, dt);
 
+	manager->applyGravity(dt);
 	manager->resolveCollisions();
-
+	manager->updateObjects();
+	manager->updateSprings();
+	manager->resolveCollisions();
 
 
 	//camera.move(dt);

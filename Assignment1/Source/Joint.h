@@ -9,7 +9,7 @@ class Joint
 private:
 
 	Vector3 current, previous;
-	bool fixed;
+	bool fixed, isResolved;
 
 public:
 
@@ -17,6 +17,8 @@ public:
 
 	bool isFixed();
 	void setFixed(bool);
+
+	void resetResolve();
 
 	void displace(Vector3);
 	

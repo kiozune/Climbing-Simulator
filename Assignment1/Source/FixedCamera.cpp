@@ -60,6 +60,6 @@ GLfloat FixedCamera::getPitch() { return this->pitch; }
 void FixedCamera::setTarget(Vector3 v)
 {
 	Vector3 d = v - this->target;
-	this->target += d * 0.01;
+	this->target += d * 0.1;
 	this->update();
 }

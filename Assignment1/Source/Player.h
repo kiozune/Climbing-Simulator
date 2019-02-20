@@ -7,7 +7,7 @@
 class Player 
 {
 
-private:
+protected:
 
 	Object *leftHand, *rightHand;
 	Object *leftArm, *rightArm, *body;

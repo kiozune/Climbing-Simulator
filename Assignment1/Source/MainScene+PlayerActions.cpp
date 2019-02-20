@@ -118,6 +118,4 @@ void MainScene::updatePlayer(int i, double& dt)
 		p.releaseRight();
 	}
 
-	manager->updateObjects();
-	manager->updateSprings();
 }
