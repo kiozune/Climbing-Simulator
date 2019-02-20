@@ -3,7 +3,7 @@
 #include "GL\glew.h"
 #include "Mtx44.h"
 #include "Utility.h"
-
+#include "LoadTGA.h"
 #include "shader.hpp"
 #include "Application.h"
 
@@ -11,12 +11,6 @@
 
 void MainScene::Init()
 {
-	srand(time(NULL));
-
-	Mtx44 projection;
-	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 10000.0f); //FOV, Aspect Ratio, Near plane, Far plane
-	projectionStack.LoadMatrix(projection);
-
 	// clear screen and fill with white
 	glClearColor(0.25, 0.25, 0.25, 0);
 	// Enable depth test
@@ -24,28 +18,22 @@ void MainScene::Init()
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	//Generate Framebuffer
-	glGenFramebuffers(1, &frameBuffer);
-	//renderBufferObject
-	glGenRenderbuffers(1, &renderBufferObject);
-	
-	//Generate quad VAO
-	glGenVertexArrays(1, &quadVAO);
-	//Generate quad VBO
-	glGenBuffers(1, &quadVBO);
 	// Generate a VAO
 	glGenVertexArrays(1, &m_vertexArrayID);
 	// bind that VAO
 	glBindVertexArray(m_vertexArrayID);
 
-	//Load vertex and fragment shaders
-	m_programID = LoadShaders("Shader//Texture.vertexshader", "Shader//Texture.fragmentshader");
 	//frame Buffer Shader
-	frameBufferShader = LoadShaders("Shader//VertexShader.vs", "Shader//FragmentShader.fs");
+	shadowShader = LoadShaders("Shader//depthTexture.vertexshader", "Shader//depthTexture.fs");
+
+	m_parameters[U_LIGHT_DEPTH_MVP_FIRSTPASS] = glGetUniformLocation(shadowShader, "lightDepthMVP");
+	//Load vertex and fragment shaders
+	m_programID = LoadShaders("Shader//Shadow.vertexshader", "Shader//Shadow.fragmentshader");
+
+	m_parameters[U_LIGHT_DEPTH_MVP] = glGetUniformLocation(m_programID, "lightDepthMVP");
+	m_parameters[U_SHADOWMAP] = glGetUniformLocation(m_programID,"shadowMap");
 
 	// Get a handle for our "MVP" uniform
-	m_parameters[U_RENDEREDTEXTURE] = glGetUniformLocation(frameBufferShader, "renderedTexture");
 
 	m_parameters[U_MVP] = glGetUniformLocation(m_programID, "MVP");
 	m_parameters[U_MODELVIEW] = glGetUniformLocation(m_programID, "MV");
@@ -59,44 +47,73 @@ void MainScene::Init()
 	m_parameters[U_NUMLIGHTS] = glGetUniformLocation(m_programID, "numLights");
 	m_parameters[U_LIGHTENABLED] = glGetUniformLocation(m_programID, "lightEnabled");
 
-	m_parameters[U_COLOR_TEXTURE_ENABLED] = glGetUniformLocation(m_programID, "colorTextureEnabled");
-	m_parameters[U_COLOR_TEXTURE] = glGetUniformLocation(m_programID, "colorTexture");
+	m_parameters[U_LIGHT0_TYPE] = glGetUniformLocation(m_programID, "lights[0].type");
+	m_parameters[U_LIGHT0_POSITION] = glGetUniformLocation(m_programID, "lights[0].position_cameraspace");
+	m_parameters[U_LIGHT0_COLOR] = glGetUniformLocation(m_programID, "lights[0].color");
+	m_parameters[U_LIGHT0_POWER] = glGetUniformLocation(m_programID, "lights[0].power");
+	m_parameters[U_LIGHT0_KC] = glGetUniformLocation(m_programID, "lights[0].kC");
+	m_parameters[U_LIGHT0_KL] = glGetUniformLocation(m_programID, "lights[0].kL");
+	m_parameters[U_LIGHT0_KQ] = glGetUniformLocation(m_programID, "lights[0].kQ");
+	m_parameters[U_LIGHT0_SPOTDIRECTION] = glGetUniformLocation(m_programID, "lights[0].spotDirection");
+	m_parameters[U_LIGHT0_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[0].cosCutoff");
+	m_parameters[U_LIGHT0_COSINNER] = glGetUniformLocation(m_programID, "lights[0].cosInner");
+	m_parameters[U_LIGHT0_EXPONENT] = glGetUniformLocation(m_programID, "lights[0].exponent");
+
+	m_parameters[U_COLOR_TEXTURE_ENABLED] = glGetUniformLocation(m_programID, "colorTextureEnabled[0]");
+	m_parameters[U_COLOR_TEXTURE] = glGetUniformLocation(m_programID, "colorTexture[0]");
 
 	m_parameters[U_TEXT_ENABLED] = glGetUniformLocation(m_programID, "textEnabled");
 	m_parameters[U_TEXT_COLOR] = glGetUniformLocation(m_programID, "textColor");
-	for (int i = 0; i < LIGHT_COUNT; ++i)
-	lights[i].getUniformLocation(m_programID);
 
+	m_parameters[U_SHADOW_ENABLED] = glGetUniformLocation(shadowShader, "colorTextureEnabled[0]");
+	m_parameters[U_SHADOW_COLOR] = glGetUniformLocation(shadowShader, "colorTexture[0]");
+	for (int i = 0; i < LIGHT_COUNT; ++i)
+		lights[i].getUniformLocation(m_programID);
 	// Use our shader
 	glUseProgram(m_programID);
 
+
+	glUniform1i(m_parameters[U_LIGHT0_TYPE], lights[0].type);
+	glUniform3fv(m_parameters[U_LIGHT0_COLOR], 1, &lights[0].color.r);
+	glUniform1f(m_parameters[U_LIGHT0_POWER], lights[0].power);
+	glUniform1f(m_parameters[U_LIGHT0_KC], lights[0].kC);
+	glUniform1f(m_parameters[U_LIGHT0_KL], lights[0].kL);
+	glUniform1f(m_parameters[U_LIGHT0_KQ], lights[0].kQ);
+	glUniform1f(m_parameters[U_LIGHT0_COSCUTOFF], lights[0].cosCutoff);
+	glUniform1f(m_parameters[U_LIGHT0_COSINNER], lights[0].cosInner);
+	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], lights[0].exponent);
+
 	lights[0].type = Light::SPOT;
-	lights[0].position.Set(0, 10, 0);
+	lights[0].position.Set(3, 10, 0);
 	lights[0].setUniform();
 
 	glUniform1i(m_parameters[U_NUMLIGHTS], LIGHT_COUNT);
 
-	glUseProgram(frameBufferShader);
 
-	glUniform1i(m_parameters[U_RENDEREDTEXTURE], 0);
+	//Camera Init
+	camera.Init(Vector3(), Vector3(0, 1, 0), 0, 0, 10, 10);
 
-	glUseProgram(m_programID);
+	Mtx44 projection;
+	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 10000.0f); //FOV, Aspect Ratio, Near plane, Far plane
+	projectionStack.LoadMatrix(projection);
+
 
 	// initialisation of personal variables
 
 	lightingEnabled = true;
 
 	initText();
-
 	models[LIGHT] = MeshBuilder::GenerateSphere("LIGHT", Color(1, 1, 1), 1, 36);
 
 	models[SKY_BOX] = MeshBuilder::GenerateOBJ("skybox");
 	models[SKY_BOX]->applyTexture("Image//skybox.tga");
 	applyMaterial(models[SKY_BOX]);
-	camera.Init(Vector3(), Vector3(0, 1, 0), 0, 0, 10, 10);
+
+	models[SHADOW_QUAD] = MeshBuilder::GenerateQuad("Shadow_Quad", Color(1, 1, 1), 1.f);
+	models[SHADOW_QUAD]->texArray[0] = shadowFBO.getTexture();
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	
-	}
+
+}
 
 void MainScene::Update(double dt)
 {
@@ -129,29 +146,55 @@ void MainScene::Update(double dt)
 
 void MainScene::Render()
 {
-	glEnable(GL_DEPTH_TEST);
-	glBindVertexArray(m_vertexArrayID);
-	//Frame Buffer
-	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-	//bind Texture
-	glGenTextures(1, &renderedTexture);
-	glBindTexture(GL_TEXTURE_2D, renderedTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 1024, 768, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderedTexture, 0);
+	RenderFirstPass();
+	RenderSecondPass();
+}
+void MainScene::RenderFirstPass()
+{
+	e_Phases = FIRST_PASS;
+	shadowFBO.BindFrameBuffer();
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	glClear(GL_DEPTH_BUFFER_BIT);
+	glUseProgram(shadowShader);
 
-	//use back default shader
+	if (lights[0].type == Light::DIRECTIONAL)
+	{
+		lightProj.SetToOrtho(-i_Light, i_Light, -i_Light, i_Light, -i_Light, i_Light);
+	}
+	else
+	{
+		lightProj.SetToPerspective(90.0f, 1.f, 0.1, 20);
+	}
+
+	lightView.SetToLookAt(lights[0].position.x, lights[0].position.y, lights[0].position.z, 0, 0, 0, 0, 1, 0);
+	RenderScene();
+}
+
+void MainScene::RenderSecondPass()
+{
+	e_Phases = SECOND_PASS;
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glViewport(0, 0, Application::getWidth(), Application::getHeight());
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(m_programID);
 
-	// Clear color buffer every frame
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	shadowFBO.BindTexture(GL_TEXTURE8);
+	glUniform1i(m_parameters[U_SHADOW_MVP], 8);
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	Mtx44 cam_perspective;
+	cam_perspective.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 10000.0f);
+	projectionStack.LoadMatrix(cam_perspective);
+	RenderScene();
+
 	// get reference to camera based on state
 	Vector3 target = camera.getTarget();
 	Vector3 up = camera.getUp();
 
-	viewStack.LoadIdentity(); 
+	viewStack.LoadIdentity();
 	viewStack.LookAt(
 		camera.position.x, camera.position.y, camera.position.z,
 		target.x, target.y, target.z,
@@ -188,50 +231,26 @@ void MainScene::Render()
 		modelStack.PushMatrix();
 		{
 			modelStack.Translate(light.position.x, light.position.y, light.position.z);
+			modelStack.Rotate(90, 1, 0, 0);
 			renderMesh(models[LIGHT]);
 		}
 		modelStack.PopMatrix();
 	}
 
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 0.2, 0);
+	modelStack.Scale(10, 10, 10);
+	renderMesh(models[SHADOW_QUAD], false);
+	modelStack.PopMatrix();
+
+}
+
+void MainScene::RenderScene()
+{
+	modelStack.PushMatrix();
+	modelStack.Scale(100, 100, 100);
 	renderMesh(models[SKY_BOX]);
-
-	float quadVertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
-		// positions   // texCoords
-		-1.0f,  1.0f,  0.0f, 1.0f,
-		-1.0f, -1.0f,  0.0f, 0.0f,
-		 1.0f, -1.0f,  1.0f, 0.0f,
-
-		-1.0f,  1.0f,  0.0f, 1.0f,
-		 1.0f, -1.0f,  1.0f, 0.0f,
-		 1.0f,  1.0f,  1.0f, 1.0f
-	};
-
-	//RenderBuffer Object
-	glBindRenderbuffer(GL_RENDERBUFFER, renderBufferObject);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 1024, 768);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, renderBufferObject);
-	//Check if frame Buffer is complete
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)
-	{
-		std::cout << "Framebuffer Completed!" << std::endl;
-	}
-	glBindVertexArray(quadVAO);
-	glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glDisable(GL_DEPTH_TEST);
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
-	glUseProgram(frameBufferShader);
-	glBindTexture(GL_TEXTURE_2D, renderedTexture);
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-	glDeleteTextures(1, &renderedTexture);
-
+	modelStack.PopMatrix();
 }
 
 void MainScene::Exit()
@@ -240,7 +259,7 @@ void MainScene::Exit()
 	glDeleteProgram(m_programID);
 }
 
-Camera& MainScene::getCamera() 
+Camera& MainScene::getCamera()
 {
 	return this->camera;
 }

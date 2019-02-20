@@ -11,6 +11,15 @@ void MainScene::applyMaterial(Mesh* model) {
 void MainScene::renderMesh(Mesh* model, bool enableLight) {
 	Mtx44 modelView, modelView_inverse_transpose;
 
+	if (e_Phases == FIRST_PASS)
+	{
+		Mtx44 lightDepthMVP = lightProj * lightView * modelStack.Top();
+		glUniformMatrix4fv(m_parameters[U_LIGHT_DEPTH_MVP_FIRSTPASS], 1, GL_FALSE, &lightDepthMVP.a[0]);
+
+		model->render();
+		return;
+	}
+
 	Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top(); // Remember, matrix multiplication is the other way around
 
 	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]); //update the shader with new MVP
@@ -24,6 +33,10 @@ void MainScene::renderMesh(Mesh* model, bool enableLight) {
 		glUniform1i(m_parameters[U_LIGHTENABLED], 1);
 		modelView_inverse_transpose = modelView.GetInverse().GetTranspose();
 		glUniformMatrix4fv(m_parameters[U_MODELVIEW_INVERSE_TRANSPOSE], 1, GL_FALSE, &modelView_inverse_transpose.a[0]);
+
+		Mtx44 lightDepthMVP = lightProj * lightView * modelStack.Top();
+		glUniformMatrix4fv(m_parameters[U_LIGHT_DEPTH_MVP], 1, GL_FALSE, &lightDepthMVP.a[0]);
+
 		//load material
 		glUniform3fv(m_parameters[U_MATERIAL_AMBIENT], 1, &model->material.kAmbient.r);
 		glUniform3fv(m_parameters[U_MATERIAL_DIFFUSE], 1, &model->material.kDiffuse.r);

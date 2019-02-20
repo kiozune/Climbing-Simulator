@@ -42,6 +42,7 @@ public:
 	float cosInner;
 	float exponent;
 
+
 	Position position;
 	Color color;
 	float power;

@@ -135,6 +135,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FrameBufferObject.cpp" />
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\block.cpp" />
     <ClCompile Include="Source\BlockGenerator.cpp" />
@@ -152,6 +153,7 @@
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FrameBufferObject.h" />
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\block.h" />
     <ClInclude Include="Source\BlockGenerator.h" />
@@ -169,8 +171,10 @@
     <ClInclude Include="Source\vertex.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shader\Texture.fragmentshader" />
-    <None Include="Shader\Texture.vertexshader" />
+    <None Include="Shader\depthTexture.fs" />
+    <None Include="Shader\depthTexture.vertexshader" />
+    <None Include="Shader\Shadow.fragmentshader" />
+    <None Include="Shader\Shadow.vertexshader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

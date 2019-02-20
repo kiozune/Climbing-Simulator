@@ -4,6 +4,7 @@
 #define LSPEED 10.0f
 
 #include "Scene.h"
+#include "..\FrameBufferObject.h"
 #include "BlockGenerator.h"
 
 #define LIGHT_COUNT 1
@@ -15,10 +16,21 @@ class MainScene : public Scene
 		TEXT,
 		LIGHT,
 		SKY_BOX,
+		TEST_OBJ,
+		SHADOW_QUAD,
+
 
 		NUM_GEOMETRY,
 	};
+
+	enum e_Passes
+	{
+		FIRST_PASS,
+		SECOND_PASS,
+	};
+
 	int fps;
+	int i_Light;
 	bool debugging;
 
 	// stores the size of the map
@@ -29,7 +41,7 @@ class MainScene : public Scene
 	unsigned m_vertexArrayID;
 	unsigned m_programID;
 	unsigned m_parameters[U_TOTAL];
-	
+
 	Position viewSize;
 
 	bool pause;
@@ -37,11 +49,6 @@ class MainScene : public Scene
 	Camera camera; // stationary
 
 	Mesh* models[NUM_GEOMETRY];
-	unsigned int frameBuffer;
-	unsigned int renderedTexture;
-	unsigned int renderBufferObject;
-	unsigned int quadVAO, quadVBO;
-	unsigned int frameBufferShader;
 
 	MS modelStack, viewStack, projectionStack;
 
@@ -70,8 +77,21 @@ public:
 	virtual void Update(double dt);
 	virtual void Render();
 	virtual void Exit();
+	void RenderFirstPass();
+	void RenderSecondPass();
+	void RenderScene();
 
 	Camera& getCamera();
+
+private:
+	unsigned shadowShader;
+	FrameBufferObject shadowFBO;
+
+	Mtx44 lightProj;
+	Mtx44 lightView;
+
+	e_Passes e_Phases;
+
 };
 
 #endif

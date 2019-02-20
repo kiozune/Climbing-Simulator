@@ -45,6 +45,10 @@ public:
 	
 	Material material;
 
+	static const int max_Texture = 2;
+
+	unsigned texArray[max_Texture];
+
 	Mesh();
 	Mesh(const std::string &meshName);
 	~Mesh();
@@ -56,6 +60,7 @@ public:
 	void setTexture(unsigned int textureID);
 	void applyTexture(const char* path);
 	bool isTextured();
+	unsigned getShadowTexture(GLuint texture);
 	unsigned getTextureID();
 };
 
