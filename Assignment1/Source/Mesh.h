@@ -5,7 +5,6 @@
 #include <string>
 
 #include "Material.h"
-#include "../FrameBufferObject.h"
 #include "vertex.h"
 #include <vector>
 
@@ -43,9 +42,13 @@ class Mesh
 	void calculateBB(std::vector<Vertex>);
 
 public:
+	
 	Material material;
-	FrameBufferObject f_Shadows;
-	static const int i_Max = 2;
+
+	static const int max_Texture = 2;
+
+	unsigned texArray[max_Texture];
+
 	Mesh();
 	Mesh(const std::string &meshName);
 	~Mesh();
@@ -56,11 +59,9 @@ public:
 	void render(unsigned offset, unsigned count);
 	void setTexture(unsigned int textureID);
 	void applyTexture(const char* path);
-	void getShadowTexture(GLuint texture);
 	bool isTextured();
+	unsigned getShadowTexture(GLuint texture);
 	unsigned getTextureID();
-
-	unsigned textureArray[i_Max];
 };
 
 #endif

@@ -42,7 +42,6 @@ Mesh::Mesh(const std::string &meshName)
 	glGenBuffers(1, &colorBuffer);
 	glGenBuffers(1, &indexBuffer);
 	textureBuffer = 0;
-
 }
 
 /******************************************************************************/
@@ -64,6 +63,14 @@ Mesh::~Mesh() {
 		mode : drawing mode
 
 */
+
+unsigned Mesh::getShadowTexture(GLuint texture)
+{
+	this->textureBuffer = texture;
+
+	return this->textureBuffer;
+}
+
 void Mesh::init(std::vector<Vertex> vertex_buffer_data, std::vector<GLuint> index_buffer_data, DRAW_MODE mode, const bool rigidBody)
 {
 	this->mode = mode;
@@ -169,11 +176,6 @@ void Mesh::render(unsigned offset, unsigned count) {
 
 void Mesh::applyTexture(const char* path) {
 	this->textureBuffer = LoadTGA(path);
-}
-
-void Mesh::getShadowTexture(GLuint texture)
-{
-	this->textureBuffer = f_Shadows.getTexture();
 }
 
 bool Mesh::isTextured() {

@@ -11,32 +11,30 @@
 
 void MainScene::Init()
 {
-	srand(time(NULL));
-	
-	i_Lightview = 1000;
 	// clear screen and fill with white
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearColor(0.25, 0.25, 0.25, 0);
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 	// Generate a VAO
 	glGenVertexArrays(1, &m_vertexArrayID);
 	// bind that VAO
 	glBindVertexArray(m_vertexArrayID);
 
-	//Load vertex and fragment shaders
-	frameBufferShader = LoadShaders("Shader//Shadow.vertexshader", "Shader//Shadow.fragmentshader");
-	m_parameters[U_LIGHT_DEPTH_MVP_FIRSTPASS] = glGetUniformLocation(frameBufferShader, "lightDepthMVP");
-	//Shadow Shader
-	m_programID = LoadShaders("Shader//DepthTexture.vertexshader", "Shader//DepthTexture.fs");
-	m_parameters[U_LIGHT_DEPTH_MVP] = glGetUniformLocation(m_programID, "lightDepthMVP");
-	m_parameters[U_SHADOW_MAP] = glGetUniformLocation(m_programID, "shadowMap");
+	//frame Buffer Shader
+	shadowShader = LoadShaders("Shader//depthTexture.vertexshader", "Shader//depthTexture.fs");
 
-	// Get a handle for our "MVP" uniform 
+	m_parameters[U_LIGHT_DEPTH_MVP_FIRSTPASS] = glGetUniformLocation(shadowShader, "lightDepthMVP");
+	//Load vertex and fragment shaders
+	m_programID = LoadShaders("Shader//Shadow.vertexshader", "Shader//Shadow.fragmentshader");
+
+	m_parameters[U_LIGHT_DEPTH_MVP] = glGetUniformLocation(m_programID, "lightDepthMVP");
+	m_parameters[U_SHADOWMAP] = glGetUniformLocation(m_programID,"shadowMap");
+
+	// Get a handle for our "MVP" uniform
+
 	m_parameters[U_MVP] = glGetUniformLocation(m_programID, "MVP");
 	m_parameters[U_MODELVIEW] = glGetUniformLocation(m_programID, "MV");
 	m_parameters[U_MODELVIEW_INVERSE_TRANSPOSE] = glGetUniformLocation(m_programID, "MV_inverse_transpose");
@@ -46,9 +44,9 @@ void MainScene::Init()
 	m_parameters[U_MATERIAL_SPECULAR] = glGetUniformLocation(m_programID, "material.kSpecular");
 	m_parameters[U_MATERIAL_SHININESS] = glGetUniformLocation(m_programID, "material.kShininess");
 
-	//Light 0's uniformlocation for Shader
-
 	m_parameters[U_NUMLIGHTS] = glGetUniformLocation(m_programID, "numLights");
+	m_parameters[U_LIGHTENABLED] = glGetUniformLocation(m_programID, "lightEnabled");
+
 	m_parameters[U_LIGHT0_TYPE] = glGetUniformLocation(m_programID, "lights[0].type");
 	m_parameters[U_LIGHT0_POSITION] = glGetUniformLocation(m_programID, "lights[0].position_cameraspace");
 	m_parameters[U_LIGHT0_COLOR] = glGetUniformLocation(m_programID, "lights[0].color");
@@ -61,32 +59,19 @@ void MainScene::Init()
 	m_parameters[U_LIGHT0_COSINNER] = glGetUniformLocation(m_programID, "lights[0].cosInner");
 	m_parameters[U_LIGHT0_EXPONENT] = glGetUniformLocation(m_programID, "lights[0].exponent");
 
-	//Getting Handle for the "Colored Texture" uniform
-	m_parameters[U_COLOR_TEXTURE_ENABLED] = glGetUniformLocation(m_programID, "colorTextureEnabled[0]");
-	m_parameters[U_COLOR_TEXTURE] = glGetUniformLocation(m_programID, "colorTexture[0]");
-	
-
 	m_parameters[U_COLOR_TEXTURE_ENABLED] = glGetUniformLocation(m_programID, "colorTextureEnabled[0]");
 	m_parameters[U_COLOR_TEXTURE] = glGetUniformLocation(m_programID, "colorTexture[0]");
 
-	m_parameters[U_SHADOW_ENABLED] = glGetUniformLocation(frameBufferShader, "colorTextureEnabled[0]");
-	m_parameters[U_SHADOW_COLOR_TEXTURE] = glGetUniformLocation(frameBufferShader, "colorTexture[0]");
+	m_parameters[U_TEXT_ENABLED] = glGetUniformLocation(m_programID, "textEnabled");
+	m_parameters[U_TEXT_COLOR] = glGetUniformLocation(m_programID, "textColor");
+
+	m_parameters[U_SHADOW_ENABLED] = glGetUniformLocation(shadowShader, "colorTextureEnabled[0]");
+	m_parameters[U_SHADOW_COLOR] = glGetUniformLocation(shadowShader, "colorTexture[0]");
+	for (int i = 0; i < LIGHT_COUNT; ++i)
+		lights[i].getUniformLocation(m_programID);
 	// Use our shader
 	glUseProgram(m_programID);
 
-	lights[0].type = Light::SPOT;
-	lights[0].position.Set(5, 10, 0);
-	lights[0].color.Set(1.0f, 1.0f, 1.0f); //RGB Color 0 being black and 1 being white
-	lights[0].power = 1.0f; //Intensity of light
-	lights[0].kC = 1.f;
-	lights[0].kL = 0.01f;
-	lights[0].kQ = 0.001f;
-	lights[0].cosCutoff = cos(Math::DegreeToRadian(45));
-	lights[0].cosInner = cos(Math::DegreeToRadian(45));
-	lights[0].exponent = 3.f;
-	lights[0].spotDirection.Set(0.f, 1.f, 0.f);
-
-	glUniform1i(m_parameters[U_NUMLIGHTS], 1);
 
 	glUniform1i(m_parameters[U_LIGHT0_TYPE], lights[0].type);
 	glUniform3fv(m_parameters[U_LIGHT0_COLOR], 1, &lights[0].color.r);
@@ -98,33 +83,50 @@ void MainScene::Init()
 	glUniform1f(m_parameters[U_LIGHT0_COSINNER], lights[0].cosInner);
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], lights[0].exponent);
 
+	lights[0].type = Light::SPOT;
+	lights[0].position.Set(3, 10, 0);
+	lights[0].setUniform();
+	lights[0].color.Set(1, 1.0, 1.0);
+	lights[0].power = 0.5f;
+	lights[0].kC = 1.f;
+	lights[0].kL = 0.01f;
+	lights[0].kQ = 0.001f;
+	lights[0].cosCutoff = cos(Math::DegreeToRadian(45));
+	lights[0].cosInner = cos(Math::DegreeToRadian(45));
+	lights[0].exponent = 3.f;
+	lights[0].spotDirection.Set(0.f, 1.f, 0.f);
+
+	glUniform1i(m_parameters[U_NUMLIGHTS], LIGHT_COUNT);
+
+
+	//Camera Init
+	camera.Init(Vector3(), Vector3(0, 1, 0), 0, 0, 10, 10);
+
+	Mtx44 projection;
+	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 10000.0f); //FOV, Aspect Ratio, Near plane, Far plane
+	projectionStack.LoadMatrix(projection);
+
+
 	// initialisation of personal variables
+
 	lightingEnabled = true;
 
 	initText();
 	models[LIGHT] = MeshBuilder::GenerateSphere("LIGHT", Color(1, 1, 1), 1, 36);
 
 	models[SKY_BOX] = MeshBuilder::GenerateOBJ("skybox");
-	models[SKY_BOX]->textureArray[1] = LoadTGA("Image//skybox.tga");
+	models[SKY_BOX]->applyTexture("Image//skybox.tga");
 	applyMaterial(models[SKY_BOX]);
-	models[TEST_OBJ] = MeshBuilder::GenerateOBJ("test");
-	models[TEST_OBJ]->textureArray[1] = LoadTGA("Image//TnT.tga");
-	applyMaterial(models[TEST_OBJ]);
-	
-	models[SHADOW_QUAD] = MeshBuilder::GenerateQuad("shadowQuad",Color(1,1,1),1.f);
-	models[SHADOW_QUAD]->textureArray[0] = shadows.getTexture();
-	camera.Init(Vector3(0,0,0), Vector3(0, 1, 0), 0, 0, 1, 0);
-	
-	//Setting Camera 45 FoV / 4:3 Ratio / view range of 0.1 to 10000 units
-	Mtx44 projection;
-	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 10000.0f); //FOV, Aspect Ratio, Near plane, Far plane
-	projectionStack.LoadMatrix(projection);
 
-	shadows.Init(1024, 1024);
+	models[SHADOW_QUAD] = MeshBuilder::GenerateQuad("Shadow_Quad", Color(1, 1, 1), 1.f);
+	models[SHADOW_QUAD]->texArray[0] = shadowFBO.getTexture();
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 }
 
 void MainScene::Update(double dt)
 {
+
 	elapseTime += dt;
 	fps = 1 / dt;
 
@@ -153,78 +155,62 @@ void MainScene::Update(double dt)
 
 void MainScene::Render()
 {
-	//First Pass
-	renderFirstPass();
-	//Second Pass
-	renderSecondPass();
+	RenderFirstPass();
+	RenderSecondPass();
 }
-//Rendering from light's PoV
-void MainScene::renderFirstPass()
+void MainScene::RenderFirstPass()
 {
-	e_phase = FIRST_PASS;
-	shadows.BindFrameBuffer();
+	e_Phases = FIRST_PASS;
+	shadowFBO.BindFrameBuffer();
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	glClear(GL_DEPTH_BUFFER_BIT);
-	glUseProgram(frameBufferShader);
+	glUseProgram(shadowShader);
 
-	//Values for matrices should change according to light's position or direction.
 	if (lights[0].type == Light::DIRECTIONAL)
 	{
-		lightProjection.SetToOrtho(-i_Lightview, i_Lightview, -i_Lightview, i_Lightview, -i_Lightview, i_Lightview);
+		lightProj.SetToOrtho(-i_Light, i_Light, -i_Light, i_Light, -i_Light, i_Light);
 	}
 	else
 	{
-		//Light's FoV ratio aspect and distance
-		lightProjection.SetToPerspective(90, 1.f, 0.1f, 20);
+		lightProj.SetToPerspective(90.0f, 1.f, 0.1, 20);
 	}
 
 	lightView.SetToLookAt(lights[0].position.x, lights[0].position.y, lights[0].position.z, 0, 0, 0, 0, 1, 0);
-	renderScene();
+	RenderScene();
 }
-//Rendering from Camera's PoV
-void MainScene::renderSecondPass()
+
+void MainScene::RenderSecondPass()
 {
-	e_phase = SECOND_PASS;
+	e_Phases = SECOND_PASS;
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glViewport(0, 0, Application::getWindowWidth(), Application::getWindowHeight());
+	glViewport(0, 0, Application::getWidth(), Application::getHeight());
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(m_programID);
-	shadows.BindTexture(GL_TEXTURE8);
-	glUniform1i(m_parameters[U_SHADOW_MAP], 8);
+
+	shadowFBO.BindTexture(GL_TEXTURE8);
+	glUniform1i(m_parameters[U_SHADOW_MVP], 8);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	Mtx44 m_Projection;
-	m_Projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 10000.0f);
-	projectionStack.LoadMatrix(m_Projection);
-	renderScene();
+	Mtx44 cam_perspective;
+	cam_perspective.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 10000.0f);
+	projectionStack.LoadMatrix(cam_perspective);
+	RenderScene();
 
-	// render light
-	modelStack.PushMatrix();
-	modelStack.Translate(lights[0].position.x, lights[0].position.y, lights[0].position.z);
-	renderMesh(models[LIGHT] , false);
-	modelStack.PopMatrix();
-
-	//Render Shadow Quad
-	modelStack.PushMatrix();
-	modelStack.Scale(10, 10, 10);
-	modelStack.Translate(20, 0, 0);
-	renderMesh(models[SHADOW_QUAD], false);
-	modelStack.PopMatrix();
-
-		// get reference to camera based on state
+	// get reference to camera based on state
 	Vector3 target = camera.getTarget();
 	Vector3 up = camera.getUp();
-	// Camera matrix
+
 	viewStack.LoadIdentity();
 	viewStack.LookAt(
 		camera.position.x, camera.position.y, camera.position.z,
-		target.x,target.y,target.z,
-		up.x,up.y,up.z
-					);
+		target.x, target.y, target.z,
+		up.x, up.y, up.z
+	);
 
+	modelStack.LoadIdentity();
 
 	for (Light& light : lights) {
 		if (light.type == Light::DIRECTIONAL)
@@ -249,22 +235,42 @@ void MainScene::renderSecondPass()
 			Position lightPosition_cameraspace = viewStack.Top() * light.position;
 			glUniform3fv(light.parameters[Light::L_POSITION], 1, &lightPosition_cameraspace.x);
 		}
+
+		// render light
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(light.position.x, light.position.y, light.position.z);
+			modelStack.Rotate(90, 1, 0, 0);
+			renderMesh(models[LIGHT]);
+		}
+		modelStack.PopMatrix();
 	}
+
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 0.2, 0);
+	modelStack.Scale(10, 10, 10);
+	renderMesh(models[SHADOW_QUAD], false);
+	modelStack.PopMatrix();
+
 }
 
-void MainScene::renderScene()
+void MainScene::RenderScene()
 {
 	modelStack.PushMatrix();
 	modelStack.Scale(100, 100, 100);
-	renderMesh(models[SKY_BOX], false);
+	renderMesh(models[SKY_BOX]);
 	modelStack.PopMatrix();
 	renderMesh(models[TEST_OBJ],true);
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 2, 0);
+	renderMesh(models[TEST_CUBE], true);
+	modelStack.PopMatrix();
 }
+
 void MainScene::Exit()
 {
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
-	glDeleteProgram(frameBufferShader);
 }
 
 Camera& MainScene::getCamera()

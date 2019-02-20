@@ -15,14 +15,12 @@ public:
 	void Run();
 	void Exit();
 	static bool IsKeyPressed(unsigned short key);
-	static int getWindowWidth();
-	static int getWindowHeight();
-
+	static int getWidth();
+	static int getHeight();
 private:
 
 	//Declare a window object
 	StopWatch m_timer;
-	//Window Screen Values
 	const static int window_Width = 1600;
 	const static int window_Height = 900;
 };

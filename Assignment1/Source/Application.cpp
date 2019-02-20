@@ -130,12 +130,11 @@ void Application::Exit()
 	glfwTerminate();
 }
 
-int Application::getWindowHeight()
+int Application::getHeight()
 {
 	return window_Height;
 }
-
-int Application::getWindowWidth()
+int Application::getWidth()
 {
 	return window_Width;
 }

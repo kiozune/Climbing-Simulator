@@ -23,6 +23,7 @@ bool FrameBufferObject::Init(unsigned int i_Width, unsigned int i_Height)
 	//Binding FrameBufferOBject
 	glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBufferObject);
 	//Binding Texture into current frame buffer
+
 	glBindTexture(GL_TEXTURE_2D, m_Texture);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, i_Height, i_Height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
