@@ -36,9 +36,6 @@
     <ClCompile Include="Source\Camera.cpp">
       <Filter>Camera&amp;Lighting</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Light.cpp">
-      <Filter>Camera&amp;Lighting</Filter>
-    </ClCompile>
     <ClCompile Include="Source\MainScene+Render.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
@@ -75,11 +72,11 @@
     <ClCompile Include="FrameBufferObject.cpp">
       <Filter>FrameBuffer</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Light.cpp">
+      <Filter>Camera&amp;Lighting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Light.h">
-      <Filter>Camera&amp;Lighting</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Camera.h">
       <Filter>Camera&amp;Lighting</Filter>
     </ClInclude>
@@ -118,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="FrameBufferObject.h">
       <Filter>FrameBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Light.h">
+      <Filter>Camera&amp;Lighting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -15,6 +15,7 @@ class MainScene : public Scene
 		TEXT,
 		LIGHT,
 		SKY_BOX,
+		TEST_OBJ,
 		SHADOW_QUAD,
 
 

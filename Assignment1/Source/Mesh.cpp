@@ -42,6 +42,11 @@ Mesh::Mesh(const std::string &meshName)
 	glGenBuffers(1, &colorBuffer);
 	glGenBuffers(1, &indexBuffer);
 	textureBuffer = 0;
+
+	for (int i = 0; i < max_Texture; ++i)
+	{
+		texArray[i] = 0;
+	}
 }
 
 /******************************************************************************/
@@ -53,6 +58,11 @@ Destructor - delete VBO/IBO here
 Mesh::~Mesh() {
 	if (textureBuffer)
 		glDeleteTextures(1, &textureBuffer);
+
+	for (int i = 0; i < max_Texture; ++i)
+	{
+		glDeleteTextures(1, &texArray[i]);
+	}
 }
 
 /*

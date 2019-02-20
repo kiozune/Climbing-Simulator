@@ -13,14 +13,15 @@ Light::Light() {
 	this->type = POINT;
 	this->position.Set(0, 0, 0);
 	this->color.Set(1, 1, 1);
-	this->power = 10;
+	this->power = 1.f;
 	this->kC = 1.f;
 	this->kL = 0.01f;
 	this->kQ = 0.001f;
-	this->cosCutoff = cos(rad(45));
-	this->cosInner = cos(rad(30));
+	/*this->cosCutoff = cos(rad(45));
+	this->cosInner = cos(rad(30));*/
+	this->cosCutoff = this->cosInner = 0.8f;
 	this->exponent = 3.f;
-	this->spotDirection.Set(0.f, 0.f, 0.f);
+	this->spotDirection.Set(0.f, 5.f, 0.f);
 }
 
 std::string Light::getGLName(std::string end) {
