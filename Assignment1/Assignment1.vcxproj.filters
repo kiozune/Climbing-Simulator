@@ -40,6 +40,9 @@
     <Filter Include="Controller Manager">
       <UniqueIdentifier>{23a9af86-ebaa-481a-9c33-4bbf8e3fb56d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Ai">
+      <UniqueIdentifier>{c8c7c79d-2294-45b7-a8a1-7e66b154adb3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Camera.cpp">
@@ -117,6 +120,18 @@
     <ClCompile Include="Source\MainScene+EventHandler.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Brain.cpp">
+      <Filter>Ai</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Bot.cpp">
+      <Filter>Ai</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+PlayerActions.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+BotActions.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\MainScene.h">
@@ -190,6 +205,12 @@
     </ClInclude>
     <ClInclude Include="Source\ControllerManager.h">
       <Filter>Controller Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Brain.h">
+      <Filter>Ai</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Bot.h">
+      <Filter>Ai</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

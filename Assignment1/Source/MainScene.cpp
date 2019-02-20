@@ -60,6 +60,7 @@ void MainScene::Init()
 
 	lights[0].type = Light::SPOT;
 	lights[0].position.Set(0, 300, 0);
+	lights[0].power = 100;
 	lights[0].setUniform();
 
 	glUniform1i(m_parameters[U_NUMLIGHTS], LIGHT_COUNT);
@@ -82,7 +83,10 @@ void MainScene::Init()
 	camera.Init(Vector3(0, 0, 0), 200, 100, 180);
 
 	for (int i = 0; i < PLAYER_COUNT; ++i) 
-		initPlayer(players[i], Vector3(0, 0, i * 10));
+		initPlayer(players[i], Vector3(30, 0, i * 10));
+
+	for (int i = 0; i < BOT_COUNT; ++i)
+		initPlayer(bots[i], Vector3(0, 0, i * 10));
 
 	initMap();
 }
@@ -99,117 +103,14 @@ void MainScene::Update(double dt)
 
 	manager->applyGravity(dt);
 
-
 	for (int i = 0; i < PLAYER_COUNT; ++i)
-	{
-		Player& p = players[i];
+		updatePlayer(i, dt);
 
-		controller->getInput(GLFW_JOYSTICK_1 + i);
-		joystickEvents(dt);
+	for (int i = 0; i < BOT_COUNT; ++i)
+		updateBot(i, dt);
 
-		// Player swing
-
-		Vector3 curr = Application::GetMousePosition();
-		Vector3 diff = prevMousePosition - curr;
-		prevMousePosition = curr;
-
-		Vector3 leftJS = controller->getLeftJoystick();
-		if (leftJS.x || leftJS.y) diff = Vector3(leftJS.x, leftJS.y, 0) * 200;
-
-		Vector3 center = p.getBody()->getCenter();
-		Vector3 dir = center - camera.getPosition();
-		float yaw = atan(dir.x / dir.z);
-		dir.z /= abs(dir.z);
-		Mtx44 rotation; rotation.SetToRotation(deg(yaw), 0, 1, 0);
-
-		Vector3 impulse = rotation * Vector3(diff.x * -dir.z, diff.Length() * 1.5, diff.y * dir.z);
-
-		if (p.isLeftGrabbing())
-			manager->applyImpulse(p.getRightArm(), impulse, dt);
-		
-		if (p.isRightGrabbing())
-			manager->applyImpulse(p.getLeftArm(), impulse, dt);
-
-		manager->resolveCollisions();
-
-
-
-		// grabbing
-
-		if (Application::IsKeyPressed('Q') || controller->getLT() > 0)
-		{
-			if (!p.isLeftGrabbing())
-			{
-				Object* leftHand = p.getLeftHand();
-
-				CollisionDetails details;
-				for (int j = 0; j < PLAYER_COUNT; ++j)
-				{
-					if (i == j) continue;
-					details = manager->getCollisionDetails(leftHand, players[j].getParts());
-
-					if (details.result.collided) break;
-				}
-
-				if (details.result.collided)
-				{
-					p.leftGrab(details.object->getEnd());
-				}
-				else
-				{
-					details = manager->getEnviromentalCollision(leftHand);
-					if (details.result.collided)
-					{
-						p.leftGrab(details.object->getEnd());
-					}
-				}
-			}
-		}
-		else
-		{
-			p.releaseLeft();
-		}
-
-		if (Application::IsKeyPressed('E') || controller->getRT() > 0)
-		{
-			if (!p.isRightGrabbing())
-			{
-				Object* rightHand = p.getRightHand();
-
-				CollisionDetails details;
-				for (int j = 0; j < PLAYER_COUNT; ++j)
-				{
-					if (i == j) continue;
-					details = manager->getCollisionDetails(rightHand, players[j].getParts());
-
-					if (details.result.collided) break;
-				}
-				
-				if (details.result.collided)
-				{
-					p.rightGrab(details.object->getEnd());
-				}
-				else
-				{
-					details = manager->getEnviromentalCollision(rightHand);
-					if (details.result.collided)
-					{
-						p.rightGrab(details.object->getEnd());
-					}
-				}
-			}
-		}
-		else
-		{
-			p.releaseRight();
-		}
-
-		// general physics
-		manager->updateObjects();
-		manager->updateSprings();
-	}
-
-
+	manager->resolveCollisions();
+	// general physics
 
 	//camera.move(dt);
 	Vector3 center = players[0].getBody()->getCenter();
@@ -296,7 +197,7 @@ void MainScene::Render()
 
 			modelStack.Scale(3, 3, 3);
 
-			Color color = p.isLeftGrabbing() ? Color(.9, .9, 0) : Color(1, 1, 1);
+			Color color = p.isGrabbingLeft() ? Color(.9, .9, 0) : Color(.5, .5, .5);
 			renderText(models[TEXT], "LT", color);
 		}
 		modelStack.PopMatrix();
@@ -310,7 +211,7 @@ void MainScene::Render()
 
 			modelStack.Scale(3, 3, 3);
 
-			Color color = p.isRightGrabbing() ? Color(0, .9, .9) : Color(1, 1, 1);
+			Color color = p.isGrabbingRight() ? Color(0, .9, .9) : Color(.5, .5, .5);
 			renderText(models[TEXT], "RT", color);
 		}
 		modelStack.PopMatrix();
@@ -321,9 +222,4 @@ void MainScene::Exit()
 {
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
-}
-
-Camera& MainScene::getCamera() 
-{
-	return this->camera;
 }

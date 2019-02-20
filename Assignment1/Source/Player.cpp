@@ -18,7 +18,7 @@ void Player::setLeftFingers(Joint* joint)
 
 
 Spring** Player::getLeftSpring() { return &this->leftSpring; }
-bool Player::isLeftGrabbing() { return this->leftSpring && this->leftSpring->isEnabled(); }
+bool Player::isGrabbingLeft() { return this->leftSpring && this->leftSpring->isEnabled(); }
 
 void Player::leftGrab(Joint* joint) 
 { 
@@ -58,7 +58,7 @@ void Player::setRightFingers(Joint* joint)
 
 
 Spring** Player::getRightSpring() { return &this->rightSpring; }
-bool Player::isRightGrabbing() { return this->rightSpring && this->rightSpring->isEnabled(); }
+bool Player::isGrabbingRight() { return this->rightSpring && this->rightSpring->isEnabled(); }
 
 void Player::rightGrab(Joint* joint) 
 { 

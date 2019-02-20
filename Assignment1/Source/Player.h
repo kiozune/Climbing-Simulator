@@ -29,7 +29,7 @@ public:
 	void setLeftFingers(Joint*);
 
 	Spring** getLeftSpring();
-	bool isLeftGrabbing();
+	bool isGrabbingLeft();
 	void leftGrab(Joint* = nullptr);
 	void releaseLeft();
 
@@ -43,7 +43,7 @@ public:
 	void setRightFingers(Joint*);
 
 	Spring** getRightSpring();
-	bool isRightGrabbing();
+	bool isGrabbingRight();
 	void rightGrab(Joint* = nullptr);
 	void releaseRight();
 

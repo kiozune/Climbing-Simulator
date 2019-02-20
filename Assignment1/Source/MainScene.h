@@ -10,9 +10,13 @@
 #include "ControllerManager.h"
 
 #include "Player.h"
+#include "Bot.h"
 
 #define LIGHT_COUNT 1
-#define PLAYER_COUNT 2
+#define PLAYER_COUNT 1
+#define BOT_COUNT 1
+
+#define MAP_COUNT 100
 
 class MainScene : public Scene
 {
@@ -39,7 +43,7 @@ class MainScene : public Scene
 	unsigned m_parameters[U_TOTAL];
 	
 	Position viewSize;
-
+	
 	bool pause;
 
 	FixedCamera camera; // stationary
@@ -59,6 +63,7 @@ class MainScene : public Scene
 	bool isXboxController = false;
 
 	Player players[PLAYER_COUNT];
+	Bot bots[BOT_COUNT];
 
 	// applies material to geometry selected
 	void applyMaterial(Mesh*);
@@ -77,6 +82,10 @@ class MainScene : public Scene
 	void initPlayer(Player&, Vector3);
 	void initMap();
 
+	void updatePlayer(int, double&);
+	void updateBot(int, double&);
+
+
 	void keyboardEvents(double&);
 	void joystickEvents(double&);
 
@@ -87,7 +96,6 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
-	Camera& getCamera();
 };
 
 #endif

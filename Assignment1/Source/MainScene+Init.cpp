@@ -23,7 +23,7 @@ void MainScene::initPlayer(Player& p, Vector3 offset)
 	p.setLeftFingers(leftFingers);
 	p.setRightFingers(rightFingers);
 
-	float mass = 15, size = 2;
+	float mass = 5, size = 2;
 
 	Object* leftHand = new Object(leftFingers, leftWrist, mass, size + 1);
 	Object* leftArm = new Object(leftElbow, leftWrist, mass, size);
@@ -109,7 +109,7 @@ void MainScene::initMap()
 	int x, y, z;
 	int w, h, d;
 	x = y = z = 0;
-	for (int i = 0; i < 100; ++i)
+	for (int i = 0; i < MAP_COUNT; ++i)
 	{
 		w = rand() % 25 + 5;
 		h = rand() % 25 + 5;
