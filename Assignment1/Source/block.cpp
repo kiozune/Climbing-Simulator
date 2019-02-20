@@ -19,8 +19,17 @@ void block::setMesh(int val)
 {
 	switch (val)
 	{
+	case STARTING:
+		mesh = MeshBuilder::GenerateQuad("quad", Color(0, 0, 1), 1);
+		break;
 	case CUBE:
 		mesh = MeshBuilder::GenerateCube("cube", Color(1, 1, 1), 1, 1, 1);
+		break;
+	case MONKEY_BAR:
+		mesh = MeshBuilder::GenerateOBJ("monkeyBar");
+		mesh->applyTexture("Image//metallic.tga");
+	case FINISH:
+		mesh = MeshBuilder::GenerateQuad("quad", Color(1, 0, 0), 1);
 		break;
 	default:
 		mesh = MeshBuilder::GenerateCube("cube", Color(1, 1, 1), 1, 1, 1);

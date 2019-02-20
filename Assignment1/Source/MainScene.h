@@ -12,6 +12,7 @@ class MainScene : public Scene
 {
 	enum GEOMETRY_TYPE
 	{
+		AXES,
 		TEXT,
 		LIGHT,
 		SKY_BOX,
