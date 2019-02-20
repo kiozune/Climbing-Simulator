@@ -260,11 +260,6 @@ void MainScene::RenderScene()
 	modelStack.Scale(100, 100, 100);
 	renderMesh(models[SKY_BOX]);
 	modelStack.PopMatrix();
-	renderMesh(models[TEST_OBJ],true);
-	modelStack.PushMatrix();
-	modelStack.Translate(0, 2, 0);
-	renderMesh(models[TEST_CUBE], true);
-	modelStack.PopMatrix();
 }
 
 void MainScene::Exit()
