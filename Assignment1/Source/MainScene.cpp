@@ -82,7 +82,9 @@ void MainScene::Init()
 	camera.Init(Vector3(0, 0, 0), 200, 100, 180);
 
 	for (int i = 0; i < PLAYER_COUNT; ++i) 
-		initPlayer(players[i], Vector3(0, 20, i * 10));
+		initPlayer(players[i], Vector3(0, 30, i * 10));
+
+	initPlayer(remotePlayers[0], Vector3(20, 30, 0));
 
 	initMap();
 }
@@ -96,21 +98,20 @@ void MainScene::Update(double dt)
 	// standard controls
 	keyboardEvents(dt);
 
-
-
+	manager->applyGravity(dt);
 
 	for (int i = 0; i < PLAYER_COUNT; ++i)
 		updatePlayer(i, dt);
 
-	manager->applyGravity(dt);
-	manager->resolveCollisions();
+	std::string data = transfer->stringify(transfer->getPlayerData(players[0]));
+	remotePlayers[0].update(transfer->parse(data));
+
 	manager->updateObjects();
 	manager->updateSprings();
 	manager->resolveCollisions();
 
-
 	//camera.move(dt);
-	Vector3 center = players[0].getBody()->getCenter();
+	Vector3 center = remotePlayers[0].getBody()->getCenter();
 	Vector3 target = Vector3(int(center.x / 5) * 5, int(center.y / 5) * 5, int(center.z / 5) * 5);
 	camera.setTarget(target);
 }

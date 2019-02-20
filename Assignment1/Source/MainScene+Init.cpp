@@ -8,7 +8,6 @@ void MainScene::initText()
 
 void MainScene::initPlayer(Player& p, Vector3 offset)
 {
-	Joint* chest = new Joint(Vector3(0, 0, 0) + offset);
 	Joint* leftFingers = new Joint(Vector3(13, 0, 0) + offset);
 	Joint* leftWrist = new Joint(Vector3(10, 0, 0) + offset);
 	Joint* leftElbow = new Joint(Vector3(5, 0, 0) + offset);
@@ -16,6 +15,7 @@ void MainScene::initPlayer(Player& p, Vector3 offset)
 	Joint* rightWrist = new Joint(Vector3(-10, 0, 0) + offset);
 	Joint* rightElbow = new Joint(Vector3(-5, 0, 0) + offset);
 	Joint* head = new Joint(Vector3(0, 0, 5) + offset);
+	Joint* chest = new Joint(Vector3(0, 0, 0) + offset);
 	Joint* pelvis = new Joint(Vector3(0, 0, -10) + offset);
 	Joint* leftFeet = new Joint(Vector3(5, 0, -20) + offset);
 	Joint* rightFeet = new Joint(Vector3(-5, 0, -20) + offset);

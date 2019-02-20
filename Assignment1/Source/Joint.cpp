@@ -30,6 +30,12 @@ void Joint::setCurrent(Vector3 position) { this->current = position; }
 
 Vector3 Joint::getPrevious() { return this->previous; }
 
+void Joint::setPosition(Vector3 v) 
+{ 
+	this->current = v;
+	this->previous = v;
+}
+
 Vector3 Joint::getMomentum() { return this->current - this->previous; }
 
 void Joint::move(Vector3 offset)

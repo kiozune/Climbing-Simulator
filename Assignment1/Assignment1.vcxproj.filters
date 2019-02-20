@@ -129,6 +129,9 @@
     <ClCompile Include="Source\MainScene+PlayerActions.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Source\PlayerData.cpp">
+      <Filter>Multiplayer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\MainScene.h">
@@ -207,6 +210,9 @@
       <Filter>Multiplayer</Filter>
     </ClInclude>
     <ClInclude Include="Source\RemotePlayer.h">
+      <Filter>Multiplayer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayerData.h">
       <Filter>Multiplayer</Filter>
     </ClInclude>
   </ItemGroup>

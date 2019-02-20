@@ -8,6 +8,7 @@
 
 #include "PhysicsManager.h"
 #include "ControllerManager.h"
+#include "DataTransferManager.h"
 
 #include "Player.h"
 #include "RemotePlayer.h"
@@ -55,6 +56,7 @@ class MainScene : public Scene
 
 	PhysicsManager* manager = PhysicsManager::getInstance();
 	ControllerManager* controller = ControllerManager::getInstance();
+	DataTransferManager* transfer = DataTransferManager::getInstance();
 
 	Vector3 prevMousePosition;
 

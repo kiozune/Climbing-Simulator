@@ -159,6 +159,7 @@
     <ClCompile Include="Source\Joint.cpp" />
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\RemotePlayer.cpp" />
+    <ClCompile Include="Source\PlayerData.cpp" />
     <ClCompile Include="Source\Scene.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\Spring.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="Source\Joint.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\RemotePlayer.h" />
+    <ClInclude Include="Source\PlayerData.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\Spring.h" />

@@ -2,15 +2,14 @@
 #define REMOTE_PLAYER_H
 
 #include "Player.h"
-
-#include <string>
+#include "PlayerData.h"
 
 class RemotePlayer : public Player
 {
 	
 public:
 
-	void update(std::string);
+	void update(PlayerData);
 
 };
 
