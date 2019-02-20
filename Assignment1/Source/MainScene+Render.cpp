@@ -16,17 +16,6 @@ void MainScene::renderMesh(Mesh* model, bool enableLight) {
 		Mtx44 lightDepthMVP = lightProj * lightView * modelStack.Top();
 		glUniformMatrix4fv(m_parameters[U_LIGHT_DEPTH_MVP_FIRSTPASS], 1, GL_FALSE, &lightDepthMVP.a[0]);
 
-		for (int i = 0;i < Mesh::max_Texture;++i)
-		{
-			if (model->texArray[i] > 0)
-			{
-				glUniform1i(m_parameters[U_SHADOW_ENABLED + i], 1);
-				glActiveTexture(GL_TEXTURE0 + i);
-				glBindTexture(GL_TEXTURE_2D, model->texArray[i]);
-				glUniform1i(m_parameters[U_SHADOW_COLOR + i], i);
-			}
-		}
-
 		model->render();
 		return;
 	}
@@ -58,23 +47,6 @@ void MainScene::renderMesh(Mesh* model, bool enableLight) {
 	{
 		glUniform1i(m_parameters[U_LIGHTENABLED], 0);
 	}
-
-	/*for (int i = 0;i < Mesh::max_Texture;++i)
-	{
-		if (model->texArray[i] > 0)
-		{
-			//theres a texture! lets load it
-			glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED + i], 1);
-			glActiveTexture(GL_TEXTURE0 + i);
-			glBindTexture(GL_TEXTURE_2D, model->texArray[i]);
-			glUniform1i(m_parameters[U_COLOR_TEXTURE + i], i);
-		}
-		else
-		{
-			//no active texture here
-			glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED + i], 0);
-		}
-	}*/
 
 	if (model ->isTextured()) {
 		glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1);
