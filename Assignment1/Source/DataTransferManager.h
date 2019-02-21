@@ -5,6 +5,11 @@
 
 #include <string>
 
+#define DATA_END 1
+#define DATA_NEG 0
+#define DATA_POS 2
+#define DATA_SIZE 126
+
 class DataTransferManager
 {
 	
@@ -12,23 +17,23 @@ private:
 
 	static DataTransferManager * instance;
 
-	int buffSize = 6;
-
-	void pad(std::string&, int);
+	int iterator;
 	std::string getString(int);
-	float getFloat(std::string, int i);
+	float getFloat(std::string);
 
 	std::string stringify(Vector3);
-	Vector3 parse(std::string&, int);
+	Vector3 parse(std::string&);
 
 public:
 
 	static DataTransferManager * getInstance();
 
+	DataTransferManager();
+
 	PlayerData getPlayerData(Player&);
 
-	std::string stringify(PlayerData);
-	PlayerData parse(std::string);
+	std::string stringifyData(PlayerData);
+	PlayerData parseData(std::string);
 
 };
 

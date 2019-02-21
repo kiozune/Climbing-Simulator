@@ -1,43 +1,41 @@
 #include "DataTransferManager.h"
 
-void DataTransferManager::pad(std::string& raw, int length)
-{
-	for (int i = 0; i < length; ++i)
-		raw = (char)0 + raw;
-}
-
 std::string DataTransferManager::getString(int i)
 {
 	std::string result = "";
 	char sign;
 	if (i == 0)
-		sign = (char)2;
+		result = (char)DATA_POS;
 	else
-		sign = (char)(i / abs(i) + 1); // sign
+		result = (char)(i / abs(i) + 1); // sign
 	
 	i = abs(i);
 
 	int length = 1;
 	while (i != 0)
 	{
-		result += (char)(i % 127);
-		i /= 127;
+		result = result + (char)(i % DATA_SIZE + DATA_POS);
+		i /= DATA_SIZE;
 		length++;
 	}
 
-	pad(result, buffSize - length);
-	result = sign + result;
+	result = result + (char)DATA_END;
 
 	return result;
 }
 
-float DataTransferManager::getFloat(std::string str, int i)
+float DataTransferManager::getFloat(std::string str)
 {
+	float sign = str[this->iterator] - 1;
 	float result = 0;
-	int start = i * buffSize;
-	for (i = start + 1; i < start + buffSize; ++i)
-		result += (float)str[i];
-	result *= (float)(str[start] - 1);
+	int i = 1;
+	while (str[this->iterator + i] != DATA_END)
+	{
+		result += (float)(str[this->iterator + i] - DATA_POS) * pow(DATA_SIZE, i - 1);
+		i++;
+	}
+	this->iterator = this->iterator + i + 1;
+	result *= sign;
 	return result;
 }
 
@@ -46,9 +44,13 @@ std::string DataTransferManager::stringify(Vector3 v)
 	return getString(v.x) + getString(v.y) + getString(v.z);
 }
 
-Vector3 DataTransferManager::parse(std::string& str, int i)
+Vector3 DataTransferManager::parse(std::string& str)
 {
-	return Vector3(getFloat(str, i), getFloat(str, i + 1), getFloat(str, i + 2));
+	Vector3 result;
+	result.x = getFloat(str);
+	result.y = getFloat(str);
+	result.z = getFloat(str);
+	return result;
 }
 
 DataTransferManager * DataTransferManager::instance = nullptr;
@@ -57,6 +59,11 @@ DataTransferManager * DataTransferManager::getInstance()
 {
 	if (!instance) instance = new DataTransferManager;
 	return instance;
+}
+
+DataTransferManager::DataTransferManager() 
+{
+	this->iterator = 0;
 }
 
 PlayerData DataTransferManager::getPlayerData(Player& player)
@@ -85,7 +92,7 @@ PlayerData DataTransferManager::getPlayerData(Player& player)
 	return data;
 }
 
-std::string DataTransferManager::stringify(PlayerData data)
+std::string DataTransferManager::stringifyData(PlayerData data)
 {
 	std::string result = "";
 	result += stringify(data.leftFingers);
@@ -102,20 +109,20 @@ std::string DataTransferManager::stringify(PlayerData data)
 	return result;
 }
 
-PlayerData DataTransferManager::parse(std::string str)
+PlayerData DataTransferManager::parseData(std::string str)
 {
-	//buffSize = str.size() / 32;
+	this->iterator = 0;
 	PlayerData result;
-	result.leftFingers = parse(str, 0);
-	result.leftWrist = parse(str, 3);
-	result.leftElbow = parse(str, 6);
-	result.rightFingers = parse(str, 9);
-	result.rightWrist = parse(str, 12);
-	result.rightElbow = parse(str, 15);
-	result.head = parse(str, 18);
-	result.chest = parse(str, 21);
-	result.pelvis = parse(str, 24);
-	result.leftFeet = parse(str, 27);
-	result.rightFeet = parse(str, 30);
+	result.leftFingers = parse(str);
+	result.leftWrist = parse(str);
+	result.leftElbow = parse(str);
+	result.rightFingers = parse(str);
+	result.rightWrist = parse(str);
+	result.rightElbow = parse(str);
+	result.head = parse(str);
+	result.chest = parse(str);
+	result.pelvis = parse(str);
+	result.leftFeet = parse(str);
+	result.rightFeet = parse(str);
 	return result;
 }

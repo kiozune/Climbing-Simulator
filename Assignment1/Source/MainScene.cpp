@@ -103,8 +103,8 @@ void MainScene::Update(double dt)
 	for (int i = 0; i < PLAYER_COUNT; ++i)
 		updatePlayer(i, dt);
 
-	std::string data = transfer->stringify(transfer->getPlayerData(players[0]));
-	remotePlayers[0].update(transfer->parse(data));
+	std::string data = transfer->stringifyData(transfer->getPlayerData(players[0]));
+	remotePlayers[0].update(transfer->parseData(data));
 
 	manager->updateObjects();
 	manager->updateSprings();
