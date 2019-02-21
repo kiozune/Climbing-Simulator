@@ -84,11 +84,6 @@ void MainScene::renderBlocks()
 	
 }
 
-void MainScene::initText() {
-	models[TEXT] = MeshBuilder::GenerateText("TEXT", 16, 16);
-	models[TEXT]->applyTexture("Image//calibri.tga");
-}
-
 void MainScene::renderText(Mesh* mesh, const std::string text, Color color) 
 {
 	if (!mesh || mesh->getTextureID() <= 0) //Proper error check

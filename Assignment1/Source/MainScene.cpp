@@ -89,10 +89,6 @@ void MainScene::Init()
 
 	glUniform1i(m_parameters[U_NUMLIGHTS], LIGHT_COUNT);
 
-
-	//Camera Init
-	camera.Init(Vector3(), Vector3(0, 1, 0), 0, 0, 10, 10);
-
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 10000.0f); //FOV, Aspect Ratio, Near plane, Far plane
 	projectionStack.LoadMatrix(projection);

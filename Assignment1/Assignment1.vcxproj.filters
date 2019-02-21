@@ -42,6 +42,7 @@
     </Filter>
     <Filter Include="LevelGenerator">
       <UniqueIdentifier>{bda0b10f-b000-49d5-9dd2-c4147618be5c}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Controller Manager">
       <UniqueIdentifier>{23a9af86-ebaa-481a-9c33-4bbf8e3fb56d}</UniqueIdentifier>
     </Filter>
@@ -87,7 +88,7 @@
       <Filter>FrameBuffer</Filter>
     </ClCompile>
     <ClCompile Include="Source\Light.cpp">
-      <Filter>Camera&amp;Lighting</Filter>
+      <Filter>Lighting</Filter>
     </ClCompile>
     <ClCompile Include="Source\block.cpp">
       <Filter>LevelGenerator</Filter>
@@ -95,10 +96,13 @@
     <ClCompile Include="Source\BlockGenerator.cpp">
       <Filter>LevelGenerator</Filter>
     </ClCompile>
+    <ClCompile Include="Source\MainScene+PlayerActions.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Camera.h">
-      <Filter>Camera&amp;Lighting</Filter>
+      <Filter>Camera</Filter>
     </ClInclude>
     <ClCompile Include="Source\PhysicsManager.cpp">
       <Filter>Physics</Filter>
@@ -138,9 +142,6 @@
     </ClCompile>
     <ClCompile Include="Source\MainScene+EventHandler.cpp">
       <Filter>Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MainScene+PlayerActions.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +186,7 @@
     </ClInclude>
     <ClInclude Include="Source\BlockGenerator.h">
       <Filter>LevelGenerator</Filter>
+    </ClInclude>
     <ClInclude Include="Source\PhysicsManager.h">
       <Filter>Physics</Filter>
     </ClInclude>
