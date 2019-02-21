@@ -112,9 +112,7 @@ void MainScene::Update(double dt)
 	// std::string data = transfer->stringifyData(transfer->getPlayerData(players[0]));
 	// remotePlayers[0].update(transfer->parseData(data));
 
-	manager->updateObjects();
-	manager->updateSprings();
-	manager->resolveCollisions();
+	
 
 	//camera.move(dt);
 	Vector3 center = players[0].getBody()->getCenter();

@@ -32,7 +32,7 @@ void MainScene::keyboardEvents(double& dt)
 
 void MainScene::joystickEvents(double& dt, int i)
 {
-	if (controller->isPresent()) return;
+	if (!controller->isPresent()) return;
 
 	//swingX = analog[0], swingY = analog[1];
 	//LT = analog[4], RT = analog[5];

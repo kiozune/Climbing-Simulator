@@ -57,6 +57,13 @@ void MainScene::updatePlayer(int i, double& dt)
 			}
 			else
 			{
+				for (Player* p : remotePlayers)
+				{
+					details = manager->getCollisionDetails(leftHand, p->getParts());
+
+					if (details.result.collided) break;
+				}
+
 				if (details.result.collided)
 				{
 					p.leftGrab(details.object->getEnd());
@@ -98,6 +105,13 @@ void MainScene::updatePlayer(int i, double& dt)
 			}
 			else
 			{
+				for (Player* p : remotePlayers)
+				{
+					details = manager->getCollisionDetails(rightHand, p->getParts());
+
+					if (details.result.collided) break;
+				}
+
 				if (details.result.collided)
 				{
 					p.rightGrab(details.object->getEnd());
@@ -117,5 +131,9 @@ void MainScene::updatePlayer(int i, double& dt)
 	{
 		p.releaseRight();
 	}
+
+	manager->updateObjects();
+	manager->updateSprings();
+	manager->resolveCollisions();
 
 }

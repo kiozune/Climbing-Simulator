@@ -14,8 +14,8 @@
 #include "RemotePlayer.h"
 
 #define LIGHT_COUNT 1
-#define PLAYER_COUNT 1
-#define MAP_SIZE 0
+#define PLAYER_COUNT 2
+#define MAP_SIZE 100
 
 class MainScene : public Scene
 {

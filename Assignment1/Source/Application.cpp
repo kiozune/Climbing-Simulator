@@ -137,53 +137,54 @@ void Application::Init()
 void Application::Run()
 {
 	//Main Loop
-	MainScene *scene = new MainScene();
+	Scene *scene = new MainScene;
 	scene->Init();
 
-	std::thread sendThread([]() {
-		DataTransferManager* transferManager = DataTransferManager::getInstance();
-		unsigned clientId = transferManager->getClient().getId();
-		PlayerManager* playerManager = PlayerManager::getInstance();
-		Player& p = *(playerManager->getMain());
-		while (true)
-		{
-			PlayerData pData = transferManager->getPlayerData(p, clientId);
-			std::string data = transferManager->stringifyData(pData);
-			if (data.size() > MIN_SIZE)
+		std::thread sendThread([]() {
+			DataTransferManager* transferManager = DataTransferManager::getInstance();
+			unsigned clientId = transferManager->getClient().getId();
+			PlayerManager* playerManager = PlayerManager::getInstance();
+			Player& p = *(playerManager->getMain());
+			while (true)
 			{
-				transferManager->getClient().sendData(data);
+				PlayerData pData = transferManager->getPlayerData(p, clientId);
+				std::string data = transferManager->stringifyData(pData);
+				if (data.size() > MIN_SIZE)
+				{
+					transferManager->getClient().sendData(data);
+				}
 			}
-		}
-	});
-	sendThread.detach();
+		});
+		sendThread.detach();
 
-	std::thread receiveThread([]() {
-		DataTransferManager* transferManager = DataTransferManager::getInstance();
-		Client& client = transferManager->getClient();
-		PlayerManager* playerManager = PlayerManager::getInstance();
-		while (true)
-		{
-			std::string data;
-			bool didRecieve = client.recieve(data);
-			if (didRecieve)
+		std::thread receiveThread([]() {
+			DataTransferManager* transferManager = DataTransferManager::getInstance();
+			Client& client = transferManager->getClient();
+			PlayerManager* playerManager = PlayerManager::getInstance();
+			while (true)
 			{
-				size_t pos = data.find("IDS:");
-				if (pos != std::string::npos)
+				std::string data;
+				bool didRecieve = client.recieve(data);
+				if (didRecieve)
 				{
-					data.erase(pos, 4);
-					playerManager->setQueue(data, client.getId());
+					size_t pos = data.find("IDS:");
+					if (pos != std::string::npos)
+					{
+						data.erase(pos, 4);
+						playerManager->setQueue(data, client.getId());
+					}
+					else if (data != "CONNECT")
+					{
+						playerManager->updateRemote(transferManager->parseData(data));
+					}
 				}
-				else if (data != "CONNECT")
-				{
-					playerManager->updateRemote(transferManager->parseData(data));
-				}
-			}	
-		}
-	});
-	receiveThread.detach();
+			}
+		});
+		receiveThread.detach();
+	
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
-	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
+	while (!glfwWindowShouldClose(m_window))
 	{
 		scene->Update(m_timer.getElapsedTime());
 		scene->Render();
@@ -192,10 +193,14 @@ void Application::Run()
 		//Get and organize events, like keyboard and mouse input, window resizing, etc...
 		glfwPollEvents();
         m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms
-	} //Check if the ESC key had been pressed or if the window had been closed
 
-	DataTransferManager* transferManager = DataTransferManager::getInstance();
-	transferManager->getClient().exit();
+		if (IsKeyPressed(VK_ESCAPE))
+		{
+			DataTransferManager* transferManager = DataTransferManager::getInstance();
+			transferManager->getClient().exit();
+			break;
+		}
+	} //Check if the ESC key had been pressed or if the window had been closed
 
 	scene->Exit();
 	delete scene;
