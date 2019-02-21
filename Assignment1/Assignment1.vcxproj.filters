@@ -25,7 +25,16 @@
     <Filter Include="Mesh">
       <UniqueIdentifier>{74d4675b-2615-4697-8f24-ef2a909e59db}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Camera&amp;Lighting">
+    <Filter Include="Physics">
+      <UniqueIdentifier>{3cc4098a-b3ed-41c0-954b-34b7cf1a6d78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects">
+      <UniqueIdentifier>{2bc44770-dd21-437f-9bb9-465bb9c9f556}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lighting">
+      <UniqueIdentifier>{4637f3ee-ef21-4503-b948-f6d7048eaf80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Camera">
       <UniqueIdentifier>{576789d4-1608-4d58-86b0-8239b59943fd}</UniqueIdentifier>
     </Filter>
     <Filter Include="FrameBuffer">
@@ -33,11 +42,13 @@
     </Filter>
     <Filter Include="LevelGenerator">
       <UniqueIdentifier>{bda0b10f-b000-49d5-9dd2-c4147618be5c}</UniqueIdentifier>
+    <Filter Include="Controller Manager">
+      <UniqueIdentifier>{23a9af86-ebaa-481a-9c33-4bbf8e3fb56d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Camera.cpp">
-      <Filter>Camera&amp;Lighting</Filter>
+      <Filter>Camera</Filter>
     </ClCompile>
     <ClCompile Include="Source\MainScene+Render.cpp">
       <Filter>Scenes</Filter>
@@ -89,6 +100,50 @@
     <ClInclude Include="Source\Camera.h">
       <Filter>Camera&amp;Lighting</Filter>
     </ClInclude>
+    <ClCompile Include="Source\PhysicsManager.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Object.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Joint.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Player.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+PartsRender.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Spring.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BoundingBox.cpp">
+      <Filter>Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Light.cpp">
+      <Filter>Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FixedCamera.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MovableCamera.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+Init.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ControllerManager.cpp">
+      <Filter>Controller Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+EventHandler.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+PlayerActions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="Source\MainScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
@@ -125,14 +180,49 @@
     <ClInclude Include="FrameBufferObject.h">
       <Filter>FrameBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Light.h">
-      <Filter>Camera&amp;Lighting</Filter>
-    </ClInclude>
     <ClInclude Include="Source\block.h">
       <Filter>LevelGenerator</Filter>
     </ClInclude>
     <ClInclude Include="Source\BlockGenerator.h">
       <Filter>LevelGenerator</Filter>
+    <ClInclude Include="Source\PhysicsManager.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Object.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Joint.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Spring.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BoundingBox.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Camera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Light.h">
+      <Filter>Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FixedCamera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MovableCamera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CollisionResult.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CollisionDetails.h">
+      <Filter>Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ControllerManager.h">
+      <Filter>Controller Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

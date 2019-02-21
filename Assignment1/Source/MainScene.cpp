@@ -12,7 +12,7 @@
 void MainScene::Init()
 {
 	// clear screen and fill with white
-	glClearColor(0.25, 0.25, 0.25, 0);
+	glClearColor(0, 0, 0, 0);
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
@@ -84,7 +84,7 @@ void MainScene::Init()
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], lights[0].exponent);
 
 	lights[0].type = Light::SPOT;
-	lights[0].position.Set(3, 10, 0);
+	lights[0].position.Set(0, 300, 0);
 	lights[0].setUniform();
 
 	glUniform1i(m_parameters[U_NUMLIGHTS], LIGHT_COUNT);
@@ -112,7 +112,15 @@ void MainScene::Init()
 	models[SHADOW_QUAD] = MeshBuilder::GenerateQuad("Shadow_Quad", Color(1, 1, 1), 1.f);
 	models[SHADOW_QUAD]->texArray[0] = shadowFBO.getTexture();
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	models[CUBE] = MeshBuilder::GenerateCube("CUBE", Color(1, 1, 1), 1, 1, 1);
+	applyMaterial(models[CUBE]);
 
+	camera.Init(Vector3(0, 0, 0), 200, 100, 180);
+
+	for (int i = 0; i < PLAYER_COUNT; ++i) 
+		initPlayer(players[i], Vector3(0, 0, i * 10));
+
+	initMap();
 }
 
 void MainScene::Update(double dt)
@@ -122,26 +130,23 @@ void MainScene::Update(double dt)
 	fps = 1 / dt;
 
 	// standard controls
+	keyboardEvents(dt);
 
-	if (Application::IsKeyPressed('1'))
-		glEnable(GL_CULL_FACE);
-	if (Application::IsKeyPressed('2'))
-		glDisable(GL_CULL_FACE);
 
-	if (Application::IsKeyPressed('3'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); //default fill mode
-	if (Application::IsKeyPressed('4'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //wireframe mode
 
-	if (Application::IsKeyPressed('7'))
-		lightingEnabled = false;
-	if (Application::IsKeyPressed('8'))
-		lightingEnabled = true;
+	manager->applyGravity(dt);
 
-	if (Application::IsKeyPressed('9'))
-		dt /= 10;
+	for (int i = 0; i < PLAYER_COUNT; ++i)
+		updatePlayer(i, dt);
 
-	camera.move(dt);
+	manager->resolveCollisions();
+
+
+
+	//camera.move(dt);
+	Vector3 center = players[0].getBody()->getCenter();
+	Vector3 target = Vector3(int(center.x / 5) * 5, int(center.y / 5) * 5, int(center.z / 5) * 5);
+	camera.setTarget(target);
 }
 
 void MainScene::Render()
@@ -191,12 +196,13 @@ void MainScene::RenderSecondPass()
 	RenderScene();
 
 	// get reference to camera based on state
+	Vector3 position = camera.getPosition();
 	Vector3 target = camera.getTarget();
 	Vector3 up = camera.getUp();
 
 	viewStack.LoadIdentity();
 	viewStack.LookAt(
-		camera.position.x, camera.position.y, camera.position.z,
+		position.x, position.y, position.z,
 		target.x, target.y, target.z,
 		up.x, up.y, up.z
 	);
@@ -251,6 +257,48 @@ void MainScene::RenderScene()
 	modelStack.Scale(100, 100, 100);
 	renderMesh(models[SKY_BOX]);
 	modelStack.PopMatrix();
+
+	for (Object* obj : manager->getObjects()) 
+	{
+		renderObject(obj);
+		//renderBoundingBox(obj->getBoundingBox());
+	}
+
+	float yaw = camera.getYaw();
+	float pitch = camera.getPitch();
+
+	for (Player& p : players)
+	{
+		Vector3 left  = p.getLeftHand()->getCenter();
+		Vector3 right = p.getRightHand()->getCenter();
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(left.x, left.y + 5, left.z);
+
+			modelStack.Rotate(270 - yaw, 0, 1, 0);
+			modelStack.Rotate(pitch, 1, 0, 0);
+
+			modelStack.Scale(3, 3, 3);
+
+			Color color = p.isGrabbingLeft() ? Color(.9, .9, 0) : Color(1, 1, 1);
+			renderText(models[TEXT], "LT", color);
+		}
+		modelStack.PopMatrix();
+
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(right.x, right.y + 5, right.z);
+
+			modelStack.Rotate(270 - yaw, 0, 1, 0);
+			modelStack.Rotate(pitch, 1, 0, 0);
+
+			modelStack.Scale(3, 3, 3);
+
+			Color color = p.isGrabbingRight() ? Color(0, .9, .9) : Color(1, 1, 1);
+			renderText(models[TEXT], "RT", color);
+		}
+		modelStack.PopMatrix();
+	}
 }
 
 void MainScene::Exit()

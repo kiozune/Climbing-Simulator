@@ -6,8 +6,15 @@
 #include "Scene.h"
 #include "..\FrameBufferObject.h"
 #include "BlockGenerator.h"
+#include "FixedCamera.h"
+
+#include "PhysicsManager.h"
+#include "ControllerManager.h"
+
+#include "Player.h"
 
 #define LIGHT_COUNT 1
+#define PLAYER_COUNT 2
 
 class MainScene : public Scene
 {
@@ -19,6 +26,8 @@ class MainScene : public Scene
 		TEST_OBJ,
 		SHADOW_QUAD,
 
+
+		CUBE,
 
 		NUM_GEOMETRY,
 	};
@@ -46,7 +55,7 @@ class MainScene : public Scene
 
 	bool pause;
 
-	Camera camera; // stationary
+	FixedCamera camera; // stationary
 
 	Mesh* models[NUM_GEOMETRY];
 
@@ -57,6 +66,14 @@ class MainScene : public Scene
 	float elapseTime = 0;
 	float bounceTime; // for key press inputs
 
+	PhysicsManager* manager = PhysicsManager::getInstance();
+	ControllerManager* controller = ControllerManager::getInstance();
+
+	Vector3 prevMousePosition;
+
+	bool isXboxController = false;
+
+	Player players[PLAYER_COUNT];
 
 	// applies material to geometry selected
 	void applyMaterial(Mesh*);
@@ -70,6 +87,18 @@ class MainScene : public Scene
 	void initText();
 	void renderText(Mesh* mesh, const std::string text, Color color);
 	void renderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
+
+	void renderObject(Object*);
+	void renderJoint(Joint*);
+	void renderBoundingBox(BoundingBox);
+
+	void initPlayer(Player&, Vector3);
+	void initMap();
+
+	void updatePlayer(int, double&);
+
+	void keyboardEvents(double&);
+	void joystickEvents(double&);
 
 public:
 

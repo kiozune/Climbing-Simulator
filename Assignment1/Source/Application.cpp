@@ -13,7 +13,7 @@ GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
 
-double mouseX, mouseY;
+bool Application::keys[GLFW_KEY_LAST] = {};
 
 //Define an error callback
 static void error_callback(int error, const char* description)
@@ -23,10 +23,11 @@ static void error_callback(int error, const char* description)
 }
 
 //Define the key input callback
-static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void Application::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
+	keys[key] = action == GLFW_PRESS;
 }
 
 void resize_callback(GLFWwindow* window, int w, int h)
@@ -37,6 +38,35 @@ void resize_callback(GLFWwindow* window, int w, int h)
 bool Application::IsKeyPressed(unsigned short key)
 {
     return ((GetAsyncKeyState(key) & 0x8001) != 0);
+}
+
+bool Application::isControllerPresent(int joy)
+{ 
+	return glfwJoystickPresent(joy);
+}
+
+bool Application::IsControllerPressed(int joy, unsigned short key)
+{
+	if (!isControllerPresent(joy)) return false;
+	//std::cout << key << " : " << keys[key] << std::endl;
+	int count;
+	const unsigned char* axes = glfwGetJoystickButtons(joy, &count);
+	return axes[key];
+}
+
+const float* Application::getControllerAnalog(int joy)
+{
+	int count;
+	const float* a = glfwGetJoystickAxes(joy, &count);
+
+	return a;
+}
+
+Vector3 Application::GetMousePosition()
+{
+	double mouseX, mouseY;
+	glfwGetCursorPos(m_window, &mouseX, &mouseY);
+	return Vector3(mouseX, mouseY);
 }
 
 Application::Application()
@@ -69,6 +99,8 @@ void Application::Init()
 	//Create a window and create its OpenGL context
 	m_window = glfwCreateWindow(window_Width, window_Height, "Climbing Simulator", NULL, NULL);
 	glfwSetWindowSizeCallback(m_window, resize_callback);
+
+	glfwSetKeyCallback(m_window, key_callback);
 
 	glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
@@ -108,15 +140,12 @@ void Application::Run()
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{
 		scene->Update(m_timer.getElapsedTime());
-		glfwGetCursorPos(m_window, &mouseX, &mouseY);
-		scene->getCamera().lookAround(mouseX, mouseY);
 		scene->Render();
 		//Swap buffers
 		glfwSwapBuffers(m_window);
 		//Get and organize events, like keyboard and mouse input, window resizing, etc...
 		glfwPollEvents();
-        m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.   
-
+        m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms
 	} //Check if the ESC key had been pressed or if the window had been closed
 	scene->Exit();
 	delete scene;
