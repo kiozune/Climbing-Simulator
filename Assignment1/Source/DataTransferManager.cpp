@@ -74,28 +74,30 @@ Client& DataTransferManager::getClient()
 	return this->client;
 }
 
-PlayerData DataTransferManager::getPlayerData(Player& player)
+PlayerData DataTransferManager::getPlayerData(Player& player, unsigned id)
 {
 	PlayerData data;
 	std::vector<Object*> parts = player.getParts();
 
-	data.leftFingers = parts[0]->getStart()->getCurrent() + Vector3(0, 10, 0);
-	data.leftWrist = parts[0]->getEnd()->getCurrent() + Vector3(0, 10, 0);
+	data.id = id;
 
-	data.leftElbow = parts[2]->getEnd()->getCurrent() + Vector3(0, 10, 0);
+	data.leftFingers = parts[0]->getStart()->getCurrent();
+	data.leftWrist = parts[0]->getEnd()->getCurrent();
 
-	data.rightFingers = parts[3]->getStart()->getCurrent() + Vector3(0, 10, 0);
-	data.rightWrist = parts[3]->getEnd()->getCurrent() + Vector3(0, 10, 0);
+	data.leftElbow = parts[2]->getEnd()->getCurrent();
 
-	data.rightElbow = parts[5]->getEnd()->getCurrent() + Vector3(0, 10, 0);
+	data.rightFingers = parts[3]->getStart()->getCurrent();
+	data.rightWrist = parts[3]->getEnd()->getCurrent();
 
-	data.chest = parts[6]->getStart()->getCurrent() + Vector3(0, 10, 0);
-	data.head = parts[6]->getEnd()->getCurrent() + Vector3(0, 10, 0);
+	data.rightElbow = parts[5]->getEnd()->getCurrent();
 
-	data.pelvis = parts[7]->getEnd()->getCurrent() + Vector3(0, 10, 0);
+	data.chest = parts[6]->getStart()->getCurrent();
+	data.head = parts[6]->getEnd()->getCurrent();
+
+	data.pelvis = parts[7]->getEnd()->getCurrent();
 	
-	data.leftFeet = parts[8]->getEnd()->getCurrent() + Vector3(0, 10, 0);
-	data.rightFeet = parts[9]->getEnd()->getCurrent() + Vector3(0, 10, 0);
+	data.leftFeet = parts[8]->getEnd()->getCurrent();
+	data.rightFeet = parts[9]->getEnd()->getCurrent();
 
 	return data;
 }
@@ -103,6 +105,7 @@ PlayerData DataTransferManager::getPlayerData(Player& player)
 std::string DataTransferManager::stringifyData(PlayerData data)
 {
 	std::string result = "";
+	result += (char)data.id;
 	result += stringify(data.leftFingers);
 	result += stringify(data.leftWrist);
 	result += stringify(data.leftElbow);
@@ -119,8 +122,9 @@ std::string DataTransferManager::stringifyData(PlayerData data)
 
 PlayerData DataTransferManager::parseData(std::string str)
 {
-	this->iterator = 0;
+	this->iterator = 1;
 	PlayerData result;
+	result.id = (unsigned)str[0];
 	result.leftFingers = parse(str);
 	result.leftWrist = parse(str);
 	result.leftElbow = parse(str);

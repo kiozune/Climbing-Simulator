@@ -64,7 +64,7 @@ class MainScene : public Scene
 	bool isXboxController = false;
 
 	Player players[PLAYER_COUNT];
-	RemotePlayer remotePlayers[1];
+	std::vector<RemotePlayer*> remotePlayers;
 
 	// applies material to geometry selected
 	void applyMaterial(Mesh*);
@@ -81,6 +81,7 @@ class MainScene : public Scene
 	void renderBoundingBox(BoundingBox);
 
 	void initPlayer(Player&, Vector3);
+	void initRemotePlayers();
 	void initMap();
 
 	void updatePlayer(int, double&);

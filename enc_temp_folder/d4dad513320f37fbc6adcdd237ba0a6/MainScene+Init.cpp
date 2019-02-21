@@ -114,7 +114,7 @@ void MainScene::initRemotePlayers()
 		RemotePlayer* r = new RemotePlayer;
 		r->setId(i);
 		
-		initPlayer(*r , Vector3());
+		initPlayer(*r, Vector3(20, 30, 0));
 		remotePlayers.push_back(r);
 		playerManger->addRemotePlayer(r);
 

@@ -161,7 +161,6 @@
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\PlayerManger.cpp" />
     <ClCompile Include="Source\RemotePlayer.cpp" />
-    <ClCompile Include="Source\PlayerData.cpp" />
     <ClCompile Include="Source\Scene.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\Spring.cpp" />

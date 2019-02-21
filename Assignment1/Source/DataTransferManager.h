@@ -38,7 +38,7 @@ public:
 	
 	Client& getClient();
 
-	PlayerData getPlayerData(Player&);
+	PlayerData getPlayerData(Player&, unsigned);
 
 	std::string stringifyData(PlayerData);
 	PlayerData parseData(std::string);

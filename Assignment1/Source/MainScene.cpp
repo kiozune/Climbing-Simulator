@@ -85,8 +85,10 @@ void MainScene::Init()
 		initPlayer(players[i], Vector3(0, 30, i * 10));
 	playerManger->setMain(&(players[0]));
 
-	initPlayer(remotePlayers[0], Vector3(20, 30, 0));
-	playerManger->addRemotePlayer(&(remotePlayers[0]));
+	//initPlayer(remotePlayers[0], Vector3(20, 30, 0));
+	//playerManger->addRemotePlayer(&(remotePlayers[0]));
+
+	initRemotePlayers();
 
 	initMap();
 }
@@ -96,6 +98,8 @@ void MainScene::Update(double dt)
 
 	elapseTime += dt;
 	fps = 1 / dt;
+
+	initRemotePlayers();
 
 	// standard controls
 	keyboardEvents(dt);
@@ -113,8 +117,8 @@ void MainScene::Update(double dt)
 	manager->resolveCollisions();
 
 	//camera.move(dt);
-	Vector3 center = remotePlayers[0].getBody()->getCenter();
-	Vector3 target = Vector3(0, 0, 0);// Vector3(int(center.x / 5) * 5, int(center.y / 5) * 5, int(center.z / 5) * 5);
+	Vector3 center = players[0].getBody()->getCenter();
+	Vector3 target = Vector3(int(center.x / 5) * 5, int(center.y / 5) * 5, int(center.z / 5) * 5);
 	camera.setTarget(target);
 }
 

@@ -139,14 +139,16 @@ void Application::Run()
 	//Main Loop
 	MainScene *scene = new MainScene();
 	scene->Init();
-/*
+
 	std::thread sendThread([]() {
 		DataTransferManager* transferManager = DataTransferManager::getInstance();
+		unsigned clientId = transferManager->getClient().getId();
 		PlayerManager* playerManager = PlayerManager::getInstance();
 		Player& p = *(playerManager->getMain());
 		while (true)
 		{
-			std::string data = transferManager->stringifyData(transferManager->getPlayerData(p));
+			PlayerData pData = transferManager->getPlayerData(p, clientId);
+			std::string data = transferManager->stringifyData(pData);
 			if (data.size() > MIN_SIZE)
 			{
 				transferManager->getClient().sendData(data);
@@ -154,18 +156,27 @@ void Application::Run()
 		}
 	});
 	sendThread.detach();
-*/
+
 	std::thread receiveThread([]() {
 		DataTransferManager* transferManager = DataTransferManager::getInstance();
+		Client& client = transferManager->getClient();
 		PlayerManager* playerManager = PlayerManager::getInstance();
 		while (true)
 		{
 			std::string data;
-			bool didRecieve = transferManager->getClient().recieve(data);
+			bool didRecieve = client.recieve(data);
 			if (didRecieve)
 			{
-				if (data != "CONNECT")
+				size_t pos = data.find("IDS:");
+				if (pos != std::string::npos)
+				{
+					data.erase(pos, 4);
+					playerManager->setQueue(data, client.getId());
+				}
+				else if (data != "CONNECT")
+				{
 					playerManager->updateRemote(transferManager->parseData(data));
+				}
 			}	
 		}
 	});

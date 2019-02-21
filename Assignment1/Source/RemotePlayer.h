@@ -7,7 +7,14 @@
 class RemotePlayer : public Player
 {
 	
+private:
+
+	unsigned id;
+
 public:
+
+	unsigned getId();
+	void setId(unsigned);
 
 	void update(PlayerData);
 

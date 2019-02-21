@@ -15,6 +15,7 @@
 
 struct PlayerData 
 {
+	unsigned id;
 	Vector3 leftFingers, leftWrist, leftElbow,
 			rightFingers, rightWrist, rightElbow,
 			head, chest, pelvis,
