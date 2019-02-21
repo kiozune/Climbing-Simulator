@@ -58,12 +58,19 @@ void MainScene::renderBlocks()
 	while (current != blockGen->getTail())
 	{
 		block* temp = current->getNext();
-		modelStack.PushMatrix();
+		for (int i = 0; i < current->getMeshes()->size(); i++)
 		{
-			modelStack.Translate(current->getVector3().x, current->getVector3().y, current->getVector3().z);
-			renderMesh(current->getMesh());
+			modelStack.PushMatrix();
+			{
+				Vector3 cubePos = current->getCubePos()->at(i);
+				Mesh* aMesh = current->getMeshes()->at(i);
+				modelStack.Translate(cubePos.x, cubePos.y, cubePos.z);
+				renderMesh(aMesh);
+				/*modelStack.Translate(current->getVector3().x, current->getVector3().y, current->getVector3().z);
+				renderMesh(current->getMesh());*/
+			}
+			modelStack.PopMatrix();	
 		}
-		modelStack.PopMatrix();
 		current = temp;
 	}
 	

@@ -73,9 +73,9 @@ void MainScene::Init()
 	models[LIGHT] = MeshBuilder::GenerateSphere("LIGHT", Color(1, 1, 1), 1, 36);
 	models[AXES] = MeshBuilder::GenerateAxes("axes", Position(10, 10, 10));
 
-	models[SKY_BOX] = MeshBuilder::GenerateOBJ("skybox");
+	/*models[SKY_BOX] = MeshBuilder::GenerateOBJ("skybox");
 	models[SKY_BOX]->applyTexture("Image//skybox.tga");
-	applyMaterial(models[SKY_BOX]);
+	applyMaterial(models[SKY_BOX]);*/
 
 	camera.Init(Vector3(), Vector3(0, 1, 0), 0, 0, 10, 10);
 
@@ -162,7 +162,7 @@ void MainScene::Render()
 		modelStack.PopMatrix();
 	}
 
-	renderMesh(models[SKY_BOX]);
+	// renderMesh(models[SKY_BOX]);
 	renderMesh(models[AXES]);
 	
 	renderBlocks();

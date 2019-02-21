@@ -35,7 +35,5 @@ private:
 	void getLevelData(std::string val, Vector3 pos, int offset);
 
 	block *head, *tail;
-	int oppDirection;
-	bool goUP;
 	~BlockGenerator();
 };

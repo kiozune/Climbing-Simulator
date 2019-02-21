@@ -1,6 +1,14 @@
 #pragma once
 #include "MeshBuilder.h"
 #include <string>
+#include <vector>
+
+//struct Obstacle
+//{
+//	Mesh* mesh;
+//	Vector3 pos;
+//	Obstacle(Mesh* cMesh, Vector3 cPos) : mesh(cMesh), pos(cPos) {} // Constructor
+//};
 
 enum BLOCK_TEMPLATE
 {
@@ -15,28 +23,34 @@ class block
 {
 public:
 	block();
+	void setCubeVector();
 	void setMesh();
-	void setMesh(int val);
-	Mesh *getMesh();
+	void setMesh(float size);
 
 	void setNext(block *val);
 	void setPrevious(block *val);
 
+	void populateNode(int amount, float cube_Size);
+
 	block *getNext();
 	block *getPrevious();
 
-	int getMaxTemplate();
-
 	void setVector3(Vector3 pos);
+	// std::vector<Obstacle> getObsVector();
+	std::vector<Mesh*> *getMeshes();
+	std::vector<Vector3> *getCubePos();
 	Vector3 getVector3();
 
-	
 	~block();
 private:
 	block *next;
 	block *previous;
 
-	Mesh* mesh;
+	std::vector<Mesh*> *meshes;
+	std::vector<Vector3> *cubePos;
 	
 	Vector3 position;
+
+	float getRandomFloat(float LO, float HI);
 };
+

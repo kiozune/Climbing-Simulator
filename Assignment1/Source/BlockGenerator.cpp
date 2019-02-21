@@ -14,7 +14,6 @@ BlockGenerator::BlockGenerator()
 {
 	head = nullptr;
 	tail = nullptr;
-	oppDirection = -1;	
 }
 
 BlockGenerator * BlockGenerator::GetInstance()
@@ -32,7 +31,8 @@ void BlockGenerator::generateBlocks(int offsetPos)
 	{
 		block *temp = new block;
 		temp->setVector3(currentPos);
-		temp->setMesh(STARTING);
+		// temp->setMesh(STARTING);
+		temp->setMesh();
 		temp->setPrevious(nullptr);
 		head = temp;
 		tail = temp;
@@ -85,7 +85,8 @@ void BlockGenerator::getLevelData(std::string val, Vector3 pos, int offset)
 		case '0': // Left
 			pos.x -= offset;
 			temp->setVector3(pos);
-			temp->setMesh();
+			// temp->setMesh();
+			temp->populateNode(rand() % 5 + 1, 0.1f);
 			temp->setPrevious(tail);
 			tail->setNext(temp);
 			tail = temp;
@@ -93,7 +94,8 @@ void BlockGenerator::getLevelData(std::string val, Vector3 pos, int offset)
 		case '1': // right
 			pos.x += offset;
 			temp->setVector3(pos);
-			temp->setMesh();
+			// temp->setMesh();
+			temp->populateNode(rand() % 5 + 1, 0.1f);
 			temp->setPrevious(tail);
 			tail->setNext(temp);
 			tail = temp;
@@ -101,7 +103,8 @@ void BlockGenerator::getLevelData(std::string val, Vector3 pos, int offset)
 		case '2': // Forward
 			pos.z += offset;
 			temp->setVector3(pos);
-			temp->setMesh();
+			// temp->setMesh();
+			temp->populateNode(rand() % 5 + 1, 0.1f);
 			temp->setPrevious(tail);
 			tail->setNext(temp);
 			tail = temp;
@@ -109,7 +112,8 @@ void BlockGenerator::getLevelData(std::string val, Vector3 pos, int offset)
 		case '3': // backward
 			pos.z -= offset;
 			temp->setVector3(pos);
-			temp->setMesh();
+			// temp->setMesh();
+			temp->populateNode(rand() % 5 + 1, 0.1f);
 			temp->setPrevious(tail);
 			tail->setNext(temp);
 			tail = temp;
@@ -117,7 +121,8 @@ void BlockGenerator::getLevelData(std::string val, Vector3 pos, int offset)
 		case '4': // upward
 			pos.y += offset;
 			temp->setVector3(pos);
-			temp->setMesh();
+			// temp->setMesh();
+			temp->populateNode(rand() % 5 + 1, 0.1f);
 			temp->setPrevious(tail);
 			tail->setNext(temp);
 			tail = temp;
