@@ -64,6 +64,19 @@ DataTransferManager * DataTransferManager::getInstance()
 DataTransferManager::DataTransferManager() 
 {
 	this->iterator = 0;
+	if (!this->client.start())
+		return;
+	this->client.connectTo(30000, "172.27.180.32");
+}
+
+DataTransferManager::~DataTransferManager()
+{
+	this->client.exit();
+}
+
+Client& DataTransferManager::getClient()
+{
+	return this->client;
 }
 
 PlayerData DataTransferManager::getPlayerData(Player& player)

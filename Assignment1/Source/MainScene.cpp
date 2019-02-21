@@ -83,8 +83,10 @@ void MainScene::Init()
 
 	for (int i = 0; i < PLAYER_COUNT; ++i) 
 		initPlayer(players[i], Vector3(0, 30, i * 10));
+	playerManger->setMain(players);
 
 	initPlayer(remotePlayers[0], Vector3(20, 30, 0));
+	playerManger->addRemotePlayer(remotePlayers);
 
 	initMap();
 }
@@ -102,9 +104,6 @@ void MainScene::Update(double dt)
 
 	for (int i = 0; i < PLAYER_COUNT; ++i)
 		updatePlayer(i, dt);
-
-	std::string data = transfer->stringifyData(transfer->getPlayerData(players[0]));
-	remotePlayers[0].update(transfer->parseData(data));
 
 	manager->updateObjects();
 	manager->updateSprings();

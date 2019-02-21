@@ -138,6 +138,7 @@
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\BoundingBox.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
+    <ClCompile Include="Source\Client.cpp" />
     <ClCompile Include="Source\ControllerManager.cpp" />
     <ClCompile Include="Source\DataTransferManager.cpp" />
     <ClCompile Include="Source\FixedCamera.cpp" />
@@ -158,6 +159,7 @@
     <ClCompile Include="Source\PhysicsManager.cpp" />
     <ClCompile Include="Source\Joint.cpp" />
     <ClCompile Include="Source\Player.cpp" />
+    <ClCompile Include="Source\PlayerManger.cpp" />
     <ClCompile Include="Source\RemotePlayer.cpp" />
     <ClCompile Include="Source\PlayerData.cpp" />
     <ClCompile Include="Source\Scene.cpp" />
@@ -169,6 +171,7 @@
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\BoundingBox.h" />
     <ClInclude Include="Source\Camera.h" />
+    <ClInclude Include="Source\Client.h" />
     <ClInclude Include="Source\CollisionDetails.h" />
     <ClInclude Include="Source\CollisionResult.h" />
     <ClInclude Include="Source\ControllerManager.h" />
@@ -186,6 +189,7 @@
     <ClInclude Include="Source\PhysicsManager.h" />
     <ClInclude Include="Source\Joint.h" />
     <ClInclude Include="Source\Player.h" />
+    <ClInclude Include="Source\PlayerManager.h" />
     <ClInclude Include="Source\RemotePlayer.h" />
     <ClInclude Include="Source\PlayerData.h" />
     <ClInclude Include="Source\Scene.h" />

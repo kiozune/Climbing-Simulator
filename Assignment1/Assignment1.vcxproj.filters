@@ -132,6 +132,12 @@
     <ClCompile Include="Source\PlayerData.cpp">
       <Filter>Multiplayer</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Client.cpp">
+      <Filter>Multiplayer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlayerManger.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\MainScene.h">
@@ -214,6 +220,12 @@
     </ClInclude>
     <ClInclude Include="Source\PlayerData.h">
       <Filter>Multiplayer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Client.h">
+      <Filter>Multiplayer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayerManager.h">
+      <Filter>GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

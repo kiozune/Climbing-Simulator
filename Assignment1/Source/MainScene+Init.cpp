@@ -102,6 +102,8 @@ void MainScene::initPlayer(Player& p, Vector3 offset)
 
 	manager->addExternalSpring(p.getLeftSpring());
 	manager->addExternalSpring(p.getRightSpring());
+
+	playerManger->addPlayer(&p);
 }
 
 void MainScene::initMap()

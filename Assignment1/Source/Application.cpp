@@ -1,9 +1,13 @@
+
 //Include GLEW
 #include <GL/glew.h>
 
 //Include the standard C++ headers
 #include <stdio.h>
 #include <stdlib.h>
+
+#include <thread>
+#include "PlayerManager.h"
 
 #include "Application.h"
 
@@ -135,6 +139,21 @@ void Application::Run()
 	//Main Loop
 	MainScene *scene = new MainScene();
 	scene->Init();
+
+	std::thread multiplayerThread([]() {
+		DataTransferManager* transferManager = DataTransferManager::getInstance();
+		PlayerManager* playerManager = PlayerManager::getInstance();
+		Player& p = *(playerManager->getMain());
+		while (true)
+		{
+			std::string data = transferManager->stringifyData(transferManager->getPlayerData(p));
+			transferManager->getClient().send(data);
+			data = transferManager->getClient().recieve();
+			if (data.size() > 32)
+				playerManager->updateRemote(transferManager->parseData(data));
+		}
+	});
+	multiplayerThread.detach();
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))

@@ -3,7 +3,7 @@
 void RemotePlayer::update(PlayerData data)
 {
 	this->parts[0]->getStart()->setCurrent(data.leftFingers);
-	this->5parts[0]->getEnd()->setCurrent(data.leftWrist);
+	this->parts[0]->getEnd()->setCurrent(data.leftWrist);
 
 	this->parts[2]->getEnd()->setCurrent(data.leftElbow);
 
@@ -19,4 +19,4 @@ void RemotePlayer::update(PlayerData data)
 
 	this->parts[8]->getEnd()->setCurrent(data.leftFeet);
 	this->parts[9]->getEnd()->setCurrent(data.rightFeet);
-}
+}	

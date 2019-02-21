@@ -1,6 +1,7 @@
 #ifndef DATA_TRANSFER_MANAGER_H
 #define DATA_TRANSFER_MANAGER_H
 
+#include "Client.h"
 #include "RemotePlayer.h"
 
 #include <string>
@@ -17,6 +18,8 @@ private:
 
 	static DataTransferManager * instance;
 
+	Client client;
+
 	int iterator;
 	std::string getString(int);
 	float getFloat(std::string);
@@ -28,7 +31,11 @@ public:
 
 	static DataTransferManager * getInstance();
 
+
 	DataTransferManager();
+	~DataTransferManager();
+
+	Client& getClient();
 
 	PlayerData getPlayerData(Player&);
 
