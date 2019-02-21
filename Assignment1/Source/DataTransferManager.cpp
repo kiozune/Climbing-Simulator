@@ -7,7 +7,7 @@ std::string DataTransferManager::getString(int i)
 	if (i == 0)
 		result = (char)DATA_POS;
 	else
-		result = (char)(i / abs(i) + 1); // sign
+		result = (char)(i / abs(i) + 2); // sign
 	
 	i = abs(i);
 
@@ -26,7 +26,7 @@ std::string DataTransferManager::getString(int i)
 
 float DataTransferManager::getFloat(std::string str)
 {
-	float sign = str[this->iterator] - 1;
+	float sign = str[this->iterator] - 2;
 	float result = 0;
 	int i = 1;
 	while (str[this->iterator + i] != DATA_END)
@@ -67,11 +67,6 @@ DataTransferManager::DataTransferManager()
 	if (!this->client.start())
 		return;
 	this->client.connectTo(30000, "172.27.180.32");
-}
-
-DataTransferManager::~DataTransferManager()
-{
-	this->client.exit();
 }
 
 Client& DataTransferManager::getClient()

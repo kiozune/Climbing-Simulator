@@ -2,21 +2,21 @@
 
 void RemotePlayer::update(PlayerData data)
 {
-	this->parts[0]->getStart()->setCurrent(data.leftFingers);
-	this->parts[0]->getEnd()->setCurrent(data.leftWrist);
+	this->parts[0]->getStart()->setPosition(data.leftFingers);
+	this->parts[0]->getEnd()->setPosition(data.leftWrist);
 
-	this->parts[2]->getEnd()->setCurrent(data.leftElbow);
+	this->parts[2]->getEnd()->setPosition(data.leftElbow);
 
-	this->parts[3]->getStart()->setCurrent(data.rightFingers);
-	this->parts[3]->getEnd()->setCurrent(data.rightWrist);
+	this->parts[3]->getStart()->setPosition(data.rightFingers);
+	this->parts[3]->getEnd()->setPosition(data.rightWrist);
 
-	this->parts[5]->getEnd()->setCurrent(data.rightElbow);
+	this->parts[5]->getEnd()->setPosition(data.rightElbow);
 
-	this->parts[6]->getStart()->setCurrent(data.chest);
-	this->parts[6]->getEnd()->setCurrent(data.head);
+	this->parts[6]->getStart()->setPosition(data.chest);
+	this->parts[6]->getEnd()->setPosition(data.head);
 
-	this->parts[7]->getEnd()->setCurrent(data.pelvis);
+	this->parts[7]->getEnd()->setPosition(data.pelvis);
 
-	this->parts[8]->getEnd()->setCurrent(data.leftFeet);
-	this->parts[9]->getEnd()->setCurrent(data.rightFeet);
+	this->parts[8]->getEnd()->setPosition(data.leftFeet);
+	this->parts[9]->getEnd()->setPosition(data.rightFeet);
 }	

@@ -6,10 +6,12 @@
 
 #include <string>
 
-#define DATA_END 1
-#define DATA_NEG 0
-#define DATA_POS 2
-#define DATA_SIZE 126
+#define DATA_END 2
+#define DATA_NEG 1
+#define DATA_POS 3
+#define DATA_SIZE 125
+
+#define MIN_SIZE 33
 
 class DataTransferManager
 {
@@ -33,8 +35,7 @@ public:
 
 
 	DataTransferManager();
-	~DataTransferManager();
-
+	
 	Client& getClient();
 
 	PlayerData getPlayerData(Player&);

@@ -15,7 +15,7 @@
 
 #define LIGHT_COUNT 1
 #define PLAYER_COUNT 1
-#define MAP_SIZE 100
+#define MAP_SIZE 0
 
 class MainScene : public Scene
 {
@@ -86,7 +86,7 @@ class MainScene : public Scene
 	void updatePlayer(int, double&);
 
 	void keyboardEvents(double&);
-	void joystickEvents(double&);
+	void joystickEvents(double&, int);
 
 public:
 

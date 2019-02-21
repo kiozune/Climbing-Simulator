@@ -139,21 +139,37 @@ void Application::Run()
 	//Main Loop
 	MainScene *scene = new MainScene();
 	scene->Init();
-
-	std::thread multiplayerThread([]() {
+/*
+	std::thread sendThread([]() {
 		DataTransferManager* transferManager = DataTransferManager::getInstance();
 		PlayerManager* playerManager = PlayerManager::getInstance();
 		Player& p = *(playerManager->getMain());
 		while (true)
 		{
 			std::string data = transferManager->stringifyData(transferManager->getPlayerData(p));
-			transferManager->getClient().send(data);
-			data = transferManager->getClient().recieve();
-			if (data.size() > 32)
-				playerManager->updateRemote(transferManager->parseData(data));
+			if (data.size() > MIN_SIZE)
+			{
+				transferManager->getClient().sendData(data);
+			}
 		}
 	});
-	multiplayerThread.detach();
+	sendThread.detach();
+*/
+	std::thread receiveThread([]() {
+		DataTransferManager* transferManager = DataTransferManager::getInstance();
+		PlayerManager* playerManager = PlayerManager::getInstance();
+		while (true)
+		{
+			std::string data;
+			bool didRecieve = transferManager->getClient().recieve(data);
+			if (didRecieve)
+			{
+				if (data != "CONNECT")
+					playerManager->updateRemote(transferManager->parseData(data));
+			}	
+		}
+	});
+	receiveThread.detach();
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
@@ -166,6 +182,10 @@ void Application::Run()
 		glfwPollEvents();
         m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms
 	} //Check if the ESC key had been pressed or if the window had been closed
+
+	DataTransferManager* transferManager = DataTransferManager::getInstance();
+	transferManager->getClient().exit();
+
 	scene->Exit();
 	delete scene;
 }

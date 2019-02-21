@@ -30,18 +30,18 @@ void MainScene::keyboardEvents(double& dt)
 		camera.changeYaw(-1, dt);
 }
 
-void MainScene::joystickEvents(double& dt)
+void MainScene::joystickEvents(double& dt, int i)
 {
-	if (!Application::isControllerPresent(GLFW_JOYSTICK_1)) return;
+	if (controller->isPresent()) return;
 
 	//swingX = analog[0], swingY = analog[1];
 	//LT = analog[4], RT = analog[5];
 	//camX = analog[2], camY = analog[3];
 
-	if (Application::IsControllerPressed(GLFW_JOYSTICK_1, 1))
+	if (Application::IsControllerPressed(GLFW_JOYSTICK_1 + i, 1))
 		camera.zoomIn(dt);
 
-	if (Application::IsControllerPressed(GLFW_JOYSTICK_2, 2))
+	if (Application::IsControllerPressed(GLFW_JOYSTICK_1 + i, 2))
 		camera.zoomOut(dt);
 	
 	// camera

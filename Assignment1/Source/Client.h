@@ -20,8 +20,8 @@ public:
 
 	bool start();
 	void connectTo(u_short port, const char* ip);
-	void send(std::string content);
-	bool recieve();
+	void sendData(std::string content);
+	bool recieve(std::string& data);
 	void exit();
 
 };

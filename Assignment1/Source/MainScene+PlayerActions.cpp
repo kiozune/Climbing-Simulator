@@ -7,7 +7,7 @@ void MainScene::updatePlayer(int i, double& dt)
 	Player& p = players[i];
 
 	controller->getInput(GLFW_JOYSTICK_1 + i);
-	joystickEvents(dt);
+	joystickEvents(dt, i);
 
 	// Player swing
 

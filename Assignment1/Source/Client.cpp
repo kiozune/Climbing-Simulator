@@ -23,9 +23,10 @@ void Client::connectTo(u_short port, const char* ip)
 	InetPton(AF_INET, ip, &server.sin_addr);
 
 	out = socket(AF_INET, SOCK_DGRAM, 0);
+	this->sendData("CONNECT");
 }
 
-void Client::send(std::string content)
+void Client::sendData(std::string content)
 {
 	int sendResult = sendto(out, content.c_str(), content.size(), 0, (sockaddr*)&server, serverLength);
 
@@ -33,7 +34,7 @@ void Client::send(std::string content)
 		std::cout << "Failed to send : " << WSAGetLastError() << std::endl;
 }
 
-bool Client::recieve()
+bool Client::recieve(std::string& data)
 {
 	ZeroMemory(buff, 1024);
 
@@ -43,7 +44,8 @@ bool Client::recieve()
 		std::cout << "Error recieving data " << WSAGetLastError() << std::endl;
 		return false;
 	}
-	std::cout << "Date recievied : " << buff << std::endl;
+	//std::cout << "Date recievied : " << buff << std::endl;
+	data = buff;
 	return true;
 
 }
