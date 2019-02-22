@@ -58,7 +58,7 @@ Player* PlayerManager::createPlayer(unsigned id)
 {
 	Player* p = new Player;
 
-	p->setId(id);
+	p->setId(id + 1);
 
 	Joint* leftFingers = new Joint(Vector3(13, 0, 0));
 	Joint* leftWrist = new Joint(Vector3(10, 0, 0));
