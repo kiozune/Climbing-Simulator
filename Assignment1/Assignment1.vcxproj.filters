@@ -43,6 +43,9 @@
     <Filter Include="Scenes">
       <UniqueIdentifier>{7590157a-b309-4c54-92b6-fab1945e99f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Constants">
+      <UniqueIdentifier>{0d0ae643-02da-4c3b-acc2-087251bcb19b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Camera.cpp">
@@ -223,6 +226,9 @@
     </ClInclude>
     <ClInclude Include="Source\PlayerManager.h">
       <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Constants.h">
+      <Filter>Constants</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

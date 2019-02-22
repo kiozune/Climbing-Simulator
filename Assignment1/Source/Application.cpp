@@ -7,6 +7,7 @@
 #include <stdlib.h>
 
 #include <thread>
+#include "Constants.h"
 #include "PlayerManager.h"
 
 #include "Application.h"
@@ -140,6 +141,12 @@ void Application::Run()
 	Scene *scene = new MainScene;
 	scene->Init();
 
+	bool isMultiplayer = true;
+	if (isMultiplayer)
+	{
+		DataTransferManager* transferManager = DataTransferManager::getInstance();
+		transferManager->getClient().connectTo(SERVER_PORT, SERVER_IP);
+
 		std::thread sendThread([]() {
 			DataTransferManager* transferManager = DataTransferManager::getInstance();
 			unsigned clientId = transferManager->getClient().getId();
@@ -181,6 +188,8 @@ void Application::Run()
 			}
 		});
 		receiveThread.detach();
+	}
+
 	
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame

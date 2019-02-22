@@ -173,6 +173,7 @@
     <ClInclude Include="Source\Client.h" />
     <ClInclude Include="Source\CollisionDetails.h" />
     <ClInclude Include="Source\CollisionResult.h" />
+    <ClInclude Include="Source\Constants.h" />
     <ClInclude Include="Source\ControllerManager.h" />
     <ClInclude Include="Source\DataTransferManager.h" />
     <ClInclude Include="Source\FixedCamera.h" />

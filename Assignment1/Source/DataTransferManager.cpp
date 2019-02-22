@@ -66,7 +66,6 @@ DataTransferManager::DataTransferManager()
 	this->iterator = 0;
 	if (!this->client.start())
 		return;
-	this->client.connectTo(30000, "192.168.2.11");
 }
 
 Client& DataTransferManager::getClient()
