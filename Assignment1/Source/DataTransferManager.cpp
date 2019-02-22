@@ -79,7 +79,7 @@ PlayerData DataTransferManager::getPlayerData(Player& player, unsigned id)
 	PlayerData data;
 	std::vector<Object*> parts = player.getParts();
 
-	data.id = id;
+	data.id = id *  10 + player.getId();
 
 	data.leftFingers = parts[0]->getStart()->getCurrent();
 	data.leftWrist = parts[0]->getEnd()->getCurrent();

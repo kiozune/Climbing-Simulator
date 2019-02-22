@@ -4,6 +4,11 @@
 
 #include "PlayerManager.h"
 
+unsigned Client::getId() { return this->id; }
+
+unsigned Client::getKnownSize() { return this->knownSize; }
+void Client::setKnownSize(unsigned s) { this->knownSize = s; }
+
 bool Client::start()
 {
 	WSADATA data;
@@ -27,19 +32,15 @@ void Client::connectTo(u_short port, const char* ip)
 	out = socket(AF_INET, SOCK_DGRAM, 0);
 
 	PlayerManager* manager = PlayerManager::getInstance();
-	for (Player* p : manager->getLocalPlayers())
-	{
-		this->sendData("CONNECT");
-	}
+	int count = manager->getLocalPlayers().size();
+	this->knownSize = count;
+	this->sendData("CONNECT" + (char)(count + 1));
 
 	std::string data;
 	if (recieve(data))
 	{
-		for (Player* p : manager->getLocalPlayers())
-		{
-			p->setId((unsigned)data[data.size() - 1]);
-			data.pop_back();
-		}
+		this->id = (unsigned)data[data.size() - 2];
+		data.pop_back();
 
 		size_t pos = data.find("IDS:");
 		if (pos != std::string::npos)
@@ -48,10 +49,15 @@ void Client::connectTo(u_short port, const char* ip)
 
 			while (data.size())
 			{
+				count = (unsigned)data[data.size() - 1] - 1;
+				data.pop_back();
 				int id = (unsigned)data[data.size() - 1];
 				data.pop_back();
-				RemotePlayer* r = (RemotePlayer*)manager->createPlayer(id);
-				manager->addRemotePlayer(r);
+				for (int i = 0; i < count; ++i)
+				{
+					RemotePlayer* r = (RemotePlayer*)manager->createPlayer(id * 10 + i);
+					manager->addRemotePlayer(r);
+				}
 			}
 		}
 	}

@@ -20,6 +20,8 @@ public:
 
 	void fixMissingPlayers();
 	Player* createPlayer(unsigned);
+	
+	void create(std::string);
 
 	std::vector<Player*> getLocalPlayers();
 	void addLocalPlayer(Player*);

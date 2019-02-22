@@ -10,6 +10,8 @@ class Client
 {
 	
 private:
+	
+	unsigned id, knownSize;
 
 	sockaddr_in server;
 	SOCKET out;
@@ -18,6 +20,11 @@ private:
 
 public:
 	
+	unsigned getId();
+
+	unsigned getKnownSize();
+	void setKnownSize(unsigned);
+
 	bool start();
 	void connectTo(u_short port, const char* ip);
 	void sendData(std::string content);

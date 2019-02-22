@@ -162,7 +162,6 @@ void Application::Run()
 	Scene *scene = new MainScene;
 	scene->Init();
 
-/*
 	bool isMultiplayer = true;
 	if (isMultiplayer)
 	{
@@ -171,16 +170,28 @@ void Application::Run()
 
 		std::thread sendThread([]() {
 			DataTransferManager* transferManager = DataTransferManager::getInstance();
-			unsigned clientId = transferManager->getClient().getId();
+			Client& client = transferManager->getClient();
+			unsigned clientId = client.getId();
 			PlayerManager* playerManager = PlayerManager::getInstance();
-			Player& p = *(playerManager->getMain());
+
 			while (true)
 			{
-				PlayerData pData = transferManager->getPlayerData(p, clientId);
-				std::string data = transferManager->stringifyData(pData);
-				if (data.size() > MIN_SIZE)
+				std::vector<Player*> local = playerManager->getLocalPlayers();
+				if (local.size() > client.getKnownSize())
 				{
-					transferManager->getClient().sendData(data);
+					client.sendData("NEW" + (char)clientId);
+				}
+				else
+				{
+					for (Player* p : local)
+					{
+						PlayerData pData = transferManager->getPlayerData(*p, clientId);
+						std::string data = (char)clientId + transferManager->stringifyData(pData);
+						if (data.size() > MIN_SIZE)
+						{
+							transferManager->getClient().sendData(data);
+						}
+					}
 				}
 			}
 		});
@@ -200,7 +211,7 @@ void Application::Run()
 					if (pos != std::string::npos)
 					{
 						data.erase(pos, 4);
-						playerManager->setQueue(data, client.getId());
+						playerManager->create(data, client.getId());
 					}
 					else if (data != "CONNECT")
 					{
@@ -211,7 +222,7 @@ void Application::Run()
 		});
 		receiveThread.detach();
 	}
-*/
+
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window))
