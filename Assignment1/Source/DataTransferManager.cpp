@@ -2,7 +2,7 @@
 
 std::string DataTransferManager::getString(float f)
 {
-	int i = (int)(f + 0.5);
+	int i = (int)((f + 0.5) * 10);
 	std::string result = "";
 	char sign;
 	if (i == 0)
@@ -37,7 +37,7 @@ float DataTransferManager::getFloat(std::string str)
 	}
 	this->iterator = this->iterator + i + 1;
 	result *= sign;
-	return result;
+	return result / 10.0;
 }
 
 std::string DataTransferManager::stringify(Vector3 v)
