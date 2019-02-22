@@ -18,10 +18,10 @@ public:
 
 	static PlayerManager * getInstance();
 
+	void create(std::string, unsigned);
+
 	void fixMissingPlayers();
 	Player* createPlayer(unsigned);
-	
-	void create(std::string);
 
 	std::vector<Player*> getLocalPlayers();
 	void addLocalPlayer(Player*);

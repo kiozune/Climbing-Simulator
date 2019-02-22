@@ -186,7 +186,7 @@ void Application::Run()
 					for (Player* p : local)
 					{
 						PlayerData pData = transferManager->getPlayerData(*p, clientId);
-						std::string data = (char)clientId + transferManager->stringifyData(pData);
+						std::string data = transferManager->stringifyData(pData);
 						if (data.size() > MIN_SIZE)
 						{
 							transferManager->getClient().sendData(data);
