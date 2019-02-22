@@ -196,6 +196,7 @@ void Application::Run()
 						}
 					}
 				}
+				Sleep(1);
 			}
 		});
 		sendThread.detach();
