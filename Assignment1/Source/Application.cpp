@@ -208,14 +208,19 @@ void Application::Run()
 				if (didRecieve)
 				{
 					size_t pos = data.find("IDS:");
+
 					if (pos != std::string::npos)
 					{
 						data.erase(pos, 4);
 						playerManager->create(data, client.getId());
 					}
-					else if (data != "CONNECT")
+					else 
 					{
-						playerManager->updateRemote(transferManager->parseData(data));
+						size_t connect = data.find("CONNECT");
+						if (connect == std::string::npos)
+						{
+							playerManager->updateRemote(transferManager->parseData(data));
+						}
 					}
 				}
 			}

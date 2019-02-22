@@ -34,9 +34,10 @@ void Client::connectTo(u_short port, const char* ip)
 	PlayerManager* manager = PlayerManager::getInstance();
 	int count = manager->getLocalPlayers().size();
 	this->knownSize = count;
-	this->sendData("CONNECT" + (char)(count + 1));
+	std::string data = "CONNECT";
+	data += (char)(count + 1);
+	this->sendData(data);
 
-	std::string data;
 	if (recieve(data))
 	{
 		this->id = (unsigned)data[data.size() - 2];
