@@ -15,7 +15,7 @@ void PlayerManager::create(std::string str, unsigned clientId)
 {
 	for (int i = 0; i < str.size() / 2; ++i)
 	{
-		unsigned id = (unsigned)str[i];
+		unsigned id = (unsigned)str[i * 2];
 		if (id == clientId) continue;
 		bool found = false;
 		for (RemotePlayer* r : this->remotePlayers)
