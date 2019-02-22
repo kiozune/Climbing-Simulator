@@ -11,7 +11,13 @@
 
 void MainScene::Init()
 {
-	// clear screen and fill with white
+	srand(time(NULL));
+
+	Mtx44 projection;
+	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 10000.0f); //FOV, Aspect Ratio, Near plane, Far plane
+	projectionStack.LoadMatrix(projection);
+
+	// clear screen and fill with black
 	glClearColor(0, 0, 0, 0);
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
@@ -100,10 +106,11 @@ void MainScene::Init()
 
 	initText();
 	models[LIGHT] = MeshBuilder::GenerateSphere("LIGHT", Color(1, 1, 1), 1, 36);
+	models[AXES] = MeshBuilder::GenerateAxes("axes", Position(10, 10, 10));
 
-	models[SKY_BOX] = MeshBuilder::GenerateOBJ("skybox");
+	/*models[SKY_BOX] = MeshBuilder::GenerateOBJ("skybox");
 	models[SKY_BOX]->applyTexture("Image//skybox.tga");
-	applyMaterial(models[SKY_BOX]);
+	applyMaterial(models[SKY_BOX]);*/
 
 	models[SHADOW_QUAD] = MeshBuilder::GenerateQuad("Shadow_Quad", Color(1, 1, 1), 1.f);
 	models[SHADOW_QUAD]->texArray[0] = shadowFBO.getTexture();
@@ -117,6 +124,8 @@ void MainScene::Init()
 		initPlayer(players[i], Vector3(0, 0, i * 10));
 
 	initMap();
+
+	blockGen->generateBlocks(1);
 }
 
 void MainScene::Update(double dt)
@@ -295,6 +304,10 @@ void MainScene::RenderScene()
 		}
 		modelStack.PopMatrix();
 	}
+	// renderMesh(models[SKY_BOX]);
+	renderMesh(models[AXES]);
+	
+	renderBlocks();
 }
 
 void MainScene::Exit()

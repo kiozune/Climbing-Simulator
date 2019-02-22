@@ -73,15 +73,39 @@ void MainScene::renderBlocks()
 	while (current != blockGen->getTail())
 	{
 		block* temp = current->getNext();
-		modelStack.PushMatrix();
+		for (int i = 0; i < current->getMeshes()->size(); i++)
 		{
-			modelStack.Translate(current->getVector3().x, current->getVector3().y, current->getVector3().z);
-			renderMesh(current->getMesh());
+			if (current == blockGen->getHead()) // Start
+			{
+				modelStack.PushMatrix();
+				{
+					Vector3 cubePos = current->getCubePos()->at(i);
+					Vector3 cubeSize = current->getUniSizing()->at(0);
+					Mesh* aMesh = current->getMeshes()->at(i);
+					modelStack.Translate(cubePos.x, cubePos.y - 0.5, cubePos.z);
+					modelStack.Rotate(90, 0, 0, 1);
+					modelStack.Scale(cubeSize.x, cubeSize.y, cubeSize.z);
+					
+					renderMesh(aMesh);
+				}
+				modelStack.PopMatrix();
+			}
+			else
+			{
+				modelStack.PushMatrix();
+				{
+					Vector3 cubePos = current->getCubePos()->at(i);
+					Vector3 cubeSize = current->getUniSizing()->at(0);
+					Mesh* aMesh = current->getMeshes()->at(i);
+					modelStack.Translate(cubePos.x, cubePos.y, cubePos.z);
+					modelStack.Scale(cubeSize.x, cubeSize.y, cubeSize.z);
+					renderMesh(aMesh);
+				}
+				modelStack.PopMatrix();
+			}
 		}
-		modelStack.PopMatrix();
 		current = temp;
 	}
-	
 }
 
 void MainScene::renderText(Mesh* mesh, const std::string text, Color color) 

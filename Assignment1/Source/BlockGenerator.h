@@ -2,30 +2,40 @@
 #include "block.h"
 #include "Vector3.h"
 #include <stdio.h>
+#include <fstream>
 #include "MyMath.h"
 
 class BlockGenerator
 {
 public:
 	static BlockGenerator* GetInstance();
-	void generateBlocks(int block, int maxHeight, int maxLength, int offsetPos, int boundary);
-	int randomDirection(int lastDir);
-	bool checkWorldSpace(Vector3 pos);
+	void generateBlocks(int offsetPos);
 	block *getHead();
 	block *getTail();
 private:
 	enum DIRECTION
 	{
-		UP,
 		LEFT,
 		RIGHT,
 		FORWARD,
 		BACKWARD,
+		UPWARD,
 		NUM_DIRECTION
+	};
+	enum LEVEL
+	{
+		STANDARD,
+		INCLINE,
+		ROUNDABOUT,
+		NUM_LEVEL
 	};
 	BlockGenerator();
 	static BlockGenerator *instance;
+
+	void getLevelData(std::string val, Vector3 pos, int offset, int cubes);
+
+	int numBlocks;
+
 	block *head, *tail;
-	int lastDirection;
 	~BlockGenerator();
 };
