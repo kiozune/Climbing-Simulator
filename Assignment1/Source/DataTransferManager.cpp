@@ -2,7 +2,7 @@
 
 std::string DataTransferManager::getString(float f)
 {
-	int f = (int)(f + 0.5);
+	int i = (int)(f + 0.5);
 	std::string result = "";
 	char sign;
 	if (i == 0)
