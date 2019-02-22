@@ -179,7 +179,9 @@ void Application::Run()
 				std::vector<Player*> local = playerManager->getLocalPlayers();
 				if (local.size() > client.getKnownSize())
 				{
-					client.sendData("NEW" + (char)clientId);
+					std::string data = "NEW";
+					data += (char)clientId;
+					client.sendData(data);
 				}
 				else
 				{
