@@ -6,7 +6,7 @@ void MainScene::initText()
 	models[TEXT]->applyTexture("Image//calibri.tga");
 }
 
-void MainScene::initPlayer(Player& p, Vector3 offset)
+void MainScene::initPlayer(Player& p, Vector3 offset, unsigned id)
 {
 	Joint* leftFingers = new Joint(Vector3(13, 0, 0) + offset);
 	Joint* leftWrist = new Joint(Vector3(10, 0, 0) + offset);
@@ -39,7 +39,7 @@ void MainScene::initPlayer(Player& p, Vector3 offset)
 	Object* leftLeg = new Object(pelvis, leftFeet, mass, size);
 	Object* rightLeg = new Object(pelvis, rightFeet, mass, size);
 
-	Color primary = Color(rand() % 255 / 255.0, rand() % 255 / 255.0, rand() % 255 / 255.0);
+	Color primary = Color((float)(id % 5) / 5.0, (float)(id % 3) / 5.0, (float)(id % 7) / 5.0);
 
 	leftHand->setColour(Color(0.9, 0.9, 0));
 	leftArm->setColour(primary);
@@ -114,7 +114,7 @@ void MainScene::initRemotePlayers()
 		RemotePlayer* r = new RemotePlayer;
 		r->setId(i);
 		
-		initPlayer(*r , Vector3());
+		initPlayer(*r , Vector3(), i);
 		remotePlayers.push_back(r);
 		playerManger->addRemotePlayer(r);
 

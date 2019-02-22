@@ -82,7 +82,7 @@ void MainScene::Init()
 	camera.Init(Vector3(0, 0, 0), 200, 100, 180);
 
 	for (int i = 0; i < PLAYER_COUNT; ++i) 
-		initPlayer(players[i], Vector3(0, 30, i * 10));
+		initPlayer(players[i], Vector3(0, 30, i * 10), transfer->getClient().getId());
 	playerManger->setMain(&(players[0]));
 
 	//initPlayer(remotePlayers[0], Vector3(20, 30, 0));

@@ -1,7 +1,7 @@
 #ifndef MAINSCENE_H
 #define MAINSCENE_H
 
-#define LSPEED 10.0f
+#include "Constants.h"
 
 #include "Scene.h"
 #include "FixedCamera.h"
@@ -14,8 +14,6 @@
 #include "RemotePlayer.h"
 
 #define LIGHT_COUNT 1
-#define PLAYER_COUNT 2
-#define MAP_SIZE 100
 
 class MainScene : public Scene
 {
@@ -80,7 +78,7 @@ class MainScene : public Scene
 	void renderJoint(Joint*);
 	void renderBoundingBox(BoundingBox);
 
-	void initPlayer(Player&, Vector3);
+	void initPlayer(Player&, Vector3, unsigned);
 	void initRemotePlayers();
 	void initMap();
 
