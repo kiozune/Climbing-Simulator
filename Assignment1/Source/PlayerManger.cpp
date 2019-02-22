@@ -1,5 +1,6 @@
 #include "PlayerManager.h"
 
+#include "ControllerManager.h"
 #include "PhysicsManager.h"
 
 PlayerManager* PlayerManager::instance = nullptr;
@@ -8,6 +9,22 @@ PlayerManager* PlayerManager::getInstance()
 {
 	if (!instance) instance = new PlayerManager;
 	return instance;
+}
+
+void PlayerManager::fixMissingPlayers()
+{
+	int i = 0;
+	ControllerManager* controller = ControllerManager::getInstance();
+	while (controller->isPresent(i))
+	{
+		if (i >= this->localPlayers.size())
+		{
+			Player* p = createPlayer(i);
+			this->localPlayers.push_back(p);
+		}
+		i++;
+	}
+
 }
 
 Player* PlayerManager::createPlayer(unsigned id)
@@ -118,6 +135,11 @@ Player* PlayerManager::createPlayer(unsigned id)
 
 std::vector<Player*> PlayerManager::getLocalPlayers() { return this->localPlayers; }
 void PlayerManager::addLocalPlayer(Player* p) { this->localPlayers.push_back(p); }
+
+void PlayerManager::removeLocalPlayer(int i) 
+{  
+	this->localPlayers.erase(this->localPlayers.begin() + i);
+}
 
 std::vector<RemotePlayer*> PlayerManager::getRemotePlayers() { return this->remotePlayers; }
 void PlayerManager::addRemotePlayer(RemotePlayer* p) { this->remotePlayers.push_back(p); }

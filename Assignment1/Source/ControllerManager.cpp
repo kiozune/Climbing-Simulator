@@ -11,6 +11,7 @@ ControllerManager* ControllerManager::getInstance()
 }
 
 bool ControllerManager::isPresent() { return Application::isControllerPresent(this->joy); }
+bool ControllerManager::isPresent(int j) { return Application::isControllerPresent(j); }
 
 void ControllerManager::getInput(int joy)
 {

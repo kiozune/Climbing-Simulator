@@ -42,7 +42,7 @@ void MainScene::updatePlayer(Player* p, double& dt)
 			Object* leftHand = p->getLeftHand();
 
 			CollisionDetails details;
-			for (Player* other : playerManger->getLocalPlayers())
+			for (Player* other : players->getLocalPlayers())
 			{
 				if (i == other->getId()) continue;
 				details = manager->getCollisionDetails(leftHand, other->getParts());
@@ -56,7 +56,7 @@ void MainScene::updatePlayer(Player* p, double& dt)
 			}
 			else
 			{
-				for (Player* p : playerManger->getRemotePlayers())
+				for (Player* p : players->getRemotePlayers())
 				{
 					details = manager->getCollisionDetails(leftHand, p->getParts());
 
@@ -90,7 +90,7 @@ void MainScene::updatePlayer(Player* p, double& dt)
 			Object* rightHand = p->getRightHand();
 
 			CollisionDetails details;
-			for (Player* other : playerManger->getLocalPlayers())
+			for (Player* other : players->getLocalPlayers())
 			{
 				if (i == other->getId()) continue;
 				details = manager->getCollisionDetails(rightHand, other->getParts());
@@ -104,7 +104,7 @@ void MainScene::updatePlayer(Player* p, double& dt)
 			}
 			else
 			{
-				for (Player* p : playerManger->getRemotePlayers())
+				for (Player* p : players->getRemotePlayers())
 				{
 					details = manager->getCollisionDetails(rightHand, p->getParts());
 

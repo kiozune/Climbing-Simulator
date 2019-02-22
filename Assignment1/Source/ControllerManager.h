@@ -18,6 +18,7 @@ public:
 	static ControllerManager * getInstance();
 
 	bool isPresent();
+	bool isPresent(int);
 	
 	void getInput(int);
 

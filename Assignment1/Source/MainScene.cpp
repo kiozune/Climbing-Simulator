@@ -88,6 +88,7 @@ void MainScene::Init()
 	//initPlayer(remotePlayers[0], Vector3(20, 30, 0));
 	//playerManger->addRemotePlayer(&(remotePlayers[0]));
 
+	players->fixMissingPlayers();
 	initMap();
 }
 
@@ -102,18 +103,16 @@ void MainScene::Update(double dt)
 
 	manager->applyGravity(dt);
 
-	for (Player* p : playerManger->getLocalPlayers())
+	for (Player* p : players->getLocalPlayers())
 		updatePlayer(p, dt);
 
 	// std::string data = transfer->stringifyData(transfer->getPlayerData(players[0]));
 	// remotePlayers[0].update(transfer->parseData(data));
 
-	
-
 	//camera.move(dt);
 	Vector3 center = Vector3(0,0,0);
-	if (playerManger->getLocalPlayers().size())
-		center = playerManger->getLocalPlayers()[0]->getBody()->getCenter();
+	if (players->getLocalPlayers().size())
+		center = players->getLocalPlayers()[0]->getBody()->getCenter();
 
 	Vector3 target = Vector3(int(center.x / 5) * 5, int(center.y / 5) * 5, int(center.z / 5) * 5);
 	camera.setTarget(target);
@@ -185,7 +184,7 @@ void MainScene::Render()
 	float yaw = camera.getYaw();
 	float pitch = camera.getPitch();
 
-	for (Player* p : playerManger->getLocalPlayers())
+	for (Player* p : players->getLocalPlayers())
 	{
 		Vector3 left  = p->getLeftHand()->getCenter();
 		Vector3 right = p->getRightHand()->getCenter();

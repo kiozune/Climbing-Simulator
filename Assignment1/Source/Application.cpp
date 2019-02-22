@@ -55,6 +55,8 @@ void joystick_callback(int joy, int event)
 	else if (event == GLFW_DISCONNECTED)
 	{
 		// The joystick was disconnected
+		PlayerManager* manager = PlayerManager::getInstance();
+		manager->removeLocalPlayer(joy);
 	}
 }
 
@@ -210,7 +212,6 @@ void Application::Run()
 		receiveThread.detach();
 	}
 */
-	
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window))
