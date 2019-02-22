@@ -1,7 +1,8 @@
 #include "DataTransferManager.h"
 
-std::string DataTransferManager::getString(int i)
+std::string DataTransferManager::getString(float f)
 {
+	int f = (int)(f + 0.5);
 	std::string result = "";
 	char sign;
 	if (i == 0)

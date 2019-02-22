@@ -23,7 +23,7 @@ private:
 	Client client;
 
 	int iterator;
-	std::string getString(int);
+	std::string getString(float);
 	float getFloat(std::string);
 
 	std::string stringify(Vector3);
