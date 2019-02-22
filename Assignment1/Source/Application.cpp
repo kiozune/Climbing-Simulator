@@ -179,6 +179,7 @@ void Application::Run()
 				std::vector<Player*> local = playerManager->getLocalPlayers();
 				if (local.size() > client.getKnownSize())
 				{
+					client.setKnownSize(local.size());
 					std::string data = "NEW";
 					data += (char)clientId;
 					client.sendData(data);
@@ -222,7 +223,8 @@ void Application::Run()
 						if (newPlayer != std::string::npos)
 						{
 							unsigned id = (unsigned)data[data.size() - 1];
-							if (client.getId() != id)
+							unsigned clientId = id / 10;
+							if (client.getId() != clientId)
 							{
 								RemotePlayer* r = (RemotePlayer*)playerManager->createPlayer(id);
 								playerManager->addRemotePlayer(r);
