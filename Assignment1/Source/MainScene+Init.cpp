@@ -45,7 +45,7 @@ void MainScene::initMap()
 	}
 
 
-	Object* platform = new Object(Vector3(100, 10, 100), Vector3(0, -30, 0), 0, false);
+	Object* platform = new Object(Vector3(100, 50, 100), Vector3(0, -30, 0), 0, false);
 	platform->setColour(Color(0.5, 0.5, 0.5));
 	manager->addToEnvironment(platform);
 }
