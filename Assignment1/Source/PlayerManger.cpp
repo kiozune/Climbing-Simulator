@@ -51,7 +51,12 @@ void PlayerManager::fixMissingPlayers()
 
 RemotePlayer* PlayerManager::createRemotePlayer(unsigned clientId, unsigned id)
 {
-	return (RemotePlayer*)createPlayer(clientId * 10 + id);
+	unsigned rId = clientId * 10 + id;
+	for (RemotePlayer* r : remotePlayers)
+		if (r->getId() == rId)
+			return nullptr;
+	
+	return (RemotePlayer*)createPlayer(rId);
 }
 
 Player* PlayerManager::createPlayer(unsigned id)

@@ -229,7 +229,7 @@ void Application::Run()
 							if (client.getId() != clientId)
 							{
 								RemotePlayer* r = playerManager->createRemotePlayer(clientId, playerId);
-								playerManager->addRemotePlayer(r);
+								if (r != nullptr) playerManager->addRemotePlayer(r);
 							}
 						}
 						else 
