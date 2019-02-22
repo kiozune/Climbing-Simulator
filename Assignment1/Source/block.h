@@ -36,9 +36,9 @@ public:
 	block *getPrevious();
 
 	void setVector3(Vector3 pos);
-	// std::vector<Obstacle> getObsVector();
 	std::vector<Mesh*> *getMeshes();
 	std::vector<Vector3> *getCubePos();
+	std::vector<Vector3> *getUniSizing();
 	Vector3 getVector3();
 
 	~block();
@@ -48,7 +48,8 @@ private:
 
 	std::vector<Mesh*> *meshes;
 	std::vector<Vector3> *cubePos;
-	
+	std::vector<Vector3> *universalSizing;
+
 	Vector3 position;
 
 	float getRandomFloat(float LO, float HI);

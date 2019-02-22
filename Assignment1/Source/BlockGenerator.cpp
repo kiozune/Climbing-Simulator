@@ -14,6 +14,7 @@ BlockGenerator::BlockGenerator()
 {
 	head = nullptr;
 	tail = nullptr;
+	numBlocks = 5;
 }
 
 BlockGenerator * BlockGenerator::GetInstance()
@@ -31,7 +32,6 @@ void BlockGenerator::generateBlocks(int offsetPos)
 	{
 		block *temp = new block;
 		temp->setVector3(currentPos);
-		// temp->setMesh(STARTING);
 		temp->setMesh();
 		temp->setPrevious(nullptr);
 		head = temp;
@@ -56,15 +56,15 @@ void BlockGenerator::generateBlocks(int offsetPos)
 			{
 			case STANDARD:
 				if (holdingString[0] == 'A')
-					getLevelData(holdingString, currentPos, offsetPos);
+					getLevelData(holdingString, currentPos, offsetPos,numBlocks);
 				break;
 			case INCLINE:
 				if (holdingString[0] == 'B')
-					getLevelData(holdingString, currentPos, offsetPos);
+					getLevelData(holdingString, currentPos, offsetPos,numBlocks);
 				break;
 			case ROUNDABOUT:
 				if (holdingString[0] == 'C')
-					getLevelData(holdingString, currentPos, offsetPos);
+					getLevelData(holdingString, currentPos, offsetPos,numBlocks);
 				break;
 			default:
 				printf("Error at geneerateBlocks getLevelData");
@@ -73,9 +73,20 @@ void BlockGenerator::generateBlocks(int offsetPos)
 		}
 	}
 
+	// last block
+	{
+		block *temp = new block;
+		Vector3 pos = tail->getVector3();
+		pos.x += 1;
+		temp->setVector3(pos);
+		temp->setMesh();
+		temp->setPrevious(tail);
+		tail->setNext(temp);
+		tail = temp;
+	}
 }
 
-void BlockGenerator::getLevelData(std::string val, Vector3 pos, int offset)
+void BlockGenerator::getLevelData(std::string val, Vector3 pos, int offset, int cubes)
 {
 	for (int i = 1; i < val.size(); ++i)
 	{
@@ -85,8 +96,7 @@ void BlockGenerator::getLevelData(std::string val, Vector3 pos, int offset)
 		case '0': // Left
 			pos.x -= offset;
 			temp->setVector3(pos);
-			// temp->setMesh();
-			temp->populateNode(rand() % 5 + 1, 0.1f);
+			temp->populateNode(cubes, 0.1f);
 			temp->setPrevious(tail);
 			tail->setNext(temp);
 			tail = temp;
@@ -94,8 +104,7 @@ void BlockGenerator::getLevelData(std::string val, Vector3 pos, int offset)
 		case '1': // right
 			pos.x += offset;
 			temp->setVector3(pos);
-			// temp->setMesh();
-			temp->populateNode(rand() % 5 + 1, 0.1f);
+			temp->populateNode(cubes, 0.1f);
 			temp->setPrevious(tail);
 			tail->setNext(temp);
 			tail = temp;
@@ -103,8 +112,7 @@ void BlockGenerator::getLevelData(std::string val, Vector3 pos, int offset)
 		case '2': // Forward
 			pos.z += offset;
 			temp->setVector3(pos);
-			// temp->setMesh();
-			temp->populateNode(rand() % 5 + 1, 0.1f);
+			temp->populateNode(cubes, 0.1f);
 			temp->setPrevious(tail);
 			tail->setNext(temp);
 			tail = temp;
@@ -112,8 +120,7 @@ void BlockGenerator::getLevelData(std::string val, Vector3 pos, int offset)
 		case '3': // backward
 			pos.z -= offset;
 			temp->setVector3(pos);
-			// temp->setMesh();
-			temp->populateNode(rand() % 5 + 1, 0.1f);
+			temp->populateNode(cubes, 0.1f);
 			temp->setPrevious(tail);
 			tail->setNext(temp);
 			tail = temp;
@@ -121,8 +128,7 @@ void BlockGenerator::getLevelData(std::string val, Vector3 pos, int offset)
 		case '4': // upward
 			pos.y += offset;
 			temp->setVector3(pos);
-			// temp->setMesh();
-			temp->populateNode(rand() % 5 + 1, 0.1f);
+			temp->populateNode(cubes, 0.1f);
 			temp->setPrevious(tail);
 			tail->setNext(temp);
 			tail = temp;

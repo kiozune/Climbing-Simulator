@@ -7,11 +7,29 @@ block::block()
 
 	position = Vector3(0, 0, 0);
 }
+/// default a quad mesh
+void block::setMesh()
+{
+	meshes = new std::vector<Mesh*>;
+	cubePos = new std::vector<Vector3>;
+	universalSizing = new std::vector<Vector3>;
+	Mesh* mesh = MeshBuilder::GenerateQuad("quad", Color(1, 1, 1), Position(1, 1, 1));
+	meshes->push_back(mesh);
+	cubePos->push_back(position);
+	universalSizing->push_back(Vector3(1, 1, 1)); // default
+}
 
 void block::setMesh(float size)
 {
 	Mesh* mesh = MeshBuilder::GenerateCube("cube", Color(1, 1, 1), size, size, size);
 	meshes->push_back(mesh);
+}
+
+void block::setCubeVector()
+{
+	Vector3 newPos = { getRandomFloat(-0.5,0.5),getRandomFloat(-0.5,0.5),getRandomFloat(-0.5,0.5) };
+	newPos += position;
+	cubePos->push_back(newPos);
 }
 
 void block::setNext(block * val)
@@ -28,6 +46,7 @@ void block::populateNode(int amount, float cube_Size)
 {
 	meshes = new std::vector<Mesh*>;
 	cubePos = new std::vector<Vector3>;
+	universalSizing = new std::vector<Vector3>;
 	meshes->reserve(amount);
 	cubePos->reserve(amount);
 	for (int i = 0; i < amount; ++i)
@@ -35,6 +54,7 @@ void block::populateNode(int amount, float cube_Size)
 		setMesh(cube_Size); // populate meshes
 		setCubeVector(); // populate their location
 	}
+	universalSizing->push_back(Vector3(cube_Size, cube_Size, cube_Size));
 }
 
 block * block::getNext()
@@ -62,22 +82,12 @@ std::vector<Vector3> * block::getCubePos()
 	return cubePos;
 }
 
-void block::setCubeVector()
+std::vector<Vector3>* block::getUniSizing()
 {
-	Vector3 newPos = { getRandomFloat(-0.5,0.5),getRandomFloat(-0.5,0.5),getRandomFloat(-0.5,0.5) };
-	newPos += position;
-	cubePos->push_back(newPos);
+	return universalSizing;
 }
 
-/// default a quad mesh
-void block::setMesh()
-{
-	meshes = new std::vector<Mesh*>;
-	cubePos = new std::vector<Vector3>;
-	Mesh* mesh = MeshBuilder::GenerateQuad("quad", Color(1, 1, 1), Position(1, 1, 1));
-	meshes->push_back(mesh);
-	cubePos->push_back(position);
-}
+
 
 Vector3 block::getVector3()
 {

@@ -32,7 +32,9 @@ private:
 	BlockGenerator();
 	static BlockGenerator *instance;
 
-	void getLevelData(std::string val, Vector3 pos, int offset);
+	void getLevelData(std::string val, Vector3 pos, int offset, int cubes);
+
+	int numBlocks;
 
 	block *head, *tail;
 	~BlockGenerator();
