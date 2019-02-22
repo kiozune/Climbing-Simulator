@@ -81,9 +81,6 @@ class MainScene : public Scene
 
 	// renders gemotry
 	void renderMesh(Mesh* model, bool enableLight = false);
-	
-	// render blocks
-	void renderBlocks();
 
 	void initText();
 	void renderText(Mesh* mesh, const std::string text, Color color);

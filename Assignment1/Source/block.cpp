@@ -7,29 +7,12 @@ block::block()
 
 	position = Vector3(0, 0, 0);
 }
-/// default a quad mesh
-void block::setMesh()
-{
-	meshes = new std::vector<Mesh*>;
-	cubePos = new std::vector<Vector3>;
-	universalSizing = new std::vector<Vector3>;
-	Mesh* mesh = MeshBuilder::GenerateQuad("quad", Color(1, 1, 1), Position(1, 1, 1));
-	meshes->push_back(mesh);
-	cubePos->push_back(position);
-	universalSizing->push_back(Vector3(1, 1, 1)); // default
-}
 
-void block::setMesh(float size)
+void block::setCubeVector(float offset)
 {
-	Mesh* mesh = MeshBuilder::GenerateCube("cube", Color(1, 1, 1), size, size, size);
-	meshes->push_back(mesh);
-}
-
-void block::setCubeVector()
-{
-	Vector3 newPos = { getRandomFloat(-0.5,0.5),getRandomFloat(-0.5,0.5),getRandomFloat(-0.5,0.5) };
+	Vector3 newPos = { getRandomFloat(-offset/2,offset/2),getRandomFloat(-offset/2,offset/2),getRandomFloat(-offset/2,offset/2) };
 	newPos += position;
-	cubePos->push_back(newPos);
+	cubeVectors->push_back(newPos);
 }
 
 void block::setNext(block * val)
@@ -42,19 +25,15 @@ void block::setPrevious(block * val)
 	previous = val;
 }
 
-void block::populateNode(int amount, float cube_Size)
+void block::populateNode(int amount, float offset)
 {
-	meshes = new std::vector<Mesh*>;
-	cubePos = new std::vector<Vector3>;
-	universalSizing = new std::vector<Vector3>;
-	meshes->reserve(amount);
-	cubePos->reserve(amount);
+	cubeVectors = new std::vector<Vector3>;
+	cubeVectors->reserve(amount);
 	for (int i = 0; i < amount; ++i)
 	{
-		setMesh(cube_Size); // populate meshes
-		setCubeVector(); // populate their location
+		setCubeVector(offset); // populate their location
 	}
-	universalSizing->push_back(Vector3(cube_Size, cube_Size, cube_Size));
+
 }
 
 block * block::getNext()
@@ -72,22 +51,10 @@ void block::setVector3(Vector3 pos)
 	position = pos;
 }
 
-std::vector<Mesh*> * block::getMeshes()
+std::vector<Vector3> * block::getCubeVectors()
 {
-	return meshes;
+	return cubeVectors;
 }
-
-std::vector<Vector3> * block::getCubePos()
-{
-	return cubePos;
-}
-
-std::vector<Vector3>* block::getUniSizing()
-{
-	return universalSizing;
-}
-
-
 
 Vector3 block::getVector3()
 {
@@ -102,4 +69,9 @@ block::~block()
 float block::getRandomFloat(float LO, float HI)
 {
 	return LO + static_cast<float> (rand()) / (static_cast <float> (RAND_MAX/(HI-LO)));
+}
+
+int block::getRandomInt(int LO, int HI)
+{
+	return LO + (rand()) / (RAND_MAX/(HI-LO));
 }

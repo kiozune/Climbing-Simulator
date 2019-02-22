@@ -1,12 +1,4 @@
 #include "BlockGenerator.h"
-/*
-Rule for PCG sp2 walker algorithm
-Rule 1 - Doesn't go back the same way it came from
-Rule 2 - Choose a random length from maximum allowed length and draw it at given direction
-Rule 3 - Avoids the edges of the map
-Rule 4 - Spawn block till it runs out
-Rule 5 - Check with world space if object is there
-*/
 
 BlockGenerator* BlockGenerator::instance = 0;
 
@@ -14,6 +6,7 @@ BlockGenerator::BlockGenerator()
 {
 	head = nullptr;
 	tail = nullptr;
+	universalSizing = 1;
 	numBlocks = 5;
 }
 
@@ -32,7 +25,6 @@ void BlockGenerator::generateBlocks(int offsetPos)
 	{
 		block *temp = new block;
 		temp->setVector3(currentPos);
-		temp->setMesh();
 		temp->setPrevious(nullptr);
 		head = temp;
 		tail = temp;
@@ -79,12 +71,18 @@ void BlockGenerator::generateBlocks(int offsetPos)
 		Vector3 pos = tail->getVector3();
 		pos.x += 1;
 		temp->setVector3(pos);
-		temp->setMesh();
 		temp->setPrevious(tail);
 		tail->setNext(temp);
 		tail = temp;
 	}
 }
+
+void BlockGenerator::setSize(int val)
+{
+	universalSizing = val;
+}
+
+
 
 void BlockGenerator::getLevelData(std::string val, Vector3 pos, int offset, int cubes)
 {
@@ -96,7 +94,7 @@ void BlockGenerator::getLevelData(std::string val, Vector3 pos, int offset, int 
 		case '0': // Left
 			pos.x -= offset;
 			temp->setVector3(pos);
-			temp->populateNode(cubes, 0.1f);
+			temp->populateNode(cubes, offset);
 			temp->setPrevious(tail);
 			tail->setNext(temp);
 			tail = temp;
@@ -104,7 +102,7 @@ void BlockGenerator::getLevelData(std::string val, Vector3 pos, int offset, int 
 		case '1': // right
 			pos.x += offset;
 			temp->setVector3(pos);
-			temp->populateNode(cubes, 0.1f);
+			temp->populateNode(cubes, offset);
 			temp->setPrevious(tail);
 			tail->setNext(temp);
 			tail = temp;
@@ -112,7 +110,7 @@ void BlockGenerator::getLevelData(std::string val, Vector3 pos, int offset, int 
 		case '2': // Forward
 			pos.z += offset;
 			temp->setVector3(pos);
-			temp->populateNode(cubes, 0.1f);
+			temp->populateNode(cubes, offset);
 			temp->setPrevious(tail);
 			tail->setNext(temp);
 			tail = temp;
@@ -120,7 +118,7 @@ void BlockGenerator::getLevelData(std::string val, Vector3 pos, int offset, int 
 		case '3': // backward
 			pos.z -= offset;
 			temp->setVector3(pos);
-			temp->populateNode(cubes, 0.1f);
+			temp->populateNode(cubes, offset);
 			temp->setPrevious(tail);
 			tail->setNext(temp);
 			tail = temp;
@@ -128,7 +126,7 @@ void BlockGenerator::getLevelData(std::string val, Vector3 pos, int offset, int 
 		case '4': // upward
 			pos.y += offset;
 			temp->setVector3(pos);
-			temp->populateNode(cubes, 0.1f);
+			temp->populateNode(cubes, offset);
 			temp->setPrevious(tail);
 			tail->setNext(temp);
 			tail = temp;

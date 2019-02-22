@@ -13,10 +13,6 @@ void MainScene::Init()
 {
 	srand(time(NULL));
 
-	Mtx44 projection;
-	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 10000.0f); //FOV, Aspect Ratio, Near plane, Far plane
-	projectionStack.LoadMatrix(projection);
-
 	// clear screen and fill with black
 	glClearColor(0, 0, 0, 0);
 	// Enable depth test
@@ -124,8 +120,6 @@ void MainScene::Init()
 		initPlayer(players[i], Vector3(0, 0, i * 10));
 
 	initMap();
-
-	blockGen->generateBlocks(1);
 }
 
 void MainScene::Update(double dt)
@@ -260,7 +254,7 @@ void MainScene::RenderScene()
 {
 	modelStack.PushMatrix();
 	modelStack.Scale(100, 100, 100);
-	renderMesh(models[SKY_BOX]);
+	// renderMesh(models[SKY_BOX]);
 	modelStack.PopMatrix();
 
 	for (Object* obj : manager->getObjects()) 
@@ -307,7 +301,6 @@ void MainScene::RenderScene()
 	// renderMesh(models[SKY_BOX]);
 	renderMesh(models[AXES]);
 	
-	renderBlocks();
 }
 
 void MainScene::Exit()
