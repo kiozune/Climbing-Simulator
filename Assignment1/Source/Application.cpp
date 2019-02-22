@@ -226,7 +226,7 @@ void Application::Run()
 							unsigned clientId = id / 10;
 							if (client.getId() != clientId)
 							{
-								RemotePlayer* r = (RemotePlayer*)playerManager->createPlayer(id);
+								RemotePlayer* r = playerManager->createRemotePlayer(id);
 								playerManager->addRemotePlayer(r);
 							}
 						}

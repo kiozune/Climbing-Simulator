@@ -28,7 +28,9 @@ void PlayerManager::createRemotePlayers(std::string str, unsigned clientId)
 			}
 		}
 		if (found) continue;
-		addRemotePlayer((RemotePlayer*)createPlayer(id));
+
+		for (int r = 0; r < count; ++r)
+			addRemotePlayer(createRemotePlayer(id, r));
 	}
 }
 
@@ -47,11 +49,15 @@ void PlayerManager::fixMissingPlayers()
 	}
 }
 
+RemotePlayer* PlayerManager::createRemotePlayer(unsigned id)
+{
+	return (RemotePlayer*)createPlayer(id);
+}
+
 RemotePlayer* PlayerManager::createRemotePlayer(unsigned clientId, unsigned id)
 {
 	return (RemotePlayer*)createPlayer(clientId * 10 + id);
 }
-
 
 Player* PlayerManager::createPlayer(unsigned id)
 {

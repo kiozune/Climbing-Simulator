@@ -21,6 +21,7 @@ public:
 	void fixMissingPlayers();
 
 	void createRemotePlayers(std::string, unsigned);
+	RemotePlayer* createRemotePlayer(unsigned);
 	RemotePlayer* createRemotePlayer(unsigned, unsigned);
 	Player* createPlayer(unsigned);
 
