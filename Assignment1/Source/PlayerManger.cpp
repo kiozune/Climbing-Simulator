@@ -11,16 +11,17 @@ PlayerManager* PlayerManager::getInstance()
 	return instance;
 }
 
-void PlayerManager::create(std::string str, unsigned clientId)
+void PlayerManager::createRemotePlayers(std::string str, unsigned clientId)
 {
 	for (int i = 0; i < str.size() / 2; ++i)
 	{
 		unsigned id = (unsigned)str[i * 2];
+		unsigned count = (unsigned)str[i * 2 + 1];
 		if (id == clientId) continue;
 		bool found = false;
 		for (RemotePlayer* r : this->remotePlayers)
 		{
-			if (id == r->getId())
+			if (id == r->getId() / 10)
 			{
 				found = true;
 				break;
@@ -44,8 +45,13 @@ void PlayerManager::fixMissingPlayers()
 		}
 		i++;
 	}
-
 }
+
+RemotePlayer* PlayerManager::createRemotePlayer(unsigned clientId, unsigned id)
+{
+	return (RemotePlayer*)createPlayer(clientId * 10 + id);
+}
+
 
 Player* PlayerManager::createPlayer(unsigned id)
 {

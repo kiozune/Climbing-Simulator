@@ -122,7 +122,7 @@ void Application::Init()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //We don't want the old OpenGL 
 
 	//Create a window and create its OpenGL context
-	m_window = glfwCreateWindow(3200, 1800, "You let go, you lose", NULL, NULL);
+	m_window = glfwCreateWindow(1600, 900, "You let go, you lose", NULL, NULL);
 	glfwSetWindowSizeCallback(m_window, resize_callback);
 
 	glfwSetKeyCallback(m_window, key_callback);
@@ -215,7 +215,7 @@ void Application::Run()
 					if (pos != std::string::npos)
 					{
 						data.erase(pos, 4);
-						playerManager->create(data, client.getId());
+						playerManager->createRemotePlayers(data, client.getId());
 					}
 					else 
 					{

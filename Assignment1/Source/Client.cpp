@@ -48,19 +48,7 @@ void Client::connectTo(u_short port, const char* ip)
 		if (pos != std::string::npos)
 		{
 			data.erase(pos, 4);
-
-			while (data.size())
-			{
-				count = (unsigned)data[data.size() - 1] - 1;
-				data.pop_back();
-				int id = (unsigned)data[data.size() - 1];
-				data.pop_back();
-				for (int i = 0; i < count; ++i)
-				{
-					RemotePlayer* r = (RemotePlayer*)manager->createPlayer(id * 10 + i);
-					manager->addRemotePlayer(r);
-				}
-			}
+			manager->createRemotePlayers(data, this->id);
 		}
 	}
 }

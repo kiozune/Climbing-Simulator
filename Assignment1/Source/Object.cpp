@@ -117,14 +117,10 @@ void Object::accelerate(Vector3 a, float dt)
 	else
 	{
 		if (!start->isFixed())
-		{
 			start->move(a * dt);
-		}
 
 		if (!end->isFixed())
-		{
 			end->move(a * dt);
-		}
 
 		this->constraint();
 	}

@@ -106,6 +106,9 @@ void MainScene::Update(double dt)
 	for (Player* p : players->getLocalPlayers())
 		updatePlayer(p, dt);
 
+	for (Player* r : players->getRemotePlayers())
+		updatePlayer(r, dt);
+
 	// std::string data = transfer->stringifyData(transfer->getPlayerData(players[0]));
 	// remotePlayers[0].update(transfer->parseData(data));
 
