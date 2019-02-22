@@ -216,10 +216,20 @@ void Application::Run()
 					}
 					else 
 					{
-						size_t connect = data.find("CONNECT");
-						if (connect == std::string::npos)
+						size_t newPlayer = data.find("NEW");
+						if (newPlayer != std::string::npos)
 						{
-							playerManager->updateRemote(transferManager->parseData(data));
+							unsigned id = (unsigned)data[data.size() - 1];
+							RemotePlayer* r = (RemotePlayer*)playerManager->createPlayer(id);
+							playerManager->addRemotePlayer(r);
+						}
+						else 
+						{
+							size_t connect = data.find("CONNECT");
+							if (connect == std::string::npos)
+							{
+								playerManager->updateRemote(transferManager->parseData(data));
+							}
 						}
 					}
 				}

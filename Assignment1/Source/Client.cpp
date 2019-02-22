@@ -42,6 +42,7 @@ void Client::connectTo(u_short port, const char* ip)
 	{
 		this->id = (unsigned)data[data.size() - 2];
 		data.pop_back();
+		data.pop_back();
 
 		size_t pos = data.find("IDS:");
 		if (pos != std::string::npos)
