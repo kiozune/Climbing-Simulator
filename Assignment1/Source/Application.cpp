@@ -222,8 +222,7 @@ void Application::Run()
 						if (newPlayer != std::string::npos)
 						{
 							unsigned id = (unsigned)data[data.size() - 1];
-							unsigned clientId = id / 10;
-							if (client.getId() != clientId)
+							if (client.getId() != id)
 							{
 								RemotePlayer* r = (RemotePlayer*)playerManager->createPlayer(id);
 								playerManager->addRemotePlayer(r);
