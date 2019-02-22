@@ -4,8 +4,6 @@
 
 #include "PlayerManager.h"
 
-unsigned Client::getId() { return this->id; }
-
 bool Client::start()
 {
 	WSADATA data;
@@ -27,24 +25,35 @@ void Client::connectTo(u_short port, const char* ip)
 	InetPton(AF_INET, ip, &server.sin_addr);
 
 	out = socket(AF_INET, SOCK_DGRAM, 0);
-	this->sendData("CONNECT");
+
+	PlayerManager* manager = PlayerManager::getInstance();
+	for (Player* p : manager->getLocalPlayers())
+	{
+		this->sendData("CONNECT");
+	}
 
 	std::string data;
 	if (recieve(data))
 	{
-		id = (unsigned)data[data.size() - 1];
-		data.pop_back();
+		for (Player* p : manager->getLocalPlayers())
+		{
+			p->setId((unsigned)data[data.size() - 1]);
+			data.pop_back();
+		}
 
-		PlayerManager* manager = PlayerManager::getInstance();
-		
 		size_t pos = data.find("IDS:");
 		if (pos != std::string::npos)
 		{
 			data.erase(pos, 4);
-			manager->setQueue(data, this->id);
+
+			while (data.size())
+			{
+				int id = (unsigned)data[data.size() - 1];
+				data.pop_back();
+				RemotePlayer* r = (RemotePlayer*)manager->createPlayer(id);
+				manager->addRemotePlayer(r);
+			}
 		}
-		
-		std::cout << "id : " << id << std::endl;
 	}
 }
 

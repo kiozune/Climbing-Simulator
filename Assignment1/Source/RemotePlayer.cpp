@@ -1,8 +1,5 @@
 #include "RemotePlayer.h"
 
-unsigned RemotePlayer::getId() { return this->id; }
-void RemotePlayer::setId(unsigned i) { this->id = i; }
-
 void RemotePlayer::update(PlayerData data)
 {
 	this->id = data.id;
@@ -24,4 +21,5 @@ void RemotePlayer::update(PlayerData data)
 
 	this->parts[8]->getEnd()->setPosition(data.leftFeet);
 	this->parts[9]->getEnd()->setPosition(data.rightFeet);
+
 }	

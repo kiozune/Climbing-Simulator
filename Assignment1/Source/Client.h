@@ -11,17 +11,13 @@ class Client
 	
 private:
 
-	unsigned id;
-
 	sockaddr_in server;
 	SOCKET out;
 	char buff[1024];
 	int serverLength;
 
 public:
-
-	unsigned getId();
-
+	
 	bool start();
 	void connectTo(u_short port, const char* ip);
 	void sendData(std::string content);

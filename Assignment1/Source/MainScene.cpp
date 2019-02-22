@@ -81,14 +81,12 @@ void MainScene::Init()
 
 	camera.Init(Vector3(0, 0, 0), 200, 100, 180);
 
-	for (int i = 0; i < PLAYER_COUNT; ++i) 
-		initPlayer(players[i], Vector3(0, 30, i * 10), transfer->getClient().getId());
-	playerManger->setMain(&(players[0]));
+	//for (int i = 0; i < PLAYER_COUNT; ++i)
+		//initPlayer(players[i], Vector3(0, 30, i * 10), transfer->getClient().getId());
+	//playerManger->setMain(&(players[0]));
 
 	//initPlayer(remotePlayers[0], Vector3(20, 30, 0));
 	//playerManger->addRemotePlayer(&(remotePlayers[0]));
-
-	initRemotePlayers();
 
 	initMap();
 }
@@ -99,15 +97,13 @@ void MainScene::Update(double dt)
 	elapseTime += dt;
 	fps = 1 / dt;
 
-	initRemotePlayers();
-
 	// standard controls
 	keyboardEvents(dt);
 
 	manager->applyGravity(dt);
 
-	for (int i = 0; i < PLAYER_COUNT; ++i)
-		updatePlayer(i, dt);
+	for (Player* p : playerManger->getLocalPlayers())
+		updatePlayer(p, dt);
 
 	// std::string data = transfer->stringifyData(transfer->getPlayerData(players[0]));
 	// remotePlayers[0].update(transfer->parseData(data));
@@ -115,7 +111,10 @@ void MainScene::Update(double dt)
 	
 
 	//camera.move(dt);
-	Vector3 center = players[0].getBody()->getCenter();
+	Vector3 center = Vector3(0,0,0);
+	if (playerManger->getLocalPlayers().size())
+		center = playerManger->getLocalPlayers()[0]->getBody()->getCenter();
+
 	Vector3 target = Vector3(int(center.x / 5) * 5, int(center.y / 5) * 5, int(center.z / 5) * 5);
 	camera.setTarget(target);
 }
@@ -186,10 +185,10 @@ void MainScene::Render()
 	float yaw = camera.getYaw();
 	float pitch = camera.getPitch();
 
-	for (Player& p : players)
+	for (Player* p : playerManger->getLocalPlayers())
 	{
-		Vector3 left  = p.getLeftHand()->getCenter();
-		Vector3 right = p.getRightHand()->getCenter();
+		Vector3 left  = p->getLeftHand()->getCenter();
+		Vector3 right = p->getRightHand()->getCenter();
 		modelStack.PushMatrix();
 		{
 			modelStack.Translate(left.x, left.y + 5, left.z);
@@ -199,7 +198,7 @@ void MainScene::Render()
 
 			modelStack.Scale(3, 3, 3);
 
-			Color color = p.isGrabbingLeft() ? Color(.9, .9, 0) : Color(1, 1, 1);
+			Color color = p->isGrabbingLeft() ? Color(.9, .9, 0) : Color(1, 1, 1);
 			renderText(models[TEXT], "LT", color);
 		}
 		modelStack.PopMatrix();
@@ -213,7 +212,7 @@ void MainScene::Render()
 
 			modelStack.Scale(3, 3, 3);
 
-			Color color = p.isGrabbingRight() ? Color(0, .9, .9) : Color(1, 1, 1);
+			Color color = p->isGrabbingRight() ? Color(0, .9, .9) : Color(1, 1, 1);
 			renderText(models[TEXT], "RT", color);
 		}
 		modelStack.PopMatrix();

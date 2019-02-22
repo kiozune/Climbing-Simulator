@@ -9,6 +9,8 @@ class Player
 
 protected:
 
+	unsigned id;
+
 	Object *leftHand, *rightHand;
 	Object *leftArm, *rightArm, *body;
 
@@ -18,6 +20,9 @@ protected:
 	Spring *leftSpring, *rightSpring;
 
 public:
+
+	unsigned getId();
+	void setId(unsigned);
 
 	Object* getLeftHand();
 	void setLeftHand(Object*);

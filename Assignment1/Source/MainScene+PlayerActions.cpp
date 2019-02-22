@@ -2,10 +2,9 @@
 
 #include "Utility.h"
 
-void MainScene::updatePlayer(int i, double& dt)
+void MainScene::updatePlayer(Player* p, double& dt)
 {
-	Player& p = players[i];
-
+	int i = p->getId();
 	controller->getInput(GLFW_JOYSTICK_1 + i);
 	joystickEvents(dt, i);
 
@@ -18,7 +17,7 @@ void MainScene::updatePlayer(int i, double& dt)
 	Vector3 leftJS = controller->getLeftJoystick();
 	if (leftJS.x || leftJS.y) diff = Vector3(leftJS.x, leftJS.y, 0) * 200;
 
-	Vector3 center = p.getBody()->getCenter();
+	Vector3 center = p->getBody()->getCenter();
 	Vector3 dir = center - camera.getPosition();
 	float yaw = atan(dir.x / dir.z);
 	dir.z /= abs(dir.z);
@@ -26,11 +25,11 @@ void MainScene::updatePlayer(int i, double& dt)
 
 	Vector3 impulse = rotation * Vector3(diff.x * -dir.z, diff.Length() * 1.5, diff.y * dir.z);
 
-	if (p.isGrabbingLeft())
-		manager->applyImpulse(p.getRightArm(), impulse, dt);
+	if (p->isGrabbingLeft())
+		manager->applyImpulse(p->getRightArm(), impulse, dt);
 
-	if (p.isGrabbingRight())
-		manager->applyImpulse(p.getLeftArm(), impulse, dt);
+	if (p->isGrabbingRight())
+		manager->applyImpulse(p->getLeftArm(), impulse, dt);
 
 
 
@@ -38,26 +37,26 @@ void MainScene::updatePlayer(int i, double& dt)
 
 	if (Application::IsKeyPressed('Q') || controller->getLT() > 0)
 	{
-		if (!p.isGrabbingLeft())
+		if (!p->isGrabbingLeft())
 		{
-			Object* leftHand = p.getLeftHand();
+			Object* leftHand = p->getLeftHand();
 
 			CollisionDetails details;
-			for (int j = 0; j < PLAYER_COUNT; ++j)
+			for (Player* other : playerManger->getLocalPlayers())
 			{
-				if (i == j) continue;
-				details = manager->getCollisionDetails(leftHand, players[j].getParts());
+				if (i == other->getId()) continue;
+				details = manager->getCollisionDetails(leftHand, other->getParts());
 
 				if (details.result.collided) break;
 			}
 
 			if (details.result.collided)
 			{
-				p.leftGrab(details.object->getEnd());
+				p->leftGrab(details.object->getEnd());
 			}
 			else
 			{
-				for (Player* p : remotePlayers)
+				for (Player* p : playerManger->getRemotePlayers())
 				{
 					details = manager->getCollisionDetails(leftHand, p->getParts());
 
@@ -66,14 +65,14 @@ void MainScene::updatePlayer(int i, double& dt)
 
 				if (details.result.collided)
 				{
-					p.leftGrab(details.object->getEnd());
+					p->leftGrab(details.object->getEnd());
 				}
 				else
 				{
 					details = manager->getEnviromentalCollision(leftHand);
 					if (details.result.collided)
 					{
-						p.leftGrab(details.object->getEnd());
+						p->leftGrab(details.object->getEnd());
 					}
 				}
 			}
@@ -81,31 +80,31 @@ void MainScene::updatePlayer(int i, double& dt)
 	}
 	else
 	{
-		p.releaseLeft();
+		p->releaseLeft();
 	}
 
 	if (Application::IsKeyPressed('E') || controller->getRT() > 0)
 	{
-		if (!p.isGrabbingRight())
+		if (!p->isGrabbingRight())
 		{
-			Object* rightHand = p.getRightHand();
+			Object* rightHand = p->getRightHand();
 
 			CollisionDetails details;
-			for (int j = 0; j < PLAYER_COUNT; ++j)
+			for (Player* other : playerManger->getLocalPlayers())
 			{
-				if (i == j) continue;
-				details = manager->getCollisionDetails(rightHand, players[j].getParts());
+				if (i == other->getId()) continue;
+				details = manager->getCollisionDetails(rightHand, other->getParts());
 
 				if (details.result.collided) break;
 			}
 
 			if (details.result.collided)
 			{
-				p.rightGrab(details.object->getEnd());
+				p->rightGrab(details.object->getEnd());
 			}
 			else
 			{
-				for (Player* p : remotePlayers)
+				for (Player* p : playerManger->getRemotePlayers())
 				{
 					details = manager->getCollisionDetails(rightHand, p->getParts());
 
@@ -114,14 +113,14 @@ void MainScene::updatePlayer(int i, double& dt)
 
 				if (details.result.collided)
 				{
-					p.rightGrab(details.object->getEnd());
+					p->rightGrab(details.object->getEnd());
 				}
 				else
 				{
 					details = manager->getEnviromentalCollision(rightHand);
 					if (details.result.collided)
 					{
-						p.rightGrab(details.object->getEnd());
+						p->rightGrab(details.object->getEnd());
 					}
 				}
 			}
@@ -129,7 +128,7 @@ void MainScene::updatePlayer(int i, double& dt)
 	}
 	else
 	{
-		p.releaseRight();
+		p->releaseRight();
 	}
 
 	manager->updateObjects();

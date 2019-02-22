@@ -11,27 +11,21 @@ private:
 
 	static PlayerManager * instance;
 
-	Player* main;
-
-	std::vector<unsigned> pendingCreation;
-
-	std::vector<Player*> players;
+	std::vector<Player*> localPlayers;
 	std::vector<RemotePlayer*> remotePlayers;
 
 public:
 
 	static PlayerManager * getInstance();
 
-	Player* getMain();
-	void setMain(Player*);
+	Player* createPlayer(unsigned);
 
-	void setQueue(std::string, unsigned);
-	int popCreationQueue();
+	std::vector<Player*> getLocalPlayers();
+	void addLocalPlayer(Player*);
 
-	std::vector<Player*> getPlayers();
-	void addPlayer(Player*);
-
+	std::vector<RemotePlayer*> getRemotePlayers();
 	void addRemotePlayer(RemotePlayer*);
+
 
 	void updateRemote(PlayerData);
 };

@@ -40,6 +40,24 @@ void resize_callback(GLFWwindow* window, int w, int h)
 	glViewport(0, 0, w, h); //update opengl the new window size
 }
 
+void joystick_callback(int joy, int event)
+{
+	if (event == GLFW_CONNECTED)
+	{
+		// The joystick was connected
+		PlayerManager* manager = PlayerManager::getInstance();
+		if (joy >= manager->getLocalPlayers().size())
+		{
+			Player* p = manager->createPlayer(joy);
+			manager->addLocalPlayer(p);
+		}
+	}
+	else if (event == GLFW_DISCONNECTED)
+	{
+		// The joystick was disconnected
+	}
+}
+
 bool Application::IsKeyPressed(unsigned short key)
 {
     return ((GetAsyncKeyState(key) & 0x8001) != 0);
@@ -106,6 +124,7 @@ void Application::Init()
 	glfwSetWindowSizeCallback(m_window, resize_callback);
 
 	glfwSetKeyCallback(m_window, key_callback);
+	glfwSetJoystickCallback(joystick_callback);
 
 	glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
@@ -141,6 +160,7 @@ void Application::Run()
 	Scene *scene = new MainScene;
 	scene->Init();
 
+/*
 	bool isMultiplayer = true;
 	if (isMultiplayer)
 	{
@@ -189,7 +209,7 @@ void Application::Run()
 		});
 		receiveThread.detach();
 	}
-
+*/
 	
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame

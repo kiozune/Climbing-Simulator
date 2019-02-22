@@ -1,5 +1,8 @@
 #include "Player.h"
 
+unsigned Player::getId() { return this->id; }
+void Player::setId(unsigned i) { this->id = i; }
+
 Object* Player::getLeftHand() { return this->leftHand; }
 void Player::setLeftHand(Object* obj) { this->leftHand = obj; }
 
