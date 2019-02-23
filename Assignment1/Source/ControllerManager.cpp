@@ -33,10 +33,17 @@ Vector3 ControllerManager::getLeftJoystick()
 		const float x = this->analog[0];
 		const float y = -this->analog[1];
 		Vector3 curr = Vector3(x, y, 0);
+		Vector3 currSign = Vector3(curr.x / abs(curr.x), curr.y / abs(curr.y), 0);
 
 		Vector3 diff;
 		diff = curr - this->previous[this->joy];
+		Vector3 diffSign = Vector3(diff.x / abs(diff.x), diff.y / abs(diff.y), 0);
+
 		this->previous[joy] = curr;
+		if (!(currSign.x == diffSign.x && currSign.y == diffSign.y))
+		{
+			diff = Vector3();
+		}
 		/*if (fabs(x) > 0.6 || fabs(y) > 0.6)
 		{
 		}
