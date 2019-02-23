@@ -21,9 +21,7 @@ void ControllerManager::getInput(int joy)
 		this->previous.push_back(Vector3());
 
 	if (this->isPresent())
-	{
 		this->analog = Application::getControllerAnalog(joy);
-	}
 }
 
 Vector3 ControllerManager::getLeftJoystick() 
@@ -42,7 +40,7 @@ Vector3 ControllerManager::getLeftJoystick()
 		this->previous[joy] = curr;
 		if (!(currSign.x == diffSign.x && currSign.y == diffSign.y))
 		{
-			diff = Vector3();
+			return Vector3();
 		}
 		/*if (fabs(x) > 0.6 || fabs(y) > 0.6)
 		{
@@ -52,7 +50,7 @@ Vector3 ControllerManager::getLeftJoystick()
 			this->previous[joy] = Vector3();
 		}*/
 
-		return diff;
+		return curr;
 	}
 	
 	return Vector3();

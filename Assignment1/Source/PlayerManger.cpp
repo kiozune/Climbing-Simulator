@@ -96,7 +96,7 @@ Player* PlayerManager::createPlayer(unsigned id)
 	Object* leftLeg = new Object(pelvis, leftFeet, mass, size);
 	Object* rightLeg = new Object(pelvis, rightFeet, mass, size);
 
-	Color primary = Color((float)(id % 5) / 5.0, (float)(id % 3) / 5.0, (float)(id % 7) / 5.0);
+	Color primary = Color((float)((10 - id) % 5) / 5.0, (float)((10 - id) % 3) / 5.0, (float)((10 - id) % 7) / 5.0);
 
 	leftHand->setColour(Color(0.9, 0.9, 0));
 	leftArm->setColour(primary);
