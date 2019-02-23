@@ -15,7 +15,11 @@ bool ControllerManager::isPresent(int j) { return Application::isControllerPrese
 
 void ControllerManager::getInput(int joy)
 {
+	
 	this->joy = joy;
+	if (this->joy >= this->previous.size())
+		this->previous.push_back(Vector3());
+
 	if (this->isPresent())
 	{
 		this->analog = Application::getControllerAnalog(joy);
@@ -28,7 +32,20 @@ Vector3 ControllerManager::getLeftJoystick()
 	{
 		const float x = this->analog[0];
 		const float y = -this->analog[1];
-		return Vector3(x, y, 0);
+		Vector3 curr = Vector3(x, y, 0);
+
+		Vector3 diff;
+		diff = curr - this->previous[this->joy];
+		this->previous[joy] = curr;
+		/*if (fabs(x) > 0.6 || fabs(y) > 0.6)
+		{
+		}
+		else
+		{
+			this->previous[joy] = Vector3();
+		}*/
+
+		return diff;
 	}
 	
 	return Vector3();

@@ -15,7 +15,7 @@ void MainScene::updatePlayer(Player* p, double& dt)
 	prevMousePosition = curr;
 
 	Vector3 leftJS = controller->getLeftJoystick();
-	if (leftJS.x || leftJS.y) diff = Vector3(leftJS.x, leftJS.y, 0) * 200;
+	if (leftJS.x || leftJS.y) diff = Vector3(leftJS.x, leftJS.y, 0) * 500;
 
 	Vector3 center = p->getBody()->getCenter();
 	Vector3 dir = center - camera.getPosition();

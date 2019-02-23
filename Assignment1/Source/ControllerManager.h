@@ -2,6 +2,7 @@
 #define CONTROLLER_MANAGER_H
 
 #include "Vector3.h"
+#include <vector>
 
 class ControllerManager
 {
@@ -12,6 +13,8 @@ private:
 
 	int joy;
 	const float* analog;
+
+	std::vector<Vector3> previous;
 
 public:
 

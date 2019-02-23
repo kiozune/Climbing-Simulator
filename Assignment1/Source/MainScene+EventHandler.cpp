@@ -46,6 +46,7 @@ void MainScene::joystickEvents(double& dt, int i)
 	
 	// camera
 	Vector3 rightJS = controller->getRightJoystick();
+	
 	camera.changeYaw(rightJS.x, dt);
 	camera.changePitch(rightJS.y, dt);
 }
