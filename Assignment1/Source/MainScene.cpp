@@ -11,7 +11,7 @@
 
 void MainScene::Init()
 {
-	srand(time(NULL));
+	//srand(time(NULL));
 
 	Mtx44 projection;
 	projection.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 10000.0f); //FOV, Aspect Ratio, Near plane, Far plane
