@@ -116,6 +116,8 @@ void Application::Run()
 		//Get and organize events, like keyboard and mouse input, window resizing, etc...
 		glfwPollEvents();
         m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.
+
+		//If gamestate of Mainscene is EXIT_GAME it will break out of this while loop and close the scene.
 		if (scene->getSceneEnum() == 2)
 		{
 			break;

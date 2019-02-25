@@ -188,6 +188,8 @@ void MainScene::Update(double dt)
 
 	if (Application::IsKeyPressed('9'))
 		dt /= 10;
+	//Enter Inputs to change scene
+	//When ur on Local
 	if (localCheck == true)
 	{
 		if (Application::IsKeyPressed(VK_RETURN))
@@ -195,6 +197,7 @@ void MainScene::Update(double dt)
 			e_States = GAMEMODE;
 		}
 	}
+	//When ur on Online
 	if (onlineCheck == true)
 	{
 		if (Application::IsKeyPressed(VK_RETURN))
@@ -202,6 +205,7 @@ void MainScene::Update(double dt)
 			e_States = GAMEMODE;
 		}
 	}
+	//WHen ur on Exit
 	if (exitCheck == true)
 	{
 		if (Application::IsKeyPressed(VK_RETURN))
@@ -209,6 +213,8 @@ void MainScene::Update(double dt)
 			e_States = EXIT_GAME;
 		}
 	}
+	//Transition from Local to Online
+	//Default bouncetime for transitions set to 0.5 
 	if (Application::IsKeyPressed(VK_UP) && onlineCheck == false && localCheck == true && exitCheck == false && bounceTime < 0)
 	{
 	models[JOINONLINE_QUAD]->setTexture(t_opaque);
@@ -222,6 +228,7 @@ void MainScene::Update(double dt)
 	exitCheck = false;
 	models[JOINLOCAL_QUAD]->setTexture(t_alpha);
 	}
+	//Transition from Exit to Local
 	if (Application::IsKeyPressed(VK_UP) && localCheck == false && exitCheck == true && onlineCheck == false && bounceTime < 0)
 	{
 	models[JOINLOCAL_QUAD]->setTexture(t_opaque);
@@ -235,6 +242,7 @@ void MainScene::Update(double dt)
 	exitCheck = false;
 	models[EXIT]->setTexture(t_alpha);
 	}
+	//Transition from Online to Local
 	if (Application::IsKeyPressed(VK_DOWN) && onlineCheck == true && localCheck == false && exitCheck == false && bounceTime < 0)
 	{
 	models[JOINLOCAL_QUAD]->setTexture(t_opaque);
@@ -248,6 +256,7 @@ void MainScene::Update(double dt)
 	exitCheck = false;
     models[JOINONLINE_QUAD]->setTexture(t_alpha);
 	}
+	//Transition from Local to Exit
 	if (Application::IsKeyPressed(VK_DOWN) && onlineCheck == false && localCheck == true && exitCheck == false && bounceTime < 0)
 	{
 	models[EXIT]->setTexture(t_opaque);
@@ -279,7 +288,7 @@ void MainScene::Render()
 		RenderSecondPass();
 	}
 }
-
+//Rendering from the Lights point of view
 void MainScene::RenderFirstPass()
 {
 	e_Phases = FIRST_PASS;
@@ -301,7 +310,7 @@ void MainScene::RenderFirstPass()
 	lightView.SetToLookAt(lights[0].position.x, lights[0].position.y, lights[0].position.z, 0, 0, 0, 0, 1, 0);
 	RenderScene();
 }
-
+//Rendering from the camera's Point of view
 void MainScene::RenderSecondPass()
 {
 	e_Phases = SECOND_PASS;
@@ -375,7 +384,7 @@ void MainScene::RenderSecondPass()
 	modelStack.PopMatrix();
 
 }
-
+//Renders the world
 void MainScene::RenderScene()
 {
 	modelStack.PushMatrix();
@@ -383,7 +392,7 @@ void MainScene::RenderScene()
 	renderMesh(models[SKY_BOX]);
 	modelStack.PopMatrix();
 }
-
+//Renders Main Menu
 void MainScene::renderMenu()
 {
 	// Clear color buffer every frame
@@ -406,7 +415,7 @@ Camera& MainScene::getCamera()
 {
 	return this->camera;
 }
-
+//Returns enum to Application.cpp to check if exit is being called
 int MainScene::getSceneEnum()
 {
 	return e_States;

@@ -158,7 +158,7 @@ void MainScene::renderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 	modelStack.PopMatrix();
 	glEnable(GL_DEPTH_TEST);
 }
-
+//RenderText for main menu ( Uses Different shader from main scene)
 void MainScene::renderTextOnScreenMenu(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
 	if (!mesh || mesh->getTextureID() <= 0)
@@ -198,7 +198,7 @@ void MainScene::renderTextOnScreenMenu(Mesh* mesh, std::string text, Color color
 	projectionStack.PopMatrix();
 	glEnable(GL_DEPTH_TEST);
 }
-
+//Render Menu ( Uses different shader from main game )
 void MainScene::renderMenu2D(Mesh* model,float sizex,float sizey,float sizez,float x,float y, bool enableLight)
 {
 	projectionStack.LoadIdentity();

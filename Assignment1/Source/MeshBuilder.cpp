@@ -251,7 +251,7 @@ Mesh* MeshBuilder::GenerateText(const std::string &meshName, unsigned numRow, un
 
 	return mesh;
 }
-
+//Generates Main Menu Screen
 Mesh* MeshBuilder::GenerateScreen(const std::string &meshName, Color color, float length)
 {
 	// An array of 3 vectors which represents 3 vertices
