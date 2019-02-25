@@ -1,5 +1,6 @@
 #include "PlayerManager.h"
 
+#include "DataTransferManager.h"
 #include "ControllerManager.h"
 #include "PhysicsManager.h"
 
@@ -65,6 +66,9 @@ Player* PlayerManager::createPlayer(unsigned id)
 
 	p->setId(id);
 
+	if (id < 10)
+		id = DataTransferManager::getInstance()->getClient().getId() * 10 + id;
+
 	Joint* leftFingers = new Joint(Vector3(13, 0, 0));
 	Joint* leftWrist = new Joint(Vector3(10, 0, 0));
 	Joint* leftElbow = new Joint(Vector3(5, 0, 0));
@@ -96,7 +100,7 @@ Player* PlayerManager::createPlayer(unsigned id)
 	Object* leftLeg = new Object(pelvis, leftFeet, mass, size);
 	Object* rightLeg = new Object(pelvis, rightFeet, mass, size);
 
-	Color primary = Color((float)(id % 5) / 5.0, (float)(id % 3) / 5.0, (float)(id % 7) / 5.0);
+	Color primary = Color((float)((10 - id) % 5) / 5.0, (float)((10 - id) % 3) / 5.0, (float)((10 - id) % 7) / 5.0);
 
 	leftHand->setColour(Color(0.9, 0.9, 0));
 	leftArm->setColour(primary);
