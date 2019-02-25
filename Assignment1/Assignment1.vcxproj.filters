@@ -129,14 +129,14 @@
     <ClCompile Include="Source\RemotePlayer.cpp">
       <Filter>Multiplayer</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MainScene+PlayerActions.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Client.cpp">
       <Filter>Multiplayer</Filter>
     </ClCompile>
     <ClCompile Include="Source\PlayerManger.cpp">
       <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+PlayerMethods.cpp">
+      <Filter>Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,29 @@
 #include "Player.h"
 
+Player::Player()
+{
+	id = 0;
+	energy = 5;
+}
+
 unsigned Player::getId() { return this->id; }
 void Player::setId(unsigned i) { this->id = i; }
+
+void Player::recover(float dt) 
+{ 
+	this->energy += dt; 
+	if (this->energy > 5)
+		this->energy = 5;
+}
+
+void Player::tire(float dt) 
+{ 
+	this->energy -= dt * 2;
+	if (this->energy < 0)
+		this->energy = 0;
+}
+
+float Player::getEnergy() { return this->energy; }
 
 Object* Player::getLeftHand() { return this->leftHand; }
 void Player::setLeftHand(Object* obj) { this->leftHand = obj; }

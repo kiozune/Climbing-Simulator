@@ -66,8 +66,8 @@ Player* PlayerManager::createPlayer(unsigned id)
 
 	p->setId(id);
 
-	if (id < 10)
-		id = DataTransferManager::getInstance()->getClient().getId() * 10 + id;
+	//if (id < 10)
+		//id = DataTransferManager::getInstance()->getClient().getId() * 10 + id;
 
 	Joint* leftFingers = new Joint(Vector3(13, 0, 0));
 	Joint* leftWrist = new Joint(Vector3(10, 0, 0));

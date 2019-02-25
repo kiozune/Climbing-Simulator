@@ -33,6 +33,7 @@ public:
 	Joint* getEnd();
 	float getMass();
 	Vector3 getScale();
+	Vector3 getWorldScale();
 	Vector3 getRotation();
 	Vector3 getCenter();
 	Vector3 getMomentum();

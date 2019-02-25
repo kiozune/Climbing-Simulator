@@ -13,11 +13,10 @@ void MainScene::renderObject(Object* obj)
 		modelStack.Rotate(deg(r.y), 0, 1, 0);
 		modelStack.Rotate(deg(r.z), 0, 0, 1);
 
-		Vector3 s = obj->getScale();
+		Vector3 s = obj->getWorldScale();
 		modelStack.Scale(s.x, s.y, s.z);
 		
-		Color color = obj->getColour();
-		models[CUBE]->material.kAmbient.Set(color.r, color.g, color.b);
+		changeColour(models[CUBE], obj->getColour());
 		renderMesh(models[CUBE], true);
 	}
 	modelStack.PopMatrix();

@@ -23,6 +23,7 @@ class MainScene : public Scene
 		LIGHT,
 		SKY_BOX,
 
+		QUAD,
 		CUBE,
 
 		NUM_GEOMETRY,
@@ -43,7 +44,7 @@ class MainScene : public Scene
 
 	bool pause;
 
-	FixedCamera camera; // stationary
+	std::vector<FixedCamera> cameras; // stationary
 
 	Mesh* models[NUM_GEOMETRY];
 
@@ -63,8 +64,9 @@ class MainScene : public Scene
 
 	// applies material to geometry selected
 	void applyMaterial(Mesh*);
+	void changeColour(Mesh*, Color);
 
-	// renders gemotry
+	// renders  gemotry
 	void renderMesh(Mesh* model, bool enableLight = false);
 
 	void initText();
@@ -78,6 +80,7 @@ class MainScene : public Scene
 	void initMap();
 
 	void updatePlayer(Player*, double&);
+	void renderForPlayer(Player*);
 
 	void keyboardEvents(double&);
 	void joystickEvents(double&, int);
@@ -89,7 +92,6 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
-	Camera& getCamera();
 };
 
 #endif

@@ -1,5 +1,19 @@
 #include "MainScene.h"
 
+
+void MainScene::applyMaterial(Mesh* model)
+{
+	model->material.kAmbient.Set(0.1f, 0.1f, 0.1f);
+	model->material.kDiffuse.Set(0.5f, 0.5f, 0.5f);
+	model->material.kSpecular.Set(0.0f, 0.0f, 0.0f);
+	model->material.kShininess = 1.0f;
+}
+
+void MainScene::changeColour(Mesh* model, Color color)
+{
+	model->material.kAmbient.Set(color.r, color.g, color.b);
+}
+
 void MainScene::initText() 
 {
 	models[TEXT] = MeshBuilder::GenerateText("TEXT", 16, 16);
@@ -20,7 +34,7 @@ void MainScene::initMap()
 		if (rand() % 2) x += dir * (rand() % 5 + 20 + w / 2.0);
 		else z += dir * (rand() % 5 + 20 + d / 2.0);
 
-		if (rand() % 2) y += dir * (rand() % 15 + 5 + h / 2.0);
+		if (rand() % 2) y += rand() % 15 + 5 + h / 2.0;
 
 		if (rand() % 5)
 		{
