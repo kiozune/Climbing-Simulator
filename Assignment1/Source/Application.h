@@ -17,8 +17,8 @@ public:
 	static bool IsKeyPressed(unsigned short key);
 	static int getWidth();
 	static int getHeight();
+	
 private:
-
 	//Declare a window object
 	StopWatch m_timer;
 	const static int window_Width = 1600;

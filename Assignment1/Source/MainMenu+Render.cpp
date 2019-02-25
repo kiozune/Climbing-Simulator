@@ -1,24 +1,15 @@
-#include "MainScene.h"
+#include "MainMenu.h"
 #include "Utility.h"
 
-void MainScene::applyMaterial(Mesh* model) {
+void MainMenu::applyMaterial(Mesh* model) {
 	model->material.kAmbient.Set(0.15f, 0.15f, 0.15f);
 	model->material.kDiffuse.Set(0.5f, 0.5f, 0.5f);
 	model->material.kSpecular.Set(0.0f, 0.0f, 0.0f);
 	model->material.kShininess = 1.0f;
 }
 
-void MainScene::renderMesh(Mesh* model, bool enableLight) {
+void MainMenu::renderMesh(Mesh* model, bool enableLight) {
 	Mtx44 modelView, modelView_inverse_transpose;
-
-	if (e_Phases == FIRST_PASS)
-	{
-		Mtx44 lightDepthMVP = lightProj * lightView * modelStack.Top();
-		glUniformMatrix4fv(m_parameters[U_LIGHT_DEPTH_MVP_FIRSTPASS], 1, GL_FALSE, &lightDepthMVP.a[0]);
-
-		model->render();
-		return;
-	}
 
 	Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top(); // Remember, matrix multiplication is the other way around
 
@@ -33,10 +24,6 @@ void MainScene::renderMesh(Mesh* model, bool enableLight) {
 		glUniform1i(m_parameters[U_LIGHTENABLED], 1);
 		modelView_inverse_transpose = modelView.GetInverse().GetTranspose();
 		glUniformMatrix4fv(m_parameters[U_MODELVIEW_INVERSE_TRANSPOSE], 1, GL_FALSE, &modelView_inverse_transpose.a[0]);
-
-		Mtx44 lightDepthMVP = lightProj * lightView * modelStack.Top();
-		glUniformMatrix4fv(m_parameters[U_LIGHT_DEPTH_MVP], 1, GL_FALSE, &lightDepthMVP.a[0]);
-
 		//load material
 		glUniform3fv(m_parameters[U_MATERIAL_AMBIENT], 1, &model->material.kAmbient.r);
 		glUniform3fv(m_parameters[U_MATERIAL_DIFFUSE], 1, &model->material.kDiffuse.r);
@@ -64,18 +51,12 @@ void MainScene::renderMesh(Mesh* model, bool enableLight) {
 	}
 }
 
-void MainScene::initText() {
+void MainMenu::initText() {
 	models[TEXT] = MeshBuilder::GenerateText("TEXT", 16, 16);
 	models[TEXT]->applyTexture("Image//calibri.tga");
-	models[JOINONLINE_QUAD] = MeshBuilder::GenerateText("Join_Online", 16, 16);
-	models[JOINONLINE_QUAD]->applyTexture("Image//calibri.tga");
-	models[JOINLOCAL_QUAD] = MeshBuilder::GenerateText("JOIN LOCAL", 16, 16);
-	models[JOINLOCAL_QUAD]->applyTexture("Image//calibriOpacity.tga");
-	models[EXIT] = MeshBuilder::GenerateText("EXIT", 16, 16);
-	models[EXIT]->applyTexture("Image//calibriOpacity.tga");
 }
 
-void MainScene::renderText(Mesh* mesh, const std::string text, Color color) {
+void MainMenu::renderText(Mesh* mesh, const std::string text, Color color) {
 	if (!mesh || mesh->getTextureID() <= 0) //Proper error check
 		return;
 
@@ -103,7 +84,7 @@ void MainScene::renderText(Mesh* mesh, const std::string text, Color color) {
 	glEnable(GL_DEPTH_TEST);
 }
 
-void MainScene::renderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y) 
+void MainMenu::renderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y) 
 {
 	if (!mesh || mesh->getTextureID() <= 0) //Proper error check
 		return;
@@ -157,84 +138,4 @@ void MainScene::renderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 	viewStack.PopMatrix();
 	modelStack.PopMatrix();
 	glEnable(GL_DEPTH_TEST);
-}
-
-void MainScene::renderTextOnScreenMenu(Mesh* mesh, std::string text, Color color, float size, float x, float y)
-{
-	if (!mesh || mesh->getTextureID() <= 0)
-		return;
-
-	glDisable(GL_DEPTH_TEST);
-	Mtx44 ortho;
-	ortho.SetToOrtho(0, 80, 0, 60, -10, 10);
-	projectionStack.PushMatrix();
-	projectionStack.LoadMatrix(ortho);
-	viewStack.PushMatrix();
-	viewStack.LoadIdentity();
-	modelStack.PushMatrix();
-	modelStack.LoadIdentity();
-	modelStack.Translate(x, y, 0);
-	modelStack.Scale(size, size, size);
-	glUniform1i(m_parameters[U_TEXT_ENABLED_MENU], 1);
-	glUniform3fv(m_parameters[U_TEXT_COLOR_MENU], 1, &color.r);
-	glUniform1i(m_parameters[U_LIGHTENABLED], 0);
-	glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED_MENU], 1);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, mesh->getTextureID());
-	glUniform1i(m_parameters[U_COLOR_TEXTURE_MENU], 0);
-	for (unsigned i = 0; i < text.length(); ++i)
-	{
-		Mtx44 characterSpacing;
-		characterSpacing.SetToTranslation(i * 1.0f + 0.5f, 0.5f, 0); //1.0f is the spacing of each character, you may change this value
-		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
-		glUniformMatrix4fv(m_parameters[U_MVP_MENU], 1, GL_FALSE, &MVP.a[0]);
-
-		mesh->render((unsigned)text[i] * 6, 6);
-	}
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glUniform1i(m_parameters[U_TEXT_ENABLED_MENU], 0);
-	modelStack.PopMatrix();
-	viewStack.PopMatrix();
-	projectionStack.PopMatrix();
-	glEnable(GL_DEPTH_TEST);
-}
-
-void MainScene::renderMenu2D(Mesh* model,float sizex,float sizey,float sizez,float x,float y, bool enableLight)
-{
-	projectionStack.LoadIdentity();
-	Mtx44 Orthographic;
-	Orthographic.SetToOrtho(-80, 60, -80, 80, -10, 10);
-	projectionStack.PushMatrix();
-	projectionStack.LoadMatrix(Orthographic);
-	viewStack.PushMatrix();
-	viewStack.LoadIdentity();
-	modelStack.PushMatrix();
-	modelStack.LoadIdentity();
-	modelStack.Scale(sizex, sizey, sizez);
-	modelStack.Translate(x, y, 0);
-	
-	Mtx44 MVP, modelView, modelView_inverse_transpose;
-	MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top();
-	glUniformMatrix4fv(m_parameters[U_MVP_MENU], 1, GL_FALSE, &MVP.a[0]);
-	if (model->isTextured())
-	{
-		glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED_MENU], 1);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, model->getTextureID());
-		glUniform1i(m_parameters[U_COLOR_TEXTURE_MENU], 0);
-	}
-	else
-	{
-		glUniform1i(m_parameters[U_COLOR_TEXTURE_MENU], 0);
-	}
-	model->render();
-
-	if (model->isTextured()) 
-	{
-	glBindTexture(GL_TEXTURE_2D, 0);
-	}
-
-	modelStack.PopMatrix();
-	viewStack.PopMatrix();
-	projectionStack.PopMatrix();
 }
