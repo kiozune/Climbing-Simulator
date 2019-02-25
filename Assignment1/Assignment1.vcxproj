@@ -162,6 +162,7 @@
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\Scene.cpp" />
     <ClCompile Include="Source\shader.cpp" />
+    <ClCompile Include="Source\Sound.cpp" />
     <ClCompile Include="Source\Spring.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
@@ -190,6 +191,7 @@
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\shader.hpp" />
+    <ClInclude Include="Source\Sound.h" />
     <ClInclude Include="Source\Spring.h" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\vertex.h" />

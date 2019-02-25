@@ -3,15 +3,6 @@
 #include <string>
 #include <vector>
 
-enum BLOCK_TEMPLATE
-{
-	STARTING,
-	CUBE,
-	MONKEY_BAR,
-	FINISH,
-	NUM_TEMPLATE
-};
-
 class block
 {
 public:

@@ -30,7 +30,7 @@ void BlockGenerator::generateBlocks(int offsetPos)
 		tail = temp;
 	}
 	
-	std::ifstream myFile("levels.txt");
+	std::ifstream myFile("Level/levels.txt");
 	std::string holdingString;
 	if (!myFile.is_open())
 	{

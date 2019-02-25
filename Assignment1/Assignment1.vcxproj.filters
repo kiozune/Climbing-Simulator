@@ -46,6 +46,9 @@
     <Filter Include="Controller Manager">
       <UniqueIdentifier>{23a9af86-ebaa-481a-9c33-4bbf8e3fb56d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sound">
+      <UniqueIdentifier>{74eb2693-7549-479d-a1d8-ebca83e34312}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Camera.cpp">
@@ -99,6 +102,9 @@
     <ClCompile Include="Source\MainScene+PlayerActions.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Sound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Camera.h">
@@ -143,6 +149,9 @@
     <ClCompile Include="Source\MainScene+EventHandler.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClInclude Include="Source\Sound.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\MainScene.h">

@@ -120,6 +120,7 @@ void MainScene::Init()
 		initPlayer(players[i], Vector3(0, 0, i * 10));
 
 	initMap();
+	sound->playSound("bgm");
 }
 
 void MainScene::Update(double dt)
@@ -299,7 +300,7 @@ void MainScene::RenderScene()
 		modelStack.PopMatrix();
 	}
 	// renderMesh(models[SKY_BOX]);
-	renderMesh(models[AXES]);
+	// renderMesh(models[AXES]);
 	
 }
 

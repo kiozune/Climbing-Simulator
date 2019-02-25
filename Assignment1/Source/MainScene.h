@@ -6,6 +6,7 @@
 #include "Scene.h"
 #include "..\FrameBufferObject.h"
 #include "BlockGenerator.h"
+#include "Sound.h"
 #include "FixedCamera.h"
 
 #include "PhysicsManager.h"
@@ -63,6 +64,7 @@ class MainScene : public Scene
 	MS modelStack, viewStack, projectionStack;
 
 	BlockGenerator* blockGen = BlockGenerator::GetInstance();
+	SoundManager* sound = SoundManager::GetInstance();
 	
 	float elapseTime = 0;
 	float bounceTime; // for key press inputs

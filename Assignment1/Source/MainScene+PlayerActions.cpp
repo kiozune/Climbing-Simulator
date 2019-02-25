@@ -7,7 +7,7 @@ void MainScene::updatePlayer(int i, double& dt)
 	Player& p = players[i];
 
 	controller->getInput(GLFW_JOYSTICK_1 + i);
-	//joystickEvents(dt);
+	joystickEvents(dt);
 
 	// Player swing
 
@@ -15,8 +15,8 @@ void MainScene::updatePlayer(int i, double& dt)
 	Vector3 diff = prevMousePosition - curr;
 	prevMousePosition = curr;
 
-	//Vector3 leftJS = controller->getLeftJoystick();
-	//if (leftJS.x || leftJS.y) diff = Vector3(leftJS.x, leftJS.y, 0) * 200;
+	Vector3 leftJS = controller->getLeftJoystick();
+	if (leftJS.x || leftJS.y) diff = Vector3(leftJS.x, leftJS.y, 0) * 200;
 
 	Vector3 center = p.getBody()->getCenter();
 	Vector3 dir = center - camera.getPosition();
@@ -36,7 +36,7 @@ void MainScene::updatePlayer(int i, double& dt)
 
 	// grabbing
 
-	if (Application::IsKeyPressed('Q')) //|| controller->getLT() > 0)
+	if (Application::IsKeyPressed('Q') || controller->getLT() > 0)
 	{
 		if (!p.isGrabbingLeft())
 		{
@@ -77,7 +77,7 @@ void MainScene::updatePlayer(int i, double& dt)
 		p.releaseLeft();
 	}
 
-	if (Application::IsKeyPressed('E')) //|| controller->getRT() > 0)
+	if (Application::IsKeyPressed('E') || controller->getRT() > 0)
 	{
 		if (!p.isGrabbingRight())
 		{
