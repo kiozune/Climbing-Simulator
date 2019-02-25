@@ -34,6 +34,7 @@ void MainScene::Init()
 	t_alpha = LoadTGA("Image//calibriOpacity.tga");
 
 
+
 	// clear screen and fill with white
 	glClearColor(0.25, 0.25, 0.25, 0);
 	// Enable depth test
@@ -157,7 +158,7 @@ void MainScene::Init()
 
 	
 	initText();
-	models[MAINMENU_QUAD] = MeshBuilder::GenerateScreen("Main_Menu", Color(1, 1, 1), 15);
+	models[MAINMENU_QUAD] = MeshBuilder::GenerateScreen("Main_Menu", Color(1, 1, 1), 14.f);
 	models[MAINMENU_QUAD]->applyTexture("Image//Background.tga");
 	applyMaterial(models[MAINMENU_QUAD]);
 
@@ -348,7 +349,6 @@ void MainScene::RenderSecondPass()
 		{
 			Vector3 lightDir(light.position.x, light.position.y, light.position.z);
 			Mtx44 vs = viewStack.Top();
-			vs.a[12] = vs.a[13] = vs.a[14] = 0;
 			Vector3 lightDirection_cameraspace = vs * lightDir;
 			glUniform3fv(light.parameters[Light::L_POSITION], 1, &lightDirection_cameraspace.x);
 		}
@@ -357,7 +357,6 @@ void MainScene::RenderSecondPass()
 			Position lightPosition_cameraspace = viewStack.Top() * light.position;
 			glUniform3fv(light.parameters[Light::L_POSITION], 1, &lightPosition_cameraspace.x);
 			Mtx44 vs = viewStack.Top();
-			vs.a[12] = vs.a[13] = vs.a[14] = 0;
 			Vector3 spotDirection_cameraspace = vs * light.spotDirection;
 			glUniform3fv(light.parameters[Light::L_SPOTDIRECTION], 1, &spotDirection_cameraspace.x);
 		}
@@ -397,9 +396,10 @@ void MainScene::renderMenu()
 {
 	// Clear color buffer every frame
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//Using Shader without the shadow calculation
 	glUseProgram(menuShader);
-	// get reference to camera based on state
-	renderMenu2D(models[MAINMENU_QUAD], 11.0f, 12.0f, 9.0f, 0, 1);
+	//renders texts and main menu
+	renderMenu2D(models[MAINMENU_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
 	renderTextOnScreenMenu(models[JOINONLINE_QUAD], "JOIN ONLINE", Color(OnlineR,OnlineG, 0), onlineSize, 4, 20);
 	renderTextOnScreenMenu(models[JOINLOCAL_QUAD], "JOIN LOCAL", Color(localR, localG, 0), localSize, 4, 15);
 	renderTextOnScreenMenu(models[EXIT], "EXIT", Color(exitR, exitG, 0), exitSize, 4, 10);

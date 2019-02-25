@@ -32,6 +32,8 @@ class MainScene : public Scene
 		SECOND_PASS,
 	};
 
+	/*Enum for gameStates Add Extra scenes below Exit_Game
+	  If Add Above EXIT_GAME modify scene->getSceneEnum() == 2 to + 1 in application.cpp*/
 	enum e_Scenes
 	{
 		MAINMENU,
@@ -93,12 +95,12 @@ class MainScene : public Scene
 	//Textures for Texts.
 	unsigned t_opaque;
 	unsigned t_alpha;
+	unsigned t_Test;
 
 
 	// applies material to geometry selected
 	void applyMaterial(Mesh*);
 
-	// renders gemotry
 	void renderMesh(Mesh* model, bool enableLight = false);
 	void renderMenu2D(Mesh* model,float sizex,float sizey,float sizez,float x,float y, bool enableLight = false);
 	void initText();
