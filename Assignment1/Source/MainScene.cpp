@@ -150,10 +150,11 @@ void MainScene::Render()
 
 	std::vector<Player*> localPlayers = players->getLocalPlayers();
 	unsigned size = localPlayers.size();
-	float windowWidth = 3200 / (float)size;
+	Vector3 frameSize = Application::getFrameSize();
+	float windowWidth = frameSize.x / (float)size;
 	for (int i = 0; i < size; ++i)
 	{
-		glViewport(windowWidth * i, 0, windowWidth, 1800);
+		glViewport(windowWidth * i, 0, windowWidth, frameSize.y);
 		//glViewport(windowWidth * i, 0, windowWidth * 2, 3200);
 		renderForPlayer(localPlayers[i]);
 	}

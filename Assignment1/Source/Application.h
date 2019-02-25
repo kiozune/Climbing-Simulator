@@ -22,8 +22,10 @@ public:
 	static bool IsControllerPressed(int joy, unsigned short key);
 	static const float* getControllerAnalog(int joy);
 	static Vector3 GetMousePosition();
+	static Vector3 getFrameSize();
 
 private:
+
 
 	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod);
 

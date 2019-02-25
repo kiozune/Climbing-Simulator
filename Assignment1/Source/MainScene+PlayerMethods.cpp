@@ -30,20 +30,16 @@ void MainScene::updatePlayer(Player* p, double& dt)
 	{
 		manager->applyImpulse(p->getRightArm(), impulse, dt);
 		p->tire(energyRequired);
-		//manager->applyImpulse(p->getBody(), impulse * -0.5, dt);
 	}
 
 	if (p->isGrabbingRight())
 	{
 		manager->applyImpulse(p->getLeftArm(), impulse, dt);
 		p->tire(energyRequired);
-		//manager->applyImpulse(p->getBody(), impulse * -0.5, dt);
 	}
 
 	if (!(int)(energyRequired * 100))
-	{
 		p->recover(dt * 10);
-	}
 
 
 	// grabbing

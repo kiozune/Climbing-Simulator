@@ -94,6 +94,13 @@ Vector3 Application::GetMousePosition()
 	return Vector3(mouseX, mouseY);
 }
 
+Vector3 Application::getFrameSize()
+{
+	int width, height;
+	glfwGetFramebufferSize(m_window, &width, &height);
+	return Vector3(width, height);
+}
+
 Application::Application()
 {
 }
