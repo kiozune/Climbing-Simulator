@@ -162,7 +162,7 @@ void Application::Init()
 void Application::Run()
 {
 	//Main Loop
-	Scene *scene = new MainScene;
+	MainScene *scene = new MainScene;
 	scene->Init();
 /*
 	bool isMultiplayer = true;

@@ -447,9 +447,9 @@ void MainScene::RenderSecondPass()
 	projectionStack.LoadMatrix(cam_perspective);
 	RenderScene();
 
-	Vector3 position = camera.getPosition();
-	Vector3 target = camera.getTarget();
-	Vector3 up = camera.getUp();
+	Vector3 position = cameras[0].getPosition();
+	Vector3 target = cameras[0].getTarget();
+	Vector3 up = cameras[0].getUp();
 
 	viewStack.LoadIdentity();
 	viewStack.LookAt(
@@ -507,6 +507,7 @@ void MainScene::RenderScene()
 	// renderMesh(models[SKY_BOX]);
 	modelStack.PopMatrix();
 	std::vector<Player*> localPlayers = players->getLocalPlayers();
+	unsigned size = localPlayers.size();
 	Vector3 frameSize = Application::getFrameSize();
 
 	float rows = ceil((float)size / 2.0f);
@@ -516,6 +517,7 @@ void MainScene::RenderScene()
 	float windowHeight = frameSize.y / rows;
 
 	for (int i = 0; i < size; ++i)
+	{
 		int x = i % 2;
 		int y = i / 2;
 		glViewport(windowWidth * x, windowHeight * y, windowWidth, windowHeight);

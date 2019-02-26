@@ -257,25 +257,25 @@ Mesh* MeshBuilder::GenerateScreen(const std::string &meshName, Color color, floa
 	// An array of 3 vectors which represents 3 vertices
 	Vertex v;
 	std::vector<Vertex> vertex_buffer_data;
-	v.pos.Set(-0.5f * length, -0.5f * length, 0);
+	v.position.Set(-0.5f * length, -0.5f * length, 0);
 	v.color = color;
 	v.normal.Set(-0.5f, -0.5f, 0);
 	v.texCoord.Set(0, 0);
 	vertex_buffer_data.push_back(v);
 
-	v.pos.Set(0.5f * length, -0.5f * length, 0);
+	v.position.Set(0.5f * length, -0.5f * length, 0);
 	v.color = color;
 	v.normal.Set(0.5f, -0.5f, 0);
 	v.texCoord.Set(1, 0);
 	vertex_buffer_data.push_back(v);
 
-	v.pos.Set(0.5f * length, 0.5f * length, 0);
+	v.position.Set(0.5f * length, 0.5f * length, 0);
 	v.color = color;
 	v.normal.Set(0.5, 0.5f, 0);
 	v.texCoord.Set(1, 1);
 	vertex_buffer_data.push_back(v);
 
-	v.pos.Set(-0.5f * length, 0.5f * length, 0);
+	v.position.Set(-0.5f * length, 0.5f * length, 0);
 	v.color = color;;
 	v.normal.Set(-0.5f, 0.5f, 0);
 	v.texCoord.Set(0, 1);

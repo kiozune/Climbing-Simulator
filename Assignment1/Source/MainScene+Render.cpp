@@ -42,36 +42,22 @@ void MainScene::renderMesh(Mesh* model, bool enableLight)
 		glUniform1i(m_parameters[U_LIGHTENABLED], 0);
 	}
 
-	if (model ->isTextured()) {
+	if (model->isTextured()) {
 		glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, model->getTextureID());
 		glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
-	} else {
+	}
+	else 
+	{
 		glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 0);
 	}
 
 	model->render();
 
-	if (model->isTextured()) {
+	if (model->isTextured())
 		glBindTexture(GL_TEXTURE_2D, 0);
-	}
 }
-
-void MainScene::initText() {
-	models[TEXT] = MeshBuilder::GenerateText("TEXT", 16, 16);
-	models[TEXT]->applyTexture("Image//calibri.tga");
-	models[JOINONLINE_QUAD] = MeshBuilder::GenerateText("Join_Online", 16, 16);
-	models[JOINONLINE_QUAD]->applyTexture("Image//calibri.tga");
-	models[STARTLOCAL_QUAD] = MeshBuilder::GenerateText("Start Local", 16, 16);
-	models[STARTLOCAL_QUAD]->applyTexture("Image//calibriOpacity.tga");
-	models[JOINLOCAL_QUAD] = MeshBuilder::GenerateText("JOIN LOCAL", 16, 16);
-	models[JOINLOCAL_QUAD]->applyTexture("Image//calibriOpacity.tga");
-	models[EXIT] = MeshBuilder::GenerateText("EXIT", 16, 16);
-	models[EXIT]->applyTexture("Image//calibriOpacity.tga");
-
-}
-
 
 void MainScene::renderText(Mesh* mesh, const std::string text, Color color)
 {
