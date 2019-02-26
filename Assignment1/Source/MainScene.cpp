@@ -64,7 +64,7 @@ void MainScene::Init()
 
 	glUniform1i(m_parameters[U_NUMLIGHTS], LIGHT_COUNT);
 
-	// initialisation of personal variables
+	// initialisation of personal variables	
 
 	lightingEnabled = true;
 
@@ -86,12 +86,7 @@ void MainScene::Init()
 	camera.Init(Vector3(0, 0, 0), 200, 100, 180);
 	cameras.push_back(camera);
 
-	//for (int i = 0; i < PLAYER_COUNT; ++i)
-		//initPlayer(players[i], Vector3(0, 30, i * 10), transfer->getClient().getId());
-	//playerManger->setMain(&(players[0]));
-
-	//initPlayer(remotePlayers[0], Vector3(20, 30, 0));
-	//playerManger->addRemotePlayer(&(remotePlayers[0]));
+	players->addLocalPlayer(players->createPlayer(0));
 
 	players->fixMissingPlayers();
 	initMap();
@@ -104,6 +99,7 @@ void MainScene::Update(double dt)
 	fps = 1 / dt;
 
 	std::vector<Player*> localPlayers = players->getLocalPlayers();
+
 	unsigned size = localPlayers.size();
 	while (cameras.size() < size)
 	{
@@ -151,15 +147,18 @@ void MainScene::Render()
 	std::vector<Player*> localPlayers = players->getLocalPlayers();
 	unsigned size = localPlayers.size();
 	Vector3 frameSize = Application::getFrameSize();
+
 	float windowWidth = frameSize.x / (float)size;
+	float windowHeight = frameSize.y / (float)size;
+
 	for (int i = 0; i < size; ++i)
 	{
-		glViewport(windowWidth * i, 0, windowWidth, frameSize.y);
+		glViewport(0, windowHeight * i, frameSize.x, windowHeight);
 		//glViewport(windowWidth * i, 0, windowWidth * 2, 3200);
 		renderForPlayer(localPlayers[i]);
 	}
 
-	renderTextOnScreen(models[TEXT], std::to_string(elapseTime), Color(1, 1, 1), 1, 2, 2);
+	// renderTextOnScreen(models[TEXT], std::to_string(elapseTime), Color(1, 1, 1), 1, 2, 2);
 }
 
 void MainScene::Exit()

@@ -5,19 +5,42 @@
 void MainScene::updatePlayer(Player* p, double& dt)
 {
 	int i = p->getId();
-	controller->getInput(GLFW_JOYSTICK_1 + i);
-	joystickEvents(dt, i);
-
-	// Player swing
-
-	Vector3 curr = Application::GetMousePosition();
-	Vector3 diff = prevMousePosition - curr;
-	prevMousePosition = curr;
-
-	Vector3 leftJS = controller->getLeftJoystick();
-	if (leftJS.x || leftJS.y) diff = Vector3(leftJS.x, leftJS.y, 0);
-
 	Vector3 center = p->getBody()->getCenter();
+
+	Vector3 diff;
+
+	bool leftPressed, rightPressed;
+
+	if (i)
+	{
+		int joy = GLFW_JOYSTICK_1 + i - 1;
+		controller->getInput(joy);
+		joystickEvents(dt, joy);
+
+		Vector3 leftJS = controller->getLeftJoystick();
+		if (leftJS.x || leftJS.y) diff = Vector3(leftJS.x, leftJS.y, 0);
+
+		leftPressed = controller->getLT() > 0;
+		rightPressed = controller->getRT() > 0;
+	}
+	else
+	{
+		Vector3 curr = Application::GetMousePosition();
+		diff = prevMousePosition - curr;
+		prevMousePosition = curr;
+		diff.x = -diff.x;
+
+		float higher = max(abs(diff.x), abs(diff.y)) / 2;
+		if (higher)
+		{
+			diff.x = diff.x / higher;
+			diff.y = diff.y / higher;
+		}
+
+		leftPressed = Application::IsKeyPressed('Q');
+		rightPressed = Application::IsKeyPressed('E');
+	}
+
 	Vector3 dir = center - cameras[i].getPosition();
 	float yaw = atan(dir.x / dir.z);
 	dir.z /= abs(dir.z);
@@ -44,7 +67,7 @@ void MainScene::updatePlayer(Player* p, double& dt)
 
 	// grabbing
 
-	if (Application::IsKeyPressed('Q') || controller->getLT() > 0)
+	if (leftPressed)
 	{
 		if (!p->isGrabbingLeft())
 		{
@@ -92,7 +115,7 @@ void MainScene::updatePlayer(Player* p, double& dt)
 		p->releaseLeft();
 	}
 
-	if (Application::IsKeyPressed('E') || controller->getRT() > 0)
+	if (rightPressed)
 	{
 		if (!p->isGrabbingRight())
 		{
