@@ -2,6 +2,8 @@
 
 #include "Utility.h"
 
+#include <algorithm>
+
 BoundingBox* BoundingBox::update()
 {
 	for (int i = 0; i < raw.size(); ++i)
@@ -78,8 +80,13 @@ BoundingBox* BoundingBox::setTranslation(Vector3 t)
 CollisionResult BoundingBox::getCollisionResultWith(BoundingBox& b)
 {
 	CollisionResult result;
+	
+	float radius = std::max(W, std::max(H, D)) + std::max(b.W, std::max(b.H, b.D));
 
 	Vector3 T = b.P - P;
+
+	result.collided = false;
+	if (T.Length() > radius * 1.5) return result;
 
 	float x = fabs(T.Dot(X)) - (W + fabs(b.W * X.Dot(b.X)) + fabs(b.H * X.Dot(b.Y)) + fabs(b.D * X.Dot(b.Z)));
 	float y = fabs(T.Dot(Y)) - (H + fabs(b.W * Y.Dot(b.X)) + fabs(b.H * Y.Dot(b.Y)) + fabs(b.D * Y.Dot(b.Z)));

@@ -42,8 +42,6 @@ void MainScene::Init()
 	t_opaque = LoadTGA("Image//calibri.tga");
 	t_alpha = LoadTGA("Image//calibriOpacity.tga");
 
-
-
 	// clear screen and fill with white
 	glClearColor(0.25, 0.25, 0.25, 0);
 	// Enable depth test
@@ -249,6 +247,7 @@ void MainScene::Update(double dt)
 		if (Application::IsKeyPressed(VK_RETURN))
 		{
 			e_States = LOADINGSCREEN;
+			tempTime = elapseTime + 5;
 		}
 	}
 	//When ur on Online
@@ -257,6 +256,7 @@ void MainScene::Update(double dt)
 		if (Application::IsKeyPressed(VK_RETURN))
 		{
 			e_States = LOADINGSCREEN;
+			tempTime = elapseTime + 5;
 		}
 	}
 	//WHen ur on Exit
@@ -271,16 +271,16 @@ void MainScene::Update(double dt)
 	//Default bouncetime for transitions set to 0.5
 	if (Application::IsKeyPressed(VK_UP) && onlineCheck == false && localCheck == false && startLocalCheck == true && bounceTime < 0)
 	{
-	models[JOINONLINE_QUAD]->setTexture(t_opaque);
-	bounceTime = 0.5f;
-	OnlineG = 0;
-	onlineSize = 3.5f;
-	start_LocalSize = 2.0f;
-	start_LocalG = 1;
-	onlineCheck = true;
-	localCheck = false;
-	startLocalCheck = false;
-	models[STARTLOCAL_QUAD]->setTexture(t_alpha);
+		models[JOINONLINE_QUAD]->setTexture(t_opaque);
+		bounceTime = 0.5f;
+		OnlineG = 0;
+		onlineSize = 3.5f;
+		start_LocalSize = 2.0f;
+		start_LocalG = 1;
+		onlineCheck = true;
+		localCheck = false;
+		startLocalCheck = false;
+		models[STARTLOCAL_QUAD]->setTexture(t_alpha);
 	}
 	//Transition from Start Local to Join Online
 	if (Application::IsKeyPressed(VK_UP) && localCheck == false && exitCheck == false && startLocalCheck == true && bounceTime < 0)
@@ -313,30 +313,30 @@ void MainScene::Update(double dt)
 	//Transition from Exit to Join Local
 	if (Application::IsKeyPressed(VK_UP) && localCheck == false && exitCheck == true && startLocalCheck == false && bounceTime < 0)
 	{
-	models[JOINLOCAL_QUAD]->setTexture(t_opaque);
-	bounceTime = 0.5f;
-	localG = 0;
-	exitG = 1;
-	localSize = 3.5f;
-	exitSize = 2.0f;
-	startLocalCheck = false;
-	localCheck = true;
-	exitCheck = false;
-	models[EXIT]->setTexture(t_alpha);
+		models[JOINLOCAL_QUAD]->setTexture(t_opaque);
+		bounceTime = 0.5f;
+		localG = 0;
+		exitG = 1;
+		localSize = 3.5f;
+		exitSize = 2.0f;
+		startLocalCheck = false;
+		localCheck = true;
+		exitCheck = false;
+		models[EXIT]->setTexture(t_alpha);
 	}
 	//Transition from Online to Start Local
 	if (Application::IsKeyPressed(VK_DOWN) && onlineCheck == true && startLocalCheck == false && localCheck == false && bounceTime < 0)
 	{
-	models[STARTLOCAL_QUAD]->setTexture(t_opaque);
-	bounceTime = 0.5f;
-	OnlineG = 1;
-	onlineSize = 2.0f;
-	start_LocalSize = 3.0f;
-	start_LocalG = 0;
-	onlineCheck = false;
-	startLocalCheck = true;
-	localCheck = false;
-    models[JOINONLINE_QUAD]->setTexture(t_alpha);
+		models[STARTLOCAL_QUAD]->setTexture(t_opaque);
+		bounceTime = 0.5f;
+		OnlineG = 1;
+		onlineSize = 2.0f;
+		start_LocalSize = 3.0f;
+		start_LocalG = 0;
+		onlineCheck = false;
+		startLocalCheck = true;
+		localCheck = false;
+		models[JOINONLINE_QUAD]->setTexture(t_alpha);
 	}
 	//Transition from Start Local to Join Local
 	if (Application::IsKeyPressed(VK_DOWN) && onlineCheck == false && localCheck == false && startLocalCheck == true && bounceTime < 0)
@@ -355,28 +355,27 @@ void MainScene::Update(double dt)
 	//Transition from Local to Exit
 	if (Application::IsKeyPressed(VK_DOWN) && onlineCheck == false && localCheck == true && exitCheck == false && bounceTime < 0)
 	{
-	models[EXIT]->setTexture(t_opaque);
-	bounceTime = 0.5f;
-	localG = 1;
-	localSize = 2.0f;
-	exitG = 0;
-	exitSize = 3.5f;
-	onlineCheck = false;
-	localCheck = false;
-	exitCheck = true;
-	models[JOINLOCAL_QUAD]->setTexture(t_alpha);
+		models[EXIT]->setTexture(t_opaque);
+		bounceTime = 0.5f;
+		localG = 1;
+		localSize = 2.0f;
+		exitG = 0;
+		exitSize = 3.5f;
+		onlineCheck = false;
+		localCheck = false;
+		exitCheck = true;
+		models[JOINLOCAL_QUAD]->setTexture(t_alpha);
 	}
 
 	rotateMap += 10 * dt;
 
 	bounceTime -= dt;
-
 }
 
 void MainScene::Render()
 {
-		switch (e_States)
-		{
+	switch (e_States)
+	{
 		case MAINMENU:
 		{
 			renderMenu();
@@ -384,7 +383,6 @@ void MainScene::Render()
 		}
 		case GAMEMODE:
 		{
-			if (tempTime > elapseTime) return;
 			RenderFirstPass();
 			RenderSecondPass();
 			break;
@@ -412,13 +410,9 @@ void MainScene::RenderFirstPass()
 	glUseProgram(shadowShader);
 
 	if (lights[0].type == Light::DIRECTIONAL)
-	{
 		lightProj.SetToOrtho(-i_Light, i_Light, -i_Light, i_Light, -i_Light, i_Light);
-	}
 	else
-	{
 		lightProj.SetToPerspective(90.0f, 1.f, 0.1, 20);
-	}
 
 	lightView.SetToLookAt(lights[0].position.x, lights[0].position.y, lights[0].position.z, 0, 0, 0, 0, 1, 0);
 	RenderScene();
@@ -502,6 +496,7 @@ void MainScene::RenderScene()
 	modelStack.Scale(100, 100, 100);
 	// renderMesh(models[SKY_BOX]);
 	modelStack.PopMatrix();
+
 	std::vector<Player*> localPlayers = players->getLocalPlayers();
 	unsigned size = localPlayers.size();
 	Vector3 frameSize = Application::getFrameSize();
@@ -537,8 +532,11 @@ void MainScene::RenderScene()
 	// renderMesh(models[SKY_BOX]);
 	// renderMesh(models[AXES]);
 
+	std::string content;
+	content += "FPS : " + std::to_string(fps) + '\n';
+	content += "ELT : " + std::to_string(elapseTime);
 
-	// renderTextOnScreen(models[TEXT], std::to_string(elapseTime), Color(1, 1, 1), 1, 2, 2);
+	renderTextOnScreen(models[TEXT], content, Color(1, 1, 1), 4, 2, 2);
 }
 //Renders Main Menu
 void MainScene::renderMenu()
@@ -573,8 +571,9 @@ void MainScene::renderLoading()
 	glUseProgram(menuShader);
 	//Render Loading Screen
 	renderMenu2D(models[LOADING], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
-	e_States = GAMEMODE;
-	tempTime = elapseTime + 3	;
+
+	if (tempTime < elapseTime);
+		e_States = GAMEMODE;
 }
 
 void MainScene::Exit()
