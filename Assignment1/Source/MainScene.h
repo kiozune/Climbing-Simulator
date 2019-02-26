@@ -53,6 +53,7 @@ class MainScene : public Scene
 	enum e_Scenes
 	{
 		MAINMENU,
+		JOIN_LOBBY,
 		GAMEMODE,
 		EXIT_GAME,
 		LOADINGSCREEN,
@@ -127,6 +128,8 @@ class MainScene : public Scene
 	unsigned t_alpha;
 	unsigned t_Test;
 
+	std::string ip = "127.0.0.1";
+
 	//Pause timer for keybind
 	bool t_Pause;
 
@@ -171,9 +174,12 @@ public:
 	virtual void Init();
 	virtual void Update(double dt);
 	virtual void Render();
-	virtual void renderMenu();
-	virtual void renderLoading();
 	virtual void Exit();
+
+	void renderMenu();
+	void renderJoinLobby();
+	void renderLoading();
+
 	void RenderFirstPass();
 	void RenderSecondPass();
 	void RenderScene();
