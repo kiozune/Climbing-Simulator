@@ -198,8 +198,6 @@ void MainScene::Update(double dt)
 	elapseTime += dt;
 	fps = 1 / dt;
 
-	e_States = JOIN_LOBBY;
-
 	std::vector<Player*> localPlayers = players->getLocalPlayers();
 
 	unsigned size = localPlayers.size();
@@ -257,7 +255,7 @@ void MainScene::Update(double dt)
 	{
 		if (Application::IsKeyPressed(VK_RETURN))
 		{
-			e_States = LOADINGSCREEN;
+			e_States = JOIN_LOBBY;
 			tempTime = elapseTime + 5;
 		}
 	}
