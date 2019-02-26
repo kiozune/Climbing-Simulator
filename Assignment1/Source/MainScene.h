@@ -5,7 +5,7 @@
 
 #include "Scene.h"
 #include "..\FrameBufferObject.h"
-
+#include <string>
 #define LIGHT_COUNT 1
 
 class MainScene : public Scene
@@ -16,12 +16,17 @@ class MainScene : public Scene
 		LIGHT,
 		SKY_BOX,
 		TEST_OBJ,
+		LOBBY_QUAD,
 		MAINMENU_QUAD,
+		ONLINELOBBY_QUAD,
+		LOCALLOBY_QUAD,
 		JOINLOCAL_QUAD,
+		STARTLOCAL_QUAD,
 		JOINONLINE_QUAD,
+		STARTONLINE_QUAD,
 		EXIT,
 		LOADING,
-		STARTLOCAL_QUAD,
+		BACK_QUAD,
 		SHADOW_QUAD,
 
 
@@ -42,6 +47,9 @@ class MainScene : public Scene
 		GAMEMODE,
 		EXIT_GAME,
 		LOADINGSCREEN,
+		LOBBY,
+		ONLINELOBBY,
+		LOCALLOBBY,
 	};
 
 	int fps;
@@ -50,6 +58,7 @@ class MainScene : public Scene
 
 	float rotateMap;
 
+	
 	// stores the size of the map
 	// indicates if user enabled lighting
 	bool lightingEnabled;
@@ -61,6 +70,9 @@ class MainScene : public Scene
 	unsigned m_parameters[U_TOTAL];
 
 	Position viewSize;
+	
+
+	char inputField_Array[11];
 
 	bool pause;
 
@@ -73,8 +85,13 @@ class MainScene : public Scene
 	float elapseTime = 0;
 	float bounceTime; // for key press inputs
 	
-
 	//Color for RGB for texts
+	//Lobby Text
+	float lobbyR;
+	float lobbyG;
+	float lobbySize;
+
+
 	//Join Local Text
 	float localR;
 	float localG;
@@ -86,12 +103,35 @@ class MainScene : public Scene
 	float start_LocalG;
 	//Size for start Local Text
 	float start_LocalSize;
+	//Join Local Text
+	float join_LocalR;
+	float join_LocalG;
+	//Join Local Size
+	float join_LocalSize;
 
 	//join Online Text
+	float start_OnlineR;
+	float start_OnlineG;
+	//size for online Text
+	float start_onlineSize;
+
+	//Online Text
 	float OnlineR;
 	float OnlineG;
 	//size for online Text
 	float onlineSize;
+
+	//Join Online Text
+	float join_OnlineR;
+	float join_OnlineG;
+	//size for Join Online Text
+	float join_OnlineSize;
+
+	//Create Online Text
+	float create_OnlineR;
+	float create_OnlineG;
+	//Size for Create online Text
+	float create_OnlineSize;
 
 	//Exit Text
 	float exitR;
@@ -99,10 +139,21 @@ class MainScene : public Scene
 	//size for Exit Text
 	float exitSize;
 
+	//Back Text
+	float backR;
+	float backG;
+	//size for Back Text
+	float backSize;
+	//Boolean checks for transitions
 	bool onlineCheck;
+	bool joinOnlineCheck;
+	bool createOnlineCheck;
 	bool localCheck;
 	bool exitCheck;
 	bool startLocalCheck;
+	bool joinLocalCheck;
+	bool lobbyCheck;
+	bool backCheck;
 	
 	//Textures for Texts.
 	unsigned t_opaque;
@@ -127,8 +178,11 @@ public:
 	virtual void Init();
 	virtual void Update(double dt);
 	virtual void Render();
-	virtual void renderMenu();
-	virtual void renderLoading();
+	 void renderMenu();
+	 void renderLoading();
+	 void renderLobby();
+	 void renderOnline();
+	 void renderLocal();
 	virtual void Exit();
 	void RenderFirstPass();
 	void RenderSecondPass();

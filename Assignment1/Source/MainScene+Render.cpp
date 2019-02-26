@@ -67,15 +67,24 @@ void MainScene::renderMesh(Mesh* model, bool enableLight) {
 void MainScene::initText() {
 	models[TEXT] = MeshBuilder::GenerateText("TEXT", 16, 16);
 	models[TEXT]->applyTexture("Image//calibri.tga");
-	models[JOINONLINE_QUAD] = MeshBuilder::GenerateText("Join_Online", 16, 16);
-	models[JOINONLINE_QUAD]->applyTexture("Image//calibri.tga");
+	models[JOINONLINE_QUAD] = MeshBuilder::GenerateText("Join Online Game", 16, 16);
+	models[JOINONLINE_QUAD]->applyTexture("Image//calibriOpacity.tga");
 	models[STARTLOCAL_QUAD] = MeshBuilder::GenerateText("Start Local", 16, 16);
-	models[STARTLOCAL_QUAD]->applyTexture("Image//calibriOpacity.tga");
+	models[STARTLOCAL_QUAD]->applyTexture("Image//calibri.tga");
 	models[JOINLOCAL_QUAD] = MeshBuilder::GenerateText("JOIN LOCAL", 16, 16);
 	models[JOINLOCAL_QUAD]->applyTexture("Image//calibriOpacity.tga");
 	models[EXIT] = MeshBuilder::GenerateText("EXIT", 16, 16);
 	models[EXIT]->applyTexture("Image//calibriOpacity.tga");
-
+	models[LOBBY_QUAD] = MeshBuilder::GenerateText("LOBBY", 16, 16);
+	models[LOBBY_QUAD]->applyTexture("Image//calibri.tga");
+	models[ONLINELOBBY_QUAD] = MeshBuilder::GenerateText("ONLINE", 16, 16);
+	models[ONLINELOBBY_QUAD]->applyTexture("Image//calibri.tga");
+	models[LOCALLOBY_QUAD] = MeshBuilder::GenerateText("LOCAL", 16, 16);
+	models[LOCALLOBY_QUAD]->applyTexture("Image//calibriOpacity.tga");
+	models[BACK_QUAD] = MeshBuilder::GenerateText("BACK", 16, 16);
+	models[BACK_QUAD]->applyTexture("Image//calibriOpacity.tga");
+	models[STARTONLINE_QUAD] = MeshBuilder::GenerateText("Create Online Game", 16, 16);
+	models[STARTONLINE_QUAD]->applyTexture("Image//calibri.tga");
 }
 
 void MainScene::renderText(Mesh* mesh, const std::string text, Color color) {
