@@ -6,7 +6,6 @@ BlockGenerator::BlockGenerator()
 {
 	head = nullptr;
 	tail = nullptr;
-	universalSizing = 1;
 	numBlocks = 5;
 }
 
@@ -76,13 +75,6 @@ void BlockGenerator::generateBlocks(int offsetPos)
 		tail = temp;
 	}
 }
-
-void BlockGenerator::setSize(int val)
-{
-	universalSizing = val;
-}
-
-
 
 void BlockGenerator::getLevelData(std::string val, Vector3 pos, int offset, int cubes)
 {
