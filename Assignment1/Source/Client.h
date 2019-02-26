@@ -13,6 +13,7 @@ private:
 	
 	unsigned id, knownSize;
 
+	std::string serverIp;
 	sockaddr_in server;
 	SOCKET out;
 	char buff[1024];
@@ -20,12 +21,15 @@ private:
 
 	int status;
 
+
 public:
 	
 	unsigned getId();
 
 	unsigned getKnownSize();
 	void setKnownSize(unsigned);
+
+	std::string getServerIp();
 
 	bool start();
 	void connectTo(u_short port, const char* ip);

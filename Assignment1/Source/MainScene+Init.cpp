@@ -1,5 +1,6 @@
 #include "MainScene.h"
 
+#include "LoadTGA.h"
 
 void MainScene::applyMaterial(Mesh* model)
 {
@@ -13,7 +14,6 @@ void MainScene::changeColour(Mesh* model, Color color)
 {
 	model->material.kAmbient.Set(color.r, color.g, color.b);
 }
-
 
 void MainScene::initText() 
 {
@@ -73,4 +73,16 @@ void MainScene::initMap()
 		platform->setColour(Color(1, 0, 0));
 		manager->addToEnvironment(platform);
 	}
+}
+
+void MainScene::initMenu() 
+{
+	//Ini textures into unsigned
+	t_opaque = LoadTGA("Image//calibri.tga");
+	t_alpha = LoadTGA("Image//calibriOpacity.tga");
+
+	models[RESUME_GAME] = MeshBuilder::GenerateText("RESUME_GAME", 16, 16);
+	models[RESUME_GAME]->applyTexture("Image//calibriOpacity.tga");
+	models[EXIT_GAME] = MeshBuilder::GenerateText("EXIT_GAME", 16, 16);
+	models[EXIT_GAME]->applyTexture("Image//calibri.tga");
 }

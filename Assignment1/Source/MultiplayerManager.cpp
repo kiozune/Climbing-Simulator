@@ -39,6 +39,7 @@ void MultiplayerManager::end()
 {
 	DataTransferManager* transferManager = DataTransferManager::getInstance();
 	transferManager->getClient().exit();
+	server.exit();
 }
 
 void MultiplayerManager::receive()

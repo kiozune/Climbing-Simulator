@@ -28,13 +28,10 @@ void MainScene::Init()
 
 	m_parameters[U_LIGHT_DEPTH_MVP_FIRSTPASS] = glGetUniformLocation(shadowShader, "lightDepthMVP");
 	//Load vertex and fragment shaders
-	m_programID = LoadShaders("Shader//Shadow.vertexshader", "Shader//Shadow.fragmentshader");
+	m_programID = LoadShaders("Shader//Texture.vertexshader", "Shader//Texture.fragmentshader");
 
 	m_parameters[U_LIGHT_DEPTH_MVP] = glGetUniformLocation(m_programID, "lightDepthMVP");
 	m_parameters[U_SHADOWMAP] = glGetUniformLocation(m_programID,"shadowMap");
-
-	//Main Menu Shader
-	menuShader = LoadShaders("Shader//Texture.vertexshader", "Shader//Texture.fragmentshader");
 
 	// Get a handle for our "MVP" uniform
 	m_parameters[U_MVP] = glGetUniformLocation(m_programID, "MVP");
@@ -49,8 +46,8 @@ void MainScene::Init()
 	m_parameters[U_NUMLIGHTS] = glGetUniformLocation(m_programID, "numLights");
 	m_parameters[U_LIGHTENABLED] = glGetUniformLocation(m_programID, "lightEnabled");
 
-	m_parameters[U_COLOR_TEXTURE_ENABLED] = glGetUniformLocation(m_programID, "colorTextureEnabled[0]");
-	m_parameters[U_COLOR_TEXTURE] = glGetUniformLocation(m_programID, "colorTexture[0]");
+	m_parameters[U_COLOR_TEXTURE_ENABLED] = glGetUniformLocation(m_programID, "colorTextureEnabled");
+	m_parameters[U_COLOR_TEXTURE] = glGetUniformLocation(m_programID, "colorTexture");
 
 	m_parameters[U_TEXT_ENABLED] = glGetUniformLocation(m_programID, "textEnabled");
 	m_parameters[U_TEXT_COLOR] = glGetUniformLocation(m_programID, "textColor");
@@ -60,6 +57,8 @@ void MainScene::Init()
 
 	for (int i = 0; i < LIGHT_COUNT; ++i)
 		lights[i].getUniformLocation(m_programID);
+
+	glUseProgram(m_programID);
 
 	lights[0].type = Light::SPOT;
 	lights[0].position.Set(0, 300, 0);
@@ -100,9 +99,8 @@ void MainScene::Init()
 	initMap();
 	sound->playSound("bgm");
 
-	glUseProgram(menuShader);
-
 	initText();
+	initMenu();
 }
 
 void MainScene::Update(double dt)
@@ -148,8 +146,15 @@ void MainScene::Update(double dt)
 
 void MainScene::Render()
 {
-	RenderFirstPass();
-	RenderSecondPass();
+	if (isPaused)
+	{
+		RenderPause();
+	}
+	else
+	{
+		RenderFirstPass();
+		RenderSecondPass();
+	}
 }
 
 //Rendering from the Lights point of view
@@ -168,6 +173,7 @@ void MainScene::RenderFirstPass()
 		lightProj.SetToPerspective(90.0f, 1.f, 0.1, 20);
 
 	lightView.SetToLookAt(lights[0].position.x, lights[0].position.y, lights[0].position.z, 0, 0, 0, 0, 1, 0);
+	
 	RenderGame();
 }
 
@@ -189,6 +195,7 @@ void MainScene::RenderSecondPass()
 	Mtx44 cam_perspective;
 	cam_perspective.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 10000.0f);
 	projectionStack.LoadMatrix(cam_perspective);
+
 	RenderGame();
 
 	Vector3 position = cameras[0].getPosition();

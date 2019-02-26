@@ -156,7 +156,7 @@
     <ClCompile Include="Source\MainScene+EventHandler.cpp" />
     <ClCompile Include="Source\MainScene+GameRender.cpp" />
     <ClCompile Include="Source\MainScene+Init.cpp" />
-    <ClCompile Include="Source\MainScene+LoadingRender.cpp" />
+    <ClCompile Include="Source\MainScene+PauseRender.cpp" />
     <ClCompile Include="Source\MainScene+PartsRender.cpp" />
     <ClCompile Include="Source\MainScene+PlayerMethods.cpp" />
     <ClCompile Include="Source\MainScene+Render.cpp" />

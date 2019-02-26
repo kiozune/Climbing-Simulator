@@ -9,6 +9,8 @@ unsigned Client::getId() { return this->id; }
 unsigned Client::getKnownSize() { return this->knownSize; }
 void Client::setKnownSize(unsigned s) { this->knownSize = s; }
 
+std::string Client::getServerIp() { return this->serverIp; }
+
 bool Client::start()
 {
 	WSADATA data;
@@ -25,6 +27,8 @@ bool Client::start()
 
 void Client::connectTo(u_short port, const char* ip)
 {
+	this->serverIp = ip;
+
 	serverLength = sizeof(server);
 	server.sin_family = AF_INET;
 	server.sin_port = htons(port);

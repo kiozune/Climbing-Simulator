@@ -30,7 +30,6 @@ private:
 	//Textures for Texts.
 	unsigned t_opaque;
 	unsigned t_alpha;
-	unsigned t_Test;
 
 	unsigned m_vertexArrayID;
 	unsigned m_programID;

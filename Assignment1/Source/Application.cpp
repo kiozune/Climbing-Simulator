@@ -172,24 +172,6 @@ void Application::Run()
 	scene->Init();
 
 	Scene *next;
-/*
-	bool isMultiplayer = true;
-	if (isMultiplayer)
-	{
-		MultiplayerManager* manager = MultiplayerManager::getInstance();
-		manager->startSever();
-
-		std::string ip;
-		while (ip == "")
-			ip = manager->getSever().getIp();
-
-		std::cout << "Sever started on " << ip << std::endl;
-
-		manager->connectTo(ip);
-		manager->receive();
-		manager->send();
-	}
-*/
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window))

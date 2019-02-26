@@ -114,9 +114,6 @@
     <ClCompile Include="Source\Sound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MainScene+LoadingRender.cpp">
-      <Filter>Scenes\Main\Scene renders</Filter>
-    </ClCompile>
     <ClCompile Include="Source\MainScene+GameRender.cpp">
       <Filter>Scenes\Main\Scene renders</Filter>
     </ClCompile>
@@ -158,6 +155,9 @@
     </ClCompile>
     <ClCompile Include="Source\LoadingScene+Render.cpp">
       <Filter>Scenes\Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+PauseRender.cpp">
+      <Filter>Scenes\Main\Scene renders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

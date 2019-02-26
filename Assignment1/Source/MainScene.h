@@ -39,9 +39,20 @@ class MainScene : public Scene
 		SECOND_PASS,
 	};
 
+	enum OPTION
+	{
+		RESUME_GAME,
+		EXIT_GAME,
+		COUNT,
+	};
+	OPTION current;
+
+
 	int fps;
 	int i_Light;
 	bool debugging;
+
+	bool isPaused;
 
 	float elapseTime = 0;
 	float bounceTime; // for key press inputs
@@ -53,7 +64,6 @@ class MainScene : public Scene
 
 	unsigned m_vertexArrayID;
 	unsigned m_programID;
-	unsigned menuShader;
 	unsigned m_parameters[U_TOTAL];
 
 	Position viewSize;
@@ -61,6 +71,10 @@ class MainScene : public Scene
 	std::vector<FixedCamera> cameras; // stationary
 
 	Mesh* models[NUM_GEOMETRY];
+	Mesh* menuModels[COUNT];
+
+	unsigned t_opaque;
+	unsigned t_alpha;
 
 	MS modelStack, viewStack, projectionStack;
 
@@ -98,20 +112,19 @@ class MainScene : public Scene
 	void updatePlayer(Player*, double&);
 	void renderForPlayer(Player*);
 
+	void initMenu();
+
 	void RenderFirstPass();
 	void RenderSecondPass();
 	void RenderGame();
 	void RenderPause();
+
 public:
 
 	virtual void Init();
 	virtual void Update(double dt);
 	virtual void Render();
 	virtual void Exit();
-
-
-
-	void renderMeshMenu(Mesh* model, bool enableLight);
 
 private:
 	unsigned shadowShader;
