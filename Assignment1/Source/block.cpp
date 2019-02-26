@@ -10,7 +10,8 @@ block::block()
 
 void block::setCubeVector(float offset)
 {
-	Vector3 newPos = { getRandomFloat(-offset/2,offset/2),getRandomFloat(-offset/2,offset/2),getRandomFloat(-offset/2,offset/2) };
+	int innerOffset = 2.3;
+	Vector3 newPos = { getRandomFloat(-offset/innerOffset,offset/innerOffset),getRandomFloat(-offset/innerOffset + 0.5f,offset/innerOffset),getRandomFloat(-offset/innerOffset,offset/innerOffset) };
 	newPos += position;
 	cubeVectors->push_back(newPos);
 }

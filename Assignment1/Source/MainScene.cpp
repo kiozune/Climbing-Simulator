@@ -120,7 +120,7 @@ void MainScene::Init()
 		initPlayer(players[i], Vector3(0, 0, i * 10));
 
 	initMap();
-	sound->playSound("bgm");
+	sound->loopSound("bgm");
 }
 
 void MainScene::Update(double dt)

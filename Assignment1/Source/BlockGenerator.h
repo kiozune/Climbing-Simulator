@@ -10,7 +10,6 @@ class BlockGenerator
 public:
 	static BlockGenerator* GetInstance();
 	void generateBlocks(int offsetPos);
-	void setSize(int val);
 	block *getHead();
 	block *getTail();
 private:
@@ -36,7 +35,6 @@ private:
 	void getLevelData(std::string val, Vector3 pos, int offset, int cubes);
 
 	int numBlocks;
-	int universalSizing;
 
 	block *head, *tail;
 	~BlockGenerator();
