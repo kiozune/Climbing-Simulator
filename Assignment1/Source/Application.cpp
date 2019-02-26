@@ -5,7 +5,7 @@
 //Include the standard C++ headers
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "MainScene.h"
 #include "Application.h"
 
 #include "MainScene.h"
@@ -62,7 +62,7 @@ bool Application::IsKeyPressed(unsigned short key)
 }
 
 bool Application::isControllerPresent(int joy)
-{ 
+{
 	return glfwJoystickPresent(joy);
 }
 
@@ -122,7 +122,7 @@ void Application::Init()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); //Request a specific OpenGL version
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3); //Request a specific OpenGL version
 	//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //We don't want the old OpenGL 
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //We don't want the old OpenGL
 
 	//Create a window and create its OpenGL context
 	m_window = glfwCreateWindow(window_Width, window_Height, "Climbing Simulator", NULL, NULL);
@@ -141,7 +141,7 @@ void Application::Init()
 		exit(EXIT_FAILURE);
 	}
 
-	//This function makes the context of the specified window current on the calling thread. 
+	//This function makes the context of the specified window current on the calling thread.
 	glfwMakeContextCurrent(m_window);
 
 	//Sets the key callback
@@ -152,7 +152,7 @@ void Application::Init()
 	GLenum err = glewInit();
 
 	//If GLEW hasn't initialized
-	if (err != GLEW_OK) 
+	if (err != GLEW_OK)
 	{
 		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
 		//return -1;
@@ -181,7 +181,7 @@ void Application::Run()
 		manager->receive();
 		manager->send();
 	}
-*/	
+*/
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window))
@@ -192,14 +192,17 @@ void Application::Run()
 		glfwSwapBuffers(m_window);
 		//Get and organize events, like keyboard and mouse input, window resizing, etc...
 		glfwPollEvents();
+
         m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms
 
-		if (IsKeyPressed(VK_ESCAPE))
+		//If gamestate of Mainscene is EXIT_GAME it will break out of this while loop and close the scene.
+		if (IsKeyPressed(VK_ESCAPE) || scene->getSceneEnum() == 2)
 		{
 			MultiplayerManager* manager = MultiplayerManager::getInstance();
 			manager->end();
 			break;
 		}
+
 	} //Check if the ESC key had been pressed or if the window had been closed
 
 	scene->Exit();

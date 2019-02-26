@@ -300,5 +300,11 @@
     <None Include="Shader\Shadow.vertexshader">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Shader\Texture.fragmentshader">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Shader\Texture.vertexshader">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

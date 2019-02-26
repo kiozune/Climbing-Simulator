@@ -215,6 +215,8 @@
     <None Include="Shader\depthTexture.vertexshader" />
     <None Include="Shader\Shadow.fragmentshader" />
     <None Include="Shader\Shadow.vertexshader" />
+    <None Include="Shader\Texture.fragmentshader" />
+    <None Include="Shader\Texture.vertexshader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
