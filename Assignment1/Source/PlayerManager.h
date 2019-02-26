@@ -11,6 +11,7 @@ private:
 
 	static PlayerManager * instance;
 
+	std::vector<Player*> players;
 	std::vector<Player*> localPlayers;
 	std::vector<RemotePlayer*> remotePlayers;
 
@@ -24,12 +25,15 @@ public:
 	RemotePlayer* createRemotePlayer(unsigned, unsigned);
 	Player* createPlayer(unsigned);
 
+	std::vector<Player*> getPlayers();
+
 	std::vector<Player*> getLocalPlayers();
 	void addLocalPlayer(Player*);
 	void removeLocalPlayer(int);
 
 	std::vector<RemotePlayer*> getRemotePlayers();
 	void addRemotePlayer(RemotePlayer*);
+
 
 	void updateRemote(PlayerData);
 

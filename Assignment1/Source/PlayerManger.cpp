@@ -170,8 +170,15 @@ Player* PlayerManager::createPlayer(unsigned id)
 	return p;
 }
 
+std::vector<Player*> PlayerManager::getPlayers() { return this->players; }
+
 std::vector<Player*> PlayerManager::getLocalPlayers() { return this->localPlayers; }
-void PlayerManager::addLocalPlayer(Player* p) { this->localPlayers.push_back(p); }
+
+void PlayerManager::addLocalPlayer(Player* p) 
+{ 
+	this->localPlayers.push_back(p); 
+	this->players.push_back(p);
+}
 
 void PlayerManager::removeLocalPlayer(int i) 
 {  
@@ -179,7 +186,12 @@ void PlayerManager::removeLocalPlayer(int i)
 }
 
 std::vector<RemotePlayer*> PlayerManager::getRemotePlayers() { return this->remotePlayers; }
-void PlayerManager::addRemotePlayer(RemotePlayer* p) { this->remotePlayers.push_back(p); }
+
+void PlayerManager::addRemotePlayer(RemotePlayer* p) 
+{ 
+	this->remotePlayers.push_back(p); 
+	this->players.push_back(p);
+}
 
 void PlayerManager::updateRemote(PlayerData data)
 {

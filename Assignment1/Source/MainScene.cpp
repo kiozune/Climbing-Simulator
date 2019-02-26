@@ -164,14 +164,15 @@ void MainScene::Render()
 
 	if (size == 3)
 	{
+		std::vector<Player*> all = players->getPlayers();
 		glViewport(windowWidth, windowHeight, windowWidth, windowHeight);
 		renderTextOnScreen(models[TEXT], "SPECTATOR\nCAM", Color(1, 1, 1), 2, 1, 1);
-		renderForPlayer(localPlayers[spectatingPlayer]);
+		renderForPlayer(all[spectatingPlayer]);
 
 		if (elapseTime - prevTime > 5)
 		{
 			spectatingPlayer++;
-			spectatingPlayer = spectatingPlayer % players->getLocalPlayers().size();
+			spectatingPlayer = spectatingPlayer % all.size();
 			prevTime = elapseTime;
 		}
 	}
