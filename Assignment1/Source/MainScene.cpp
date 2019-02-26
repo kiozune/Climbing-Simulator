@@ -386,7 +386,7 @@ void MainScene::Render()
 		{
 			while (t_Pause == true)
 			{
-				Sleep(6000);
+				//Sleep(6000);
 				t_Pause = false;
 			}
 			RenderFirstPass();
