@@ -33,19 +33,20 @@ void MainScene::keyboardEvents(double& dt)
 void MainScene::joystickEvents(double& dt, int joy)
 {
 	if (!controller->isPresent()) return;
+	FixedCamera& cam = cameras[joy + 1];
 
 	//swingX = analog[0], swingY = analog[1];
 	//LT = analog[4], RT = analog[5];
 	//camX = analog[2], camY = analog[3];
 
 	if (Application::IsControllerPressed(joy, 1))
-		cameras[joy].zoomIn(dt);
+		cam.zoomIn(dt);
 
 	if (Application::IsControllerPressed(joy, 2))
-		cameras[joy].zoomOut(dt);
+		cam.zoomOut(dt);
 	
 	// camera
 	Vector3 rightJS = controller->getRightJoystick();
-	cameras[joy].changeYaw(rightJS.x, dt);
-	cameras[joy].changePitch(rightJS.y, dt);
+	cam.changeYaw(rightJS.x, dt);
+	cam.changePitch(rightJS.y, dt);
 }

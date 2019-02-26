@@ -237,20 +237,39 @@ void MainScene::renderForPlayer(Player* p)
 	Vector3 left = p->getLeftHand()->getCenter();
 	Vector3 right = p->getRightHand()->getCenter();
 
+	float energy = p->getEnergy();
+
 	modelStack.PushMatrix();
 	{
-		float scale = 3 * p->getEnergy();
-		float offset = (9 - scale) / 2.0;
+
 		modelStack.Translate(center.x, center.y + 15, center.z);
 
-		modelStack.Rotate(180 - yaw, 0, 1, 0);
-		modelStack.Rotate(-pitch, 0, 0, 1);
+		if (energy > 2.5 || (int)(elapseTime * 10) % 3)
+		{
+			if (p->getEnergy() == 0)
+			{
+				modelStack.Rotate(270 - yaw, 0, 1, 0);
+				modelStack.Rotate(pitch, 1, 0, 0);
 
-		modelStack.Scale(1, 2, scale);
+				modelStack.Scale(3, 3, 3);
+			
+					renderText(models[TEXT], "EXHAUSTED", Color(1, 0, 0));
+			}
+			else
+			{
+				float scale = 3 * p->getEnergy();
+				float offset = (9 - scale) / 2.0;
 
-		glDisable(GL_DEPTH_TEST);
-		renderMesh(models[QUAD]);
-		glEnable(GL_DEPTH_TEST);
+				modelStack.Rotate(180 - yaw, 0, 1, 0);
+				modelStack.Rotate(-pitch, 0, 0, 1);
+
+				modelStack.Scale(1, 2, scale);
+
+				glDisable(GL_DEPTH_TEST);
+				renderMesh(models[QUAD]);
+				glEnable(GL_DEPTH_TEST);
+			}
+		}
 	}
 	modelStack.PopMatrix();
 

@@ -37,16 +37,17 @@ void PlayerManager::createRemotePlayers(std::string str, unsigned clientId)
 
 void PlayerManager::fixMissingPlayers()
 {
-	int joy = 0;
+	int i = 0;
 	ControllerManager* controller = ControllerManager::getInstance();
-	while (controller->isPresent(joy))
+	while (controller->isPresent(i))
 	{
+		int joy = i + 1;
 		if (joy >= this->localPlayers.size())
 		{
 			Player* p = createPlayer(joy);
 			this->localPlayers.push_back(p);
 		}
-		joy++;
+		i++;
 	}
 }
 

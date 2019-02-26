@@ -148,14 +148,32 @@ void MainScene::Render()
 	unsigned size = localPlayers.size();
 	Vector3 frameSize = Application::getFrameSize();
 
-	float windowWidth = frameSize.x / (float)size;
-	float windowHeight = frameSize.y / (float)size;
+	float rows = ceil((float)size / 2.0f);
+	float columns = ceil((float)size / rows);
+
+	float windowWidth = frameSize.x / columns;
+	float windowHeight = frameSize.y / rows;
 
 	for (int i = 0; i < size; ++i)
 	{
-		glViewport(0, windowHeight * i, frameSize.x, windowHeight);
-		//glViewport(windowWidth * i, 0, windowWidth * 2, 3200);
+		int x = i % 2;
+		int y = i / 2;
+		glViewport(windowWidth * x, windowHeight * y, windowWidth, windowHeight);
 		renderForPlayer(localPlayers[i]);
+	}
+
+	if (size == 3)
+	{
+		glViewport(windowWidth, windowHeight, windowWidth, windowHeight);
+		renderTextOnScreen(models[TEXT], "SPECTATOR\nCAM", Color(1, 1, 1), 2, 1, 1);
+		renderForPlayer(localPlayers[spectatingPlayer]);
+
+		if (elapseTime - prevTime > 5)
+		{
+			spectatingPlayer++;
+			spectatingPlayer = spectatingPlayer % players->getLocalPlayers().size();
+			prevTime = elapseTime;
+		}
 	}
 
 	// renderTextOnScreen(models[TEXT], std::to_string(elapseTime), Color(1, 1, 1), 1, 2, 2);

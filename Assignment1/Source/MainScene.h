@@ -60,6 +60,9 @@ class MainScene : public Scene
 
 	Vector3 prevMousePosition;
 
+	int prevTime;
+	int spectatingPlayer;
+
 	bool isXboxController = false;
 
 	// applies material to geometry selected
