@@ -171,6 +171,7 @@
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\PlayerManger.cpp" />
     <ClCompile Include="Source\RemotePlayer.cpp" />
+    <ClCompile Include="Source\SceneManager.cpp" />
     <ClCompile Include="Source\Server.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\Sound.cpp" />
@@ -179,6 +180,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FrameBufferObject.h" />
+    <ClInclude Include="Source\AllScenes.h" />
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\block.h" />
     <ClInclude Include="Source\BlockGenerator.h" />
@@ -210,6 +212,7 @@
     <ClInclude Include="Source\RemotePlayer.h" />
     <ClInclude Include="Source\PlayerData.h" />
     <ClInclude Include="Source\Scene.h" />
+    <ClInclude Include="Source\SceneManager.h" />
     <ClInclude Include="Source\Server.h" />
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\Sound.h" />

@@ -8,9 +8,9 @@
 #include "MainScene.h"
 #include "Application.h"
 
-#include "MenuScene.h"
-#include "JoinScene.h"
-#include "MainScene.h"
+#include "SceneManager.h"
+
+#include "AllScenes.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -159,13 +159,21 @@ void Application::Init()
 		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
 		//return -1;
 	}
+
+	SceneManager* manager = SceneManager::getInstance();
+	MenuScene* menu = new MenuScene;
+	manager->setCurrent(menu);
+	manager->setNext(menu);
 }
 
 void Application::Run()
 {
+	SceneManager* manager = SceneManager::getInstance();
 	//Main Loop
-	Scene *scene = new JoinScene;
+	Scene *scene = manager->getCurrent();
 	scene->Init();
+
+	Scene *next;
 /*
 	bool isMultiplayer = true;
 	if (isMultiplayer)
@@ -188,6 +196,20 @@ void Application::Run()
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window))
 	{
+		next = manager->getNext();
+		if (next == nullptr)
+		{
+			break;
+		}
+		else if (next != scene)
+		{
+			scene->Exit();
+			delete scene;
+			scene = next;
+			scene->Init();
+			manager->setCurrent(scene);
+		}
+
 		scene->Update(m_timer.getElapsedTime());
 		scene->Render();
 		//Swap buffers

@@ -1,4 +1,6 @@
-#include "MenuScene.h"
+#include "AllScenes.h"
+
+#include "SceneManager.h"
 
 #include "shader.hpp"
 #include "LoadTGA.h"
@@ -65,15 +67,17 @@ void MenuScene::Init()
 void MenuScene::Update(double dt)
 {
 	elapseTime += dt;
+	if (elapseTime < bounceTime)
+		return;
 
-	if (Application::IsKeyPressed(VK_UP) && elapseTime > bounceTime)
+	if (Application::IsKeyPressed(VK_UP))
 	{
 		current = (OPTION)(current - 1);
 		if (current < 0) current = (OPTION)(OPTION::COUNT - 1);
 		bounceTime = elapseTime + 0.2;
 	}
 
-	if (Application::IsKeyPressed(VK_DOWN) && elapseTime > bounceTime)
+	if (Application::IsKeyPressed(VK_DOWN))
 	{
 		current = (OPTION)((current + 1) % OPTION::COUNT);
 		bounceTime = elapseTime + 0.2;
@@ -84,6 +88,26 @@ void MenuScene::Update(double dt)
 	models[EXIT_GAME]->setTexture(t_alpha);
 
 	models[current]->setTexture(t_opaque);
+
+	if (Application::IsKeyPressed(VK_RETURN))
+	{
+		Scene* next;
+		switch (current)
+		{
+		case CREATE_LOBBY:
+			next = new MainScene;
+			break;
+		case JOIN_LOBBY:
+			next = new JoinScene;
+			break;
+		default:
+			next = nullptr;
+			break;
+		}
+		SceneManager* manager = SceneManager::getInstance();
+		manager->setNext(next);
+		bounceTime = elapseTime + 0.2;
+	}
 }
 
 
