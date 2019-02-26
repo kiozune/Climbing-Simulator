@@ -574,7 +574,7 @@ void MainScene::renderLoading()
 	//Render Loading Screen
 	renderMenu2D(models[LOADING], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
 	e_States = GAMEMODE;
-	tempTime = elapseTime + 3;
+	tempTime = elapseTime + 3	;
 }
 
 void MainScene::Exit()
