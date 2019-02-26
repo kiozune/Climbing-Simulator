@@ -82,12 +82,6 @@ void MainScene::Init()
 	models[SKY_BOX]->applyTexture("Image//skybox.tga");
 	applyMaterial(models[SKY_BOX]);*/
 
-	models[SHADOW_QUAD] = MeshBuilder::GenerateQuad("Shadow_Quad", Color(1, 1, 1), 1.f);
-	models[SHADOW_QUAD]->texArray[0] = shadowFBO.getTexture();
-
-	models[TEST_OBJ] = MeshBuilder::GenerateOBJ("testLevel");
-//	models[TEST_OBJ]->applyTexture("Image//skybox.tga");
-	applyMaterial(models[TEST_OBJ]);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	models[QUAD] = MeshBuilder::GenerateQuad("QUAD", Color(1, 1, 1), Position(1, 1, 1));
 	applyMaterial(models[QUAD]);
@@ -109,14 +103,6 @@ void MainScene::Init()
 	glUseProgram(menuShader);
 
 	initText();
-
-	models[MAINMENU_QUAD] = MeshBuilder::GenerateScreen("Main_Menu", Color(1, 1, 1), 14.f);
-	models[MAINMENU_QUAD]->applyTexture("Image//Background.tga");
-	applyMaterial(models[MAINMENU_QUAD]);
-
-	models[LOADING] = MeshBuilder::GenerateScreen("Loading", Color(1, 1, 1), 14.f);
-	models[LOADING]->applyTexture("Image//controller.tga");
-	applyMaterial(models[LOADING]);
 }
 
 void MainScene::Update(double dt)
@@ -142,11 +128,6 @@ void MainScene::Update(double dt)
 	for (Player* p : localPlayers)
 		updatePlayer(p, dt);
 
-	// std::string data = transfer->stringifyData(transfer->getPlayerData(players[0]));
-	// remotePlayers[0].update(transfer->parseData(data));
-
-
-	//camera.move(dt);
 	Vector3 center = Vector3(0,0,0);
 
 	if (size)
@@ -163,69 +144,12 @@ void MainScene::Update(double dt)
 		Vector3 target = Vector3(int(center.x / 5) * 5, int(center.y / 5) * 5, int(center.z / 5) * 5);
 		cameras[0].setTarget(target);
 	}
-
-	//Enter Inputs to change scene
-	//When ur on Local
-	//if (localCheck == true)
-	//{
-	//	if (Application::IsKeyPressed(VK_RETURN))
-	//	{
-	//		e_States = LOADINGSCREEN;
-	//		tempTime = elapseTime + 5;
-	//	}
-	//}
-	////When ur on Online
-	//if (onlineCheck == true)
-	//{
-	//	if (Application::IsKeyPressed(VK_RETURN))
-	//	{
-	//		e_States = JOIN_LOBBY;
-	//		tempTime = elapseTime + 5;
-	//	}
-	//}
-	////WHen ur on Exit
-	//if (exitCheck == true)
-	//{
-	//	if (Application::IsKeyPressed(VK_RETURN))
-	//	{
-	//		e_States = EXIT_GAME;
-	//	}
-	//}
-
-	rotateMap += 10 * dt;
 }
 
 void MainScene::Render()
 {
-	/*
-	switch (e_States)
-	{
-		case MAINMENU:
-		{
-			break;
-		}
-		case JOIN_LOBBY:
-		{
-			renderJoinLobby();
-			break;
-		}
-		case GAMEMODE:
-		{
-			RenderFirstPass();
-			RenderSecondPass();
-			break;
-		}
-		case LOADINGSCREEN:
-		{
-			renderLoading();
-			break;
-		}
-		default:
-		{
-			std::cout << "Are you sure theres a scene?" << std::endl;
-			break;
-		}
-	}*/
+	RenderFirstPass();
+	RenderSecondPass();
 }
 
 //Rendering from the Lights point of view
@@ -244,7 +168,7 @@ void MainScene::RenderFirstPass()
 		lightProj.SetToPerspective(90.0f, 1.f, 0.1, 20);
 
 	lightView.SetToLookAt(lights[0].position.x, lights[0].position.y, lights[0].position.z, 0, 0, 0, 0, 1, 0);
-	RenderScene();
+	RenderGame();
 }
 
 //Rendering from the camera's Point of view
@@ -265,7 +189,7 @@ void MainScene::RenderSecondPass()
 	Mtx44 cam_perspective;
 	cam_perspective.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 10000.0f);
 	projectionStack.LoadMatrix(cam_perspective);
-	RenderScene();
+	RenderGame();
 
 	Vector3 position = cameras[0].getPosition();
 	Vector3 target = cameras[0].getTarget();
@@ -311,13 +235,6 @@ void MainScene::RenderSecondPass()
 		}
 		modelStack.PopMatrix();
 	}
-
-	modelStack.PushMatrix();
-	modelStack.Translate(0, 0.2f, 0);
-	modelStack.Scale(10, 10, 10);
-	renderMesh(models[SHADOW_QUAD], false);
-	modelStack.PopMatrix();
-
 }
 
 void MainScene::Exit()

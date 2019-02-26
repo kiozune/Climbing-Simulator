@@ -19,6 +19,7 @@ bool Client::start()
 		std::cout << "Failed to start" << std::endl;
 		return false;
 	}
+	status = 0;
 	return true;
 }
 
@@ -50,6 +51,11 @@ void Client::connectTo(u_short port, const char* ip)
 			data.erase(pos, 4);
 			manager->createRemotePlayers(data, this->id);
 		}
+		status = 1;
+	}
+	else
+	{
+		status = -1;
 	}
 }
 
@@ -82,3 +88,5 @@ void Client::exit()
 	closesocket(out);
 	WSACleanup();
 }
+
+int Client::getStatus() { return this->status; }

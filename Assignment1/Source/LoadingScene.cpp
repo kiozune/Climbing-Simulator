@@ -1,14 +1,10 @@
-#include "AllScenes.h"
-#include "SceneManager.h"
+#include "LoadingScene.h"
 
-#include "MultiplayerManager.h"
-#include "DataTransferManager.h"
+#include "SceneManager.h"
 #include "shader.hpp"
 
-void JoinScene::Init()
+void LoadingScene::Init()
 {
-	ignore = true;
-
 	// clear screen and fill with white
 	glClearColor(0.25, 0.25, 0.25, 0);
 	// Enable depth test
@@ -52,75 +48,40 @@ void JoinScene::Init()
 	text->applyTexture("Image//calibri.tga");
 }
 
-void JoinScene::Update(double dt)
+void LoadingScene::Update(double dt)
 {
 	elapseTime += dt;
-
-	char possible[11] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
-
-	if (elapseTime < bounceTime)
-		return;
-
-	for (char& c : possible)
+	if (state > 0)
 	{
-		if (Application::IsKeyPressed(c))
-		{
-			ip += c;
-			bounceTime = elapseTime + 0.2;
-			break;
-		}
+		SceneManager* manager = SceneManager::getInstance();
+		manager->setNext(destination);
 	}
-
-	if (Application::IsKeyPressed(VK_OEM_PERIOD))
+	else if (state < 0)
 	{
-		ip += '.';
-		bounceTime = elapseTime + 0.2;
-	}
-
-	if (Application::IsKeyPressed(VK_BACK))
-	{
-		if (ip.size()) ip.pop_back();
-		bounceTime = elapseTime + 0.2;
-	}
-
-	if (Application::IsKeyPressed(VK_RETURN))
-	{
-		if (!ignore)
-		{
-			SceneManager* s_manager = SceneManager::getInstance();
-			LoadingScene* destination = new LoadingScene;
-			s_manager->setNext(destination);
-
-			MultiplayerManager* m_manager = MultiplayerManager::getInstance();
-			m_manager->connectTo(ip);
-			destination->setDetails([](int& i) {
-				DataTransferManager* manager = DataTransferManager::getInstance();
-				while ((i = manager->getClient().getStatus()) == 0) {}
-			}, new MainScene, this);
-		}
-		else
-		{
-			ignore = false;
-		}
-		bounceTime = elapseTime + 0.2;
-	}
-
-	if (Application::IsKeyPressed(VK_ESCAPE))
-	{
-		SceneManager* s_manager = SceneManager::getInstance();
-		s_manager->setNext(new MenuScene);
-		bounceTime = elapseTime + 0.2;
+		SceneManager* manager = SceneManager::getInstance();
+		manager->setNext(source);
 	}
 }
 
-void JoinScene::Render()
+void LoadingScene::Render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	renderTextOnScreen(text, "ENTER IP\n" + ip, Color(1, 1, 1), 3, 2, 2);
+	renderTextOnScreen(text, "LOADING...", Color(1, 1, 1), 3, 2, 2);
 }
 
-void JoinScene::Exit()
+void LoadingScene::Exit()
 {
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
+}
+
+void LoadingScene::setDetails(void(*a)(int&), Scene* d, Scene* s)
+{
+	this->state = 0;
+
+	this->action = a;
+	this->action(this->state);
+
+	this->destination = d;
+	this->source = s;
 }

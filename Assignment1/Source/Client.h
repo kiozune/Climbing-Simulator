@@ -18,6 +18,8 @@ private:
 	char buff[1024];
 	int serverLength;
 
+	int status;
+
 public:
 	
 	unsigned getId();
@@ -30,6 +32,8 @@ public:
 	void sendData(std::string content);
 	bool recieve(std::string& data);
 	void exit();
+
+	int getStatus();
 
 };
 

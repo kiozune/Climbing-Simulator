@@ -67,6 +67,9 @@
     <Filter Include="Scenes\Join">
       <UniqueIdentifier>{b3d99dc6-6b2a-4c50-a28a-4fb43e2b0fb4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes\Loading">
+      <UniqueIdentifier>{994ac25e-f077-41cf-8084-93d2892c3dc6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Camera.cpp">
@@ -150,6 +153,12 @@
     <ClCompile Include="Source\SceneManager.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Source\LoadingScene.cpp">
+      <Filter>Scenes\Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LoadingScene+Render.cpp">
+      <Filter>Scenes\Loading</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Camera.h">
@@ -220,6 +229,9 @@
     </ClInclude>
     <ClInclude Include="Source\AllScenes.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LoadingScene.h">
+      <Filter>Scenes\Loading</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

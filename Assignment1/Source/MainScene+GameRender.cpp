@@ -1,7 +1,7 @@
 #include "MainScene.h"
 
 //Renders the world
-void MainScene::RenderScene()
+void MainScene::RenderGame()
 {
 	modelStack.PushMatrix();
 	modelStack.Scale(100, 100, 100);

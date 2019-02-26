@@ -1,6 +1,7 @@
 #include "AllScenes.h"
 
 #include "SceneManager.h"
+#include "DataTransferManager.h"
 
 #include "shader.hpp"
 #include "LoadTGA.h"
@@ -95,8 +96,29 @@ void MenuScene::Update(double dt)
 		switch (current)
 		{
 		case CREATE_LOBBY:
-			next = new MainScene;
+		{
+			LoadingScene* destination = new LoadingScene;
+			destination->setDetails([](int& i) {
+				MultiplayerManager* m_manager = MultiplayerManager::getInstance();
+				m_manager->startSever();
+
+				std::string ip;
+				while (ip == "")
+					ip = m_manager->getSever().getIp();
+
+				std::cout << "Sever started on " << ip << std::endl;
+
+				m_manager->connectTo(ip);
+				m_manager->receive();
+				m_manager->send();
+
+				DataTransferManager* d_manager = DataTransferManager::getInstance();
+				while ((i = d_manager->getClient().getStatus()) == 0) {}
+			}, new MainScene, this);
+
+			next = destination;
 			break;
+		}
 		case JOIN_LOBBY:
 			next = new JoinScene;
 			break;
@@ -104,8 +126,8 @@ void MenuScene::Update(double dt)
 			next = nullptr;
 			break;
 		}
-		SceneManager* manager = SceneManager::getInstance();
-		manager->setNext(next);
+		SceneManager* s_manager = SceneManager::getInstance();
+		s_manager->setNext(next);
 		bounceTime = elapseTime + 0.2;
 	}
 }

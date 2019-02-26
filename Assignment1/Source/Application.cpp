@@ -28,8 +28,6 @@ static void error_callback(int error, const char* description)
 //Define the key input callback
 void Application::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, GL_TRUE);
 	keys[key] = action == GLFW_PRESS;
 }
 
@@ -199,6 +197,8 @@ void Application::Run()
 		next = manager->getNext();
 		if (next == nullptr)
 		{
+			MultiplayerManager* manager = MultiplayerManager::getInstance();
+			manager->end();
 			break;
 		}
 		else if (next != scene)
@@ -218,14 +218,6 @@ void Application::Run()
 		glfwPollEvents();
 
         m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms
-
-		//If gamestate of Mainscene is EXIT_GAME it will break out of this while loop and close the scene.
-		if (IsKeyPressed(VK_ESCAPE))
-		{
-			MultiplayerManager* manager = MultiplayerManager::getInstance();
-			manager->end();
-			break;
-		}
 
 	} //Check if the ESC key had been pressed or if the window had been closed
 

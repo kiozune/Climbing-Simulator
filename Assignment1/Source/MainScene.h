@@ -26,14 +26,6 @@ class MainScene : public Scene
 		TEXT,
 		LIGHT,
 		SKY_BOX,
-		TEST_OBJ,
-		MAINMENU_QUAD,
-		JOINLOCAL_QUAD,
-		JOINONLINE_QUAD,
-		EXIT,
-		LOADING,
-		STARTLOCAL_QUAD,
-		SHADOW_QUAD,
 
 		QUAD,
 		CUBE,
@@ -51,7 +43,8 @@ class MainScene : public Scene
 	int i_Light;
 	bool debugging;
 
-	float rotateMap;
+	float elapseTime = 0;
+	float bounceTime; // for key press inputs
 
 	// stores the size of the map
 	// indicates if user enabled lighting
@@ -65,8 +58,6 @@ class MainScene : public Scene
 
 	Position viewSize;
 
-	bool pause;
-
 	std::vector<FixedCamera> cameras; // stationary
 
 	Mesh* models[NUM_GEOMETRY];
@@ -75,15 +66,6 @@ class MainScene : public Scene
 
 	BlockGenerator* blockGen = BlockGenerator::GetInstance();
 	SoundManager* sound = SoundManager::GetInstance();
-
-	float tempTime = 0;
-	float elapseTime = 0;
-	float bounceTime; // for key press inputs
-
-	std::string ip = "127.0.0.1";
-
-	//Pause timer for keybind
-	bool t_Pause;
 
 	PhysicsManager* manager = PhysicsManager::getInstance();
 	ControllerManager* controller = ControllerManager::getInstance();
@@ -99,6 +81,7 @@ class MainScene : public Scene
 	void changeColour(Mesh*, Color);
 
 	void renderMesh(Mesh* model, bool enableLight = false);
+
 	void initText();
 	void renderText(Mesh* mesh, const std::string text, Color color);
 	void renderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
@@ -109,12 +92,16 @@ class MainScene : public Scene
 
 	void initMap();
 
-	void updatePlayer(Player*, double&);
-	void renderForPlayer(Player*);
-
 	void keyboardEvents(double&);
 	void joystickEvents(double&, int);
 
+	void updatePlayer(Player*, double&);
+	void renderForPlayer(Player*);
+
+	void RenderFirstPass();
+	void RenderSecondPass();
+	void RenderGame();
+	void RenderPause();
 public:
 
 	virtual void Init();
@@ -122,11 +109,7 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
-	void renderLoading();
 
-	void RenderFirstPass();
-	void RenderSecondPass();
-	void RenderScene();
 
 	void renderMeshMenu(Mesh* model, bool enableLight);
 

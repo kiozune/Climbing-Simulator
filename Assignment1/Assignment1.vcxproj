@@ -148,6 +148,8 @@
     <ClCompile Include="Source\JoinScene+Render.cpp" />
     <ClCompile Include="Source\JoinScene.cpp" />
     <ClCompile Include="Source\Light.cpp" />
+    <ClCompile Include="Source\LoadingScene+Render.cpp" />
+    <ClCompile Include="Source\LoadingScene.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
     <ClCompile Include="Source\LoadTGA.cpp" />
     <ClCompile Include="Source\main.cpp" />
@@ -195,6 +197,7 @@
     <ClInclude Include="Source\FixedCamera.h" />
     <ClInclude Include="Source\JoinScene.h" />
     <ClInclude Include="Source\Light.h" />
+    <ClInclude Include="Source\LoadingScene.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
     <ClInclude Include="Source\LoadTGA.h" />
     <ClInclude Include="Source\MainScene.h" />

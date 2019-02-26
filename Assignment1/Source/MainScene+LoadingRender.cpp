@@ -1,7 +1,7 @@
 #include "MainScene.h"
 
 //Loading Screen Render
-void MainScene::renderLoading()
+void MainScene::RenderPause()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//Use Menu Shader
