@@ -145,6 +145,8 @@
     <ClCompile Include="Source\ControllerManager.cpp" />
     <ClCompile Include="Source\DataTransferManager.cpp" />
     <ClCompile Include="Source\FixedCamera.cpp" />
+    <ClCompile Include="Source\JoinScene+Render.cpp" />
+    <ClCompile Include="Source\JoinScene.cpp" />
     <ClCompile Include="Source\Light.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
     <ClCompile Include="Source\LoadTGA.cpp" />
@@ -152,7 +154,6 @@
     <ClCompile Include="Source\MainScene+EventHandler.cpp" />
     <ClCompile Include="Source\MainScene+GameRender.cpp" />
     <ClCompile Include="Source\MainScene+Init.cpp" />
-    <ClCompile Include="Source\MainScene+JoinLobbyRender.cpp" />
     <ClCompile Include="Source\MainScene+LoadingRender.cpp" />
     <ClCompile Include="Source\MainScene+PartsRender.cpp" />
     <ClCompile Include="Source\MainScene+PlayerMethods.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="Source\ControllerManager.h" />
     <ClInclude Include="Source\DataTransferManager.h" />
     <ClInclude Include="Source\FixedCamera.h" />
+    <ClInclude Include="Source\JoinScene.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
     <ClInclude Include="Source\LoadTGA.h" />

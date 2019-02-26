@@ -55,25 +55,22 @@
     <Filter Include="Constants">
       <UniqueIdentifier>{0d0ae643-02da-4c3b-acc2-087251bcb19b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scenes\Scene renders">
-      <UniqueIdentifier>{9904a8a9-8b9b-4bed-9f2d-54e840b2a0da}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scenes\Main scene">
-      <UniqueIdentifier>{143730d8-cf02-40a6-afde-7498a73e575f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scenes\Menu">
       <UniqueIdentifier>{46905cc2-aacd-41b5-8b81-3a894efa7dcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Main">
+      <UniqueIdentifier>{143730d8-cf02-40a6-afde-7498a73e575f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Main\Scene renders">
+      <UniqueIdentifier>{9904a8a9-8b9b-4bed-9f2d-54e840b2a0da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Join">
+      <UniqueIdentifier>{b3d99dc6-6b2a-4c50-a28a-4fb43e2b0fb4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Camera.cpp">
       <Filter>Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MainScene+Render.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MainScene.cpp">
-      <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Source\main.cpp">
       <Filter>Source Files</Filter>
@@ -115,19 +112,40 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\MainScene+LoadingRender.cpp">
-      <Filter>Scenes\Scene renders</Filter>
+      <Filter>Scenes\Main\Scene renders</Filter>
     </ClCompile>
     <ClCompile Include="Source\MainScene+GameRender.cpp">
-      <Filter>Scenes\Scene renders</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MainScene+JoinLobbyRender.cpp">
-      <Filter>Scenes\Scene renders</Filter>
+      <Filter>Scenes\Main\Scene renders</Filter>
     </ClCompile>
     <ClCompile Include="Source\MenuScene.cpp">
       <Filter>Scenes\Menu</Filter>
     </ClCompile>
     <ClCompile Include="Source\MenuScene+Render.cpp">
       <Filter>Scenes\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene.cpp">
+      <Filter>Scenes\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+EventHandler.cpp">
+      <Filter>Scenes\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+Init.cpp">
+      <Filter>Scenes\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+PartsRender.cpp">
+      <Filter>Scenes\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+PlayerMethods.cpp">
+      <Filter>Scenes\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+Render.cpp">
+      <Filter>Scenes\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\JoinScene.cpp">
+      <Filter>Scenes\Join</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\JoinScene+Render.cpp">
+      <Filter>Scenes\Join</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -146,9 +164,6 @@
     <ClCompile Include="Source\Player.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MainScene+PartsRender.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Spring.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
@@ -164,14 +179,8 @@
     <ClCompile Include="Source\MovableCamera.cpp">
       <Filter>Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MainScene+Init.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ControllerManager.cpp">
       <Filter>Controller Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MainScene+EventHandler.cpp">
-      <Filter>Scenes</Filter>
     </ClCompile>
     <ClInclude Include="Source\Sound.h">
       <Filter>Sound</Filter>
@@ -188,9 +197,6 @@
     <ClCompile Include="Source\PlayerManger.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MainScene+PlayerMethods.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\MultiplayerManager.cpp">
       <Filter>Multiplayer</Filter>
     </ClCompile>
@@ -200,11 +206,14 @@
     <ClInclude Include="Source\MenuScene.h">
       <Filter>Scenes\Menu</Filter>
     </ClInclude>
+    <ClInclude Include="Source\MainScene.h">
+      <Filter>Scenes\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\JoinScene.h">
+      <Filter>Scenes\Join</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\MainScene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Scene.h">
       <Filter>Scenes</Filter>
     </ClInclude>

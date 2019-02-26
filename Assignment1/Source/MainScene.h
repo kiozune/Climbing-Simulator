@@ -122,7 +122,6 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
-	void renderJoinLobby();
 	void renderLoading();
 
 	void RenderFirstPass();

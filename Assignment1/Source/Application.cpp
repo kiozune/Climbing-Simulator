@@ -9,6 +9,7 @@
 #include "Application.h"
 
 #include "MenuScene.h"
+#include "JoinScene.h"
 #include "MainScene.h"
 
 GLFWwindow* m_window;
@@ -163,7 +164,7 @@ void Application::Init()
 void Application::Run()
 {
 	//Main Loop
-	Scene *scene = new MenuScene;
+	Scene *scene = new JoinScene;
 	scene->Init();
 /*
 	bool isMultiplayer = true;
