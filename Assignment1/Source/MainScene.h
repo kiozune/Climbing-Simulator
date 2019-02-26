@@ -55,7 +55,6 @@ class MainScene : public Scene
 
 	PhysicsManager* manager = PhysicsManager::getInstance();
 	ControllerManager* controller = ControllerManager::getInstance();
-	DataTransferManager* transfer = DataTransferManager::getInstance();
 	PlayerManager* players = PlayerManager::getInstance();
 
 	Vector3 prevMousePosition;

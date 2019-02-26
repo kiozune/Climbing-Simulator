@@ -155,6 +155,7 @@
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\MeshBuilder.cpp" />
     <ClCompile Include="Source\MovableCamera.cpp" />
+    <ClCompile Include="Source\MultiplayerManager.cpp" />
     <ClCompile Include="Source\Object.cpp" />
     <ClCompile Include="Source\PhysicsManager.cpp" />
     <ClCompile Include="Source\Joint.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\MeshBuilder.h" />
     <ClInclude Include="Source\MovableCamera.h" />
+    <ClInclude Include="Source\MultiplayerManager.h" />
     <ClInclude Include="Source\Object.h" />
     <ClInclude Include="Source\PhysicsManager.h" />
     <ClInclude Include="Source\Joint.h" />

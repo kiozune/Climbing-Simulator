@@ -1,7 +1,7 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
-#include "DataTransferManager.h"
+#include "MultiplayerManager.h"
 
 #include "timer.h"
 #include "Vector3.h"
