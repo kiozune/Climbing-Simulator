@@ -87,6 +87,7 @@ class MainScene : public Scene
 	BlockGenerator* blockGen = BlockGenerator::GetInstance();
 	SoundManager* sound = SoundManager::GetInstance();
 
+	float tempTime = 0;
 	float elapseTime = 0;
 	float bounceTime; // for key press inputs
 
