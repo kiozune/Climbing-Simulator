@@ -8,6 +8,7 @@
 #include "MainScene.h"
 #include "Application.h"
 
+#include "MenuScene.h"
 #include "MainScene.h"
 
 GLFWwindow* m_window;
@@ -111,7 +112,6 @@ void Application::Init()
 	//Set the error callback
 	glfwSetErrorCallback(error_callback);
 
-
 	//Initialize GLFW
 	if (!glfwInit())
 	{
@@ -163,7 +163,7 @@ void Application::Init()
 void Application::Run()
 {
 	//Main Loop
-	MainScene *scene = new MainScene;
+	Scene *scene = new MenuScene;
 	scene->Init();
 /*
 	bool isMultiplayer = true;
@@ -197,7 +197,7 @@ void Application::Run()
         m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms
 
 		//If gamestate of Mainscene is EXIT_GAME it will break out of this while loop and close the scene.
-		if (IsKeyPressed(VK_ESCAPE) || scene->getSceneEnum() == 2)
+		if (IsKeyPressed(VK_ESCAPE))
 		{
 			MultiplayerManager* manager = MultiplayerManager::getInstance();
 			manager->end();

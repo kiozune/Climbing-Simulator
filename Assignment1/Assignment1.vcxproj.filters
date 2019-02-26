@@ -58,6 +58,12 @@
     <Filter Include="Scenes\Scene renders">
       <UniqueIdentifier>{9904a8a9-8b9b-4bed-9f2d-54e840b2a0da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes\Main scene">
+      <UniqueIdentifier>{143730d8-cf02-40a6-afde-7498a73e575f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Menu">
+      <UniqueIdentifier>{46905cc2-aacd-41b5-8b81-3a894efa7dcb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Camera.cpp">
@@ -67,9 +73,6 @@
       <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Source\MainScene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Scene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Source\main.cpp">
@@ -111,9 +114,6 @@
     <ClCompile Include="Source\Sound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MainScene+MenuRender.cpp">
-      <Filter>Scenes\Scene renders</Filter>
-    </ClCompile>
     <ClCompile Include="Source\MainScene+LoadingRender.cpp">
       <Filter>Scenes\Scene renders</Filter>
     </ClCompile>
@@ -122,6 +122,12 @@
     </ClCompile>
     <ClCompile Include="Source\MainScene+JoinLobbyRender.cpp">
       <Filter>Scenes\Scene renders</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MenuScene.cpp">
+      <Filter>Scenes\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MenuScene+Render.cpp">
+      <Filter>Scenes\Menu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -191,6 +197,9 @@
     <ClCompile Include="Source\Server.cpp">
       <Filter>Multiplayer</Filter>
     </ClCompile>
+    <ClInclude Include="Source\MenuScene.h">
+      <Filter>Scenes\Menu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\MainScene.h">

@@ -154,11 +154,12 @@
     <ClCompile Include="Source\MainScene+Init.cpp" />
     <ClCompile Include="Source\MainScene+JoinLobbyRender.cpp" />
     <ClCompile Include="Source\MainScene+LoadingRender.cpp" />
-    <ClCompile Include="Source\MainScene+MenuRender.cpp" />
     <ClCompile Include="Source\MainScene+PartsRender.cpp" />
     <ClCompile Include="Source\MainScene+PlayerMethods.cpp" />
     <ClCompile Include="Source\MainScene+Render.cpp" />
     <ClCompile Include="Source\MainScene.cpp" />
+    <ClCompile Include="Source\MenuScene+Render.cpp" />
+    <ClCompile Include="Source\MenuScene.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\MeshBuilder.cpp" />
     <ClCompile Include="Source\MovableCamera.cpp" />
@@ -169,7 +170,6 @@
     <ClCompile Include="Source\Player.cpp" />
     <ClCompile Include="Source\PlayerManger.cpp" />
     <ClCompile Include="Source\RemotePlayer.cpp" />
-    <ClCompile Include="Source\Scene.cpp" />
     <ClCompile Include="Source\Server.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\Sound.cpp" />
@@ -195,6 +195,7 @@
     <ClInclude Include="Source\LoadTGA.h" />
     <ClInclude Include="Source\MainScene.h" />
     <ClInclude Include="Source\Material.h" />
+    <ClInclude Include="Source\MenuScene.h" />
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\MeshBuilder.h" />
     <ClInclude Include="Source\MovableCamera.h" />

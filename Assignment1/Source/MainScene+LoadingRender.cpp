@@ -7,8 +7,8 @@ void MainScene::renderLoading()
 	//Use Menu Shader
 	glUseProgram(menuShader);
 	//Render Loading Screen
-	renderMenu2D(models[LOADING], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
+	//renderMenu2D(models[LOADING], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
 
-	if (tempTime < elapseTime);
-	e_States = GAMEMODE;
+	//if (tempTime < elapseTime);
+	//e_States = GAMEMODE;
 }

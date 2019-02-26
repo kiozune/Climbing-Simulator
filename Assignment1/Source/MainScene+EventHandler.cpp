@@ -2,7 +2,7 @@
 
 void MainScene::keyboardEvents(double& dt)
 {
-	if (e_States == JOIN_LOBBY)
+	if (false)//current == JOIN_LOBBY)
 	{
 		char possible[11] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.' };
 

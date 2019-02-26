@@ -35,7 +35,6 @@ class MainScene : public Scene
 		STARTLOCAL_QUAD,
 		SHADOW_QUAD,
 
-
 		QUAD,
 		CUBE,
 
@@ -46,17 +45,6 @@ class MainScene : public Scene
 	{
 		FIRST_PASS,
 		SECOND_PASS,
-	};
-
-	/*Enum for gameStates Add Extra scenes below Exit_Game
-	  If Add Above EXIT_GAME modify scene->getSceneEnum() == 2 to + 1 in application.cpp*/
-	enum e_Scenes
-	{
-		MAINMENU,
-		JOIN_LOBBY,
-		GAMEMODE,
-		EXIT_GAME,
-		LOADINGSCREEN,
 	};
 
 	int fps;
@@ -92,42 +80,6 @@ class MainScene : public Scene
 	float elapseTime = 0;
 	float bounceTime; // for key press inputs
 
-
-	//Color for RGB for texts
-	//Join Local Text
-	float localR;
-	float localG;
-	//Size for Local Text
-	float localSize;
-
-	//Start Local Text
-	float start_LocalR;
-	float start_LocalG;
-	//Size for start Local Text
-	float start_LocalSize;
-
-	//join Online Text
-	float OnlineR;
-	float OnlineG;
-	//size for online Text
-	float onlineSize;
-
-	//Exit Text
-	float exitR;
-	float exitG;
-	//size for Exit Text
-	float exitSize;
-
-	bool onlineCheck;
-	bool localCheck;
-	bool exitCheck;
-	bool startLocalCheck;
-
-	//Textures for Texts.
-	unsigned t_opaque;
-	unsigned t_alpha;
-	unsigned t_Test;
-
 	std::string ip = "127.0.0.1";
 
 	//Pause timer for keybind
@@ -142,15 +94,11 @@ class MainScene : public Scene
 	int prevTime;
 	int spectatingPlayer;
 
-	bool isXboxController = false;
-
 	// applies material to geometry selected
 	void applyMaterial(Mesh*);
 	void changeColour(Mesh*, Color);
 
-
 	void renderMesh(Mesh* model, bool enableLight = false);
-	void renderMenu2D(Mesh* model,float sizex,float sizey,float sizez,float x,float y, bool enableLight = false);
 	void initText();
 	void renderText(Mesh* mesh, const std::string text, Color color);
 	void renderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
@@ -167,8 +115,6 @@ class MainScene : public Scene
 	void keyboardEvents(double&);
 	void joystickEvents(double&, int);
 
-	void renderTextOnScreenMenu(Mesh* mesh, std::string text, Color color, float size, float x, float y);
-
 public:
 
 	virtual void Init();
@@ -176,7 +122,6 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
-	void renderMenu();
 	void renderJoinLobby();
 	void renderLoading();
 
@@ -185,7 +130,7 @@ public:
 	void RenderScene();
 
 	void renderMeshMenu(Mesh* model, bool enableLight);
-	int getSceneEnum();
+
 private:
 	unsigned shadowShader;
 	FrameBufferObject shadowFBO;
@@ -194,7 +139,7 @@ private:
 	Mtx44 lightView;
 
 	e_Passes e_Phases;
-	e_Scenes e_States;
+	//e_Scenes e_States;
 
 };
 
