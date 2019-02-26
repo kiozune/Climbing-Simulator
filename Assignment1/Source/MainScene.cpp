@@ -11,6 +11,7 @@
 
 void MainScene::Init()
 {
+	srand(time(NULL));
 	e_States = MAINMENU;
 	//Initiallizing Variables for Text
 	localR = 1.0f;
@@ -217,6 +218,9 @@ void MainScene::Update(double dt)
 
 	for (Player* p : localPlayers)
 		updatePlayer(p, dt);
+
+	if (ColResult.collided)
+		printf("triggered");
 
 	// std::string data = transfer->stringifyData(transfer->getPlayerData(players[0]));
 	// remotePlayers[0].update(transfer->parseData(data));

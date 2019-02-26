@@ -8,11 +8,16 @@ block::block()
 	position = Vector3(0, 0, 0);
 }
 
-void block::setCubeVector(float offset)
+void block::setCubeVector(float offset, int index)
 {
-	int innerOffset = 2.3;
+	int innerOffset = 2;
 	Vector3 newPos = { getRandomFloat(-offset/innerOffset,offset/innerOffset),getRandomFloat(-offset/innerOffset + 0.5f,offset/innerOffset),getRandomFloat(-offset/innerOffset,offset/innerOffset) };
-	newPos += position;
+	newPos += position; // spawn cube with reference to the centre of node. (InSHORT spawn in the node radius)
+	if (index != 0)
+	{
+		newPos.x += cubeVectors->at(index - 1).x; // Spaw cube with reference to previous cube location (InSHORT spawn in the last cube radius)
+		newPos.z += cubeVectors->at(index - 1).z; 
+	}
 	cubeVectors->push_back(newPos);
 }
 
@@ -32,7 +37,7 @@ void block::populateNode(int amount, float offset)
 	cubeVectors->reserve(amount);
 	for (int i = 0; i < amount; ++i)
 	{
-		setCubeVector(offset); // populate their location
+		setCubeVector(offset, i); // populate their location
 	}
 
 }

@@ -32,7 +32,7 @@ void MainScene::initText()
 
 void MainScene::initMap()
 {
-	blockGen->generateBlocks(80); // start up the linklist and get all the map data to populate param = offset between nodes
+	blockGen->generateBlocks(50); // start up the linklist and get all the map data to populate param = offset between nodes
 	block* current = blockGen->getHead();
 
 	while (current != blockGen->getTail()) // loop through the linklist then 
@@ -50,9 +50,9 @@ void MainScene::initMap()
 			for (int i = 0; i < current->getCubeVectors()->size(); i++)
 			{
 				Vector3 pos = current->getCubeVectors()->at(i);
-				float randFloat = static_cast<float>(rand() % 15 + 10);
+				float randFloat = static_cast<float>(rand() % 25 + 12);
 				Vector3 scale = { randFloat,randFloat,randFloat }; // pseudo sizing
-				if (i == current->getCubeVectors()->size() - 1 && rand() % 2) // last cube will be a rope with an off chance there isn't
+				if (i == current->getCubeVectors()->size() - 1 )//&& rand() % 2) // last cube will be a rope with an off chance there isn't
 				{
 					std::vector<Joint*> hinges;
 					hinges.push_back(new Joint(Vector3(pos.x, 60 + pos.y, pos.z), true));
@@ -81,5 +81,6 @@ void MainScene::initMap()
 		Object* platform = new Object(Vector3(100, 10, 100), current->getVector3(), 0, false);
 		platform->setColour(Color(1, 0, 0));
 		manager->addToEnvironment(platform);
+		finishingPlatform = platform;
 	}
 }

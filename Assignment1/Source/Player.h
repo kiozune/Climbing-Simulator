@@ -11,6 +11,7 @@ protected:
 
 	unsigned id;
 	float energy;
+	bool alive;
 
 	Object *leftHand, *rightHand;
 	Object *leftArm, *rightArm, *body;
@@ -26,6 +27,9 @@ public:
 
 	unsigned getId();
 	void setId(unsigned);
+
+	void setAlive(bool);
+	bool isAlive();
 
 	void recover(float);
 	void tire(float);
