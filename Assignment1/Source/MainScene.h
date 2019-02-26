@@ -20,6 +20,8 @@ class MainScene : public Scene
 		JOINLOCAL_QUAD,
 		JOINONLINE_QUAD,
 		EXIT,
+		LOADING,
+		STARTLOCAL_QUAD,
 		SHADOW_QUAD,
 
 
@@ -39,11 +41,14 @@ class MainScene : public Scene
 		MAINMENU,
 		GAMEMODE,
 		EXIT_GAME,
+		LOADINGSCREEN,
 	};
 
 	int fps;
 	int i_Light;
 	bool debugging;
+
+	float rotateMap;
 
 	// stores the size of the map
 	// indicates if user enabled lighting
@@ -75,6 +80,12 @@ class MainScene : public Scene
 	float localG;
 	//Size for Local Text
 	float localSize;
+	
+	//Start Local Text
+	float start_LocalR;
+	float start_LocalG;
+	//Size for start Local Text
+	float start_LocalSize;
 
 	//join Online Text
 	float OnlineR;
@@ -91,11 +102,15 @@ class MainScene : public Scene
 	bool onlineCheck;
 	bool localCheck;
 	bool exitCheck;
+	bool startLocalCheck;
 	
 	//Textures for Texts.
 	unsigned t_opaque;
 	unsigned t_alpha;
 	unsigned t_Test;
+
+	//Pause timer for keybind
+	bool t_Pause;
 
 
 	// applies material to geometry selected
@@ -113,10 +128,12 @@ public:
 	virtual void Update(double dt);
 	virtual void Render();
 	virtual void renderMenu();
+	virtual void renderLoading();
 	virtual void Exit();
 	void RenderFirstPass();
 	void RenderSecondPass();
 	void RenderScene();
+	void renderMeshMenu(Mesh* model, bool enableLight);
 	Camera& getCamera();
 	int getSceneEnum();
 private:

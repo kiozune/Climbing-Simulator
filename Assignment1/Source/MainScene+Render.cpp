@@ -69,10 +69,13 @@ void MainScene::initText() {
 	models[TEXT]->applyTexture("Image//calibri.tga");
 	models[JOINONLINE_QUAD] = MeshBuilder::GenerateText("Join_Online", 16, 16);
 	models[JOINONLINE_QUAD]->applyTexture("Image//calibri.tga");
+	models[STARTLOCAL_QUAD] = MeshBuilder::GenerateText("Start Local", 16, 16);
+	models[STARTLOCAL_QUAD]->applyTexture("Image//calibriOpacity.tga");
 	models[JOINLOCAL_QUAD] = MeshBuilder::GenerateText("JOIN LOCAL", 16, 16);
 	models[JOINLOCAL_QUAD]->applyTexture("Image//calibriOpacity.tga");
 	models[EXIT] = MeshBuilder::GenerateText("EXIT", 16, 16);
 	models[EXIT]->applyTexture("Image//calibriOpacity.tga");
+
 }
 
 void MainScene::renderText(Mesh* mesh, const std::string text, Color color) {
@@ -229,6 +232,7 @@ void MainScene::renderMenu2D(Mesh* model,float sizex,float sizey,float sizez,flo
 	}
 	model->render();
 
+
 	if (model->isTextured()) 
 	{
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -237,4 +241,51 @@ void MainScene::renderMenu2D(Mesh* model,float sizex,float sizey,float sizez,flo
 	modelStack.PopMatrix();
 	viewStack.PopMatrix();
 	projectionStack.PopMatrix();
+}
+
+void MainScene::renderMeshMenu(Mesh* model, bool enableLight)
+{
+
+	Mtx44 modelView, modelView_inverse_transpose;
+
+
+	Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top(); // Remember, matrix multiplication is the other way around
+
+	glUniformMatrix4fv(m_parameters[U_MVP_MENU], 1, GL_FALSE, &MVP.a[0]); //update the shader with new MVP
+	Mtx44 mTop = modelStack.Top();
+	Mtx44 vTop = viewStack.Top();
+
+	modelView = viewStack.Top() * modelStack.Top();
+	glUniformMatrix4fv(m_parameters[U_MODELVIEW_MENU], 1, GL_FALSE, &modelView.a[0]);
+	if (enableLight && lightingEnabled)
+	{
+		glUniform1i(m_parameters[U_LIGHTENABLED], 1);
+		modelView_inverse_transpose = modelView.GetInverse().GetTranspose();
+		glUniformMatrix4fv(m_parameters[U_MODELVIEW_INVERSE_TRANSPOSE_MENU], 1, GL_FALSE, &modelView_inverse_transpose.a[0]);
+		//load material
+		glUniform3fv(m_parameters[U_MATERIAL_AMBIENT_MENU], 1, &model->material.kAmbient.r);
+		glUniform3fv(m_parameters[U_MATERIAL_DIFFUSE_MENU], 1, &model->material.kDiffuse.r);
+		glUniform3fv(m_parameters[U_MATERIAL_SPECULAR_MENU], 1, &model->material.kSpecular.r);
+		glUniform1f(m_parameters[U_MATERIAL_SHININESS_MENU], model->material.kShininess);
+	}
+	else
+	{
+		glUniform1i(m_parameters[U_LIGHTENABLED], 0);
+	}
+
+	if (model->isTextured()) {
+		glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED_MENU], 1);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, model->getTextureID());
+		glUniform1i(m_parameters[U_COLOR_TEXTURE_MENU], 0);
+	}
+	else {
+		glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED_MENU], 0);
+	}
+
+	model->render();
+
+	if (model->isTextured()) {
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
 }
