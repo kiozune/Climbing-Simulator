@@ -1,7 +1,7 @@
 #ifndef MAINSCENE_H
 #define MAINSCENE_H
 
-#define LSPEED 10.0f
+#include "Constants.h"
 
 #include "Scene.h"
 #include "..\FrameBufferObject.h"
@@ -11,11 +11,12 @@
 
 #include "PhysicsManager.h"
 #include "ControllerManager.h"
+#include "PlayerManager.h"
 
 #include "Player.h"
+#include "RemotePlayer.h"
 
 #define LIGHT_COUNT 1
-#define PLAYER_COUNT 2
 
 class MainScene : public Scene
 {
@@ -29,6 +30,7 @@ class MainScene : public Scene
 		SHADOW_QUAD,
 
 
+		QUAD,
 		CUBE,
 
 		NUM_GEOMETRY,
@@ -57,7 +59,7 @@ class MainScene : public Scene
 
 	bool pause;
 
-	FixedCamera camera; // stationary
+	std::vector<FixedCamera> cameras; // stationary
 
 	Mesh* models[NUM_GEOMETRY];
 
@@ -71,17 +73,20 @@ class MainScene : public Scene
 
 	PhysicsManager* manager = PhysicsManager::getInstance();
 	ControllerManager* controller = ControllerManager::getInstance();
+	PlayerManager* players = PlayerManager::getInstance();
 
 	Vector3 prevMousePosition;
 
-	bool isXboxController = false;
+	int prevTime;
+	int spectatingPlayer;
 
-	Player players[PLAYER_COUNT];
+	bool isXboxController = false;
 
 	// applies material to geometry selected
 	void applyMaterial(Mesh*);
+	void changeColour(Mesh*, Color);
 
-	// renders gemotry
+	// renders  gemotry
 	void renderMesh(Mesh* model, bool enableLight = false);
 
 	void initText();
@@ -92,13 +97,13 @@ class MainScene : public Scene
 	void renderJoint(Joint*);
 	void renderBoundingBox(BoundingBox);
 
-	void initPlayer(Player&, Vector3);
 	void initMap();
 
-	void updatePlayer(int, double&);
+	void updatePlayer(Player*, double&);
+	void renderForPlayer(Player*);
 
 	void keyboardEvents(double&);
-	void joystickEvents(double&);
+	void joystickEvents(double&, int);
 
 public:
 
@@ -110,7 +115,6 @@ public:
 	void RenderSecondPass();
 	void RenderScene();
 
-	Camera& getCamera();
 
 private:
 	unsigned shadowShader;

@@ -7,7 +7,10 @@
 class Player 
 {
 
-private:
+protected:
+
+	unsigned id;
+	float energy;
 
 	Object *leftHand, *rightHand;
 	Object *leftArm, *rightArm, *body;
@@ -18,6 +21,15 @@ private:
 	Spring *leftSpring, *rightSpring;
 
 public:
+
+	Player();
+
+	unsigned getId();
+	void setId(unsigned);
+
+	void recover(float);
+	void tire(float);
+	float getEnergy();
 
 	Object* getLeftHand();
 	void setLeftHand(Object*);

@@ -58,7 +58,19 @@ Object::Object(Vector3 scale, Vector3 center, float mass, bool g)
 Joint* Object::getStart() { return this->start; }
 Joint* Object::getEnd() { return this->end; }
 float Object::getMass() { return this->mass; }
+
 Vector3 Object::getScale() { return this->scale; }
+
+Vector3 Object::getWorldScale()
+{
+	if (start == nullptr)
+		return this->scale;
+
+	Vector3 dir = this->start->getCurrent() - this->end->getCurrent();
+	float worldLength = dir.Length();
+	return Vector3(worldLength, scale.y, scale.z);
+}
+
 Vector3 Object::getRotation() { return this->rotation; }
 Vector3 Object::getCenter() { return this->center; }
 Vector3 Object::getMomentum() { return this->velocity * this->mass; };
@@ -117,14 +129,10 @@ void Object::accelerate(Vector3 a, float dt)
 	else
 	{
 		if (!start->isFixed())
-		{
 			start->move(a * dt);
-		}
 
 		if (!end->isFixed())
-		{
 			end->move(a * dt);
-		}
 
 		this->constraint();
 	}

@@ -11,7 +11,7 @@
 
 void MainScene::Init()
 {
-	srand(time(NULL));
+	//srand(time(NULL));
 
 	// clear screen and fill with black
 	glClearColor(0, 0, 0, 0);
@@ -111,14 +111,19 @@ void MainScene::Init()
 	models[SHADOW_QUAD] = MeshBuilder::GenerateQuad("Shadow_Quad", Color(1, 1, 1), 1.f);
 	models[SHADOW_QUAD]->texArray[0] = shadowFBO.getTexture();
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	models[QUAD] = MeshBuilder::GenerateQuad("QUAD", Color(1, 1, 1), Position(1, 1, 1));
+	applyMaterial(models[QUAD]);
+
 	models[CUBE] = MeshBuilder::GenerateCube("CUBE", Color(1, 1, 1), 1, 1, 1);
 	applyMaterial(models[CUBE]);
 
+	FixedCamera camera;
 	camera.Init(Vector3(0, 0, 0), 200, 100, 180);
+	cameras.push_back(camera);
 
-	for (int i = 0; i < PLAYER_COUNT; ++i) 
-		initPlayer(players[i], Vector3(0, 0, i * 10));
+	players->addLocalPlayer(players->createPlayer(0));
 
+	players->fixMissingPlayers();
 	initMap();
 	sound->playSound("bgm");
 }
@@ -129,24 +134,45 @@ void MainScene::Update(double dt)
 	elapseTime += dt;
 	fps = 1 / dt;
 
+	std::vector<Player*> localPlayers = players->getLocalPlayers();
+
+	unsigned size = localPlayers.size();
+	while (cameras.size() < size)
+	{
+		FixedCamera camera;
+		camera.Init(Vector3(0, 0, 0), 200, 100, 180);
+		cameras.push_back(camera);
+	}
+
 	// standard controls
 	keyboardEvents(dt);
 
-
-
 	manager->applyGravity(dt);
 
-	for (int i = 0; i < PLAYER_COUNT; ++i)
-		updatePlayer(i, dt);
+	for (Player* p : localPlayers)
+		updatePlayer(p, dt);
 
-	manager->resolveCollisions();
-
-
+	// std::string data = transfer->stringifyData(transfer->getPlayerData(players[0]));
+	// remotePlayers[0].update(transfer->parseData(data));
 
 	//camera.move(dt);
-	Vector3 center = players[0].getBody()->getCenter();
-	Vector3 target = Vector3(int(center.x / 5) * 5, int(center.y / 5) * 5, int(center.z / 5) * 5);
-	camera.setTarget(target);
+	Vector3 center = Vector3(0,0,0);
+
+	if (size)
+	{
+		for (int i = 0; i < size; ++i)
+		{
+			center = players->getLocalPlayers()[i]->getBody()->getCenter();
+			Vector3 target = Vector3(int(center.x / 5) * 5, int(center.y / 5) * 5, int(center.z / 5) * 5);
+			cameras[i].setTarget(target);
+		}
+	}
+	else
+	{
+		Vector3 target = Vector3(int(center.x / 5) * 5, int(center.y / 5) * 5, int(center.z / 5) * 5);
+		cameras[0].setTarget(target);
+	}
+
 }
 
 void MainScene::Render()
@@ -195,7 +221,6 @@ void MainScene::RenderSecondPass()
 	projectionStack.LoadMatrix(cam_perspective);
 	RenderScene();
 
-	// get reference to camera based on state
 	Vector3 position = camera.getPosition();
 	Vector3 target = camera.getTarget();
 	Vector3 up = camera.getUp();
@@ -257,60 +282,45 @@ void MainScene::RenderScene()
 	modelStack.Scale(100, 100, 100);
 	// renderMesh(models[SKY_BOX]);
 	modelStack.PopMatrix();
+	std::vector<Player*> localPlayers = players->getLocalPlayers();
+	Vector3 frameSize = Application::getFrameSize();
 
-	for (Object* obj : manager->getObjects()) 
-	{
-		renderObject(obj);
-		//renderBoundingBox(obj->getBoundingBox());
+	float rows = ceil((float)size / 2.0f);
+	float columns = ceil((float)size / rows);
+
+	float windowWidth = frameSize.x / columns;
+	float windowHeight = frameSize.y / rows;
+
+	for (int i = 0; i < size; ++i)
+		int x = i % 2;
+		int y = i / 2;
+		glViewport(windowWidth * x, windowHeight * y, windowWidth, windowHeight);
+		renderForPlayer(localPlayers[i]);
 	}
 
-	float yaw = camera.getYaw();
-	float pitch = camera.getPitch();
-
-	for (Player& p : players)
+	if (size == 3)
 	{
-		Vector3 left  = p.getLeftHand()->getCenter();
-		Vector3 right = p.getRightHand()->getCenter();
-		modelStack.PushMatrix();
+		std::vector<Player*> all = players->getPlayers();
+		glViewport(windowWidth, windowHeight, windowWidth, windowHeight);
+		renderTextOnScreen(models[TEXT], "SPECTATOR\nCAM", Color(1, 1, 1), 2, 1, 1);
+		renderForPlayer(all[spectatingPlayer]);
+
+		if (elapseTime - prevTime > 5)
 		{
-			modelStack.Translate(left.x, left.y + 5, left.z);
-
-			modelStack.Rotate(270 - yaw, 0, 1, 0);
-			modelStack.Rotate(pitch, 1, 0, 0);
-
-			modelStack.Scale(3, 3, 3);
-
-			Color color = p.isGrabbingLeft() ? Color(.9, .9, 0) : Color(1, 1, 1);
-			renderText(models[TEXT], "LT", color);
+			spectatingPlayer++;
+			spectatingPlayer = spectatingPlayer % all.size();
+			prevTime = elapseTime;
 		}
-		modelStack.PopMatrix();
-
-		modelStack.PushMatrix();
-		{
-			modelStack.Translate(right.x, right.y + 5, right.z);
-
-			modelStack.Rotate(270 - yaw, 0, 1, 0);
-			modelStack.Rotate(pitch, 1, 0, 0);
-
-			modelStack.Scale(3, 3, 3);
-
-			Color color = p.isGrabbingRight() ? Color(0, .9, .9) : Color(1, 1, 1);
-			renderText(models[TEXT], "RT", color);
-		}
-		modelStack.PopMatrix();
 	}
 	// renderMesh(models[SKY_BOX]);
 	// renderMesh(models[AXES]);
 	
+
+	// renderTextOnScreen(models[TEXT], std::to_string(elapseTime), Color(1, 1, 1), 1, 2, 2);
 }
 
 void MainScene::Exit()
 {
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
-}
-
-Camera& MainScene::getCamera()
-{
-	return this->camera;
 }

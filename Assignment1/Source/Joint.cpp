@@ -15,8 +15,12 @@ void Joint::setFixed(bool b)
 	this->fixed = b; 
 }
 
+void Joint::resetResolve() { this->isResolved = false; }
+
 void Joint::displace(Vector3 d)
 {
+	if (this->isResolved) return;
+	this->isResolved = true;
 	this->current += d;
 	this->previous = this->current;
 }
@@ -25,6 +29,12 @@ Vector3 Joint::getCurrent() { return this->current; }
 void Joint::setCurrent(Vector3 position) { this->current = position; }
 
 Vector3 Joint::getPrevious() { return this->previous; }
+
+void Joint::setPosition(Vector3 v) 
+{ 
+	this->current = v;
+	this->previous = v;
+}
 
 Vector3 Joint::getMomentum() { return this->current - this->previous; }
 

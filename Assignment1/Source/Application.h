@@ -1,6 +1,8 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
+#include "MultiplayerManager.h"
+
 #include "timer.h"
 #include "Vector3.h"
 
@@ -22,6 +24,7 @@ public:
 	static bool IsControllerPressed(int joy, unsigned short key);
 	static const float* getControllerAnalog(int joy);
 	static Vector3 GetMousePosition();
+	static Vector3 getFrameSize();
 
 private:
 

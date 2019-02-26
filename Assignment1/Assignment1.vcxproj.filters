@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Scenes">
-      <UniqueIdentifier>{7590157a-b309-4c54-92b6-fab1945e99f1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Application">
       <UniqueIdentifier>{617d0f9b-37b8-4fab-9448-d626a8f16036}</UniqueIdentifier>
     </Filter>
@@ -48,6 +45,15 @@
     </Filter>
     <Filter Include="Sound">
       <UniqueIdentifier>{74eb2693-7549-479d-a1d8-ebca83e34312}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Multiplayer">
+      <UniqueIdentifier>{17af9ba2-0796-4d23-9c24-f38a473bd9a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{7590157a-b309-4c54-92b6-fab1945e99f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Constants">
+      <UniqueIdentifier>{0d0ae643-02da-4c3b-acc2-087251bcb19b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +158,27 @@
     <ClInclude Include="Source\Sound.h">
       <Filter>Sound</Filter>
     </ClInclude>
+    <ClCompile Include="Source\DataTransferManager.cpp">
+      <Filter>Multiplayer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RemotePlayer.cpp">
+      <Filter>Multiplayer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Client.cpp">
+      <Filter>Multiplayer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlayerManger.cpp">
+      <Filter>GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+PlayerMethods.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MultiplayerManager.cpp">
+      <Filter>Multiplayer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Server.cpp">
+      <Filter>Multiplayer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\MainScene.h">
@@ -234,6 +261,30 @@
     </ClInclude>
     <ClInclude Include="Source\ControllerManager.h">
       <Filter>Controller Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DataTransferManager.h">
+      <Filter>Multiplayer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RemotePlayer.h">
+      <Filter>Multiplayer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayerData.h">
+      <Filter>Multiplayer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Client.h">
+      <Filter>Multiplayer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayerManager.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Constants.h">
+      <Filter>Constants</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MultiplayerManager.h">
+      <Filter>Multiplayer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Server.h">
+      <Filter>Multiplayer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

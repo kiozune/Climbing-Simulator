@@ -10,12 +10,16 @@ private:
 
 	static ControllerManager* instance;
 
+	int joy;
 	const float* analog;
 
 public:
 
 	static ControllerManager * getInstance();
 
+	bool isPresent();
+	bool isPresent(int);
+	
 	void getInput(int);
 
 	Vector3 getLeftJoystick();

@@ -58,6 +58,11 @@ CollisionDetails PhysicsManager::getCollisionDetails(Object* main, std::vector<O
 
 void PhysicsManager::resolveCollisions()
 {
+	for (Object* obj : others)
+	{
+		obj->getStart()->resetResolve();
+		obj->getEnd()->resetResolve();
+	}
 	CollisionResult result;
 	for (Object* obj : others)
 	{

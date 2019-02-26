@@ -9,7 +9,8 @@ void FixedCamera::update()
 	offset.y = sin(rad(pitch));
 	offset.z = sin(rad(yaw)) * cos(rad(pitch));
 
-	this->position = this->target - offset * radius;
+	offset = offset * this->radius;
+	this->position = this->target - offset;
 
 	Vector3 f = target - this->position;
 	if (f.IsZero()) return;
@@ -38,6 +39,7 @@ void FixedCamera::zoomOut(float dt) { this->radius += moveSpeed * dt; }
 void FixedCamera::changeYaw(float r, float dt)
 {
 	this->yaw += this->turnSpeed * r * dt;
+	if (this->yaw > 360) this->yaw = (float)((int)this->yaw % 360);
 	this->update();
 }
 
@@ -60,6 +62,6 @@ GLfloat FixedCamera::getPitch() { return this->pitch; }
 void FixedCamera::setTarget(Vector3 v)
 {
 	Vector3 d = v - this->target;
-	this->target += d * 0.01;
+	this->target += d * 0.1;
 	this->update();
 }

@@ -1,3 +1,4 @@
+
 //Include GLEW
 #include <GL/glew.h>
 
@@ -35,6 +36,26 @@ void resize_callback(GLFWwindow* window, int w, int h)
 	glViewport(0, 0, w, h); //update opengl the new window size
 }
 
+void joystick_callback(int joy, int event)
+{
+	if (event == GLFW_CONNECTED)
+	{
+		// The joystick was connected
+		PlayerManager* manager = PlayerManager::getInstance();
+		if (joy >= manager->getLocalPlayers().size())
+		{
+			Player* p = manager->createPlayer(joy);
+			manager->addLocalPlayer(p);
+		}
+	}
+	else if (event == GLFW_DISCONNECTED)
+	{
+		// The joystick was disconnected
+		PlayerManager* manager = PlayerManager::getInstance();
+		manager->removeLocalPlayer(joy);
+	}
+}
+
 bool Application::IsKeyPressed(unsigned short key)
 {
     return ((GetAsyncKeyState(key) & 0x8001) != 0);
@@ -69,6 +90,13 @@ Vector3 Application::GetMousePosition()
 	return Vector3(mouseX, mouseY);
 }
 
+Vector3 Application::getFrameSize()
+{
+	int width, height;
+	glfwGetFramebufferSize(m_window, &width, &height);
+	return Vector3(width, height);
+}
+
 Application::Application()
 {
 }
@@ -101,6 +129,7 @@ void Application::Init()
 	glfwSetWindowSizeCallback(m_window, resize_callback);
 
 	glfwSetKeyCallback(m_window, key_callback);
+	glfwSetJoystickCallback(joystick_callback);
 
 	glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
@@ -133,11 +162,29 @@ void Application::Init()
 void Application::Run()
 {
 	//Main Loop
-	MainScene *scene = new MainScene();
+	Scene *scene = new MainScene;
 	scene->Init();
+/*
+	bool isMultiplayer = true;
+	if (isMultiplayer)
+	{
+		MultiplayerManager* manager = MultiplayerManager::getInstance();
+		manager->startSever();
+
+		std::string ip;
+		while (ip == "")
+			ip = manager->getSever().getIp();
+
+		std::cout << "Sever started on " << ip << std::endl;
+
+		manager->connectTo(ip);
+		manager->receive();
+		manager->send();
+	}
+*/	
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
-	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
+	while (!glfwWindowShouldClose(m_window))
 	{
 		scene->Update(m_timer.getElapsedTime());
 		scene->Render();
@@ -146,7 +193,15 @@ void Application::Run()
 		//Get and organize events, like keyboard and mouse input, window resizing, etc...
 		glfwPollEvents();
         m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms
+
+		if (IsKeyPressed(VK_ESCAPE))
+		{
+			MultiplayerManager* manager = MultiplayerManager::getInstance();
+			manager->end();
+			break;
+		}
 	} //Check if the ESC key had been pressed or if the window had been closed
+
 	scene->Exit();
 	delete scene;
 }
