@@ -16,6 +16,19 @@ MultiplayerManager * MultiplayerManager::getInstance()
 	return instance;
 }
 
+Server MultiplayerManager::getSever() { return this->server; }
+
+void MultiplayerManager::startSever()
+{
+	server.start();
+	server.bindSocket();
+	std::thread main([]() {
+		while (true)
+			MultiplayerManager::getInstance()->getSever().run();
+	});
+	main.detach();
+}
+
 void MultiplayerManager::connectTo(std::string IP)
 {
 	DataTransferManager* transferManager = DataTransferManager::getInstance();

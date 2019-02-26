@@ -168,9 +168,15 @@ void Application::Run()
 	bool isMultiplayer = true;
 	if (isMultiplayer)
 	{
-		std::string ip;
-		std::cin >> ip;
 		MultiplayerManager* manager = MultiplayerManager::getInstance();
+		manager->startSever();
+
+		std::string ip;
+		while (ip == "")
+			ip = manager->getSever().getIp();
+
+		std::cout << "Sever started on " << ip << std::endl;
+
 		manager->connectTo(ip);
 		manager->receive();
 		manager->send();

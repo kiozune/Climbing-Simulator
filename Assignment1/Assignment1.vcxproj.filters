@@ -141,6 +141,9 @@
     <ClCompile Include="Source\MultiplayerManager.cpp">
       <Filter>Multiplayer</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Server.cpp">
+      <Filter>Multiplayer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\MainScene.h">
@@ -234,7 +237,10 @@
       <Filter>Constants</Filter>
     </ClInclude>
     <ClInclude Include="Source\MultiplayerManager.h">
-      <Filter>Header Files</Filter>
+      <Filter>Multiplayer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Server.h">
+      <Filter>Multiplayer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
