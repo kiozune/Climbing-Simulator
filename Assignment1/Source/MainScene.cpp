@@ -384,11 +384,7 @@ void MainScene::Render()
 		}
 		case GAMEMODE:
 		{
-			while (t_Pause == true)
-			{
-				//Sleep(6000);
-				t_Pause = false;
-			}
+			if (tempTime > elapseTime) return;
 			RenderFirstPass();
 			RenderSecondPass();
 			break;
@@ -578,6 +574,7 @@ void MainScene::renderLoading()
 	//Render Loading Screen
 	renderMenu2D(models[LOADING], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
 	e_States = GAMEMODE;
+	tempTime = elapseTime + 3;
 }
 
 void MainScene::Exit()
