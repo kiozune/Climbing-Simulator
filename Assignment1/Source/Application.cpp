@@ -123,7 +123,7 @@ void Application::Init()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //We don't want the old OpenGL
 
 	//Create a window and create its OpenGL context
-	m_window = glfwCreateWindow(window_Width, window_Height, "Climbing Simulator", NULL, NULL);
+	m_window = glfwCreateWindow(window_Width, window_Height, "Climbing Simulator", glfwGetPrimaryMonitor(), NULL);
 	glfwSetWindowSizeCallback(m_window, resize_callback);
 
 	glfwSetKeyCallback(m_window, key_callback);

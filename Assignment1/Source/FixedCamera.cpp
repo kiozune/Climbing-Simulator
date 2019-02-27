@@ -33,7 +33,12 @@ void FixedCamera::Init(const Vector3& target, const GLfloat radius, const GLfloa
 	this->update();
 }
 
-void FixedCamera::zoomIn(float dt) { this->radius -= moveSpeed * dt; }
+void FixedCamera::zoomIn(float dt) 
+{ 
+	this->radius -= moveSpeed * dt; 
+	this->radius = abs(this->radius);
+}
+
 void FixedCamera::zoomOut(float dt) { this->radius += moveSpeed * dt; }
 
 void FixedCamera::changeYaw(float r, float dt)
