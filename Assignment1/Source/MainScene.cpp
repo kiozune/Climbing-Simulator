@@ -279,15 +279,6 @@ void MainScene::RenderSecondPass()
 			Position lightPosition_cameraspace = viewStack.Top() * light.position;
 			glUniform3fv(light.parameters[Light::L_POSITION], 1, &lightPosition_cameraspace.x);
 		}
-
-		// render light
-		modelStack.PushMatrix();
-		{
-			modelStack.Translate(light.position.x, light.position.y, light.position.z);
-			modelStack.Rotate(90, 1, 0, 0);
-			renderMesh(models[LIGHT]);
-		}
-		modelStack.PopMatrix();
 	}
 }
 void MainScene::renderLoseScreen()
