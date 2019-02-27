@@ -105,8 +105,8 @@ void MainScene::Init()
 
 void MainScene::Update(double dt)
 {
-	elapseTime += dt;
-	fps = 1 / dt;
+	elapseTime += (float)dt;
+	fps = (int)(1.f / dt);
 
 	std::vector<Player*> localPlayers = players->getLocalPlayers();
 
@@ -121,7 +121,7 @@ void MainScene::Update(double dt)
 	// standard controls
 	keyboardEvents(dt);
 
-	manager->applyGravity(dt);
+	manager->applyGravity((float)dt);
 
 	for (Player* p : localPlayers)
 		updatePlayer(p, dt);
@@ -133,7 +133,7 @@ void MainScene::Update(double dt)
 
 	if (size)
 	{
-		for (int i = 0; i < size; ++i)
+		for (unsigned i = 0; i < size; ++i)
 		{
 			center = players->getLocalPlayers()[i]->getBody()->getCenter();
 			Vector3 target = Vector3(int(center.x / 5) * 5, int(center.y / 5) * 5, int(center.z / 5) * 5);

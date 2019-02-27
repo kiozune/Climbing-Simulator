@@ -38,7 +38,7 @@ void MainScene::initMap()
 		}
 		else
 		{
-			for (int i = 0; i < current->getCubeVectors()->size(); i++)
+			for (unsigned i = 0; i < current->getCubeVectors()->size(); i++)
 			{
 				Vector3 pos = current->getCubeVectors()->at(i);
 				float randFloat = static_cast<float>(rand() % 25 + 12);

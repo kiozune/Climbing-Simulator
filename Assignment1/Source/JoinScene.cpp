@@ -54,7 +54,7 @@ void JoinScene::Init()
 
 void JoinScene::Update(double dt)
 {
-	elapseTime += dt;
+	elapseTime += (float)dt;
 
 	char possible[11] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
@@ -66,7 +66,7 @@ void JoinScene::Update(double dt)
 		if (Application::IsKeyPressed(c))
 		{
 			ip += c;
-			bounceTime = elapseTime + 0.2;
+			bounceTime = elapseTime + 0.2f;
 			break;
 		}
 	}
@@ -74,13 +74,13 @@ void JoinScene::Update(double dt)
 	if (Application::IsKeyPressed(VK_OEM_PERIOD))
 	{
 		ip += '.';
-		bounceTime = elapseTime + 0.2;
+		bounceTime = elapseTime + 0.2f;
 	}
 
 	if (Application::IsKeyPressed(VK_BACK))
 	{
 		if (ip.size()) ip.pop_back();
-		bounceTime = elapseTime + 0.2;
+		bounceTime = elapseTime + 0.2f;
 	}
 
 	if (Application::IsKeyPressed(VK_RETURN))
@@ -107,14 +107,14 @@ void JoinScene::Update(double dt)
 		{
 			ignore = false;
 		}
-		bounceTime = elapseTime + 0.2;
+		bounceTime = elapseTime + 0.2f;
 	}
 
 	if (Application::IsKeyPressed(VK_ESCAPE))
 	{
 		SceneManager* s_manager = SceneManager::getInstance();
 		s_manager->setNext(new MenuScene);
-		bounceTime = elapseTime + 0.2;
+		bounceTime = elapseTime + 0.2f;
 	}
 }
 

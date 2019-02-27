@@ -10,8 +10,8 @@ void MainScene::renderObject(Object* obj)
 	{
 		modelStack.Translate(c.x, c.y, c.z);
 
-		modelStack.Rotate(deg(r.y), 0, 1, 0);
-		modelStack.Rotate(deg(r.z), 0, 0, 1);
+		modelStack.Rotate((float)deg(r.y), 0, 1, 0);
+		modelStack.Rotate((float)deg(r.z), 0, 0, 1);
 
 		Vector3 s = obj->getWorldScale();
 		modelStack.Scale(s.x, s.y, s.z);

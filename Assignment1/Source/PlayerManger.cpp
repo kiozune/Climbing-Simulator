@@ -14,7 +14,7 @@ PlayerManager* PlayerManager::getInstance()
 
 void PlayerManager::createRemotePlayers(std::string str, unsigned clientId)
 {
-	for (int i = 0; i < str.size() / 2; ++i)
+	for (unsigned i = 0; i < str.size() / 2; ++i)
 	{
 		unsigned id = (unsigned)str[i * 2];
 		unsigned count = (unsigned)str[i * 2 + 1] - 1;
@@ -30,7 +30,7 @@ void PlayerManager::createRemotePlayers(std::string str, unsigned clientId)
 		}
 		if (found) continue;
 
-		for (int r = 0; r < count; ++r)
+		for (unsigned r = 0; r < count; ++r)
 			addRemotePlayer(createRemotePlayer(id, r));
 	}
 }
@@ -41,7 +41,7 @@ void PlayerManager::fixMissingPlayers()
 	ControllerManager* controller = ControllerManager::getInstance();
 	while (controller->isPresent(i))
 	{
-		int joy = i + 1;
+		unsigned joy = i + 1;
 		if (joy >= this->localPlayers.size())
 		{
 			Player* p = createPlayer(joy);
@@ -101,7 +101,7 @@ Player* PlayerManager::createPlayer(unsigned id)
 	Object* leftLeg = new Object(pelvis, leftFeet, mass, size);
 	Object* rightLeg = new Object(pelvis, rightFeet, mass, size);
 
-	Color primary = Color((float)((10 - id) % 5) / 5.0, (float)((10 - id) % 3) / 5.0, (float)((10 - id) % 7) / 5.0);
+	Color primary = Color((float)((10 - id) % 5) / 5.0f, (float)((10 - id) % 3) / 5.0f, (float)((10 - id) % 7) / 5.0f);
 
 	leftHand->setColour(Color(0.9, 0.9, 0));
 	leftArm->setColour(primary);
@@ -178,11 +178,6 @@ void PlayerManager::addLocalPlayer(Player* p)
 { 
 	this->localPlayers.push_back(p); 
 	this->players.push_back(p);
-}
-
-void PlayerManager::removeLocalPlayer(int i) 
-{  
-	this->localPlayers.erase(this->localPlayers.begin() + i);
 }
 
 std::vector<RemotePlayer*> PlayerManager::getRemotePlayers() { return this->remotePlayers; }

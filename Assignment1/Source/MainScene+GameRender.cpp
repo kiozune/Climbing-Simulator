@@ -18,18 +18,18 @@ void MainScene::RenderGame()
 	float windowWidth = frameSize.x / columns;
 	float windowHeight = frameSize.y / rows;
 
-	for (int i = 0; i < size; ++i)
+	for (unsigned i = 0; i < size; ++i)
 	{
 		int x = i % 2;
 		int y = i / 2;
-		glViewport(windowWidth * x, windowHeight * y, windowWidth, windowHeight);
+		glViewport((GLint)(windowWidth * x), (GLint)(windowHeight * y), (GLsizei)windowWidth, (GLsizei)windowHeight);
 		renderForPlayer(localPlayers[i]);
 	}
 
 	if (size == 3)
 	{
 		std::vector<Player*> all = players->getPlayers();
-		glViewport(windowWidth, windowHeight, windowWidth, windowHeight);
+		glViewport((GLint)windowWidth, (GLint)windowHeight, (GLsizei)windowWidth, (GLsizei)windowHeight);
 		renderTextOnScreen(models[TEXT], "SPECTATOR\nCAM", Color(1, 1, 1), 2, 1, 1);
 		renderForPlayer(all[spectatingPlayer]);
 
@@ -41,7 +41,7 @@ void MainScene::RenderGame()
 		}
 	}
 
-	glViewport(0, 0, frameSize.x, frameSize.y);
+	glViewport(0, 0, (GLsizei)frameSize.x, (GLsizei)frameSize.y);
 
 	// renderMesh(models[SKY_BOX]);
 	// renderMesh(models[AXES]);

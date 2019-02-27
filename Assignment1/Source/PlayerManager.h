@@ -29,7 +29,6 @@ public:
 
 	std::vector<Player*> getLocalPlayers();
 	void addLocalPlayer(Player*);
-	void removeLocalPlayer(int);
 
 	std::vector<RemotePlayer*> getRemotePlayers();
 	void addRemotePlayer(RemotePlayer*);

@@ -43,7 +43,7 @@ void joystick_callback(int joy, int event)
 		joy++;
 		// The joystick was connected
 		PlayerManager* manager = PlayerManager::getInstance();
-		if (joy >= manager->getLocalPlayers().size())
+		if ((unsigned)joy >= manager->getLocalPlayers().size())
 		{
 			Player* p = manager->createPlayer(joy);
 			manager->addLocalPlayer(p);
@@ -52,8 +52,6 @@ void joystick_callback(int joy, int event)
 	else if (event == GLFW_DISCONNECTED)
 	{
 		// The joystick was disconnected
-		PlayerManager* manager = PlayerManager::getInstance();
-		manager->removeLocalPlayer(joy);
 	}
 }
 
@@ -88,14 +86,14 @@ Vector3 Application::GetMousePosition()
 {
 	double mouseX, mouseY;
 	glfwGetCursorPos(m_window, &mouseX, &mouseY);
-	return Vector3(mouseX, mouseY);
+	return Vector3((float)mouseX, (float)mouseY);
 }
 
 Vector3 Application::getFrameSize()
 {
 	int width, height;
 	glfwGetFramebufferSize(m_window, &width, &height);
-	return Vector3(width, height);
+	return Vector3((float)width, (float)height);
 }
 
 Application::Application()

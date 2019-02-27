@@ -89,7 +89,7 @@ class MainScene : public Scene
 
 	Vector3 prevMousePosition;
 
-	int prevTime;
+	float prevTime;
 	int spectatingPlayer;
 
 	// applies material to geometry selected
@@ -129,6 +129,7 @@ public:
 	virtual void Exit();
 
 private:
+
 	unsigned shadowShader;
 	FrameBufferObject shadowFBO;
 

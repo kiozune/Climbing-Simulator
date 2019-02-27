@@ -67,7 +67,7 @@ void MenuScene::Init()
 
 void MenuScene::Update(double dt)
 {
-	elapseTime += dt;
+	elapseTime += (float)dt;
 	if (elapseTime < bounceTime)
 		return;
 
@@ -75,13 +75,13 @@ void MenuScene::Update(double dt)
 	{
 		current = (OPTION)(current - 1);
 		if (current < 0) current = (OPTION)(OPTION::COUNT - 1);
-		bounceTime = elapseTime + 0.2;
+		bounceTime = elapseTime + 0.2f;
 	}
 
 	if (Application::IsKeyPressed(VK_DOWN))
 	{
 		current = (OPTION)((current + 1) % OPTION::COUNT);
-		bounceTime = elapseTime + 0.2;
+		bounceTime = elapseTime + 0.2f;
 	}
 
 	models[CREATE_LOBBY]->setTexture(t_alpha);
@@ -128,7 +128,7 @@ void MenuScene::Update(double dt)
 		}
 		SceneManager* s_manager = SceneManager::getInstance();
 		s_manager->setNext(next);
-		bounceTime = elapseTime + 0.2;
+		bounceTime = elapseTime + 0.2f;
 	}
 }
 

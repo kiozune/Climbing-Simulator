@@ -50,25 +50,25 @@ void MainScene::updatePlayer(Player* p, double& dt)
 	Vector3 dir = center - cameras[i].getPosition();
 	float yaw = atan(dir.x / dir.z);
 	dir.z /= abs(dir.z);
-	Mtx44 rotation; rotation.SetToRotation(deg(yaw), 0, 1, 0);
+	Mtx44 rotation; rotation.SetToRotation((float)deg(yaw), 0, 1, 0);
 
-	Vector3 impulse = rotation * Vector3(diff.x * -dir.z, diff.Length() * 1.5, diff.y * dir.z) * 40 * p->getEnergy();
+	Vector3 impulse = rotation * Vector3(diff.x * -dir.z, diff.Length() * 1.5f, diff.y * dir.z) * 40 * p->getEnergy();
 	float energyRequired = dt * max(fabs(diff.x), fabs(diff.y));
 
 	if (p->isGrabbingLeft())
 	{
-		manager->applyImpulse(p->getRightArm(), impulse, dt);
+		manager->applyImpulse(p->getRightArm(), impulse, (float)dt);
 		p->tire(energyRequired);
 	}
 
 	if (p->isGrabbingRight())
 	{
-		manager->applyImpulse(p->getLeftArm(), impulse, dt);
+		manager->applyImpulse(p->getLeftArm(), impulse, (float)dt);
 		p->tire(energyRequired);
 	}
 
 	if (!(int)(energyRequired * 100))
-		p->recover(dt * 10);
+		p->recover(dt * 10.f);
 
 
 	// grabbing

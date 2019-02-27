@@ -14,13 +14,13 @@ void MainScene::keyboardEvents(double& dt)
 		{
 			current = (OPTION)(current - 1);
 			if (current < 0) current = (OPTION)(OPTION::COUNT - 1);
-			bounceTime = elapseTime + 0.2;
+			bounceTime = elapseTime + 0.2f;
 		}
 
 		if (Application::IsKeyPressed(VK_DOWN))
 		{
 			current = (OPTION)((current + 1) % OPTION::COUNT);
-			bounceTime = elapseTime + 0.2;
+			bounceTime = elapseTime + 0.2f;
 		}
 
 		models[RESUME_GAME]->setTexture(t_alpha);
@@ -51,7 +51,7 @@ void MainScene::keyboardEvents(double& dt)
 				s_manager->setNext(destination);
 				break;
 			}
-			bounceTime = elapseTime + 0.2;
+			bounceTime = elapseTime + 0.2f;
 		}
 	}
 	else
@@ -75,19 +75,19 @@ void MainScene::keyboardEvents(double& dt)
 			dt /= 100;
 
 		if (Application::IsKeyPressed(VK_UP))
-			cameras[0].changePitch(-1, dt);
+			cameras[0].changePitch(-1, (float)dt);
 		if (Application::IsKeyPressed(VK_DOWN))
-			cameras[0].changePitch(1, dt);
+			cameras[0].changePitch(1, (float)dt);
 		if (Application::IsKeyPressed(VK_LEFT))
-			cameras[0].changeYaw(1, dt);
+			cameras[0].changeYaw(1, (float)dt);
 		if (Application::IsKeyPressed(VK_RIGHT))
-			cameras[0].changeYaw(-1, dt);
+			cameras[0].changeYaw(-1, (float)dt);
 	}
 
 	if (Application::IsKeyPressed(VK_ESCAPE) && elapseTime > bounceTime)
 	{
 		isPaused = !isPaused;
-		bounceTime = elapseTime + 0.2;
+		bounceTime = elapseTime + 0.2f;
 	}
 }
 
@@ -101,13 +101,13 @@ void MainScene::joystickEvents(double& dt, int joy)
 	//camX = analog[2], camY = analog[3];
 
 	if (Application::IsControllerPressed(joy, 1))
-		cam.zoomIn(dt);
+		cam.zoomIn((float)dt);
 
 	if (Application::IsControllerPressed(joy, 2))
-		cam.zoomOut(dt);
+		cam.zoomOut((float)dt);
 	
 	// camera
 	Vector3 rightJS = controller->getRightJoystick();
-	cam.changeYaw(rightJS.x, dt);
-	cam.changePitch(rightJS.y, dt);
+	cam.changeYaw(rightJS.x, (float)dt);
+	cam.changePitch(rightJS.y, (float)dt);
 }
