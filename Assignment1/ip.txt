@@ -2,15 +2,12 @@
 Windows IP Configuration
 
 
-Ethernet adapter Npcap Loopback Adapter:
+Ethernet adapter Local Area Connection:
 
+   Media State . . . . . . . . . . . : Media disconnected
    Connection-specific DNS Suffix  . : 
-   Link-local IPv6 Address . . . . . : fe80::65b3:def3:a431:8e53%19
-   Autoconfiguration IPv4 Address. . : 169.254.142.83
-   Subnet Mask . . . . . . . . . . . : 255.255.0.0
-   Default Gateway . . . . . . . . . : 
 
-Wireless LAN adapter Local Area Connection* 1:
+Wireless LAN adapter Local Area Connection* 3:
 
    Media State . . . . . . . . . . . : Media disconnected
    Connection-specific DNS Suffix  . : 
@@ -23,12 +20,20 @@ Wireless LAN adapter Local Area Connection* 2:
 Wireless LAN adapter Wi-Fi:
 
    Connection-specific DNS Suffix  . : 
-   Link-local IPv6 Address . . . . . : fe80::b543:660c:b1a0:60b5%16
-   IPv4 Address. . . . . . . . . . . : 172.26.188.35
-   Subnet Mask . . . . . . . . . . . : 255.255.248.0
-   Default Gateway . . . . . . . . . : 172.26.191.254
+   IPv6 Address. . . . . . . . . . . : 2406:3003:206f:24e4:ed01:50f9:78f6:38e8
+   Temporary IPv6 Address. . . . . . : 2406:3003:206f:24e4:c09b:743f:9a59:de7d
+   Link-local IPv6 Address . . . . . : fe80::ed01:50f9:78f6:38e8%4
+   IPv4 Address. . . . . . . . . . . : 192.168.1.116
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : fe80::26f5:a2ff:fe56:b5b2%4
+                                       192.168.1.1
 
-Ethernet adapter Bluetooth Network Connection 3:
+Ethernet adapter Ethernet:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : 
+
+Tunnel adapter isatap.{488DD158-FDF1-4620-B2C7-6D4BAA21AA00}:
 
    Media State . . . . . . . . . . . : Media disconnected
    Connection-specific DNS Suffix  . : 
