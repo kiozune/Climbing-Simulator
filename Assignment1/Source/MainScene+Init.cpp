@@ -23,7 +23,7 @@ void MainScene::initText()
 
 void MainScene::initMap()
 {
-	blockGen->generateBlocks(60); // start up the linklist and get all the map data to populate param = offset between nodes
+	blockGen->generateBlocks(30); // start up the linklist and get all the map data to populate param = offset between nodes
 	block* current = blockGen->getHead();
 
 	while (current != blockGen->getTail()) // loop through the linklist then 

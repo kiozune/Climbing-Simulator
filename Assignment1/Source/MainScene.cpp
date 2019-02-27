@@ -64,6 +64,8 @@ void MainScene::Init()
 	m_parameters[U_SHADOW_ENABLED] = glGetUniformLocation(shadowShader, "colorTextureEnabled[0]");
 	m_parameters[U_SHADOW_COLOR] = glGetUniformLocation(shadowShader, "colorTexture[0]");
 
+	Light::count = 0;
+
 	for (int i = 0; i < LIGHT_COUNT; ++i)
 		lights[i].getUniformLocation(m_programID);
 
@@ -281,7 +283,7 @@ void MainScene::renderLoseScreen()
 	case 1:
 	{
 		renderMenu2D(models[LOSE_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
-		renderTextOnScreenMenu(models[Metaphor_QUAD], "Always hold on tight!",Color(1,1,1),2.2f,0,15);
+		renderTextOnScreenMenu(models[Metaphor_QUAD], "Always hold on tight!",Color(1,1,1), 2.2f,0,15);
 
 		renderTextOnScreenMenu(models[TEXT], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
 		break;
