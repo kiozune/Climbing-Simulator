@@ -52,7 +52,6 @@ public:
 	void constraint();
 	void accelerate(Vector3, float);
 	void applyImpulse(Vector3, float);
-	void applyCircularImpulse(Vector3, float);
 
 };
 

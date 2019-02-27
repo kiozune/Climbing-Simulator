@@ -66,8 +66,8 @@ public:
 	Object* getBody();
 	void setBody(Object*);
 
-	void setParts(std::vector<Object*>);
 	std::vector<Object*> getParts();
+	void setParts(std::vector<Object*>);
 
 };
 

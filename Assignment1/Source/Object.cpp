@@ -152,12 +152,3 @@ void Object::applyImpulse(Vector3 impulse, float dt)
 	Vector3 a = Vector3(impulse.x / mass, impulse.y / mass, impulse.z / mass);
 	this->accelerate(a, dt);
 }
-
-void Object::applyCircularImpulse(Vector3 impulse, float dt)
-{
-	if (mass == 0) return;
-	Vector3 a = Vector3(impulse.x / mass, impulse.y / mass, impulse.z / mass);
-	if (!start->isFixed()) start->move(a * dt);
-	if (!end->isFixed()) end->move(a * dt);
-	this->constraint();
-}
