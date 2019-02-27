@@ -56,14 +56,8 @@ void MainScene::renderMesh(Mesh* model, bool enableLight)
 	model->render();
 
 	if (model->isTextured())
-	{
 		glBindTexture(GL_TEXTURE_2D, 0);
-	}
 
-void MainScene::initText() {
-
-	models[Metaphor_QUAD] = MeshBuilder::GenerateText("Metaphor", 16, 16);
-	models[Metaphor_QUAD]->applyTexture("Image//calibri.tga");
 }
 
 void MainScene::renderText(Mesh* mesh, const std::string text, Color color)
@@ -188,7 +182,8 @@ void MainScene::renderMenu2D(Mesh* model, float sizex, float sizey, float sizez,
 	viewStack.PopMatrix();
 	projectionStack.PopMatrix();
 }
-void MainScene::renderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
+
+void MainScene::renderTextOnScreenMenu(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
 	if (!mesh || mesh->getTextureID() <= 0)
 		return;
