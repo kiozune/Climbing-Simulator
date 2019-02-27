@@ -47,7 +47,7 @@ void PlayerManager::fixMissingPlayers()
 		if (joy >= this->localPlayers.size())
 		{
 			Player* p = createPlayer(joy);
-			this->localPlayers.push_back(p);
+			this->addLocalPlayer(p);
 		}
 		i++;
 	}
@@ -197,18 +197,22 @@ void PlayerManager::updateRemote(PlayerData data)
 			r->update(data);
 }
 
-Player* PlayerManager::getWinner() { return this->winner; }
-void PlayerManager::setWinner(Player* player) { this->winner = player; }
+Player* PlayerManager::getWinner()
+{ 
+	std::vector<Player*> alive;
+	if (this->winner == nullptr && players.size() > 1)
+	{
+		for (Player* p : this->players)
+			if (p->getState() == ALIVE)
+				alive.push_back(p);
 
-unsigned PlayerManager::aliveCount()
-{
-	unsigned count = 0;
-	for (Player* p : this->players)
-		if (p->getState() == ALIVE)
-			count++;
-
-	return count;
+		if (alive.size() == 1)
+			this->winner = alive[0];
+	}
+	return this->winner; 
 }
+
+void PlayerManager::setWinner(Player* player) { this->winner = player; }
 
 void PlayerManager::destroy()
 {

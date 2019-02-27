@@ -20,7 +20,7 @@ void MainScene::RenderGame()
 
 	if (players->getWinner() != nullptr)
 	{
-		renderForPlayer(players->getWinner());
+		renderWinner(players->getWinner());
 		renderTextOnScreen(models[TEXT], "WINNER!", Color(), 3, 2, 2);
 	}
 	else

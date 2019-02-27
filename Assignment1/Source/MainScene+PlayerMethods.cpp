@@ -186,6 +186,25 @@ void MainScene::updatePlayer(Player* p, double& dt)
 
 }
 
+void MainScene::updateRemotePlayer(RemotePlayer* p)
+{
+	BoundingBox finishing = finishingPlatform->getBoundingBox();
+
+	Object* leftHand = p->getLeftHand();
+	if (leftHand->getBoundingBox().getCollisionResultWith(finishing).collided)
+	{
+		p->setState(WON);
+		players->setWinner(p);
+	}
+
+	Object* rightHand = p->getRightHand();
+	if (rightHand->getBoundingBox().getCollisionResultWith(finishing).collided)
+	{
+		p->setState(WON);
+		players->setWinner(p);
+	}
+}
+
 void MainScene::renderForPlayer(Player* p)
 {
 	FixedCamera& camera = cameras[p->getId()];
@@ -324,21 +343,64 @@ void MainScene::renderForPlayer(Player* p)
 	}
 }
 
-void MainScene::updateRemotePlayer(RemotePlayer* p)
+void MainScene::renderWinner(Player* p) 
 {
-	BoundingBox finishing = finishingPlatform->getBoundingBox();
+	FixedCamera& camera = cameras[0];
+	// get reference to camera based on state
+	Vector3 position = camera.getPosition();
+	Vector3 target = camera.getTarget();
+	Vector3 up = camera.getUp();
 
-	Object* leftHand = p->getLeftHand();
-	if (leftHand->getBoundingBox().getCollisionResultWith(finishing).collided)
-	{
-		p->setState(WON);
-		players->setWinner(p);
+	viewStack.LoadIdentity();
+	viewStack.LookAt(
+		position.x, position.y, position.z,
+		target.x, target.y, target.z,
+		up.x, up.y, up.z
+	);
+
+	modelStack.LoadIdentity();
+
+	for (Light& light : lights) {
+		if (light.type == Light::DIRECTIONAL)
+		{
+			Vector3 lightDir(light.position.x, light.position.y, light.position.z);
+			Mtx44 vs = viewStack.Top();
+			vs.a[12] = vs.a[13] = vs.a[14] = 0;
+			Vector3 lightDirection_cameraspace = vs * lightDir;
+			glUniform3fv(light.parameters[Light::L_POSITION], 1, &lightDirection_cameraspace.x);
+		}
+		else if (light.type == Light::SPOT)
+		{
+			Position lightPosition_cameraspace = viewStack.Top() * light.position;
+			glUniform3fv(light.parameters[Light::L_POSITION], 1, &lightPosition_cameraspace.x);
+			Mtx44 vs = viewStack.Top();
+			vs.a[12] = vs.a[13] = vs.a[14] = 0;
+			Vector3 spotDirection_cameraspace = vs * light.spotDirection;
+			glUniform3fv(light.parameters[Light::L_SPOTDIRECTION], 1, &spotDirection_cameraspace.x);
+		}
+		else
+		{
+			Position lightPosition_cameraspace = viewStack.Top() * light.position;
+			glUniform3fv(light.parameters[Light::L_POSITION], 1, &lightPosition_cameraspace.x);
+		}
+
+		// render light
+		modelStack.PushMatrix();
+		{
+			modelStack.Translate(light.position.x, light.position.y, light.position.z);
+			renderMesh(models[LIGHT]);
+		}
+		modelStack.PopMatrix();
 	}
 
-	Object* rightHand = p->getRightHand();
-	if (rightHand->getBoundingBox().getCollisionResultWith(finishing).collided)
+	modelStack.PushMatrix();
+	modelStack.Scale(10, 10, 10);
+	//renderMesh(models[SKY_BOX]);
+	modelStack.PopMatrix();
+
+	for (Object* obj : manager->getObjects())
 	{
-		p->setState(WON);
-		players->setWinner(p);
+		renderObject(obj);
+		//renderBoundingBox(obj->getBoundingBox());
 	}
 }

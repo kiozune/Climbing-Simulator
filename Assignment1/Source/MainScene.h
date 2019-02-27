@@ -123,6 +123,7 @@ class MainScene : public Scene
 	void updatePlayer(Player*, double&);
 	void updateRemotePlayer(RemotePlayer*);
 	void renderForPlayer(Player*);
+	void renderWinner(Player*);
 
 	void initMenu();
 

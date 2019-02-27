@@ -40,8 +40,6 @@ public:
 	Player* getWinner();
 	void setWinner(Player*);
 
-	unsigned aliveCount();
-
 	void destroy();
 
 };

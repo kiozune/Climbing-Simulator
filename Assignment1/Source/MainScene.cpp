@@ -131,51 +131,17 @@ void MainScene::Update(double dt)
 	elapseTime += (float)dt;
 	fps = (int)(1.f / dt);
 
+
 	float angle = rad(double((int)(elapseTime * 20) % 360));
 	lights[0].position.Set(cos(angle), sin(angle), cos(angle));
 	lights[0].power = 50.f;
 
-	std::vector<Player*> localPlayers = players->getLocalPlayers();
-
-	unsigned size = localPlayers.size();
-	while (cameras.size() < size)
+	if (players->getWinner() != nullptr)
 	{
-		FixedCamera camera;
-		camera.Init(Vector3(0, 0, 0), 200, 100, 180);
-		cameras.push_back(camera);
-	}
+		cameras[0].setTarget(players->getWinner()->getBody()->getCenter());
+		cameras[0].changeYaw(0.25f, dt);
 
-	// standard controls
-	keyboardEvents(dt);
-
-	manager->applyGravity((float)dt);
-
-	for (Player* p : localPlayers)
-		updatePlayer(p, dt);
-
-	for (RemotePlayer* p : players->getRemotePlayers())
-		updateRemotePlayer(p);
-
-	Vector3 center = Vector3(0,0,0);
-
-	if (size)
-	{
-		for (unsigned i = 0; i < size; ++i)
-		{
-			center = players->getLocalPlayers()[i]->getBody()->getCenter();
-			Vector3 target = Vector3(int(center.x / 5) * 5, int(center.y / 5) * 5, int(center.z / 5) * 5);
-			cameras[i].setTarget(target);
-		}
-	}
-	else
-	{
-		//Vector3 target = //Vector3(int(center.x / 5) * 5, int(center.y / 5) * 5, int(center.z / 5) * 5);
-		cameras[0].setTarget(center);
-	}
-
-	if (players->getWinner() != nullptr || players->aliveCount() == 0)
-	{
-		if(Application::IsKeyPressed(VK_ESCAPE) || Application::IsControllerPressed(0,1))
+		if (Application::IsKeyPressed(VK_ESCAPE) || Application::IsControllerPressed(0, 1))
 		{
 			LoadingScene* destination = new LoadingScene;
 			destination->setDetails([](int& i) {
@@ -188,7 +154,46 @@ void MainScene::Update(double dt)
 
 			SceneManager* s_manager = SceneManager::getInstance();
 			s_manager->setNext(destination);
-				
+		}
+	}
+	else
+	{
+		std::vector<Player*> localPlayers = players->getLocalPlayers();
+
+		unsigned size = localPlayers.size();
+		while (cameras.size() < size)
+		{
+			FixedCamera camera;
+			camera.Init(Vector3(0, 0, 0), 200, 100, 180);
+			cameras.push_back(camera);
+		}
+
+		// standard controls
+		keyboardEvents(dt);
+
+		manager->applyGravity((float)dt);
+
+		for (Player* p : localPlayers)
+			updatePlayer(p, dt);
+
+		for (RemotePlayer* p : players->getRemotePlayers())
+			updateRemotePlayer(p);
+
+		Vector3 center = Vector3(0, 0, 0);
+
+		if (size)
+		{
+			for (unsigned i = 0; i < size; ++i)
+			{
+				center = players->getLocalPlayers()[i]->getBody()->getCenter();
+				Vector3 target = Vector3(int(center.x / 5) * 5, int(center.y / 5) * 5, int(center.z / 5) * 5);
+				cameras[i].setTarget(target);
+			}
+		}
+		else
+		{
+			//Vector3 target = //Vector3(int(center.x / 5) * 5, int(center.y / 5) * 5, int(center.z / 5) * 5);
+			cameras[0].setTarget(center);
 		}
 	}
 }
