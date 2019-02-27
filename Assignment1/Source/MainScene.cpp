@@ -60,9 +60,7 @@ void MainScene::Init()
 
 	glUseProgram(m_programID);
 
-	lights[0].type = Light::SPOT;
-	lights[0].position.Set(0, 300, 0);
-	lights[0].power = 100.f;
+	lights[0].type = Light::DIRECTIONAL;
 	lights[0].setUniform();
 
 	glUniform1i(m_parameters[U_NUMLIGHTS], LIGHT_COUNT);
@@ -108,6 +106,11 @@ void MainScene::Update(double dt)
 {
 	elapseTime += (float)dt;
 	fps = (int)(1.f / dt);
+
+	float angle = rad(double((int)(elapseTime * 20) % 360));
+
+	lights[0].position.Set(cos(angle), sin(angle), cos(angle));
+	lights[0].power = 50.f;
 
 	std::vector<Player*> localPlayers = players->getLocalPlayers();
 
