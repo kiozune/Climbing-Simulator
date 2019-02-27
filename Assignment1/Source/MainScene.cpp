@@ -6,11 +6,12 @@
 #include "LoadTGA.h"
 #include "shader.hpp"
 #include "Application.h"
-
 #include <iostream>
 
 void MainScene::Init()
 {
+	//Random Metaphor
+	i_rLose = rand() % 4 + 1;
 	// clear screen and fill with white
 	glClearColor(0, 0, 0, 0);
 	// Enable depth test
@@ -99,6 +100,13 @@ void MainScene::Init()
 	players->fixMissingPlayers();
 	initMap();
 	sound->playSound("bgm");
+	models[LOSE_QUAD] = MeshBuilder::GenerateScreen("Lose_Screen", Color(1, 1, 1), 14.f);
+	models[LOSE_QUAD]->applyTexture("Image//fellDown.tga");
+	applyMaterial(models[LOSE_QUAD]);
+
+	models[WIN_QUAD] = MeshBuilder::GenerateScreen("WIN_SCREEN", Color(1, 1, 1), 14.f);
+	models[WIN_QUAD]->applyTexture("Image//WIN_QUAD.tga");
+	applyMaterial(models[WIN_QUAD]);
 
 	initText();
 	initMenu();
@@ -177,7 +185,7 @@ void MainScene::RenderFirstPass()
 		lightProj.SetToPerspective(90.0f, 1.f, 0.1, 20);
 
 	lightView.SetToLookAt(lights[0].position.x, lights[0].position.y, lights[0].position.z, 0, 0, 0, 0, 1, 0);
-	
+
 	RenderGame();
 }
 
@@ -246,6 +254,132 @@ void MainScene::RenderSecondPass()
 		}
 		modelStack.PopMatrix();
 	}
+}
+//Render Lobby
+void MainScene::renderLobby()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glUseProgram(menuShader);
+
+	renderMenu2D(models[MAINMENU_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
+	renderTextOnScreenMenu(models[ONLINELOBBY_QUAD], "ONLINE LOBBY", Color(OnlineR, OnlineG, 1), onlineSize, 4, 20);
+	renderTextOnScreenMenu(models[LOCALLOBY_QUAD], "LOCAL LOBBY", Color(localR, localG, 1), localSize, 4, 15);
+	renderTextOnScreenMenu(models[BACK_QUAD], "BACK", Color(backR, backG, 1), backSize, 4, 10);
+}
+//Render Online Lobby
+void MainScene::renderOnline()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glUseProgram(menuShader);
+
+	renderMenu2D(models[MAINMENU_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
+	renderTextOnScreenMenu(models[STARTONLINE_QUAD], "CREATE ONLINE", Color(create_OnlineR, create_OnlineG, 1), create_OnlineSize, 4, 20);
+	renderTextOnScreenMenu(models[JOINONLINE_QUAD], "JOIN ONLINE", Color(join_OnlineR, join_OnlineG, 1), join_OnlineSize, 4, 15);
+	renderTextOnScreenMenu(models[BACK_QUAD], "BACK", Color(backR, backG, 1), backSize, 4, 10);
+}
+//Render Local Lobby
+void MainScene::renderLocal()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glUseProgram(menuShader);
+
+	renderMenu2D(models[MAINMENU_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
+	renderTextOnScreenMenu(models[STARTLOCAL_QUAD], "CREATE LOCAL", Color(start_LocalR, start_LocalG, 1), start_LocalSize, 4, 20);
+	renderTextOnScreenMenu(models[JOINLOCAL_QUAD], "JOIN LOCAL", Color(join_LocalR, join_LocalG, 1), join_LocalSize, 4, 15);
+	renderTextOnScreenMenu(models[BACK_QUAD], "BACK", Color(backR, backG, 1), backSize, 4, 10);
+}
+
+void MainScene::renderLoseScreen()
+{
+	//Clear color buffer every frame
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//Using Shader without the shadow calculation
+	glUseProgram(menuShader);
+	models[BACK_QUAD]->setTexture(t_opaque);
+	switch ((i_rLose))
+	{
+	case 1:
+	{
+		renderMenu2D(models[LOSE_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
+		renderTextOnScreenMenu(models[Metaphor_QUAD], "Always hold on tight!",Color(1,1,1),2.2f,0,15);
+
+		renderTextOnScreenMenu(models[BACK_QUAD], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
+		break;
+	}
+	case 2:
+	{
+		renderMenu2D(models[LOSE_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
+		renderTextOnScreenMenu(models[Metaphor_QUAD], "Never let go of your grip button!", Color(1, 1, 1), 2.2f, 0, 15);
+		renderTextOnScreenMenu(models[BACK_QUAD], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
+		break;
+	}
+	case 3:
+	{
+		renderMenu2D(models[LOSE_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
+		renderTextOnScreenMenu(models[Metaphor_QUAD], "Always hold on tight!", Color(1, 1, 1), 2.2f, 0, 15);
+		renderTextOnScreenMenu(models[BACK_QUAD], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
+		break;
+	}
+	case 4:
+	{
+		renderMenu2D(models[LOSE_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
+		renderTextOnScreenMenu(models[Metaphor_QUAD], "Better luck next time!", Color(1, 1, 1), 2.2f, 0, 15);
+		renderTextOnScreenMenu(models[BACK_QUAD], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
+		break;
+	}
+	default:
+	{
+		std::cout << "Something in the render switch is broken!" << std::endl;
+		break;
+	}
+	}
+}
+
+void MainScene::renderWinScreen()
+{
+	//Clear color buffer every frame
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//Using Shader without the shadow calculation
+	glUseProgram(menuShader);
+	models[BACK_QUAD]->setTexture(t_opaque);
+	switch ((i_rLose))
+	{
+	case 1:
+	{
+		renderMenu2D(models[WIN_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
+		renderTextOnScreenMenu(models[Metaphor_QUAD], "Was it easy?!", Color(1, 1, 1), 2.2f, 0, 15);
+
+		renderTextOnScreenMenu(models[BACK_QUAD], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
+		break;
+	}
+	case 2:
+	{
+		renderMenu2D(models[WIN_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
+		renderTextOnScreenMenu(models[Metaphor_QUAD], "There you go!", Color(1, 1, 1), 2.2f, 0, 15);
+		renderTextOnScreenMenu(models[BACK_QUAD], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
+		break;
+	}
+	case 3:
+	{
+		renderMenu2D(models[WIN_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
+		renderTextOnScreenMenu(models[Metaphor_QUAD], "Was it challenging?", Color(1, 1, 1), 2.2f, 0, 15);
+		renderTextOnScreenMenu(models[BACK_QUAD], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
+		break;
+	}
+	case 4:
+	{
+		renderMenu2D(models[WIN_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
+		renderTextOnScreenMenu(models[Metaphor_QUAD], "Hope you had fun!", Color(1, 1, 1), 2.2f, 0, 15);
+		renderTextOnScreenMenu(models[BACK_QUAD], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
+		break;
+	}
+	default:
+	{
+		std::cout << "Something in the render switch is broken!" << std::endl;
+		break;
+	}
+	}
+
 }
 
 void MainScene::Exit()

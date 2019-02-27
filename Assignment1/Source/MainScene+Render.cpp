@@ -48,7 +48,7 @@ void MainScene::renderMesh(Mesh* model, bool enableLight)
 		glBindTexture(GL_TEXTURE_2D, model->getTextureID());
 		glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
 	}
-	else 
+	else
 	{
 		glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 0);
 	}
@@ -56,7 +56,14 @@ void MainScene::renderMesh(Mesh* model, bool enableLight)
 	model->render();
 
 	if (model->isTextured())
+	{
 		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+
+void MainScene::initText() {
+
+	models[Metaphor_QUAD] = MeshBuilder::GenerateText("Metaphor", 16, 16);
+	models[Metaphor_QUAD]->applyTexture("Image//calibri.tga");
 }
 
 void MainScene::renderText(Mesh* mesh, const std::string text, Color color)

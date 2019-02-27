@@ -26,6 +26,9 @@ class MainScene : public Scene
 		TEXT,
 		LIGHT,
 		SKY_BOX,
+		Metaphor_QUAD,
+		LOSE_QUAD,
+		WIN_QUAD,
 
 		QUAD,
 		CUBE,
@@ -57,6 +60,7 @@ class MainScene : public Scene
 	float elapseTime = 0;
 	float bounceTime; // for key press inputs
 
+
 	// stores the size of the map
 	// indicates if user enabled lighting
 	bool lightingEnabled;
@@ -67,6 +71,9 @@ class MainScene : public Scene
 	unsigned m_parameters[U_TOTAL];
 
 	Position viewSize;
+
+
+	char inputField_Array[11];
 
 	std::vector<FixedCamera> cameras; // stationary
 
@@ -89,8 +96,13 @@ class MainScene : public Scene
 
 	Vector3 prevMousePosition;
 
+
 	float prevTime;
 	int spectatingPlayer;
+
+	//count for Random Metaphors in lose Screen
+	int i_rLose;
+
 
 	// applies material to geometry selected
 	void applyMaterial(Mesh*);
@@ -120,6 +132,8 @@ class MainScene : public Scene
 	void RenderSecondPass();
 	void RenderGame();
 	void RenderPause();
+	void renderLoseScreen();
+	void renderWinScreen();
 
 public:
 
