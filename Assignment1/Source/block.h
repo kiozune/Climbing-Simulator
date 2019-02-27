@@ -7,7 +7,7 @@ class block
 {
 public:
 	block();
-	void setCubeVector(float offset);
+	void setCubeVector(float offset, int index);
 
 	void setNext(block *val);
 	void setPrevious(block *val);

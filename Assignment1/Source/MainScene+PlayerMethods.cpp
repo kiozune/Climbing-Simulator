@@ -4,8 +4,14 @@
 
 void MainScene::updatePlayer(Player* p, double& dt)
 {
+	if (!p->isAlive())
+		return;
+
 	int i = p->getId();
 	Vector3 center = p->getBody()->getCenter();
+
+	if (center.y == -1000)
+		p->setAlive(false);
 
 	Vector3 diff;
 
@@ -78,7 +84,7 @@ void MainScene::updatePlayer(Player* p, double& dt)
 			{
 				if (i == other->getId()) continue;
 				details = manager->getCollisionDetails(leftHand, other->getParts());
-
+				ColResult = leftHand->getBoundingBox().getCollisionResultWith(finishingPlatform->getBoundingBox());
 				if (details.result.collided) break;
 			}
 
@@ -91,7 +97,7 @@ void MainScene::updatePlayer(Player* p, double& dt)
 				for (Player* p : players->getRemotePlayers())
 				{
 					details = manager->getCollisionDetails(leftHand, p->getParts());
-
+					ColResult = leftHand->getBoundingBox().getCollisionResultWith(finishingPlatform->getBoundingBox());
 					if (details.result.collided) break;
 				}
 
@@ -126,7 +132,7 @@ void MainScene::updatePlayer(Player* p, double& dt)
 			{
 				if (i == other->getId()) continue;
 				details = manager->getCollisionDetails(rightHand, other->getParts());
-
+				ColResult = rightHand->getBoundingBox().getCollisionResultWith(finishingPlatform->getBoundingBox());
 				if (details.result.collided) break;
 			}
 
@@ -139,7 +145,7 @@ void MainScene::updatePlayer(Player* p, double& dt)
 				for (Player* p : players->getRemotePlayers())
 				{
 					details = manager->getCollisionDetails(rightHand, p->getParts());
-
+					ColResult = rightHand->getBoundingBox().getCollisionResultWith(finishingPlatform->getBoundingBox());
 					if (details.result.collided) break;
 				}
 

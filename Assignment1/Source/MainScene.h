@@ -80,6 +80,8 @@ class MainScene : public Scene
 
 	BlockGenerator* blockGen = BlockGenerator::GetInstance();
 	SoundManager* sound = SoundManager::GetInstance();
+	CollisionResult ColResult;
+	Object* finishingPlatform;
 
 	PhysicsManager* manager = PhysicsManager::getInstance();
 	ControllerManager* controller = ControllerManager::getInstance();

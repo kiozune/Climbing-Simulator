@@ -126,6 +126,9 @@ void MainScene::Update(double dt)
 	for (Player* p : localPlayers)
 		updatePlayer(p, dt);
 
+	if (ColResult.collided)
+		printf("triggered");
+
 	Vector3 center = Vector3(0,0,0);
 
 	if (size)
