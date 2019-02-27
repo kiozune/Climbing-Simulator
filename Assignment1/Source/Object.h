@@ -36,7 +36,7 @@ public:
 	Vector3 getWorldScale();
 
 	Vector3 getRotation();
-	void getRotation(Vector3);
+	void setRotation(Vector3);
 
 	Vector3 getCenter();
 	Vector3 getMomentum();

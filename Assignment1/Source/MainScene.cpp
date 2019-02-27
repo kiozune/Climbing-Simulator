@@ -7,10 +7,16 @@
 #include "shader.hpp"
 #include "Application.h"
 
+#include "DataTransferManager.h"
+
 #include <iostream>
 
 void MainScene::Init()
 {
+	DataTransferManager* d_manager = DataTransferManager::getInstance();
+	std::string ip = d_manager->getClient().getServerIp();
+	unsigned size = ip.size();
+	srand(ip[size - 1] + ip[size - 2]);
 	// clear screen and fill with white
 	glClearColor(0, 0, 0, 0);
 	// Enable depth test
@@ -55,12 +61,15 @@ void MainScene::Init()
 	m_parameters[U_SHADOW_ENABLED] = glGetUniformLocation(shadowShader, "colorTextureEnabled[0]");
 	m_parameters[U_SHADOW_COLOR] = glGetUniformLocation(shadowShader, "colorTexture[0]");
 
+	Light::count = 0;
+
 	for (int i = 0; i < LIGHT_COUNT; ++i)
 		lights[i].getUniformLocation(m_programID);
 
 	glUseProgram(m_programID);
 
 	lights[0].type = Light::DIRECTIONAL;
+	lights[0].color.Set(255.0f / 255.0f, 234.0f / 255.0f, 155.0f / 255.0f);
 	lights[0].setUniform();
 
 	glUniform1i(m_parameters[U_NUMLIGHTS], LIGHT_COUNT);
