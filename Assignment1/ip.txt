@@ -24,9 +24,9 @@ Wireless LAN adapter Wi-Fi:
 
    Connection-specific DNS Suffix  . : 
    Link-local IPv6 Address . . . . . : fe80::b543:660c:b1a0:60b5%16
-   IPv4 Address. . . . . . . . . . . : 172.26.188.35
-   Subnet Mask . . . . . . . . . . . : 255.255.248.0
-   Default Gateway . . . . . . . . . : 172.26.191.254
+   IPv4 Address. . . . . . . . . . . : 192.168.2.11
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 192.168.2.1
 
 Ethernet adapter Bluetooth Network Connection 3:
 

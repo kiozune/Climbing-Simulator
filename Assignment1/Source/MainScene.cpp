@@ -88,9 +88,9 @@ void MainScene::Init()
 	models[LIGHT] = MeshBuilder::GenerateSphere("LIGHT", Color(1, 1, 1), 1, 36);
 	models[AXES] = MeshBuilder::GenerateAxes("axes", Position(10, 10, 10));
 
-	/*models[SKY_BOX] = MeshBuilder::GenerateOBJ("skybox");
+	models[SKY_BOX] = MeshBuilder::GenerateOBJ("skybox");
 	models[SKY_BOX]->applyTexture("Image//skybox.tga");
-	applyMaterial(models[SKY_BOX]);*/
+	applyMaterial(models[SKY_BOX]);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	models[QUAD] = MeshBuilder::GenerateQuad("QUAD", Color(1, 1, 1), Position(1, 1, 1));
