@@ -30,6 +30,7 @@ void MultiplayerManager::startSever()
 void MultiplayerManager::connectTo(std::string IP)
 {
 	DataTransferManager* transferManager = DataTransferManager::getInstance();
+	transferManager->getClient().start();
 	transferManager->getClient().connectTo(SERVER_PORT, IP.c_str());
 }
 

@@ -107,6 +107,9 @@ void MainScene::Init()
 	models[WIN_QUAD]->applyTexture("Image//WIN_QUAD.tga");
 	applyMaterial(models[WIN_QUAD]);
 
+	models[Metaphor_QUAD] = MeshBuilder::GenerateText("Metaphor", 16, 16);
+	models[Metaphor_QUAD]->applyTexture("Image//calibri.tga");
+
 	initText();
 	initMenu();
 }
@@ -260,7 +263,7 @@ void MainScene::renderLoseScreen()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//Using Shader without the shadow calculation
 	glUseProgram(m_programID);
-	models[BACK_QUAD]->setTexture(t_opaque);
+	models[TEXT]->setTexture(t_opaque);
 	switch ((i_rLose))
 	{
 	case 1:
@@ -268,28 +271,28 @@ void MainScene::renderLoseScreen()
 		renderMenu2D(models[LOSE_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
 		renderTextOnScreenMenu(models[Metaphor_QUAD], "Always hold on tight!",Color(1,1,1),2.2f,0,15);
 
-		renderTextOnScreenMenu(models[BACK_QUAD], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
+		renderTextOnScreenMenu(models[TEXT], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
 		break;
 	}
 	case 2:
 	{
 		renderMenu2D(models[LOSE_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
 		renderTextOnScreenMenu(models[Metaphor_QUAD], "Never let go of your grip button!", Color(1, 1, 1), 2.2f, 0, 15);
-		renderTextOnScreenMenu(models[BACK_QUAD], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
+		renderTextOnScreenMenu(models[TEXT], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
 		break;
 	}
 	case 3:
 	{
 		renderMenu2D(models[LOSE_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
 		renderTextOnScreenMenu(models[Metaphor_QUAD], "Always hold on tight!", Color(1, 1, 1), 2.2f, 0, 15);
-		renderTextOnScreenMenu(models[BACK_QUAD], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
+		renderTextOnScreenMenu(models[TEXT], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
 		break;
 	}
 	case 4:
 	{
 		renderMenu2D(models[LOSE_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
 		renderTextOnScreenMenu(models[Metaphor_QUAD], "Better luck next time!", Color(1, 1, 1), 2.2f, 0, 15);
-		renderTextOnScreenMenu(models[BACK_QUAD], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
+		renderTextOnScreenMenu(models[TEXT], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
 		break;
 	}
 	default:
@@ -306,7 +309,7 @@ void MainScene::renderWinScreen()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//Using Shader without the shadow calculation
 	glUseProgram(m_programID);
-	models[BACK_QUAD]->setTexture(t_opaque);
+	models[TEXT]->setTexture(t_opaque);
 	switch ((i_rLose))
 	{
 	case 1:
@@ -314,28 +317,28 @@ void MainScene::renderWinScreen()
 		renderMenu2D(models[WIN_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
 		renderTextOnScreenMenu(models[Metaphor_QUAD], "Was it easy?!", Color(1, 1, 1), 2.2f, 0, 15);
 
-		renderTextOnScreenMenu(models[BACK_QUAD], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
+		renderTextOnScreenMenu(models[TEXT], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
 		break;
 	}
 	case 2:
 	{
 		renderMenu2D(models[WIN_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
 		renderTextOnScreenMenu(models[Metaphor_QUAD], "There you go!", Color(1, 1, 1), 2.2f, 0, 15);
-		renderTextOnScreenMenu(models[BACK_QUAD], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
+		renderTextOnScreenMenu(models[TEXT], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
 		break;
 	}
 	case 3:
 	{
 		renderMenu2D(models[WIN_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
 		renderTextOnScreenMenu(models[Metaphor_QUAD], "Was it challenging?", Color(1, 1, 1), 2.2f, 0, 15);
-		renderTextOnScreenMenu(models[BACK_QUAD], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
+		renderTextOnScreenMenu(models[TEXT], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
 		break;
 	}
 	case 4:
 	{
 		renderMenu2D(models[WIN_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
 		renderTextOnScreenMenu(models[Metaphor_QUAD], "Hope you had fun!", Color(1, 1, 1), 2.2f, 0, 15);
-		renderTextOnScreenMenu(models[BACK_QUAD], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
+		renderTextOnScreenMenu(models[TEXT], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
 		break;
 	}
 	default:

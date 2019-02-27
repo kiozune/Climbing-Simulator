@@ -101,7 +101,7 @@ void JoinScene::Update(double dt)
 
 				DataTransferManager* manager = DataTransferManager::getInstance();
 				while ((i = manager->getClient().getStatus()) == 0) {}
-			}, new MainScene, this);
+			}, new MainScene, new MenuScene);
 		}
 		else
 		{
