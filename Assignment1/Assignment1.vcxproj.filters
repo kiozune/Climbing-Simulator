@@ -76,6 +76,9 @@
     <Filter Include="Multiplayer\Server">
       <UniqueIdentifier>{7748d794-b681-46c0-9305-fd46dd64036f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Multiplayer\Transfer">
+      <UniqueIdentifier>{0e7c611d-6d9e-430c-82e1-a8af5b93b02a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Camera.cpp">
@@ -171,6 +174,9 @@
     <ClCompile Include="Source\Server.cpp">
       <Filter>Multiplayer\Server</Filter>
     </ClCompile>
+    <ClCompile Include="Source\DataTransferManager.cpp">
+      <Filter>Multiplayer\Transfer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Camera.h">
@@ -209,9 +215,6 @@
     <ClInclude Include="Source\Sound.h">
       <Filter>Sound</Filter>
     </ClInclude>
-    <ClCompile Include="Source\DataTransferManager.cpp">
-      <Filter>Multiplayer</Filter>
-    </ClCompile>
     <ClCompile Include="Source\RemotePlayer.cpp">
       <Filter>Multiplayer</Filter>
     </ClCompile>
@@ -244,6 +247,12 @@
     </ClInclude>
     <ClInclude Include="Source\Server.h">
       <Filter>Multiplayer\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DataTransferManager.h">
+      <Filter>Multiplayer\Transfer</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayerData.h">
+      <Filter>Multiplayer\Transfer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -325,13 +334,7 @@
     <ClInclude Include="Source\ControllerManager.h">
       <Filter>Controller Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Source\DataTransferManager.h">
-      <Filter>Multiplayer</Filter>
-    </ClInclude>
     <ClInclude Include="Source\RemotePlayer.h">
-      <Filter>Multiplayer</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\PlayerData.h">
       <Filter>Multiplayer</Filter>
     </ClInclude>
     <ClInclude Include="Source\PlayerManager.h">

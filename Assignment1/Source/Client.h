@@ -11,6 +11,8 @@ class Client
 	
 private:
 	
+	int status;
+
 	unsigned id, knownSize;
 
 	std::string serverIp;
@@ -19,11 +21,12 @@ private:
 	char buff[1024];
 	int serverLength;
 
-	int status;
-
+	void reset();
 
 public:
-	
+
+	int getStatus();
+
 	unsigned getId();
 
 	unsigned getKnownSize();
@@ -36,8 +39,6 @@ public:
 	void sendData(std::string content);
 	bool recieve(std::string& data);
 	void exit();
-
-	int getStatus();
 
 };
 

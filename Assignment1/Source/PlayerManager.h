@@ -34,8 +34,9 @@ public:
 	std::vector<RemotePlayer*> getRemotePlayers();
 	void addRemotePlayer(RemotePlayer*);
 
-
 	void updateRemote(PlayerData);
+
+	void destroy();
 
 };
 

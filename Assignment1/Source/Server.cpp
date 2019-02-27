@@ -2,6 +2,15 @@
 
 #include <thread>
 
+void Server::reset()
+{
+	this->status = 0;
+	this->ip = "127.0.0.1";
+	this->connections.clear();
+	this->ids = "IDS:";
+	ZeroMemory(buff, 1024);
+}
+
 void Server::fetchIp() 
 {
 	std::ifstream ifs;
@@ -27,8 +36,11 @@ void Server::fetchIp()
 	}
 }
 
+int Server::getStatus() { return this->status; }
+
 bool Server::start()
 {
+	reset();
 	fetchIp();
 
 	WSADATA data;
@@ -38,8 +50,11 @@ bool Server::start()
 	if (wsOk != 0)
 	{
 		std::cout << "Failed to start" << std::endl;
+		this->status = -1;
 		return false;
 	}
+
+	this->status = 0;
 
 	return true;
 }
@@ -56,11 +71,14 @@ bool Server::bindSocket()
 	if (result == SOCKET_ERROR)
 	{
 		std::cout << "Binding of socket failed" << std::endl;
+		this->status = -1;
 		return false;
 	}
 
 	clientLength = sizeof(client);
 	ZeroMemory(&client, clientLength);
+
+	this->status = 1;
 
 	return true;
 }
@@ -130,6 +148,7 @@ void Server::run()
 
 void Server::exit()
 {
+	this->status = 0;
 	closesocket(in);
 	WSACleanup();
 }

@@ -1,7 +1,5 @@
 #include "MultiplayerManager.h"
 
-#include <thread>
-
 #include "Constants.h"
 #include "PlayerManager.h"
 #include "DataTransferManager.h"
@@ -23,8 +21,8 @@ void MultiplayerManager::startSever()
 	server.start();
 	server.bindSocket();
 	std::thread main([]() {
-		while (true)
-			MultiplayerManager::getInstance()->getSever().run();
+		Server& server = MultiplayerManager::getInstance()->getSever();
+		while (server.getStatus() > 0) server.run();
 	});
 	main.detach();
 }
@@ -44,47 +42,11 @@ void MultiplayerManager::end()
 
 void MultiplayerManager::receive()
 {
-	std::thread sendThread([]() {
-		DataTransferManager* transferManager = DataTransferManager::getInstance();
-		Client& client = transferManager->getClient();
-		unsigned clientId = client.getId();
-		PlayerManager* playerManager = PlayerManager::getInstance();
-
-		while (true)
-		{
-			std::vector<Player*> local = playerManager->getLocalPlayers();
-			if (local.size() > client.getKnownSize())
-			{
-				client.setKnownSize(local.size());
-				std::string data = "NEW";
-				data += (char)clientId;
-				client.sendData(data);
-			}
-			else
-			{
-				for (Player* p : local)
-				{
-					PlayerData pData = transferManager->getPlayerData(*p, clientId);
-					std::string data = transferManager->stringifyData(pData);
-					if (data.size() > MIN_SIZE)
-					{
-						transferManager->getClient().sendData(data);
-					}
-				}
-			}
-			Sleep(1);
-		}
-	});
-	sendThread.detach();
-}
-
-void MultiplayerManager::send()
-{
 	std::thread receiveThread([]() {
 		DataTransferManager* transferManager = DataTransferManager::getInstance();
 		Client& client = transferManager->getClient();
 		PlayerManager* playerManager = PlayerManager::getInstance();
-		while (true)
+		while (client.getStatus() > 0)
 		{
 			std::string data;
 			bool didRecieve = client.recieve(data);
@@ -124,4 +86,40 @@ void MultiplayerManager::send()
 		}
 	});
 	receiveThread.detach();
+}
+
+void MultiplayerManager::send()
+{
+	std::thread sendThread([]() {
+		DataTransferManager* transferManager = DataTransferManager::getInstance();
+		Client& client = transferManager->getClient();
+		unsigned clientId = client.getId();
+		PlayerManager* playerManager = PlayerManager::getInstance();
+
+		while (client.getStatus() > 0)
+		{
+			std::vector<Player*> local = playerManager->getLocalPlayers();
+			if (local.size() > client.getKnownSize())
+			{
+				client.setKnownSize(local.size());
+				std::string data = "NEW";
+				data += (char)clientId;
+				client.sendData(data);
+			}
+			else
+			{
+				for (Player* p : local)
+				{
+					PlayerData pData = transferManager->getPlayerData(*p, clientId);
+					std::string data = transferManager->stringifyData(pData);
+					if (data.size() > MIN_SIZE)
+					{
+						transferManager->getClient().sendData(data);
+					}
+				}
+			}
+			Sleep(1);
+		}
+	});
+	sendThread.detach();
 }

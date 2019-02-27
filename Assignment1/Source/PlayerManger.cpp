@@ -199,3 +199,13 @@ void PlayerManager::updateRemote(PlayerData data)
 		if (r->getId() == data.id)
 			r->update(data);
 }
+
+void PlayerManager::destroy()
+{
+	for (Player* p : players)
+		delete p;
+	
+	players.clear();
+	localPlayers.clear();
+	remotePlayers.clear();
+}

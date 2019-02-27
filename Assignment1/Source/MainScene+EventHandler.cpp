@@ -1,6 +1,8 @@
 #include "AllScenes.h"
 #include "SceneManager.h"
 
+#include "DataTransferManager.h"
+
 void MainScene::keyboardEvents(double& dt)
 {
 	if (isPaused)
@@ -40,6 +42,8 @@ void MainScene::keyboardEvents(double& dt)
 				destination->setDetails([](int& i) {
 					MultiplayerManager* m_manager = MultiplayerManager::getInstance();
 					m_manager->end();
+					DataTransferManager* d_manager = DataTransferManager::getInstance();
+					d_manager->getClient().exit();
 					i = 1;
 				}, new MenuScene, this);
 

@@ -47,6 +47,8 @@ public:
 	void applyGravity(float);
 	void applyImpulse(Object*, Vector3, float);
 
+	void destroy();
+
 };
 
 #endif

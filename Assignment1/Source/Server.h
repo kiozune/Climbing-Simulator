@@ -14,6 +14,8 @@ class Server
 
 private:
 
+	int status;
+
 	std::string ip;
 	std::vector<sockaddr_in> connections;
 	std::string ids = "IDS:";
@@ -24,10 +26,12 @@ private:
 	sockaddr_in client;
 	int clientLength;
 
-
+	void reset();
 	void fetchIp();
 
 public:
+
+	int getStatus();
 
 	bool start();
 	bool bindSocket();

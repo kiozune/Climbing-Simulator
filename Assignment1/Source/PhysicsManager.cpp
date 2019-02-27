@@ -105,3 +105,23 @@ void PhysicsManager::applyImpulse(Object* obj, Vector3 force, float dt)
 	obj->applyImpulse(force, dt);
 	this->updateObjects();
 }
+
+void PhysicsManager::destroy()
+{
+	for (Object* obj : objects)
+		delete obj;
+
+	objects.clear();
+	others.clear();
+	environment.clear();
+
+	for (Spring* spr : springs)
+		delete spr;
+
+	springs.clear();
+
+	for (Spring** spr : externalSprings)
+		delete *spr;
+
+	externalSprings.clear();
+}

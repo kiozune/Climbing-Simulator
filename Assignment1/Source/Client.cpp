@@ -4,6 +4,17 @@
 
 #include "PlayerManager.h"
 
+void Client::reset()
+{
+	this->status = 0;
+	this->id = 0;
+	this->knownSize = 0;
+	this->serverIp = "";
+	ZeroMemory(buff, 1024);
+}
+
+int Client::getStatus() { return this->status; }
+
 unsigned Client::getId() { return this->id; }
 
 unsigned Client::getKnownSize() { return this->knownSize; }
@@ -13,6 +24,8 @@ std::string Client::getServerIp() { return this->serverIp; }
 
 bool Client::start()
 {
+	reset();
+
 	WSADATA data;
 	WORD version = MAKEWORD(2, 2);
 	int wsOk = WSAStartup(version, &data);
@@ -21,7 +34,7 @@ bool Client::start()
 		std::cout << "Failed to start" << std::endl;
 		return false;
 	}
-	status = 0;
+	this->status = 0;
 	return true;
 }
 
@@ -55,11 +68,11 @@ void Client::connectTo(u_short port, const char* ip)
 			data.erase(pos, 4);
 			manager->createRemotePlayers(data, this->id);
 		}
-		status = 1;
+		this->status = 1;
 	}
 	else
 	{
-		status = -1;
+		this->status = -1;
 	}
 }
 
@@ -89,8 +102,7 @@ bool Client::recieve(std::string& data)
 
 void Client::exit()
 {
+	this->status = 0;
 	closesocket(out);
 	WSACleanup();
 }
-
-int Client::getStatus() { return this->status; }

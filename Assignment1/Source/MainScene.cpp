@@ -249,6 +249,9 @@ void MainScene::RenderSecondPass()
 
 void MainScene::Exit()
 {
+	manager->destroy();
+	players->destroy();
+
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
 }
