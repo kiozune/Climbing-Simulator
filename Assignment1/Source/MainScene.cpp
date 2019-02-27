@@ -190,8 +190,8 @@ void MainScene::Init()
 	models[SHADOW_QUAD] = MeshBuilder::GenerateQuad("Shadow_Quad", Color(1, 1, 1), 1.f);
 	models[SHADOW_QUAD]->texArray[0] = shadowFBO.getTexture();
 
-	models[TEST_OBJ] = MeshBuilder::GenerateOBJ("testLevel");
-//	models[TEST_OBJ]->applyTexture("Image//skybox.tga");
+	models[TEST_OBJ] = MeshBuilder::GenerateOBJ("level");
+	models[TEST_OBJ]->applyTexture("Image//level.tga");
 	applyMaterial(models[TEST_OBJ]);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -761,10 +761,10 @@ void MainScene::renderMenu()
 
 	glEnable(GL_DEPTH_TEST);
 	modelStack.PushMatrix(); 
-	modelStack.Translate(0.45f, -0.4f, -0.4f);
-	modelStack.Scale(0.1f, 0.1f, 0.1f);
+	modelStack.Translate(0.3f, -0.6f, -0.4f);
+	modelStack.Scale(0.15f, 0.15f, 0.15f);
 	modelStack.Rotate(rotateMap, 0, 1, 0);
-	modelStack.Rotate(25, 1, 0, 0);
+	modelStack.Rotate(15, 1, 0, 0);
 	renderMeshMenu(models[TEST_OBJ], false);
 	modelStack.PopMatrix();
 	glDisable(GL_DEPTH_TEST);
@@ -779,7 +779,7 @@ void MainScene::renderLoading()
 	renderMenu2D(models[LOADING], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
 	e_States = GAMEMODE;
 }
-
+//Render Lobby
 void MainScene::renderLobby()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -790,7 +790,7 @@ void MainScene::renderLobby()
 	renderTextOnScreenMenu(models[LOCALLOBY_QUAD], "LOCAL LOBBY", Color(localR, localG, 1), localSize, 4, 15);
 	renderTextOnScreenMenu(models[BACK_QUAD], "BACK", Color(backR, backG, 1), backSize, 4, 10);
 }
-
+//Render Online Lobby
 void MainScene::renderOnline()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -801,6 +801,7 @@ void MainScene::renderOnline()
 	renderTextOnScreenMenu(models[JOINONLINE_QUAD], "JOIN ONLINE", Color(join_OnlineR, join_OnlineG, 1), join_OnlineSize, 4, 15);
 	renderTextOnScreenMenu(models[BACK_QUAD], "BACK", Color(backR, backG, 1), backSize, 4, 10);
 }
+//Render Local Lobby
 void MainScene::renderLocal()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
