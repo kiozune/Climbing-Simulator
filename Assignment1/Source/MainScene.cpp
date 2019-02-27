@@ -1,5 +1,4 @@
 #include "MainScene.h"
-
 #include "GL\glew.h"
 #include "Mtx44.h"
 #include "Utility.h"
@@ -255,40 +254,6 @@ void MainScene::RenderSecondPass()
 		modelStack.PopMatrix();
 	}
 }
-//Render Lobby
-void MainScene::renderLobby()
-{
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glUseProgram(menuShader);
-
-	renderMenu2D(models[MAINMENU_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
-	renderTextOnScreenMenu(models[ONLINELOBBY_QUAD], "ONLINE LOBBY", Color(OnlineR, OnlineG, 1), onlineSize, 4, 20);
-	renderTextOnScreenMenu(models[LOCALLOBY_QUAD], "LOCAL LOBBY", Color(localR, localG, 1), localSize, 4, 15);
-	renderTextOnScreenMenu(models[BACK_QUAD], "BACK", Color(backR, backG, 1), backSize, 4, 10);
-}
-//Render Online Lobby
-void MainScene::renderOnline()
-{
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glUseProgram(menuShader);
-
-	renderMenu2D(models[MAINMENU_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
-	renderTextOnScreenMenu(models[STARTONLINE_QUAD], "CREATE ONLINE", Color(create_OnlineR, create_OnlineG, 1), create_OnlineSize, 4, 20);
-	renderTextOnScreenMenu(models[JOINONLINE_QUAD], "JOIN ONLINE", Color(join_OnlineR, join_OnlineG, 1), join_OnlineSize, 4, 15);
-	renderTextOnScreenMenu(models[BACK_QUAD], "BACK", Color(backR, backG, 1), backSize, 4, 10);
-}
-//Render Local Lobby
-void MainScene::renderLocal()
-{
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glUseProgram(menuShader);
-
-	renderMenu2D(models[MAINMENU_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
-	renderTextOnScreenMenu(models[STARTLOCAL_QUAD], "CREATE LOCAL", Color(start_LocalR, start_LocalG, 1), start_LocalSize, 4, 20);
-	renderTextOnScreenMenu(models[JOINLOCAL_QUAD], "JOIN LOCAL", Color(join_LocalR, join_LocalG, 1), join_LocalSize, 4, 15);
-	renderTextOnScreenMenu(models[BACK_QUAD], "BACK", Color(backR, backG, 1), backSize, 4, 10);
-}
-
 void MainScene::renderLoseScreen()
 {
 	//Clear color buffer every frame

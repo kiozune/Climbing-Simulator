@@ -50,7 +50,6 @@ class MainScene : public Scene
 	};
 	OPTION current;
 
-
 	int fps;
 	int i_Light;
 	bool debugging;
@@ -109,10 +108,11 @@ class MainScene : public Scene
 	void changeColour(Mesh*, Color);
 
 	void renderMesh(Mesh* model, bool enableLight = false);
-
+	void renderMenu2D(Mesh* model, float sizex, float sizey, float sizez, float x, float y);
 	void initText();
 	void renderText(Mesh* mesh, const std::string text, Color color);
 	void renderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
+	void renderTextOnScreenMenu(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 
 	void renderObject(Object*);
 	void renderJoint(Joint*);
