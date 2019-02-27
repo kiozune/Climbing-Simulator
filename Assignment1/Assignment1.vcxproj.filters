@@ -159,9 +159,6 @@
     <ClCompile Include="Source\BlockGenerator.cpp">
       <Filter>LevelGenerator</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Sound.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\MainScene+GameRender.cpp">
       <Filter>Scenes\Main\Scene renders</Filter>
     </ClCompile>
@@ -233,6 +230,17 @@
     </ClCompile>
     <ClCompile Include="Source\RemotePlayer.cpp">
       <Filter>Multiplayer\Remote Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Sound.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Camera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClCompile Include="Source\PhysicsManager.cpp">
+      <Filter>Physics</Filter>
     </ClCompile>
     <ClCompile Include="Source\BoundingBox.cpp">
       <Filter>Physics\Collision\Bounding Box</Filter>

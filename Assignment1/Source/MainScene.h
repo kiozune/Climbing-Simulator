@@ -72,8 +72,6 @@ class MainScene : public Scene
 	Position viewSize;
 
 
-	char inputField_Array[11];
-
 	std::vector<FixedCamera> cameras; // stationary
 
 	Mesh* models[NUM_GEOMETRY];
@@ -136,7 +134,6 @@ class MainScene : public Scene
 	void renderWinScreen();
 
 public:
-
 	virtual void Init();
 	virtual void Update(double dt);
 	virtual void Render();
@@ -149,6 +146,10 @@ private:
 
 	Mtx44 lightProj;
 	Mtx44 lightView;
+
+	bool Gameover = false;
+	bool winGame = false;
+	bool LoseGame = false;
 
 	e_Passes e_Phases;
 	//e_Scenes e_States;

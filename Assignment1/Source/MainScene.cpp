@@ -116,7 +116,7 @@ void MainScene::Init()
 	applyMaterial(models[LOSE_QUAD]);
 
 	models[WIN_QUAD] = MeshBuilder::GenerateScreen("WIN_SCREEN", Color(1, 1, 1), 14.f);
-	models[WIN_QUAD]->applyTexture("Image//WIN_QUAD.tga");
+	models[WIN_QUAD]->applyTexture("Image//winScreen.tga");
 	applyMaterial(models[WIN_QUAD]);
 
 	models[Metaphor_QUAD] = MeshBuilder::GenerateText("Metaphor", 16, 16);
@@ -154,7 +154,10 @@ void MainScene::Update(double dt)
 		updatePlayer(p, dt);
 
 	if (ColResult.collided)
-		printf("triggered");
+	{
+		Gameover = true;
+		winGame = true;
+	}
 
 	Vector3 center = Vector3(0,0,0);
 
@@ -176,14 +179,28 @@ void MainScene::Update(double dt)
 
 void MainScene::Render()
 {
-	if (isPaused)
+	if(!Gameover)
 	{
-		RenderPause();
+		if (isPaused)
+		{
+			RenderPause();
+		}
+		else
+		{
+			RenderFirstPass();
+			RenderSecondPass();
+		}
 	}
-	else
+	else if(Gameover)
 	{
-		RenderFirstPass();
-		RenderSecondPass();
+		if (LoseGame)
+		{
+			renderLoseScreen();
+		}
+		else if(winGame)
+		{
+			renderWinScreen();
+		}
 	}
 }
 
@@ -317,6 +334,7 @@ void MainScene::renderLoseScreen()
 		break;
 	}
 	}
+	sound->stopSound("bgm");
 }
 
 void MainScene::renderWinScreen()
@@ -363,11 +381,12 @@ void MainScene::renderWinScreen()
 		break;
 	}
 	}
-
+	sound->stopSound("bgm");
 }
 
 void MainScene::Exit()
 {
+	sound->stopSound("bgm");
 	manager->destroy();
 	players->destroy();
 
