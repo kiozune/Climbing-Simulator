@@ -26,6 +26,9 @@ class MainScene : public Scene
 		TEXT,
 		LIGHT,
 		SKY_BOX,
+		Metaphor_QUAD,
+		LOSE_QUAD,
+		WIN_QUAD,
 
 		QUAD,
 		CUBE,
@@ -47,7 +50,6 @@ class MainScene : public Scene
 	};
 	OPTION current;
 
-
 	int fps;
 	int i_Light;
 	bool debugging;
@@ -56,6 +58,7 @@ class MainScene : public Scene
 
 	float elapseTime = 0;
 	float bounceTime; // for key press inputs
+
 
 	// stores the size of the map
 	// indicates if user enabled lighting
@@ -67,6 +70,9 @@ class MainScene : public Scene
 	unsigned m_parameters[U_TOTAL];
 
 	Position viewSize;
+
+
+	char inputField_Array[11];
 
 	std::vector<FixedCamera> cameras; // stationary
 
@@ -89,18 +95,24 @@ class MainScene : public Scene
 
 	Vector3 prevMousePosition;
 
+
 	float prevTime;
 	int spectatingPlayer;
+
+	//count for Random Metaphors in lose Screen
+	int i_rLose;
+
 
 	// applies material to geometry selected
 	void applyMaterial(Mesh*);
 	void changeColour(Mesh*, Color);
 
 	void renderMesh(Mesh* model, bool enableLight = false);
-
+	void renderMenu2D(Mesh* model, float sizex, float sizey, float sizez, float x, float y);
 	void initText();
 	void renderText(Mesh* mesh, const std::string text, Color color);
 	void renderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
+	void renderTextOnScreenMenu(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 
 	void renderObject(Object*);
 	void renderJoint(Joint*);
@@ -120,6 +132,8 @@ class MainScene : public Scene
 	void RenderSecondPass();
 	void RenderGame();
 	void RenderPause();
+	void renderLoseScreen();
+	void renderWinScreen();
 
 public:
 
