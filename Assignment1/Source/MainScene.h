@@ -147,9 +147,9 @@ private:
 	Mtx44 lightProj;
 	Mtx44 lightView;
 
-	bool Gameover = true;
+	bool Gameover = false;
 	bool winGame = false;
-	bool LoseGame = true;
+	bool LoseGame = false;
 
 	e_Passes e_Phases;
 	//e_Scenes e_States;

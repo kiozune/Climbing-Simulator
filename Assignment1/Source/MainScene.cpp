@@ -154,7 +154,10 @@ void MainScene::Update(double dt)
 		updatePlayer(p, dt);
 
 	if (ColResult.collided)
-		printf("triggered");
+	{
+		Gameover = true;
+		winGame = true;
+	}
 
 	Vector3 center = Vector3(0,0,0);
 
@@ -331,6 +334,7 @@ void MainScene::renderLoseScreen()
 		break;
 	}
 	}
+	sound->stopSound("bgm");
 }
 
 void MainScene::renderWinScreen()
@@ -377,11 +381,12 @@ void MainScene::renderWinScreen()
 		break;
 	}
 	}
-
+	sound->stopSound("bgm");
 }
 
 void MainScene::Exit()
 {
+	sound->stopSound("bgm");
 	manager->destroy();
 	players->destroy();
 

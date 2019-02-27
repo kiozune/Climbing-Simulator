@@ -5,12 +5,16 @@
 void MainScene::updatePlayer(Player* p, double& dt)
 {
 	if (!p->isAlive())
+	{
+		Gameover = true;
+		LoseGame = true;
 		return;
+	}
 
 	int i = p->getId();
 	Vector3 center = p->getBody()->getCenter();
 
-	if (center.y == -1000)
+	if (center.y <= -1000)
 		p->setAlive(false);
 
 	Vector3 diff;
@@ -111,6 +115,7 @@ void MainScene::updatePlayer(Player* p, double& dt)
 				else
 				{
 					details = manager->getEnviromentalCollision(leftHand);
+					ColResult = leftHand->getBoundingBox().getCollisionResultWith(finishingPlatform->getBoundingBox());
 					if (details.result.collided)
 					{
 						p->leftGrab(details.object->getEnd());
@@ -159,6 +164,7 @@ void MainScene::updatePlayer(Player* p, double& dt)
 				else
 				{
 					details = manager->getEnviromentalCollision(rightHand);
+					ColResult = rightHand->getBoundingBox().getCollisionResultWith(finishingPlatform->getBoundingBox());
 					if (details.result.collided)
 					{
 						p->rightGrab(details.object->getEnd());

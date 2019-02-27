@@ -120,9 +120,6 @@
     <ClCompile Include="Source\BlockGenerator.cpp">
       <Filter>LevelGenerator</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Sound.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\MainScene+GameRender.cpp">
       <Filter>Scenes\Main\Scene renders</Filter>
     </ClCompile>
@@ -176,6 +173,9 @@
     </ClCompile>
     <ClCompile Include="Source\DataTransferManager.cpp">
       <Filter>Multiplayer\Transfer</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Sound.cpp">
+      <Filter>Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
