@@ -72,6 +72,13 @@ Vector3 Object::getWorldScale()
 }
 
 Vector3 Object::getRotation() { return this->rotation; }
+
+void Object::setRotation(Vector3 r) 
+{ 
+	this->rotation = r; 
+	this->bb.setRotation(this->rotation.y, this->rotation.z);
+}
+
 Vector3 Object::getCenter() { return this->center; }
 Vector3 Object::getMomentum() { return this->velocity * this->mass; };
 BoundingBox& Object::getBoundingBox() { return this->bb; }

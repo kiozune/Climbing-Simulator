@@ -12,7 +12,7 @@ private:
 
 	Joint * start, *end;
 	
-	float mass, length;
+	float mass, length, yaw, pitch;
 	Vector3 scale, rotation, center;
 	Color color;
 
@@ -34,7 +34,10 @@ public:
 	float getMass();
 	Vector3 getScale();
 	Vector3 getWorldScale();
+
 	Vector3 getRotation();
+	void setRotation(Vector3);
+
 	Vector3 getCenter();
 	Vector3 getMomentum();
 	BoundingBox& getBoundingBox();
