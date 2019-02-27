@@ -41,7 +41,7 @@ void MainScene::initMap()
 			for (unsigned i = 0; i < current->getCubeVectors()->size(); i++)
 			{
 				Vector3 pos = current->getCubeVectors()->at(i);
-				float randFloat = static_cast<float>(rand() % 25 + 8);
+				float randFloat = static_cast<float>(rand() % 20 + 8); // for scaling
 				Vector3 scale = { randFloat,randFloat,randFloat }; // pseudo sizing
 				if (i == current->getCubeVectors()->size() - 1 )//&& rand() % 2) // last cube will be a rope with an off chance there isn't
 				{
