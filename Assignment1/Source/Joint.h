@@ -26,7 +26,6 @@ public:
 	void setCurrent(Vector3);
 
 	Vector3 getPrevious();
-
 	void setPosition(Vector3);
 
 	Vector3 getMomentum();

@@ -79,11 +79,50 @@
     <Filter Include="Multiplayer\Transfer">
       <UniqueIdentifier>{0e7c611d-6d9e-430c-82e1-a8af5b93b02a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Camera\Fixed">
+      <UniqueIdentifier>{bf870e98-bc11-4ed2-af50-919076f3f709}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Camera\Standard">
+      <UniqueIdentifier>{e42dfbf3-391b-4f75-a590-462f763f789a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Camera\Movable">
+      <UniqueIdentifier>{102c68dc-b42f-40d6-87d5-df2348c3454b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Player">
+      <UniqueIdentifier>{17d2da43-828d-41f1-8def-fc2abab4c796}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObjects\Player\Manager">
+      <UniqueIdentifier>{67e9c826-165a-49e4-817c-a6a6b3cec51c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Multiplayer\Manager">
+      <UniqueIdentifier>{b0cdbdb1-7312-4011-af77-d632cb31b41f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Multiplayer\Transfer\Manager">
+      <UniqueIdentifier>{a3d2e56a-e78d-43c9-8206-72f5370758b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Multiplayer\Remote Player">
+      <UniqueIdentifier>{52f2d140-7e64-44d9-92cb-ccd2cc8072f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics\Collision">
+      <UniqueIdentifier>{2ec475ca-b75b-4cf3-a035-e6a2aa8ea146}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics\Collision\Bounding Box">
+      <UniqueIdentifier>{19821df0-0cd5-4b1f-8139-9d52c31be28f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics\Joint">
+      <UniqueIdentifier>{1eceabba-5cb9-48df-b645-d03e1f2b5902}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics\Object">
+      <UniqueIdentifier>{c0ae749d-7702-4fc6-80fb-c4622ca0ac15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics\Manager">
+      <UniqueIdentifier>{422df6e6-7ceb-4ba9-af59-13615b9dba25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Physics\Spring">
+      <UniqueIdentifier>{67efc859-6304-46fe-bf08-9e5488339216}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Camera.cpp">
-      <Filter>Camera</Filter>
-    </ClCompile>
     <ClCompile Include="Source\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -171,8 +210,26 @@
     <ClCompile Include="Source\Server.cpp">
       <Filter>Multiplayer\Server</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Camera.cpp">
+      <Filter>Camera\Standard</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FixedCamera.cpp">
+      <Filter>Camera\Fixed</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MovableCamera.cpp">
+      <Filter>Camera\Movable</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Player.cpp">
+      <Filter>GameObjects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MultiplayerManager.cpp">
+      <Filter>Multiplayer\Manager</Filter>
+    </ClCompile>
     <ClCompile Include="Source\DataTransferManager.cpp">
-      <Filter>Multiplayer\Transfer</Filter>
+      <Filter>Multiplayer\Transfer\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RemotePlayer.cpp">
+      <Filter>Multiplayer\Remote Player</Filter>
     </ClCompile>
     <ClCompile Include="Source\Sound.cpp">
       <Filter>Sound</Filter>
@@ -185,29 +242,28 @@
     <ClCompile Include="Source\PhysicsManager.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Object.cpp">
-      <Filter>Physics</Filter>
+    <ClCompile Include="Source\BoundingBox.cpp">
+      <Filter>Physics\Collision\Bounding Box</Filter>
     </ClCompile>
     <ClCompile Include="Source\Joint.cpp">
-      <Filter>Physics</Filter>
+      <Filter>Physics\Joint</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Player.cpp">
-      <Filter>GameObjects</Filter>
+    <ClCompile Include="Source\Object.cpp">
+      <Filter>Physics\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PhysicsManager.cpp">
+      <Filter>Physics\Manager</Filter>
     </ClCompile>
     <ClCompile Include="Source\Spring.cpp">
-      <Filter>Physics</Filter>
+      <Filter>Physics\Spring</Filter>
     </ClCompile>
-    <ClCompile Include="Source\BoundingBox.cpp">
-      <Filter>Physics</Filter>
+    <ClCompile Include="Source\PlayerManger.cpp">
+      <Filter>GameObjects\Player\Manager</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="Source\Light.cpp">
       <Filter>Lighting</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\FixedCamera.cpp">
-      <Filter>Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MovableCamera.cpp">
-      <Filter>Camera</Filter>
     </ClCompile>
     <ClCompile Include="Source\ControllerManager.cpp">
       <Filter>Controller Manager</Filter>
@@ -215,15 +271,6 @@
     <ClInclude Include="Source\Sound.h">
       <Filter>Sound</Filter>
     </ClInclude>
-    <ClCompile Include="Source\RemotePlayer.cpp">
-      <Filter>Multiplayer</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\PlayerManger.cpp">
-      <Filter>GameObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MultiplayerManager.cpp">
-      <Filter>Multiplayer</Filter>
-    </ClCompile>
     <ClInclude Include="Source\MenuScene.h">
       <Filter>Scenes\Menu</Filter>
     </ClInclude>
@@ -247,9 +294,6 @@
     </ClInclude>
     <ClInclude Include="Source\Server.h">
       <Filter>Multiplayer\Server</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\DataTransferManager.h">
-      <Filter>Multiplayer\Transfer</Filter>
     </ClInclude>
     <ClInclude Include="Source\PlayerData.h">
       <Filter>Multiplayer\Transfer</Filter>
@@ -295,56 +339,62 @@
     <ClInclude Include="Source\BlockGenerator.h">
       <Filter>LevelGenerator</Filter>
     </ClInclude>
-    <ClInclude Include="Source\PhysicsManager.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Object.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Joint.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Player.h">
-      <Filter>GameObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Spring.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\BoundingBox.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Camera.h">
       <Filter>Camera</Filter>
     </ClInclude>
     <ClInclude Include="Source\Light.h">
       <Filter>Lighting</Filter>
     </ClInclude>
-    <ClInclude Include="Source\FixedCamera.h">
-      <Filter>Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\MovableCamera.h">
-      <Filter>Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\CollisionResult.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\CollisionDetails.h">
-      <Filter>Physics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\ControllerManager.h">
       <Filter>Controller Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\RemotePlayer.h">
-      <Filter>Multiplayer</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\PlayerManager.h">
-      <Filter>GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="Source\Constants.h">
       <Filter>Constants</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Camera.h">
+      <Filter>Camera\Standard</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FixedCamera.h">
+      <Filter>Camera\Fixed</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MovableCamera.h">
+      <Filter>Camera\Movable</Filter>
+    </ClInclude>
     <ClInclude Include="Source\MultiplayerManager.h">
-      <Filter>Multiplayer</Filter>
+      <Filter>Multiplayer\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DataTransferManager.h">
+      <Filter>Multiplayer\Transfer\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RemotePlayer.h">
+      <Filter>Multiplayer\Remote Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BoundingBox.h">
+      <Filter>Physics\Collision\Bounding Box</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CollisionDetails.h">
+      <Filter>Physics\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CollisionResult.h">
+      <Filter>Physics\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Joint.h">
+      <Filter>Physics\Joint</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Object.h">
+      <Filter>Physics\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PhysicsManager.h">
+      <Filter>Physics\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Spring.h">
+      <Filter>Physics\Spring</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Player.h">
+      <Filter>GameObjects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayerManager.h">
+      <Filter>GameObjects\Player\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
