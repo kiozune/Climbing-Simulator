@@ -78,7 +78,7 @@ void BlockGenerator::generateBlocks(int offsetPos)
 
 void BlockGenerator::getLevelData(std::string val, Vector3 pos, int offset, int cubes)
 {
-	for (int i = 1; i < val.size(); ++i)
+	for (unsigned i = 1; i < val.size(); ++i)
 	{
 		block *temp = new block;
 		switch (val[i])
@@ -86,7 +86,7 @@ void BlockGenerator::getLevelData(std::string val, Vector3 pos, int offset, int 
 		case '0': // Left
 			pos.x -= offset;
 			temp->setVector3(pos);
-			temp->populateNode(cubes, offset);
+			temp->populateNode(cubes, (float)offset);
 			temp->setPrevious(tail);
 			tail->setNext(temp);
 			tail = temp;
@@ -94,7 +94,7 @@ void BlockGenerator::getLevelData(std::string val, Vector3 pos, int offset, int 
 		case '1': // right
 			pos.x += offset;
 			temp->setVector3(pos);
-			temp->populateNode(cubes, offset);
+			temp->populateNode(cubes, (float)offset);
 			temp->setPrevious(tail);
 			tail->setNext(temp);
 			tail = temp;
@@ -102,7 +102,7 @@ void BlockGenerator::getLevelData(std::string val, Vector3 pos, int offset, int 
 		case '2': // Forward
 			pos.z += offset;
 			temp->setVector3(pos);
-			temp->populateNode(cubes, offset);
+			temp->populateNode(cubes, (float)offset);
 			temp->setPrevious(tail);
 			tail->setNext(temp);
 			tail = temp;
@@ -110,7 +110,7 @@ void BlockGenerator::getLevelData(std::string val, Vector3 pos, int offset, int 
 		case '3': // backward
 			pos.z -= offset;
 			temp->setVector3(pos);
-			temp->populateNode(cubes, offset);
+			temp->populateNode(cubes, (float)offset);
 			temp->setPrevious(tail);
 			tail->setNext(temp);
 			tail = temp;

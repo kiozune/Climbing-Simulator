@@ -25,7 +25,7 @@ public:
 	static Mesh* GenerateCube(const std::string &meshName, Color color, float lengthX, float lengthY, float lengthZ);
 	static Mesh* GenerateScreen(const std::string &meshName, Color color, float length);
 	// generate from an obj file
-	static Mesh* GenerateOBJ(const std::string &meshName, const bool rigidBody = false);
+	static Mesh* GenerateOBJ(const std::string &meshName);
 	static Mesh* GenerateText(const std::string &meshName, unsigned numRow, unsigned numCol);
 };
 

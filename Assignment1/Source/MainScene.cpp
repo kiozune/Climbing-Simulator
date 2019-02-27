@@ -62,6 +62,7 @@ void MainScene::Init()
 
 	lights[0].type = Light::SPOT;
 	lights[0].position.Set(0, 300, 0);
+	lights[0].power = 100.f;
 	lights[0].setUniform();
 
 	glUniform1i(m_parameters[U_NUMLIGHTS], LIGHT_COUNT);
@@ -85,7 +86,7 @@ void MainScene::Init()
 	models[QUAD] = MeshBuilder::GenerateQuad("QUAD", Color(1, 1, 1), Position(1, 1, 1));
 	applyMaterial(models[QUAD]);
 
-	models[CUBE] = MeshBuilder::GenerateCube("CUBE", Color(1, 1, 1), 1, 1, 1);
+	models[CUBE] = MeshBuilder::GenerateOBJ("CUBE"); // MeshBuilder::GenerateCube("CUBE", Color(1, 1, 1), 1, 1, 1);
 	applyMaterial(models[CUBE]);
 
 

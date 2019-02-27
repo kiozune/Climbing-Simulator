@@ -68,7 +68,7 @@ void MainScene::updatePlayer(Player* p, double& dt)
 	}
 
 	if (!(int)(energyRequired * 100))
-		p->recover(dt * 10.f);
+		p->recover((float)dt * 10.f);
 
 
 	// grabbing

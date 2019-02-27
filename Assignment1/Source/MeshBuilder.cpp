@@ -181,7 +181,7 @@ Mesh* MeshBuilder::GenerateSphere(const std::string &meshName, Color color, GLfl
 	return mesh;
 }
 
-Mesh* MeshBuilder::GenerateOBJ(const std::string &meshName, const bool rigidBody)
+Mesh* MeshBuilder::GenerateOBJ(const std::string &meshName)
 {
 	std::string obj = "Object//" + meshName + ".obj";
 	// std::string tex = "Image//" + meshName + ".tga";
@@ -199,7 +199,7 @@ Mesh* MeshBuilder::GenerateOBJ(const std::string &meshName, const bool rigidBody
 	IndexVBO(vertices, uvs, normals, index_buffer_data, vertex_buffer_data);
 
 	Mesh *mesh = new Mesh(meshName);
-	mesh->init(vertex_buffer_data, index_buffer_data, DRAW_TRIANGLES, rigidBody);
+	mesh->init(vertex_buffer_data, index_buffer_data, DRAW_TRIANGLES);
 	// mesh->applyTexture(tex.c_str());
 
 	return mesh;

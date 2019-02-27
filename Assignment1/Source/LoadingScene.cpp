@@ -50,7 +50,7 @@ void LoadingScene::Init()
 
 void LoadingScene::Update(double dt)
 {
-	elapseTime += dt;
+	elapseTime += (float)dt;
 	if (state > 0)
 	{
 		SceneManager* manager = SceneManager::getInstance();
