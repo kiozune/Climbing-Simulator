@@ -93,7 +93,12 @@ void JoinScene::Update(double dt)
 
 			MultiplayerManager* m_manager = MultiplayerManager::getInstance();
 			m_manager->connectTo(ip);
+			
 			destination->setDetails([](int& i) {
+				MultiplayerManager* m_manager = MultiplayerManager::getInstance();
+				m_manager->receive();
+				m_manager->send();
+
 				DataTransferManager* manager = DataTransferManager::getInstance();
 				while ((i = manager->getClient().getStatus()) == 0) {}
 			}, new MainScene, this);
