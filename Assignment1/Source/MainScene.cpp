@@ -175,6 +175,27 @@ void MainScene::Update(double dt)
 		//Vector3 target = //Vector3(int(center.x / 5) * 5, int(center.y / 5) * 5, int(center.z / 5) * 5);
 		cameras[0].setTarget(center);
 	}
+	if (Gameover)
+	{
+		if(Application::IsKeyPressed(VK_ESCAPE) || Application::IsControllerPressed(0,1))
+		{
+			LoadingScene* destination = new LoadingScene;
+			destination->setDetails([](int& i) {
+				MultiplayerManager* m_manager = MultiplayerManager::getInstance();
+				m_manager->end();
+				DataTransferManager* d_manager = DataTransferManager::getInstance();
+				d_manager->getClient().exit();
+				i = 1;
+			}, new MenuScene, this);
+
+			SceneManager* s_manager = SceneManager::getInstance();
+			s_manager->setNext(destination);
+				Gameover = false;
+				winGame = false;
+				LoseGame = false;
+				
+		}
+	}
 }
 
 void MainScene::Render()
