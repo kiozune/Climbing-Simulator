@@ -55,19 +55,25 @@
     <Filter Include="Constants">
       <UniqueIdentifier>{0d0ae643-02da-4c3b-acc2-087251bcb19b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes\Menu">
+      <UniqueIdentifier>{46905cc2-aacd-41b5-8b81-3a894efa7dcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Main">
+      <UniqueIdentifier>{143730d8-cf02-40a6-afde-7498a73e575f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Main\Scene renders">
+      <UniqueIdentifier>{9904a8a9-8b9b-4bed-9f2d-54e840b2a0da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Join">
+      <UniqueIdentifier>{b3d99dc6-6b2a-4c50-a28a-4fb43e2b0fb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\Loading">
+      <UniqueIdentifier>{994ac25e-f077-41cf-8084-93d2892c3dc6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Camera.cpp">
       <Filter>Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MainScene+Render.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MainScene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Scene.cpp">
-      <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Source\main.cpp">
       <Filter>Source Files</Filter>
@@ -105,11 +111,53 @@
     <ClCompile Include="Source\BlockGenerator.cpp">
       <Filter>LevelGenerator</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MainScene+PlayerActions.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Sound.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+GameRender.cpp">
+      <Filter>Scenes\Main\Scene renders</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MenuScene.cpp">
+      <Filter>Scenes\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MenuScene+Render.cpp">
+      <Filter>Scenes\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene.cpp">
+      <Filter>Scenes\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+EventHandler.cpp">
+      <Filter>Scenes\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+Init.cpp">
+      <Filter>Scenes\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+PartsRender.cpp">
+      <Filter>Scenes\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+PlayerMethods.cpp">
+      <Filter>Scenes\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+Render.cpp">
+      <Filter>Scenes\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\JoinScene.cpp">
+      <Filter>Scenes\Join</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\JoinScene+Render.cpp">
+      <Filter>Scenes\Join</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneManager.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LoadingScene.cpp">
+      <Filter>Scenes\Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LoadingScene+Render.cpp">
+      <Filter>Scenes\Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MainScene+PauseRender.cpp">
+      <Filter>Scenes\Main\Scene renders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -128,9 +176,6 @@
     <ClCompile Include="Source\Player.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MainScene+PartsRender.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Spring.cpp">
       <Filter>Physics</Filter>
     </ClCompile>
@@ -146,14 +191,8 @@
     <ClCompile Include="Source\MovableCamera.cpp">
       <Filter>Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MainScene+Init.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ControllerManager.cpp">
       <Filter>Controller Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MainScene+EventHandler.cpp">
-      <Filter>Scenes</Filter>
     </ClCompile>
     <ClInclude Include="Source\Sound.h">
       <Filter>Sound</Filter>
@@ -170,20 +209,32 @@
     <ClCompile Include="Source\PlayerManger.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MainScene+PlayerMethods.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\MultiplayerManager.cpp">
       <Filter>Multiplayer</Filter>
     </ClCompile>
     <ClCompile Include="Source\Server.cpp">
       <Filter>Multiplayer</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
+    <ClInclude Include="Source\MenuScene.h">
+      <Filter>Scenes\Menu</Filter>
+    </ClInclude>
     <ClInclude Include="Source\MainScene.h">
+      <Filter>Scenes\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\JoinScene.h">
+      <Filter>Scenes\Join</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SceneManager.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="Source\AllScenes.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LoadingScene.h">
+      <Filter>Scenes\Loading</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="Source\Scene.h">
       <Filter>Scenes</Filter>
     </ClInclude>

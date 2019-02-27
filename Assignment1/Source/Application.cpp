@@ -8,7 +8,9 @@
 #include "MainScene.h"
 #include "Application.h"
 
-#include "MainScene.h"
+#include "SceneManager.h"
+
+#include "AllScenes.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -26,8 +28,6 @@ static void error_callback(int error, const char* description)
 //Define the key input callback
 void Application::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, GL_TRUE);
 	keys[key] = action == GLFW_PRESS;
 }
 
@@ -40,6 +40,7 @@ void joystick_callback(int joy, int event)
 {
 	if (event == GLFW_CONNECTED)
 	{
+		joy++;
 		// The joystick was connected
 		PlayerManager* manager = PlayerManager::getInstance();
 		if (joy >= manager->getLocalPlayers().size())
@@ -110,7 +111,6 @@ void Application::Init()
 	//Set the error callback
 	glfwSetErrorCallback(error_callback);
 
-
 	//Initialize GLFW
 	if (!glfwInit())
 	{
@@ -157,35 +157,41 @@ void Application::Init()
 		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
 		//return -1;
 	}
+
+	SceneManager* manager = SceneManager::getInstance();
+	MenuScene* menu = new MenuScene;
+	manager->setCurrent(menu);
+	manager->setNext(menu);
 }
 
 void Application::Run()
 {
+	SceneManager* manager = SceneManager::getInstance();
 	//Main Loop
-	MainScene *scene = new MainScene;
+	Scene *scene = manager->getCurrent();
 	scene->Init();
-/*
-	bool isMultiplayer = true;
-	if (isMultiplayer)
-	{
-		MultiplayerManager* manager = MultiplayerManager::getInstance();
-		manager->startSever();
 
-		std::string ip;
-		while (ip == "")
-			ip = manager->getSever().getIp();
-
-		std::cout << "Sever started on " << ip << std::endl;
-
-		manager->connectTo(ip);
-		manager->receive();
-		manager->send();
-	}
-*/
+	Scene *next;
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 	while (!glfwWindowShouldClose(m_window))
 	{
+		next = manager->getNext();
+		if (next == nullptr)
+		{
+			MultiplayerManager* manager = MultiplayerManager::getInstance();
+			manager->end();
+			break;
+		}
+		else if (next != scene)
+		{
+			scene->Exit();
+			delete scene;
+			scene = next;
+			scene->Init();
+			manager->setCurrent(scene);
+		}
+
 		scene->Update(m_timer.getElapsedTime());
 		scene->Render();
 		//Swap buffers
@@ -194,14 +200,6 @@ void Application::Run()
 		glfwPollEvents();
 
         m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms
-
-		//If gamestate of Mainscene is EXIT_GAME it will break out of this while loop and close the scene.
-		if (IsKeyPressed(VK_ESCAPE) || scene->getSceneEnum() == 2)
-		{
-			MultiplayerManager* manager = MultiplayerManager::getInstance();
-			manager->end();
-			break;
-		}
 
 	} //Check if the ESC key had been pressed or if the window had been closed
 

@@ -9,6 +9,8 @@ unsigned Client::getId() { return this->id; }
 unsigned Client::getKnownSize() { return this->knownSize; }
 void Client::setKnownSize(unsigned s) { this->knownSize = s; }
 
+std::string Client::getServerIp() { return this->serverIp; }
+
 bool Client::start()
 {
 	WSADATA data;
@@ -19,11 +21,14 @@ bool Client::start()
 		std::cout << "Failed to start" << std::endl;
 		return false;
 	}
+	status = 0;
 	return true;
 }
 
 void Client::connectTo(u_short port, const char* ip)
 {
+	this->serverIp = ip;
+
 	serverLength = sizeof(server);
 	server.sin_family = AF_INET;
 	server.sin_port = htons(port);
@@ -50,6 +55,11 @@ void Client::connectTo(u_short port, const char* ip)
 			data.erase(pos, 4);
 			manager->createRemotePlayers(data, this->id);
 		}
+		status = 1;
+	}
+	else
+	{
+		status = -1;
 	}
 }
 
@@ -82,3 +92,5 @@ void Client::exit()
 	closesocket(out);
 	WSACleanup();
 }
+
+int Client::getStatus() { return this->status; }

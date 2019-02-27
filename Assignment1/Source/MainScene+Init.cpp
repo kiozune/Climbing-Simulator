@@ -1,5 +1,6 @@
 #include "MainScene.h"
 
+#include "LoadTGA.h"
 
 void MainScene::applyMaterial(Mesh* model)
 {
@@ -14,20 +15,10 @@ void MainScene::changeColour(Mesh* model, Color color)
 	model->material.kAmbient.Set(color.r, color.g, color.b);
 }
 
-
 void MainScene::initText() 
 {
 	models[TEXT] = MeshBuilder::GenerateText("TEXT", 16, 16);
 	models[TEXT]->applyTexture("Image//calibri.tga");
-	models[JOINONLINE_QUAD] = MeshBuilder::GenerateText("Join_Online", 16, 16);
-	models[JOINONLINE_QUAD]->applyTexture("Image//calibri.tga");
-	models[STARTLOCAL_QUAD] = MeshBuilder::GenerateText("Start Local", 16, 16);
-	models[STARTLOCAL_QUAD]->applyTexture("Image//calibriOpacity.tga");
-	models[JOINLOCAL_QUAD] = MeshBuilder::GenerateText("JOIN LOCAL", 16, 16);
-	models[JOINLOCAL_QUAD]->applyTexture("Image//calibriOpacity.tga");
-	models[EXIT] = MeshBuilder::GenerateText("EXIT", 16, 16);
-	models[EXIT]->applyTexture("Image//calibriOpacity.tga");
-
 }
 
 void MainScene::initMap()
@@ -83,4 +74,16 @@ void MainScene::initMap()
 		manager->addToEnvironment(platform);
 		finishingPlatform = platform;
 	}
+}
+
+void MainScene::initMenu() 
+{
+	//Ini textures into unsigned
+	t_opaque = LoadTGA("Image//calibri.tga");
+	t_alpha = LoadTGA("Image//calibriOpacity.tga");
+
+	models[RESUME_GAME] = MeshBuilder::GenerateText("RESUME_GAME", 16, 16);
+	models[RESUME_GAME]->applyTexture("Image//calibriOpacity.tga");
+	models[EXIT_GAME] = MeshBuilder::GenerateText("EXIT_GAME", 16, 16);
+	models[EXIT_GAME]->applyTexture("Image//calibri.tga");
 }
