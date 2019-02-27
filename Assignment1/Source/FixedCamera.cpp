@@ -51,7 +51,7 @@ void FixedCamera::changeYaw(float r, float dt)
 GLfloat FixedCamera::getYaw() { return this->yaw; }
 
 void FixedCamera::changePitch(float r, float dt)
-{
+{	
 	this->pitch += this->turnSpeed * r * dt;
 
 	if (pitch > 89)
