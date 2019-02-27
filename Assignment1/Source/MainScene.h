@@ -28,6 +28,9 @@ class MainScene : public Scene
 		LOADING,
 		BACK_QUAD,
 		SHADOW_QUAD,
+		Metaphor_QUAD,
+		LOSE_QUAD,
+		WIN_QUAD,
 
 
 		NUM_GEOMETRY,
@@ -50,6 +53,8 @@ class MainScene : public Scene
 		LOBBY,
 		ONLINELOBBY,
 		LOCALLOBBY,
+		LOSESCREEN,
+		WINSCREEN,
 	};
 
 	int fps;
@@ -163,6 +168,8 @@ class MainScene : public Scene
 	//Pause timer for keybind
 	bool t_Pause;
 
+	//count for Random Metaphors in lose Screen
+	int i_rLose;
 
 	// applies material to geometry selected
 	void applyMaterial(Mesh*);
@@ -178,11 +185,13 @@ public:
 	virtual void Init();
 	virtual void Update(double dt);
 	virtual void Render();
-	 void renderMenu();
-	 void renderLoading();
-	 void renderLobby();
-	 void renderOnline();
-	 void renderLocal();
+	void renderMenu();
+	void renderLoading();
+	void renderLobby();
+	void renderOnline();
+	void renderLocal();
+	void renderLoseScreen();
+	void renderWinScreen();
 	virtual void Exit();
 	void RenderFirstPass();
 	void RenderSecondPass();

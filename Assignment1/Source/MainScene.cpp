@@ -10,7 +10,7 @@
 
 void MainScene::Init()
 {
-
+	srand(time(NULL));
 
 	e_States = MAINMENU;
 	//Initiallizing Variables for Texts
@@ -31,6 +31,9 @@ void MainScene::Init()
 	join_LocalR = 1.0f;
 	join_LocalSize = 2.0f;
 	
+	//Random Metaphor
+	i_rLose = rand() % 4 + 1;
+
 	//Online Lobby Text
 	OnlineR = 0.0f;
 	OnlineG = 1.0f;
@@ -52,7 +55,6 @@ void MainScene::Init()
 	join_OnlineG = 1.0f;
 	join_OnlineR = 1.0f;
 	join_OnlineSize = 2.0f;
-	
 
 	//Boolean for transitionings and timers
 	onlineCheck = true;
@@ -202,6 +204,14 @@ void MainScene::Init()
 	models[MAINMENU_QUAD] = MeshBuilder::GenerateScreen("Main_Menu", Color(1, 1, 1), 14.f);
 	models[MAINMENU_QUAD]->applyTexture("Image//Background.tga");
 	applyMaterial(models[MAINMENU_QUAD]);
+
+	models[LOSE_QUAD] = MeshBuilder::GenerateScreen("Lose_Screen", Color(1, 1, 1), 14.f);
+	models[LOSE_QUAD]->applyTexture("Image//fellDown.tga");
+	applyMaterial(models[LOSE_QUAD]);
+
+	models[WIN_QUAD] = MeshBuilder::GenerateScreen("WIN_SCREEN", Color(1, 1, 1), 14.f);
+	models[WIN_QUAD]->applyTexture("Image//WIN_QUAD.tga");
+	applyMaterial(models[WIN_QUAD]);
 
 	models[LOADING] = MeshBuilder::GenerateScreen("Loading", Color(1, 1, 1), 14.f);
 	models[LOADING]->applyTexture("Image//controller.tga");
@@ -638,6 +648,15 @@ void MainScene::Render()
 			renderLocal();
 			break;
 		}
+		case WINSCREEN:
+		{
+			renderWinScreen();
+		}
+		case LOSESCREEN:
+		{
+			renderLoseScreen();
+		}
+
 		default:
 		{
 			std::cout << "Are you sure theres a scene?" << std::endl;
@@ -811,6 +830,99 @@ void MainScene::renderLocal()
 	renderTextOnScreenMenu(models[STARTLOCAL_QUAD], "CREATE LOCAL", Color(start_LocalR, start_LocalG, 1), start_LocalSize, 4, 20);
 	renderTextOnScreenMenu(models[JOINLOCAL_QUAD], "JOIN LOCAL", Color(join_LocalR, join_LocalG, 1), join_LocalSize, 4, 15);
 	renderTextOnScreenMenu(models[BACK_QUAD], "BACK", Color(backR, backG, 1), backSize, 4, 10);
+}
+
+void MainScene::renderLoseScreen()
+{
+	//Clear color buffer every frame
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//Using Shader without the shadow calculation
+	glUseProgram(menuShader);
+	models[BACK_QUAD]->setTexture(t_opaque);
+	switch ((i_rLose))
+	{
+	case 1:
+	{
+		renderMenu2D(models[LOSE_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
+		renderTextOnScreenMenu(models[Metaphor_QUAD], "Always hold on tight!",Color(1,1,1),2.2f,0,15);
+
+		renderTextOnScreenMenu(models[BACK_QUAD], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
+		break;
+	}
+	case 2:
+	{
+		renderMenu2D(models[LOSE_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
+		renderTextOnScreenMenu(models[Metaphor_QUAD], "Never let go of your grip button!", Color(1, 1, 1), 2.2f, 0, 15);
+		renderTextOnScreenMenu(models[BACK_QUAD], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
+		break;
+	}
+	case 3:
+	{
+		renderMenu2D(models[LOSE_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
+		renderTextOnScreenMenu(models[Metaphor_QUAD], "Always hold on tight!", Color(1, 1, 1), 2.2f, 0, 15);
+		renderTextOnScreenMenu(models[BACK_QUAD], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
+		break;
+	}
+	case 4:
+	{
+		renderMenu2D(models[LOSE_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
+		renderTextOnScreenMenu(models[Metaphor_QUAD], "Better luck next time!", Color(1, 1, 1), 2.2f, 0, 15);
+		renderTextOnScreenMenu(models[BACK_QUAD], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
+		break;
+	}
+	default:
+	{
+		std::cout << "Something in the render switch is broken!" << std::endl;
+		break;
+	}
+	}
+}
+
+void MainScene::renderWinScreen()
+{
+	//Clear color buffer every frame
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//Using Shader without the shadow calculation
+	glUseProgram(menuShader);
+	models[BACK_QUAD]->setTexture(t_opaque);
+	switch ((i_rLose))
+	{
+	case 1:
+	{
+		renderMenu2D(models[WIN_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
+		renderTextOnScreenMenu(models[Metaphor_QUAD], "Was it easy?!", Color(1, 1, 1), 2.2f, 0, 15);
+
+		renderTextOnScreenMenu(models[BACK_QUAD], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
+		break;
+	}
+	case 2:
+	{
+		renderMenu2D(models[WIN_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
+		renderTextOnScreenMenu(models[Metaphor_QUAD], "There you go!", Color(1, 1, 1), 2.2f, 0, 15);
+		renderTextOnScreenMenu(models[BACK_QUAD], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
+		break;
+	}
+	case 3:
+	{
+		renderMenu2D(models[WIN_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
+		renderTextOnScreenMenu(models[Metaphor_QUAD], "Was it challenging?", Color(1, 1, 1), 2.2f, 0, 15);
+		renderTextOnScreenMenu(models[BACK_QUAD], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
+		break;
+	}
+	case 4:
+	{
+		renderMenu2D(models[WIN_QUAD], 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
+		renderTextOnScreenMenu(models[Metaphor_QUAD], "Hope you had fun!", Color(1, 1, 1), 2.2f, 0, 15);
+		renderTextOnScreenMenu(models[BACK_QUAD], "Press Escape to Exit Game!", Color(1, 1, 1), 2.2f, 0, 10);
+		break;
+	}
+	default:
+	{
+		std::cout << "Something in the render switch is broken!" << std::endl;
+		break;
+	}
+	}
+
 }
 
 void MainScene::Exit()

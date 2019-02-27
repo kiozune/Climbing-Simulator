@@ -85,6 +85,8 @@ void MainScene::initText() {
 	models[BACK_QUAD]->applyTexture("Image//calibriOpacity.tga");
 	models[STARTONLINE_QUAD] = MeshBuilder::GenerateText("Create Online Game", 16, 16);
 	models[STARTONLINE_QUAD]->applyTexture("Image//calibri.tga");
+	models[Metaphor_QUAD] = MeshBuilder::GenerateText("Metaphor", 16, 16);
+	models[Metaphor_QUAD]->applyTexture("Image//calibri.tga");
 }
 
 void MainScene::renderText(Mesh* mesh, const std::string text, Color color) {
