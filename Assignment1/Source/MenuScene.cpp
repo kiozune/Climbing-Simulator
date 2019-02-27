@@ -1,5 +1,6 @@
 #include "AllScenes.h"
 
+#include "ControllerManager.h"
 #include "SceneManager.h"
 #include "DataTransferManager.h"
 
@@ -67,6 +68,8 @@ void MenuScene::Init()
 
 void MenuScene::Update(double dt)
 {
+	ControllerManager* controller = ControllerManager::getInstance();
+
 	elapseTime += (float)dt;
 	if (elapseTime < bounceTime)
 		return;
@@ -76,7 +79,6 @@ void MenuScene::Update(double dt)
 	{
 		 controller->getInput(0);
 		 leftJS = controller->getLeftJoystick();
-		 Application::IsControllerPressed(0, 2);
 	}
 
 
@@ -99,7 +101,8 @@ void MenuScene::Update(double dt)
 
 	models[current]->setTexture(t_opaque);
 
-	if (Application::IsKeyPressed(VK_RETURN) || ))
+		
+	if (Application::IsKeyPressed(VK_RETURN) || Application::IsControllerPressed(0, 1))
 	{
 		Scene* next;
 		switch (current)
@@ -123,7 +126,7 @@ void MenuScene::Update(double dt)
 
 				DataTransferManager* d_manager = DataTransferManager::getInstance();
 				while ((i = d_manager->getClient().getStatus()) == 0) {}
-			}, new MainScene, new MenuScene);
+			}, new MainScene, this);
 
 			next = destination;
 			break;

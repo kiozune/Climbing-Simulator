@@ -22,8 +22,6 @@ private:
 	};
 	OPTION current;
 
-	ControllerManager* controller = ControllerManager::getInstance();
-
 	Mesh* background;
 	Mesh* models[COUNT];
 
