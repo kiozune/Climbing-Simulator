@@ -17,9 +17,12 @@ void MainScene::updatePlayer(Player* p, double& dt)
 
 	bool leftPressed, rightPressed;
 
-	if (i)
+	bool onlyController = controller->isOnlyController();
+	if (i || onlyController)
 	{
-		int joy = GLFW_JOYSTICK_1 + i - 1;
+		int joy = GLFW_JOYSTICK_1 + i;
+		if (!onlyController) joy--;
+
 		controller->getInput(joy);
 		joystickEvents(dt, joy);
 

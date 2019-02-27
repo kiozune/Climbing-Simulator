@@ -81,14 +81,17 @@ void MainScene::keyboardEvents(double& dt)
 		if (Application::IsKeyPressed('9'))
 			dt /= 100;
 
-		if (Application::IsKeyPressed(VK_UP))
-			cameras[0].changePitch(-1, (float)dt);
-		if (Application::IsKeyPressed(VK_DOWN))
-			cameras[0].changePitch(1, (float)dt);
-		if (Application::IsKeyPressed(VK_LEFT))
-			cameras[0].changeYaw(1, (float)dt);
-		if (Application::IsKeyPressed(VK_RIGHT))
-			cameras[0].changeYaw(-1, (float)dt);
+		if (!controller->isOnlyController())
+		{
+			if (Application::IsKeyPressed(VK_UP))
+				cameras[0].changePitch(-1, (float)dt);
+			if (Application::IsKeyPressed(VK_DOWN))
+				cameras[0].changePitch(1, (float)dt);
+			if (Application::IsKeyPressed(VK_LEFT))
+				cameras[0].changeYaw(1, (float)dt);
+			if (Application::IsKeyPressed(VK_RIGHT))
+				cameras[0].changeYaw(-1, (float)dt);
+		}
 	}
 
 	if (Application::IsKeyPressed(VK_ESCAPE) && elapseTime > bounceTime || Application::IsControllerPressed(0,9) && elapseTime > bounceTime)
@@ -101,7 +104,7 @@ void MainScene::keyboardEvents(double& dt)
 void MainScene::joystickEvents(double& dt, int joy)
 {
 	if (!controller->isPresent()) return;
-	FixedCamera& cam = cameras[joy + 1];
+	FixedCamera& cam = cameras[joy + !controller->isOnlyController()];
 
 	//swingX = analog[0], swingY = analog[1];
 	//LT = analog[4], RT = analog[5];

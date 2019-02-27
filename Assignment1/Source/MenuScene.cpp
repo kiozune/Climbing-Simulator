@@ -59,6 +59,8 @@ void MenuScene::Init()
 	models[CREATE_LOBBY]->applyTexture("Image//calibriOpacity.tga");
 	models[JOIN_LOBBY] = MeshBuilder::GenerateText("Join_Online", 16, 16);
 	models[JOIN_LOBBY]->applyTexture("Image//calibri.tga");
+	models[CONTROLS] = MeshBuilder::GenerateText("Controls", 16, 16);
+	models[CONTROLS]->applyTexture("Image//calibri.tga");
 	models[EXIT_GAME] = MeshBuilder::GenerateText("EXIT", 16, 16);
 	models[EXIT_GAME]->applyTexture("Image//calibriOpacity.tga");
 
@@ -97,6 +99,7 @@ void MenuScene::Update(double dt)
 
 	models[CREATE_LOBBY]->setTexture(t_alpha);
 	models[JOIN_LOBBY]->setTexture(t_alpha);
+	models[CONTROLS]->setTexture(t_alpha);
 	models[EXIT_GAME]->setTexture(t_alpha);
 
 	models[current]->setTexture(t_opaque);
@@ -134,6 +137,10 @@ void MenuScene::Update(double dt)
 		case JOIN_LOBBY:
 			next = new JoinScene;
 			break;
+		case CONTROLS:
+			ControllerManager::getInstance()->toggleOnlyController();
+			bounceTime = elapseTime + 0.2f;
+			return;
 		default:
 			next = nullptr;
 			break;
@@ -154,10 +161,12 @@ void MenuScene::Render()
 	//renders texts and main menu
 	renderMenu2D(background, 11.0f, 14.0f, 11.0f, -0.8f, 1.25f);
 
+	bool onlyController = ControllerManager::getInstance()->isOnlyController();
 	Color selected = Color(1, 1, 1);
 
-	renderTextOnScreen(models[CREATE_LOBBY], "CREATE LOBBY", selected, current == CREATE_LOBBY ? 4 : 3, 4, 15);
-	renderTextOnScreen(models[JOIN_LOBBY], "JOIN LOBBY", selected, current == JOIN_LOBBY ? 4 : 3, 4, 10);
+	renderTextOnScreen(models[CREATE_LOBBY], "CREATE LOBBY", selected, current == CREATE_LOBBY ? 4 : 3, 4, 20);
+	renderTextOnScreen(models[JOIN_LOBBY], "JOIN LOBBY", selected, current == JOIN_LOBBY ? 4 : 3, 4, 15);
+	renderTextOnScreen(models[CONTROLS], onlyController ? "CONTROLLER ONLY" : "CONTROLLER + KEYBOARD", selected, 3, 4, 10);
 	renderTextOnScreen(models[EXIT_GAME], "EXIT", selected, current == EXIT_GAME ? 4 : 3, 4, 5);
 
 	/*

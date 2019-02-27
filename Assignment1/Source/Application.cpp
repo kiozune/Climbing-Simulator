@@ -40,7 +40,8 @@ void joystick_callback(int joy, int event)
 {
 	if (event == GLFW_CONNECTED)
 	{
-		joy++;
+		if (!ControllerManager::getInstance()->isOnlyController())
+			joy++;
 		// The joystick was connected
 		PlayerManager* manager = PlayerManager::getInstance();
 		if ((unsigned)joy >= manager->getLocalPlayers().size())

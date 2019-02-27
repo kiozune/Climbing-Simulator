@@ -61,3 +61,6 @@ float ControllerManager::getRT()
 	
 	return 0;
 }
+
+bool ControllerManager::isOnlyController() { return this->onlyController; }
+void ControllerManager::toggleOnlyController() { this->onlyController = !this->onlyController; }

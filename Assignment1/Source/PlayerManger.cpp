@@ -39,9 +39,11 @@ void PlayerManager::fixMissingPlayers()
 {
 	int i = 0;
 	ControllerManager* controller = ControllerManager::getInstance();
+	bool onlyController = controller->isOnlyController();;
 	while (controller->isPresent(i))
 	{
-		unsigned joy = i + 1;
+		unsigned joy = i;
+		if (!onlyController) joy++;
 		if (joy >= this->localPlayers.size())
 		{
 			Player* p = createPlayer(joy);

@@ -45,10 +45,10 @@ void MainScene::RenderGame()
 
 	// renderMesh(models[SKY_BOX]);
 	// renderMesh(models[AXES]);
-
+/*
 	std::string content;
 	content += "FPS : " + std::to_string(fps) + '\n';
 	content += "ELT : " + std::to_string(elapseTime);
 
-	renderTextOnScreen(models[TEXT], content, Color(1, 1, 1), 4, 2, 2);
+	renderTextOnScreen(models[TEXT], content, Color(1, 1, 1), 4, 2, 2);*/
 }

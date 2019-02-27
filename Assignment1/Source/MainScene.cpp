@@ -99,16 +99,18 @@ void MainScene::Init()
 	models[CUBE] = MeshBuilder::GenerateOBJ("CUBE"); // MeshBuilder::GenerateCube("CUBE", Color(1, 1, 1), 1, 1, 1);
 	applyMaterial(models[CUBE]);
 
-
 	FixedCamera camera;
 	camera.Init(Vector3(0, 0, 0), 200, 100, 180);
 	cameras.push_back(camera);
 
-	players->addLocalPlayer(players->createPlayer(0));
-
+	if (!controller->isOnlyController())
+		players->addLocalPlayer(players->createPlayer(0));
 	players->fixMissingPlayers();
+
 	initMap();
+	
 	sound->playSound("bgm");
+
 	models[LOSE_QUAD] = MeshBuilder::GenerateScreen("Lose_Screen", Color(1, 1, 1), 14.f);
 	models[LOSE_QUAD]->applyTexture("Image//fellDown.tga");
 	applyMaterial(models[LOSE_QUAD]);
@@ -167,8 +169,8 @@ void MainScene::Update(double dt)
 	}
 	else
 	{
-		Vector3 target = Vector3(int(center.x / 5) * 5, int(center.y / 5) * 5, int(center.z / 5) * 5);
-		cameras[0].setTarget(target);
+		//Vector3 target = //Vector3(int(center.x / 5) * 5, int(center.y / 5) * 5, int(center.z / 5) * 5);
+		cameras[0].setTarget(center);
 	}
 }
 

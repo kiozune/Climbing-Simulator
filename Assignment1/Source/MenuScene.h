@@ -17,6 +17,7 @@ private:
 	{
 		CREATE_LOBBY,
 		JOIN_LOBBY,
+		CONTROLS,
 		EXIT_GAME,
 		COUNT,
 	};

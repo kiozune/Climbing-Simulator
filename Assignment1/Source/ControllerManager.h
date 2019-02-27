@@ -13,6 +13,8 @@ private:
 	int joy;
 	const float* analog;
 
+	bool onlyController;
+
 public:
 
 	static ControllerManager * getInstance();
@@ -27,6 +29,9 @@ public:
 
 	float getLT();
 	float getRT();
+
+	bool isOnlyController();
+	void toggleOnlyController();
 
 };
 
