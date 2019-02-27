@@ -4,8 +4,8 @@
 void MainScene::RenderGame()
 {
 	modelStack.PushMatrix();
-	modelStack.Scale(100, 100, 100);
-	// renderMesh(models[SKY_BOX]);
+	modelStack.Scale(1000, 1000, 1000);
+	renderMesh(models[SKY_BOX]);
 	modelStack.PopMatrix();
 
 	std::vector<Player*> localPlayers = players->getLocalPlayers();
