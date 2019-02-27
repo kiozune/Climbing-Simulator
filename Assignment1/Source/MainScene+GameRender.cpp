@@ -40,6 +40,9 @@ void MainScene::RenderGame()
 			prevTime = elapseTime;
 		}
 	}
+
+	glViewport(0, 0, frameSize.x, frameSize.y);
+
 	// renderMesh(models[SKY_BOX]);
 	// renderMesh(models[AXES]);
 

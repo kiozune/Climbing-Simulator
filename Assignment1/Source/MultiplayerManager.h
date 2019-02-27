@@ -18,7 +18,7 @@ public:
 
 	static MultiplayerManager * getInstance();
 
-	Server getSever();
+	Server& getSever();
 	void startSever();
 
 	void connectTo(std::string);

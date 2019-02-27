@@ -16,7 +16,7 @@ MultiplayerManager * MultiplayerManager::getInstance()
 	return instance;
 }
 
-Server MultiplayerManager::getSever() { return this->server; }
+Server& MultiplayerManager::getSever() { return this->server; }
 
 void MultiplayerManager::startSever()
 {

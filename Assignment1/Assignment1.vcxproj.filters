@@ -70,6 +70,12 @@
     <Filter Include="Scenes\Loading">
       <UniqueIdentifier>{994ac25e-f077-41cf-8084-93d2892c3dc6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Multiplayer\Client">
+      <UniqueIdentifier>{9280f345-5a66-46c1-b98d-2913b28d5916}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Multiplayer\Server">
+      <UniqueIdentifier>{7748d794-b681-46c0-9305-fd46dd64036f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Camera.cpp">
@@ -159,6 +165,12 @@
     <ClCompile Include="Source\MainScene+PauseRender.cpp">
       <Filter>Scenes\Main\Scene renders</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Client.cpp">
+      <Filter>Multiplayer\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Server.cpp">
+      <Filter>Multiplayer\Server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Camera.h">
@@ -203,16 +215,10 @@
     <ClCompile Include="Source\RemotePlayer.cpp">
       <Filter>Multiplayer</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Client.cpp">
-      <Filter>Multiplayer</Filter>
-    </ClCompile>
     <ClCompile Include="Source\PlayerManger.cpp">
       <Filter>GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="Source\MultiplayerManager.cpp">
-      <Filter>Multiplayer</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Server.cpp">
       <Filter>Multiplayer</Filter>
     </ClCompile>
     <ClInclude Include="Source\MenuScene.h">
@@ -232,6 +238,12 @@
     </ClInclude>
     <ClInclude Include="Source\LoadingScene.h">
       <Filter>Scenes\Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Client.h">
+      <Filter>Multiplayer\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Server.h">
+      <Filter>Multiplayer\Server</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -322,9 +334,6 @@
     <ClInclude Include="Source\PlayerData.h">
       <Filter>Multiplayer</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Client.h">
-      <Filter>Multiplayer</Filter>
-    </ClInclude>
     <ClInclude Include="Source\PlayerManager.h">
       <Filter>GameObjects</Filter>
     </ClInclude>
@@ -332,9 +341,6 @@
       <Filter>Constants</Filter>
     </ClInclude>
     <ClInclude Include="Source\MultiplayerManager.h">
-      <Filter>Multiplayer</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Server.h">
       <Filter>Multiplayer</Filter>
     </ClInclude>
   </ItemGroup>

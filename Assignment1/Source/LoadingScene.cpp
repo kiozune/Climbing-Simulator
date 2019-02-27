@@ -6,7 +6,7 @@
 void LoadingScene::Init()
 {
 	// clear screen and fill with white
-	glClearColor(0.25, 0.25, 0.25, 0);
+	glClearColor(0, 0, 0, 0);
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
