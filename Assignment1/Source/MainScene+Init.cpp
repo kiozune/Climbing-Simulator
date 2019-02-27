@@ -23,7 +23,7 @@ void MainScene::initText()
 
 void MainScene::initMap()
 {
-	blockGen->generateBlocks(50); // start up the linklist and get all the map data to populate param = offset between nodes
+	blockGen->generateBlocks(60); // start up the linklist and get all the map data to populate param = offset between nodes
 	block* current = blockGen->getHead();
 
 	while (current != blockGen->getTail()) // loop through the linklist then 
@@ -41,7 +41,7 @@ void MainScene::initMap()
 			for (unsigned i = 0; i < current->getCubeVectors()->size(); i++)
 			{
 				Vector3 pos = current->getCubeVectors()->at(i);
-				float randFloat = static_cast<float>(rand() % 25 + 12);
+				float randFloat = static_cast<float>(rand() % 25 + 8);
 				Vector3 scale = { randFloat,randFloat,randFloat }; // pseudo sizing
 				if (i == current->getCubeVectors()->size() - 1 )//&& rand() % 2) // last cube will be a rope with an off chance there isn't
 				{
@@ -59,13 +59,15 @@ void MainScene::initMap()
 				else // normal cubes
 				{
 					Object* box = new Object(scale, pos, 0, false);
+					float randomFloat = -90 + static_cast<float> (rand()) / (static_cast <float> (RAND_MAX / (90 - (-90))));
+					Vector3 rotation = { 0,randomFloat,randomFloat };
+					box->setRotation(rotation);
 					box->setColour(Color(0.5, 0.5, 0.5));
 					manager->addToEnvironment(box);
 				}
 			}
 			current = temp;
 		}
-		// current = temp;
 	}
 	if (current == blockGen->getTail()) // finishing goal
 	{
