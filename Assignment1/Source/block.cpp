@@ -10,7 +10,7 @@ block::block()
 
 void block::setCubeVector(float offset, int index)
 {
-	int innerOffset = 2;
+	int innerOffset = 2.5;
 	Vector3 newPos = { getRandomFloat(-offset/innerOffset,offset/innerOffset),getRandomFloat(-offset/innerOffset + 0.5f,offset/innerOffset),getRandomFloat(-offset/innerOffset,offset/innerOffset) };
 	newPos += position; // spawn cube with reference to the centre of node. (InSHORT spawn in the node radius)
 	if (index != 0)
