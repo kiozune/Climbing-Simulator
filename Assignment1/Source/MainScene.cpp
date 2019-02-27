@@ -140,6 +140,7 @@ void MainScene::Update(double dt)
 	{
 		cameras[0].setTarget(players->getWinner()->getBody()->getCenter());
 		cameras[0].changeYaw(0.25f, dt);
+		cameras[0].setPitch(0);
 
 		if (Application::IsKeyPressed(VK_ESCAPE) || Application::IsControllerPressed(0, 1))
 		{

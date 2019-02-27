@@ -25,6 +25,7 @@ public:
 	GLfloat getYaw();
 
 	void changePitch(float, float);
+	void setPitch(float);
 	GLfloat getPitch();
 
 	virtual void setTarget(Vector3);

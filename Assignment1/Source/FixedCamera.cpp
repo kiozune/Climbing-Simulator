@@ -62,6 +62,12 @@ void FixedCamera::changePitch(float r, float dt)
 	this->update();
 }
 
+void FixedCamera::setPitch(float p)
+{
+	this->pitch = p;
+	this->update();
+}
+
 GLfloat FixedCamera::getPitch() { return this->pitch; }
 
 void FixedCamera::setTarget(Vector3 v)
