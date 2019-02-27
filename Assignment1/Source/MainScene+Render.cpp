@@ -188,7 +188,7 @@ void MainScene::renderMenu2D(Mesh* model, float sizex, float sizey, float sizez,
 	viewStack.PopMatrix();
 	projectionStack.PopMatrix();
 }
-void MainScene::renderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
+void MainScene::renderTextOnScreenMenu(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
 	if (!mesh || mesh->getTextureID() <= 0)
 		return;

@@ -22,6 +22,8 @@ private:
 	};
 	OPTION current;
 
+	ControllerManager* controller = ControllerManager::getInstance();
+
 	Mesh* background;
 	Mesh* models[COUNT];
 
@@ -30,7 +32,6 @@ private:
 	//Textures for Texts.
 	unsigned t_opaque;
 	unsigned t_alpha;
-
 	unsigned m_vertexArrayID;
 	unsigned m_programID;
 	unsigned m_parameters[U_TOTAL];

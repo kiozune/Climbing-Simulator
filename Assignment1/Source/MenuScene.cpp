@@ -71,14 +71,23 @@ void MenuScene::Update(double dt)
 	if (elapseTime < bounceTime)
 		return;
 
-	if (Application::IsKeyPressed(VK_UP))
+	Vector3 leftJS;
+	if (controller->isPresent(0))
+	{
+		 controller->getInput(0);
+		 leftJS = controller->getLeftJoystick();
+		 Application::IsControllerPressed(0, 2);
+	}
+
+
+	if (Application::IsKeyPressed(VK_UP) || leftJS.y > 0.5)
 	{
 		current = (OPTION)(current - 1);
 		if (current < 0) current = (OPTION)(OPTION::COUNT - 1);
 		bounceTime = elapseTime + 0.2f;
 	}
 
-	if (Application::IsKeyPressed(VK_DOWN))
+	if (Application::IsKeyPressed(VK_DOWN) || leftJS.y < -0.5)
 	{
 		current = (OPTION)((current + 1) % OPTION::COUNT);
 		bounceTime = elapseTime + 0.2f;
@@ -90,7 +99,7 @@ void MenuScene::Update(double dt)
 
 	models[current]->setTexture(t_opaque);
 
-	if (Application::IsKeyPressed(VK_RETURN))
+	if (Application::IsKeyPressed(VK_RETURN) || ))
 	{
 		Scene* next;
 		switch (current)
