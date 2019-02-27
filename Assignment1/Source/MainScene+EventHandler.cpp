@@ -5,19 +5,26 @@
 
 void MainScene::keyboardEvents(double& dt)
 {
+	Vector3 leftJS;
+	if (controller->isPresent(0))
+	{
+		controller->getInput(0);
+		leftJS = controller->getLeftJoystick();
+	}
+
 	if (isPaused)
 	{
 		if (elapseTime < bounceTime)
 			return;
 
-		if (Application::IsKeyPressed(VK_UP))
+		if (Application::IsKeyPressed(VK_UP) || leftJS.y > 0.5)
 		{
 			current = (OPTION)(current - 1);
 			if (current < 0) current = (OPTION)(OPTION::COUNT - 1);
 			bounceTime = elapseTime + 0.2f;
 		}
 
-		if (Application::IsKeyPressed(VK_DOWN))
+		if (Application::IsKeyPressed(VK_DOWN) || leftJS.y < -0.5)
 		{
 			current = (OPTION)((current + 1) % OPTION::COUNT);
 			bounceTime = elapseTime + 0.2f;
@@ -28,7 +35,7 @@ void MainScene::keyboardEvents(double& dt)
 
 		models[current]->setTexture(t_opaque);
 
-		if (Application::IsKeyPressed(VK_RETURN))
+		if (Application::IsKeyPressed(VK_RETURN) || Application::IsControllerPressed(0,1))
 		{
 			switch (current)
 			{
@@ -84,7 +91,7 @@ void MainScene::keyboardEvents(double& dt)
 			cameras[0].changeYaw(-1, (float)dt);
 	}
 
-	if (Application::IsKeyPressed(VK_ESCAPE) && elapseTime > bounceTime)
+	if (Application::IsKeyPressed(VK_ESCAPE) && elapseTime > bounceTime || Application::IsControllerPressed(0,9) && elapseTime > bounceTime)
 	{
 		isPaused = !isPaused;
 		bounceTime = elapseTime + 0.2f;
