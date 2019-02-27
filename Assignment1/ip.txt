@@ -2,12 +2,20 @@
 Windows IP Configuration
 
 
+Ethernet adapter Npcap Loopback Adapter:
+
+   Connection-specific DNS Suffix  . : 
+   Link-local IPv6 Address . . . . . : fe80::65b3:def3:a431:8e53%19
+   Autoconfiguration IPv4 Address. . : 169.254.142.83
+   Subnet Mask . . . . . . . . . . . : 255.255.0.0
+   Default Gateway . . . . . . . . . : 
+
 Wireless LAN adapter Local Area Connection* 1:
 
    Media State . . . . . . . . . . . : Media disconnected
    Connection-specific DNS Suffix  . : 
 
-Wireless LAN adapter Local Area Connection* 3:
+Wireless LAN adapter Local Area Connection* 2:
 
    Media State . . . . . . . . . . . : Media disconnected
    Connection-specific DNS Suffix  . : 
@@ -15,20 +23,12 @@ Wireless LAN adapter Local Area Connection* 3:
 Wireless LAN adapter Wi-Fi:
 
    Connection-specific DNS Suffix  . : 
-   Link-local IPv6 Address . . . . . : fe80::793a:a491:60f0:6ecd%16
-   IPv4 Address. . . . . . . . . . . : 172.26.184.75
+   Link-local IPv6 Address . . . . . : fe80::b543:660c:b1a0:60b5%16
+   IPv4 Address. . . . . . . . . . . : 172.26.188.35
    Subnet Mask . . . . . . . . . . . : 255.255.248.0
    Default Gateway . . . . . . . . . : 172.26.191.254
 
-Ethernet adapter Bluetooth Network Connection:
+Ethernet adapter Bluetooth Network Connection 3:
 
    Media State . . . . . . . . . . . : Media disconnected
    Connection-specific DNS Suffix  . : 
-
-Ethernet adapter vEthernet (Default Switch):
-
-   Connection-specific DNS Suffix  . : 
-   Link-local IPv6 Address . . . . . : fe80::6480:f628:3ca6:e6a2%13
-   IPv4 Address. . . . . . . . . . . : 172.29.104.193
-   Subnet Mask . . . . . . . . . . . : 255.255.255.240
-   Default Gateway . . . . . . . . . : 

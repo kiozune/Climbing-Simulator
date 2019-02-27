@@ -114,7 +114,7 @@ void MenuScene::Update(double dt)
 
 				DataTransferManager* d_manager = DataTransferManager::getInstance();
 				while ((i = d_manager->getClient().getStatus()) == 0) {}
-			}, new MainScene, this);
+			}, new MainScene, new MenuScene);
 
 			next = destination;
 			break;
