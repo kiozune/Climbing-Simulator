@@ -1,14 +1,23 @@
 #include "MainScene.h"
+
 #include "GL\glew.h"
 #include "Mtx44.h"
 #include "Utility.h"
 #include "LoadTGA.h"
 #include "shader.hpp"
 #include "Application.h"
+
+#include "DataTransferManager.h"
+
 #include <iostream>
 
 void MainScene::Init()
 {
+
+	DataTransferManager* d_manager = DataTransferManager::getInstance();
+	std::string ip = d_manager->getClient().getServerIp();
+	unsigned size = ip.size();
+	srand(ip[size - 1] + ip[size - 2]);
 	//Random Metaphor
 	i_rLose = rand() % 4 + 1;
 	// clear screen and fill with white
@@ -60,9 +69,8 @@ void MainScene::Init()
 
 	glUseProgram(m_programID);
 
-	lights[0].type = Light::SPOT;
-	lights[0].position.Set(0, 300, 0);
-	lights[0].power = 100.f;
+	lights[0].type = Light::DIRECTIONAL;
+	lights[0].color.Set(255.0f / 255.0f, 234.0f / 255.0f, 155.0f / 255.0f);
 	lights[0].setUniform();
 
 	glUniform1i(m_parameters[U_NUMLIGHTS], LIGHT_COUNT);
@@ -118,6 +126,10 @@ void MainScene::Update(double dt)
 {
 	elapseTime += (float)dt;
 	fps = (int)(1.f / dt);
+
+	float angle = rad(double((int)(elapseTime * 20) % 360));
+	lights[0].position.Set(cos(angle), sin(angle), cos(angle));
+	lights[0].power = 50.f;
 
 	std::vector<Player*> localPlayers = players->getLocalPlayers();
 
