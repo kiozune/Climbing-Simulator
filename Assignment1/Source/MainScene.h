@@ -8,6 +8,8 @@
 #include "BlockGenerator.h"
 #include "Sound.h"
 #include "FixedCamera.h"
+#include "SceneManager.h"
+#include "AllScenes.h"
 
 #include "PhysicsManager.h"
 #include "ControllerManager.h"
