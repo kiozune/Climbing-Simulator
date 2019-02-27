@@ -73,7 +73,6 @@ class MainScene : public Scene
 
 	Position viewSize;
 
-
 	std::vector<FixedCamera> cameras; // stationary
 
 	Mesh* models[NUM_GEOMETRY];
@@ -86,7 +85,7 @@ class MainScene : public Scene
 
 	BlockGenerator* blockGen = BlockGenerator::GetInstance();
 	SoundManager* sound = SoundManager::GetInstance();
-	CollisionResult ColResult;
+
 	Object* finishingPlatform;
 
 	PhysicsManager* manager = PhysicsManager::getInstance();
@@ -95,13 +94,11 @@ class MainScene : public Scene
 
 	Vector3 prevMousePosition;
 
-
 	float prevTime;
 	int spectatingPlayer;
 
 	//count for Random Metaphors in lose Screen
 	int i_rLose;
-
 
 	// applies material to geometry selected
 	void applyMaterial(Mesh*);
@@ -124,6 +121,7 @@ class MainScene : public Scene
 	void joystickEvents(double&, int);
 
 	void updatePlayer(Player*, double&);
+	void updateRemotePlayer(RemotePlayer*);
 	void renderForPlayer(Player*);
 
 	void initMenu();
@@ -148,10 +146,6 @@ private:
 
 	Mtx44 lightProj;
 	Mtx44 lightView;
-
-	bool Gameover = false;
-	bool winGame = false;
-	bool LoseGame = false;
 
 	e_Passes e_Phases;
 	//e_Scenes e_States;

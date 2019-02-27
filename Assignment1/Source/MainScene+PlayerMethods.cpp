@@ -4,18 +4,14 @@
 
 void MainScene::updatePlayer(Player* p, double& dt)
 {
-	if (!p->isAlive())
-	{
-		Gameover = true;
-		LoseGame = true;
+	if (p->getState() != ALIVE)
 		return;
-	}
 
 	int i = p->getId();
 	Vector3 center = p->getBody()->getCenter();
 
 	if (center.y <= -1000)
-		p->setAlive(false);
+		p->setState(DEAD);
 
 	Vector3 diff;
 
@@ -78,6 +74,8 @@ void MainScene::updatePlayer(Player* p, double& dt)
 		p->recover((float)dt * 10.f);
 
 
+	BoundingBox finishing = finishingPlatform->getBoundingBox();
+
 	// grabbing
 
 	if (leftPressed)
@@ -91,7 +89,6 @@ void MainScene::updatePlayer(Player* p, double& dt)
 			{
 				if (i == other->getId()) continue;
 				details = manager->getCollisionDetails(leftHand, other->getParts());
-				ColResult = leftHand->getBoundingBox().getCollisionResultWith(finishingPlatform->getBoundingBox());
 				if (details.result.collided) break;
 			}
 
@@ -104,7 +101,6 @@ void MainScene::updatePlayer(Player* p, double& dt)
 				for (Player* p : players->getRemotePlayers())
 				{
 					details = manager->getCollisionDetails(leftHand, p->getParts());
-					ColResult = leftHand->getBoundingBox().getCollisionResultWith(finishingPlatform->getBoundingBox());
 					if (details.result.collided) break;
 				}
 
@@ -114,11 +110,15 @@ void MainScene::updatePlayer(Player* p, double& dt)
 				}
 				else
 				{
-					details = manager->getEnviromentalCollision(leftHand);
-					ColResult = leftHand->getBoundingBox().getCollisionResultWith(finishingPlatform->getBoundingBox());
-					if (details.result.collided)
+					if (leftHand->getBoundingBox().getCollisionResultWith(finishing).collided)
 					{
-						p->leftGrab(details.object->getEnd());
+						p->setState(WON);
+						players->setWinner(p);
+					}
+					else
+					{
+						details = manager->getEnviromentalCollision(leftHand);
+						if (details.result.collided) p->leftGrab(details.object->getEnd());
 					}
 				}
 			}
@@ -140,7 +140,6 @@ void MainScene::updatePlayer(Player* p, double& dt)
 			{
 				if (i == other->getId()) continue;
 				details = manager->getCollisionDetails(rightHand, other->getParts());
-				ColResult = rightHand->getBoundingBox().getCollisionResultWith(finishingPlatform->getBoundingBox());
 				if (details.result.collided) break;
 			}
 
@@ -153,7 +152,6 @@ void MainScene::updatePlayer(Player* p, double& dt)
 				for (Player* p : players->getRemotePlayers())
 				{
 					details = manager->getCollisionDetails(rightHand, p->getParts());
-					ColResult = rightHand->getBoundingBox().getCollisionResultWith(finishingPlatform->getBoundingBox());
 					if (details.result.collided) break;
 				}
 
@@ -163,11 +161,15 @@ void MainScene::updatePlayer(Player* p, double& dt)
 				}
 				else
 				{
-					details = manager->getEnviromentalCollision(rightHand);
-					ColResult = rightHand->getBoundingBox().getCollisionResultWith(finishingPlatform->getBoundingBox());
-					if (details.result.collided)
+					if (rightHand->getBoundingBox().getCollisionResultWith(finishing).collided)
 					{
-						p->rightGrab(details.object->getEnd());
+						p->setState(WON);
+						players->setWinner(p);
+					}
+					else
+					{
+						details = manager->getEnviromentalCollision(rightHand);
+						if (details.result.collided) p->rightGrab(details.object->getEnd());
 					}
 				}
 			}
@@ -315,4 +317,28 @@ void MainScene::renderForPlayer(Player* p)
 		renderText(models[TEXT], "RT", color);
 	}
 	modelStack.PopMatrix();
+
+	if (p->getState() == DEAD)
+	{
+		renderTextOnScreen(models[TEXT], "OUT!", Color(), 3, 2, 2);
+	}
+}
+
+void MainScene::updateRemotePlayer(RemotePlayer* p)
+{
+	BoundingBox finishing = finishingPlatform->getBoundingBox();
+
+	Object* leftHand = p->getLeftHand();
+	if (leftHand->getBoundingBox().getCollisionResultWith(finishing).collided)
+	{
+		p->setState(WON);
+		players->setWinner(p);
+	}
+
+	Object* rightHand = p->getRightHand();
+	if (rightHand->getBoundingBox().getCollisionResultWith(finishing).collided)
+	{
+		p->setState(WON);
+		players->setWinner(p);
+	}
 }

@@ -4,18 +4,14 @@ Player::Player()
 {
 	id = 0;
 	energy = 5;
-	alive = true;
+	state = ALIVE;
 }
 
 unsigned Player::getId() { return this->id; }
 void Player::setId(unsigned i) { this->id = i; }
 
-void Player::setAlive(bool i) { this->alive = i; }
-
-bool Player::isAlive()
-{
-	return alive;
-}
+PLAYER_STATE Player::getState() { return this->state; }
+void Player::setState(PLAYER_STATE i) { this->state = i; }
 
 void Player::recover(float dt) 
 { 

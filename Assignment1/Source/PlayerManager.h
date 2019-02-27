@@ -15,6 +15,8 @@ private:
 	std::vector<Player*> localPlayers;
 	std::vector<RemotePlayer*> remotePlayers;
 
+	Player* winner = nullptr;
+
 public:
 
 	static PlayerManager * getInstance();
@@ -34,6 +36,11 @@ public:
 	void addRemotePlayer(RemotePlayer*);
 
 	void updateRemote(PlayerData);
+
+	Player* getWinner();
+	void setWinner(Player*);
+
+	unsigned aliveCount();
 
 	void destroy();
 

@@ -197,6 +197,19 @@ void PlayerManager::updateRemote(PlayerData data)
 			r->update(data);
 }
 
+Player* PlayerManager::getWinner() { return this->winner; }
+void PlayerManager::setWinner(Player* player) { this->winner = player; }
+
+unsigned PlayerManager::aliveCount()
+{
+	unsigned count = 0;
+	for (Player* p : this->players)
+		if (p->getState() == ALIVE)
+			count++;
+
+	return count;
+}
+
 void PlayerManager::destroy()
 {
 	for (Player* p : players)
@@ -205,4 +218,6 @@ void PlayerManager::destroy()
 	players.clear();
 	localPlayers.clear();
 	remotePlayers.clear();
+
+	this->winner = nullptr;
 }

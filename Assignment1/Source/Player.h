@@ -4,6 +4,13 @@
 #include "Object.h"
 #include "Spring.h"
 
+enum PLAYER_STATE
+{
+	WON,
+	ALIVE,
+	DEAD
+};
+
 class Player 
 {
 
@@ -11,7 +18,7 @@ protected:
 
 	unsigned id;
 	float energy;
-	bool alive;
+	PLAYER_STATE state;
 
 	Object *leftHand, *rightHand;
 	Object *leftArm, *rightArm, *body;
@@ -28,8 +35,8 @@ public:
 	unsigned getId();
 	void setId(unsigned);
 
-	void setAlive(bool);
-	bool isAlive();
+	PLAYER_STATE getState();
+	void setState(PLAYER_STATE);
 
 	void recover(float);
 	void tire(float);

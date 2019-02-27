@@ -153,11 +153,8 @@ void MainScene::Update(double dt)
 	for (Player* p : localPlayers)
 		updatePlayer(p, dt);
 
-	if (ColResult.collided)
-	{
-		Gameover = true;
-		winGame = true;
-	}
+	for (RemotePlayer* p : players->getRemotePlayers())
+		updateRemotePlayer(p);
 
 	Vector3 center = Vector3(0,0,0);
 
@@ -175,7 +172,8 @@ void MainScene::Update(double dt)
 		//Vector3 target = //Vector3(int(center.x / 5) * 5, int(center.y / 5) * 5, int(center.z / 5) * 5);
 		cameras[0].setTarget(center);
 	}
-	if (Gameover)
+
+	if (players->getWinner() != nullptr || players->aliveCount() == 0)
 	{
 		if(Application::IsKeyPressed(VK_ESCAPE) || Application::IsControllerPressed(0,1))
 		{
@@ -190,9 +188,6 @@ void MainScene::Update(double dt)
 
 			SceneManager* s_manager = SceneManager::getInstance();
 			s_manager->setNext(destination);
-				Gameover = false;
-				winGame = false;
-				LoseGame = false;
 				
 		}
 	}
@@ -200,17 +195,19 @@ void MainScene::Update(double dt)
 
 void MainScene::Render()
 {
-	if(!Gameover)
+	if (isPaused)
 	{
-		if (isPaused)
-		{
-			RenderPause();
-		}
-		else
-		{
-			RenderFirstPass();
-			RenderSecondPass();
-		}
+		RenderPause();
+	}
+	else
+	{
+		RenderFirstPass();
+		RenderSecondPass();
+	}
+
+	/*if(!Gameover)
+	{
+		
 	}
 	else if(Gameover)
 	{
@@ -222,7 +219,7 @@ void MainScene::Render()
 		{
 			renderWinScreen();
 		}
-	}
+	}*/
 }
 
 //Rendering from the Lights point of view

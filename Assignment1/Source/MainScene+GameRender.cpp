@@ -18,26 +18,34 @@ void MainScene::RenderGame()
 	float windowWidth = frameSize.x / columns;
 	float windowHeight = frameSize.y / rows;
 
-	for (unsigned i = 0; i < size; ++i)
+	if (players->getWinner() != nullptr)
 	{
-		int x = i % 2;
-		int y = i / 2;
-		glViewport((GLint)(windowWidth * x), (GLint)(windowHeight * y), (GLsizei)windowWidth, (GLsizei)windowHeight);
-		renderForPlayer(localPlayers[i]);
+		renderForPlayer(players->getWinner());
+		renderTextOnScreen(models[TEXT], "WINNER!", Color(), 3, 2, 2);
 	}
-
-	if (size == 3)
+	else
 	{
-		std::vector<Player*> all = players->getPlayers();
-		glViewport((GLint)windowWidth, (GLint)windowHeight, (GLsizei)windowWidth, (GLsizei)windowHeight);
-		renderTextOnScreen(models[TEXT], "SPECTATOR\nCAM", Color(1, 1, 1), 2, 1, 1);
-		renderForPlayer(all[spectatingPlayer]);
-
-		if (elapseTime - prevTime > 5)
+		for (unsigned i = 0; i < size; ++i)
 		{
-			spectatingPlayer++;
-			spectatingPlayer = spectatingPlayer % all.size();
-			prevTime = elapseTime;
+			int x = i % 2;
+			int y = i / 2;
+			glViewport((GLint)(windowWidth * x), (GLint)(windowHeight * y), (GLsizei)windowWidth, (GLsizei)windowHeight);
+			renderForPlayer(localPlayers[i]);
+		}
+
+		if (size == 3)
+		{
+			std::vector<Player*> all = players->getPlayers();
+			glViewport((GLint)windowWidth, (GLint)windowHeight, (GLsizei)windowWidth, (GLsizei)windowHeight);
+			renderTextOnScreen(models[TEXT], "SPECTATOR\nCAM", Color(1, 1, 1), 2, 1, 1);
+			renderForPlayer(all[spectatingPlayer]);
+
+			if (elapseTime - prevTime > 5)
+			{
+				spectatingPlayer++;
+				spectatingPlayer = spectatingPlayer % all.size();
+				prevTime = elapseTime;
+			}
 		}
 	}
 
